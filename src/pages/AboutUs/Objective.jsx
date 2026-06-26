@@ -1,0 +1,480 @@
+import { playPageTurnSound } from "../../utils/pageTurnSound";
+
+﻿// src/pages/AboutUs/Objective.jsx
+import { useState, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
+
+// Import data
+import { objectivesData } from '../../data/aboutUs/objectivesData';
+
+/* -------------------------------- Motion -------------------------------- */
+const useAnims = () => {
+  const shouldReduce = useReducedMotion();
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: shouldReduce
+        ? { duration: 0 }
+        : { duration: 0.25, when: "beforeChildren", staggerChildren: 0.06 },
+    },
+  };
+  const itemUp = {
+    hidden: { opacity: 0, y: shouldReduce ? 0 : 12 },
+    show: { opacity: 1, y: 0, transition: { duration: shouldReduce ? 0 : 0.28 } },
+  };
+  return { container, itemUp };
+};
+
+/* -------------------------------- Palette -------------------------------- */
+const color = {
+  blue50: "#EFF6FF",
+  blue100: "#DBEAFE",
+  blue500: "#3B82F6",
+  blue600: "#2563EB",
+  blue900: "#1E3A8A",
+  emerald50: "#ECFDF5",
+  emerald400: "#34D399",
+  emerald500: "#10B981",
+  amber100: "#FEF3C7",
+  amber400: "#FBBF24",
+  amber500: "#F59E0B",
+  rose100: "#FFE4E6",
+  rose500: "#F43F5E",
+  slate50: "#F8FAFC",
+  slate100: "#F1F5F9",
+  slate200: "#E2E8F0",
+  slate300: "#CBD5E1",
+  slate400: "#94A3B8",
+  slate700: "#334155",
+  slate800: "#1E293B",
+  slate900: "#0F172A",
+  white: "#FFFFFF",
+  indigo500: "#6366F1",
+};
+
+/* -------------------------- HERO: SVG Overlays -------------------------- */
+const ObjectivesHeroOverlay = () => {
+  return (
+    <g transform="translate(680, 50)">
+      <defs>
+        <pattern id="objGrid" width="30" height="30" patternUnits="userSpaceOnUse">
+          <path d="M 30 0 L 0 0 0 30" fill="none" stroke={color.slate700} strokeWidth="0.5" opacity="0.3" />
+        </pattern>
+        <linearGradient id="shieldGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor={color.blue600} />
+          <stop offset="100%" stopColor={color.indigo500} />
+        </linearGradient>
+      </defs>
+      <rect width="300" height="300" fill="url(#objGrid)" />
+
+      <g transform="translate(150, 150)">
+        <motion.path
+          d="M0 -80 L 60 -60 V 20 C 60 60, 0 90, 0 90 C 0 90, -60 60, -60 20 V -60 L 0 -80 Z"
+          fill="url(#shieldGrad)"
+          opacity="0.9"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+        />
+        <motion.circle
+          r="30"
+          fill={color.white}
+          opacity="0.2"
+          animate={{ scale: [1, 1.5], opacity: [0.2, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        />
+        <motion.path
+          d="M-15 0 H 15 M 0 -15 V 15"
+          stroke={color.white}
+          strokeWidth="6"
+          strokeLinecap="round"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ delay: 0.5, duration: 0.8 }}
+        />
+      </g>
+    </g>
+  );
+};
+
+const VideoHeroObjectives = ({ src = "" }) => {
+  const shouldReduce = useReducedMotion();
+  const title = "CRCCF Objectives Hero";
+
+  if (shouldReduce || !src) {
+    return (
+      <svg viewBox="0 0 1000 400" role="img" aria-label={title} className="w-full h-auto">
+        <rect width="100%" height="100%" fill={color.slate900} rx="20" />
+        <ObjectivesHeroOverlay />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 1000 400" className="w-full h-auto block" role="img" aria-label={title}>
+      <defs>
+        <mask id="objHeroMask">
+          <rect width="100%" height="100%" fill="white" />
+          <ObjectivesHeroOverlay />
+        </mask>
+      </defs>
+      <rect width="100%" height="100%" fill={color.slate900} rx="20" />
+      <foreignObject x="0" y="0" width="1000" height="400" mask="url(#objHeroMask)">
+        <video
+          src={src}
+          autoPlay muted playsInline loop
+          style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.5 }}
+        />
+      </foreignObject>
+      <ObjectivesHeroOverlay />
+    </svg>
+  );
+};
+
+/* -------------------------- SVG Components Mapper -------------------------- */
+const SVG_Shield = ({ className, style }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={style}>
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+  </svg>
+);
+
+const SVG_Scale = ({ className, style }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={style}>
+    <path d="M16 16s3-2 3-5V4l-7-3-7 3v7c0 3 3 5 3 5" />
+    <path d="M12 1v22" />
+    <path d="M8 8H4v10a4 4 0 0 0 8 0" />
+    <path d="M16 8h4v10a4 4 0 0 1-8 0" />
+  </svg>
+);
+
+const SVG_Book = ({ className, style }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={style}>
+    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+  </svg>
+);
+
+const SVG_Brain = ({ className, style }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={style}>
+    <path d="M9.5 2A5 5 0 0 1 12 7v5a5 5 0 0 1-2.5 4.33" />
+    <path d="M14.5 2A5 5 0 0 0 12 7v5a5 5 0 0 0 2.5 4.33" />
+    <path d="M12 21v-2" />
+    <path d="M12 17v-2" />
+    <path d="M12 13v-2" />
+    <path d="M12 9V7" />
+  </svg>
+);
+
+const SVG_Users = ({ className, style }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={style}>
+    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+    <circle cx="9" cy="7" r="4" />
+    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+  </svg>
+);
+
+const SVG_Globe = ({ className, style }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={style}>
+    <circle cx="12" cy="12" r="10" />
+    <line x1="2" y1="12" x2="22" y2="12" />
+    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+  </svg>
+);
+
+const SVG_Lock = ({ className, style }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={style}>
+    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+  </svg>
+);
+
+const SVG_Trending = ({ className, style }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={style}>
+    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+    <polyline points="17 6 23 6 23 12" />
+  </svg>
+);
+
+const SVG_Message = ({ className, style }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={style}>
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+  </svg>
+);
+
+const SVG_Target = ({ className, style }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={style}>
+    <circle cx="12" cy="12" r="10" />
+    <circle cx="12" cy="12" r="6" />
+    <circle cx="12" cy="12" r="2" />
+  </svg>
+);
+
+const getSvgComponent = (item) => {
+  const text = (item.heading + " " + item.content).toLowerCase();
+  if (text.includes("legal") || text.includes("law") || text.includes("justice") || text.includes("rights")) return SVG_Scale;
+  if (text.includes("empower") || text.includes("protection") || text.includes("shield")) return SVG_Shield;
+  if (text.includes("education") || text.includes("literacy") || text.includes("training") || text.includes("workshop") || text.includes("awareness")) return SVG_Book;
+  if (text.includes("psychological") || text.includes("emotional") || text.includes("healing") || text.includes("brain")) return SVG_Brain;
+  if (text.includes("community") || text.includes("society") || text.includes("social")) return SVG_Users;
+  if (text.includes("national") || text.includes("india") || text.includes("global")) return SVG_Globe;
+  if (text.includes("security") || text.includes("lock") || text.includes("privacy") || text.includes("data")) return SVG_Lock;
+  if (text.includes("skill") || text.includes("development") || text.includes("growth") || text.includes("pipeline")) return SVG_Trending;
+  if (text.includes("campaign") || text.includes("voice") || text.includes("outreach")) return SVG_Message;
+  return SVG_Target;
+};
+
+/* ------------------------------ InsightCard (Singular) ------------------------------ */
+const InsightCard = ({ allPages }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [activePageIndex, setActivePageIndex] = useState(0);
+  const [previewPageIndex, setPreviewPageIndex] = useState(null);
+  const [showScrubber, setShowScrubber] = useState(false);
+  const scrubberTimer = useRef(null);
+
+  const keepScrubberVisible = () => {
+    setShowScrubber(true);
+    if (scrubberTimer.current) clearTimeout(scrubberTimer.current);
+    scrubberTimer.current = setTimeout(() => setShowScrubber(false), 3000);
+  };
+
+  const isDesktop = () => window.innerWidth > 1024;
+
+  const handleOpen = (e) => {
+    e.stopPropagation();
+    playPageTurnSound(); setIsOpen(prev => !prev);
+  };
+
+  const handleMouseEnter = () => { if (isDesktop()) setIsOpen(true); };
+  const handleMouseLeave = () => {
+    if (isDesktop() && !showScrubber) {
+      setIsOpen(false);
+      // We don't reset index here to allow users to stay on a page while reading
+    }
+  };
+
+  return (
+    <div className="flex flex-col gap-6 w-full max-w-2xl mx-auto">
+      <motion.article
+        className={`
+          relative bg-white border border-slate-200 rounded-[24px] 
+          h-[340px] sm:h-[420px] md:h-[500px] w-full shadow-[0_4px_30px_rgba(0,0,0,0.06)] 
+          [transform-style:preserve-3d] [perspective:2000px] 
+          flex items-center justify-center transition-all duration-300 
+          ${isOpen ? 'shadow-[0_30px_70px_rgba(0,0,0,0.15)]' : 'hover:shadow-[0_30px_70px_rgba(0,0,0,0.15)]'}
+        `}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        {/* Pages Stack - Optimization: Only render current, previous, and next for performance */}
+        {allPages.map((page, pageIdx) => {
+          // We only render a small window of pages around the active one to keep DOM light
+          const isVisible = Math.abs(pageIdx - activePageIndex) <= 2 || pageIdx < activePageIndex;
+          if (!isVisible) return null;
+
+          const isFlipped = activePageIndex > pageIdx;
+          const PageSVG = getSvgComponent(page);
+
+          return (
+            <div
+              key={pageIdx}
+              style={{ zIndex: 100 - pageIdx }}
+              className={`
+                absolute inset-0 p-4 sm:p-6 md:p-8 lg:p-10 flex flex-col w-full h-full justify-start pl-6 sm:pl-8 md:pl-10 lg:pl-14 rounded-[24px] transition-all duration-[1s] 
+                ease-[cubic-bezier(0.645,0.045,0.355,1)]
+                [transform-origin:left_center] [backface-visibility:hidden]
+                will-change-transform will-change-opacity
+                ${pageIdx % 2 === 0 ? 'bg-[#FDFDFF]' : 'bg-[#F8FAFF]'}
+                ${isFlipped
+                  ? '[transform:rotateY(-130deg)_scale(0.9)_translateX(-20px)] opacity-100 pointer-events-none shadow-[-15px_0_40px_rgba(0,0,0,0.1)]'
+                  : pageIdx === activePageIndex
+                    ? 'opacity-100 translate-x-0 rotate-y-0 scale-100'
+                    : 'opacity-0 pointer-events-none translate-x-8'
+                }
+              `}
+            >
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-blue-50">
+                  <PageSVG className="w-7 h-7 text-blue-600" />
+                </div>
+                <div className="flex flex-col">
+                  <h4 className="text-[14px] font-black uppercase tracking-[0.1em] leading-tight text-blue-600">
+                    {page.heading}
+                  </h4>
+                  <span className="text-[11px] font-bold text-slate-400 mt-1">Roadmap Section {pageIdx + 1} of {allPages.length}</span>
+                </div>
+              </div>
+
+              <div className="flex-1 overflow-y-auto pr-3 [&::-webkit-scrollbar]:w-[5px] [&::-webkit-scrollbar-thumb]:bg-slate-200 [&::-webkit-scrollbar-thumb]:rounded-full">
+                <p className="text-[16px] text-slate-600 leading-relaxed font-medium italic whitespace-pre-line">{page.content}</p>
+              </div>
+
+              <div className="pt-8 mt-auto border-t border-slate-100">
+                <div className="flex items-center justify-between">
+                  <div className="flex gap-4">
+                    {pageIdx > 0 && (
+                      <button
+                        onClick={(e) => { e.stopPropagation(); playPageTurnSound(); setActivePageIndex(pageIdx - 1); keepScrubberVisible(); }}
+                        className="text-[12px] font-black text-blue-600 flex items-center gap-2 hover:gap-3 transition-all bg-transparent border-none cursor-pointer p-0"
+                      >
+                        <ArrowLeft size={16} /> Back
+                      </button>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-5">
+                    {pageIdx < allPages.length - 1 && (
+                      <button
+                        onClick={(e) => { e.stopPropagation(); playPageTurnSound(); setActivePageIndex(pageIdx + 1); keepScrubberVisible(); }}
+                        className="text-[12px] font-black text-blue-600 flex items-center gap-2 hover:gap-3 transition-all bg-transparent border-none cursor-pointer p-0"
+                      >
+                        Next <ArrowRight size={16} />
+                      </button>
+                    )}
+                    <div className="w-2.5 h-2.5 rounded-full bg-blue-600 shadow-[0_0_10px_rgba(37,99,235,0.4)]" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+
+        {/* COVER */}
+        <div
+          className={`
+            absolute inset-0 w-full h-full rounded-[24px] cursor-pointer 
+            transition-all duration-[1.3s] ease-[cubic-bezier(0.645,0.045,0.355,1)] 
+            [transform-origin:left_center] shadow-[6px_0_30px_rgba(0,0,0,0.12)] 
+            flex flex-col items-center justify-center z-[110] p-4 sm:p-6 md:p-8 lg:p-12 text-center 
+            [backface-visibility:hidden] bg-white will-change-transform
+            ${isOpen ? '[transform:rotateY(-145deg)_scale(0.95)_translateX(-30px)] opacity-0 pointer-events-none' : ''}
+          `}
+          style={{
+            background: `linear-gradient(135deg, #ffffff, #F0F7FF)`,
+            borderLeft: `8px solid #2563EB`
+          }}
+          onClick={handleOpen}
+        >
+          <div className="w-14 h-14 sm:w-20 sm:h-20 lg:w-[100px] lg:h-[100px] rounded-[20px] sm:rounded-[24px] lg:rounded-[28px] flex items-center justify-center mb-4 sm:mb-6 lg:mb-10 shadow-sm bg-white/60 backdrop-blur-sm p-4">
+            <img src="https://res.cloudinary.com/dbwnbfdij/image/upload/v1779516223/Logo_iile24.png" alt="CRCCF Logo" loading="lazy" decoding="async" width="100" height="100" className="w-full h-full object-contain filter drop-shadow-sm" />
+          </div>
+
+          <style>{`@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');`}</style>
+          
+          <h3 className="text-slate-900 leading-[1.1] mb-4 sm:mb-6 lg:mb-8 text-xl sm:text-2xl lg:text-[32px] font-bold" style={{ fontFamily: "'Dancing Script', cursive" }}>
+            CRCCF Chronicles
+          </h3>
+          
+          <p className="text-slate-500 font-bold uppercase tracking-[0.2em] text-[10px] mb-8">The 80-Point National Objective Roadmap</p>
+
+          <div className="flex items-center gap-3 text-[13px] font-black uppercase tracking-[0.15em] mt-auto text-blue-600">
+            <span>Explore Our Pillars</span>
+            <ArrowRight size={18} className="animate-pulse" />
+          </div>
+        </div>
+      </motion.article>
+
+      {/* Scrubber (Global) */}
+      <div className={`transition-all duration-500 ease-out mt-4 ${isOpen || showScrubber ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+        <div className="flex flex-col gap-4 bg-white/50 backdrop-blur-sm p-3 sm:p-4 md:p-6 rounded-[16px] sm:rounded-[24px] border border-slate-100">
+          <div className="flex justify-between items-center">
+            <div className="flex flex-col">
+              <span className="text-[11px] sm:text-[12px] font-bold text-slate-700 mt-1 truncate max-w-[180px] sm:max-w-[300px]">{allPages[activePageIndex].heading}</span>
+            </div>
+            <span className="flex-shrink-0 px-2 sm:px-4 py-1 sm:py-1.5 rounded-full bg-blue-600 text-white text-[9px] sm:text-[11px] font-black tabular-nums shadow-lg shadow-blue-200">
+              {activePageIndex + 1} / {allPages.length}
+            </span>
+          </div>
+          <div className="relative pt-2">
+            {previewPageIndex !== null && (
+              <motion.div
+                className="absolute -top-10 px-3 py-1.5 bg-slate-800 text-white text-[10px] font-bold rounded-lg whitespace-nowrap pointer-events-none z-20 shadow-2xl flex items-center gap-2"
+                animate={{
+                  left: `${(previewPageIndex / (allPages.length - 1)) * 100}%`,
+                  x: "-50%"
+                }}
+                transition={{ type: "spring", stiffness: 400, damping: 35 }}
+              >
+                <span className="bg-white/20 px-1.5 py-0.5 rounded text-[9px]">{previewPageIndex + 1}</span>
+                <span>{allPages[previewPageIndex].heading.slice(0, 35)}{allPages[previewPageIndex].heading.length > 35 ? '...' : ''}</span>
+              </motion.div>
+            )}
+            <input
+              type="range" min="0" max={allPages.length - 1} value={activePageIndex}
+              onChange={(e) => { playPageTurnSound(); setActivePageIndex(parseInt(e.target.value)); keepScrubberVisible(); }}
+              onMouseMove={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const percent = Math.min(Math.max(x / rect.width, 0), 1);
+                setPreviewPageIndex(Math.round(percent * (allPages.length - 1)));
+              }}
+              onMouseLeave={() => setPreviewPageIndex(null)}
+              className="w-full h-2 bg-slate-200 rounded-full appearance-none cursor-pointer accent-blue-600 hover:accent-blue-700 transition-all shadow-inner"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ------------------------------ Main Page ------------------------------ */
+export default function Objective() {
+  const navigate = useNavigate();
+  const { container, itemUp } = useAnims();
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, -50]);
+
+  return (
+    <div className="bg-[#FBFDFF] min-h-screen overflow-x-hidden">
+      <motion.section
+        variants={container} initial="hidden" animate="show"
+        className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-10 sm:py-16"
+      >
+        
+
+        <div ref={heroRef} className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-24">
+          <motion.div variants={itemUp}>
+            <div className="inline-block px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black tracking-[0.2em] mb-6">
+              THE COMPLETE ROADMAP
+            </div>
+            <h1 className="text-5xl md:text-6xl font-black text-slate-900 leading-[1.05] mb-8 tracking-tight">
+              Our Vision for a <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Secure Nation</span>
+            </h1>
+            <p className="text-xl text-slate-600 leading-relaxed max-w-xl">
+             To empower citizens with digital literacy, assist victims of cybercrime, and strengthen cybersecurity frameworks across the country.
+
+             We strive to be a one-stop solution for awareness, prevention, and legal assistance in cybercrime cases.
+            </p>
+          </motion.div>
+
+          <motion.div style={{ y: heroY }} className="relative">
+            <div className="absolute -inset-6 rounded-[40px] bg-gradient-to-tr from-blue-100 via-white to-indigo-100 blur-3xl opacity-60" />
+            <div className="relative rounded-[40px] border border-gray-200 bg-white p-5 shadow-2xl overflow-hidden">
+              <VideoHeroObjectives src="https://cdn.coverr.co/videos/coverr-shield-and-lock-animation-5341/1080p.mp4" />
+            </div>
+          </motion.div>
+        </div>
+
+        <div className="mt-10 pt-10 border-t border-slate-100">
+          <div className="mb-16 text-center">
+            <h2 className="text-4xl font-black text-slate-900 mb-4 tracking-tight">The CRCCF <span className="text-blue-600">Chronicles</span></h2>
+            <p className="text-slate-500 text-lg font-medium">Flip the cover and use the scrubber below to navigate through 80 objectives.</p>
+          </div>
+
+          <div className="py-6">
+            <InsightCard allPages={objectivesData} />
+          </div>
+        </div>
+      </motion.section>
+    </div>
+  );
+}
