@@ -1,3 +1,4 @@
+import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   BadgeCheck,
@@ -26,8 +27,12 @@ import {
   Crown
 } from 'lucide-react'
 
+const CARDS_PER_PAGE = 12
+
 const LegalComplianceKeyboard = () => {
   const navigate = useNavigate()
+  const [currentPage, setCurrentPage] = useState(1)
+  const gridRef = useRef(null)
 
   const complianceItems = [
     { id: 'our-legal-identity', label: ' Legal Identity', path: '/about/legal-compliance/our-legal-identity', icon: BadgeCheck },
@@ -56,15 +61,26 @@ const LegalComplianceKeyboard = () => {
     { id: 'recognized-power-and-responsibility', label: 'Recognized Power & Responsibility', path: '/about/legal-compliance/recognized-power-and-responsibility', icon: Crown },
   ]
 
+  const totalPages = Math.ceil(complianceItems.length / CARDS_PER_PAGE)
+  const startIndex = (currentPage - 1) * CARDS_PER_PAGE
+  const visibleItems = complianceItems.slice(startIndex, startIndex + CARDS_PER_PAGE)
+
+  const goToPage = (page) => {
+    setCurrentPage(page)
+    if (gridRef.current) {
+      gridRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
+
   return (
-    <div className="bg-white rounded-lg sm:rounded-2xl shadow-lg sm:shadow-xl p-4 sm:p-5 md:p-6">
+    <div className="bg-white rounded-lg sm:rounded-2xl shadow-lg sm:shadow-xl p-4 sm:p-5 md:p-6" ref={gridRef}>
       <div className="text-center mb-4 sm:mb-6">
         <h2 className="text-xl sm:text-2xl font-bold text-[#0F172A]">   </h2>
         <p className="text-[#64748B] mt-1 text-sm sm:text-base">Click any button to explore</p>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3">
-        {complianceItems.map((item) => {
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3">
+        {visibleItems.map((item) => {
           const Icon = item.icon
           return (
             <button
@@ -83,6 +99,39 @@ const LegalComplianceKeyboard = () => {
           )
         })}
       </div>
+
+      {/* PAGINATION CONTROLS */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center gap-4 mt-6 pt-5 border-t border-[#E2E8F0]">
+          <button
+            onClick={() => goToPage(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200
+              bg-gradient-to-br from-[#F8FAFC] to-[#F1F5F9] border border-[#DBEAFE]
+              text-[#475569] hover:border-[#2563EB] hover:text-[#0F172A] hover:shadow-md
+              disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-[#DBEAFE]
+              disabled:hover:text-[#475569] disabled:hover:shadow-none"
+          >
+            ← Previous
+          </button>
+
+          <span className="text-sm font-medium text-[#64748B]">
+            Page {currentPage} of {totalPages}
+          </span>
+
+          <button
+            onClick={() => goToPage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200
+              bg-gradient-to-br from-[#F8FAFC] to-[#F1F5F9] border border-[#DBEAFE]
+              text-[#475569] hover:border-[#2563EB] hover:text-[#0F172A] hover:shadow-md
+              disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-[#DBEAFE]
+              disabled:hover:text-[#475569] disabled:hover:shadow-none"
+          >
+            Next →
+          </button>
+        </div>
+      )}
     </div>
   )
 }

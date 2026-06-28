@@ -5,7 +5,7 @@ export default function SEO({
   description, 
   name = "CR Cyber Crime Foundation", 
   type = "website",
-  image = "https://res.cloudinary.com/dbwnbfdij/image/upload/v1779516223/Logo_iile24.png",
+  image = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782471833/Logo_iile24_ormcru.png",
   url = "https://crccf.org"
 }) {
   const pageTitle = title ? `${title} | ${name}` : name;

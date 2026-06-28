@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import {
-  Briefcase, GraduationCap, BookOpen, Award, Users, Eye, Laptop, Search, HeartHandshake, Building, Code, Target, Compass, Library
+  Briefcase, GraduationCap, BookOpen, Users, Eye, Search, HeartHandshake, Building, Code, Target, Compass, Library
 } from 'lucide-react'
 import CompanyMarquee from '../../components/AboutUs/common/CompanyMarquee'
 import PageHeader from '../../components/AboutUs/common/PageHeader'
@@ -12,10 +12,8 @@ const SkillDevelopmentPage = () => {
     { id: 'internships', label: 'Internships', path: '/skill-development/internships', icon: Briefcase },
     { id: 'training', label: 'Training Programs', path: '/skill-development/training', icon: GraduationCap },
     { id: 'courses', label: 'Courses', path: '/skill-development/courses', icon: BookOpen },
-    { id: 'certifications', label: 'Certifications', path: '/skill-development/certifications', icon: Award },
     { id: 'workshops', label: 'Workshops', path: '/skill-development/workshops', icon: Users },
     { id: 'awareness', label: 'Awareness Programs', path: '/skill-development/awareness', icon: Eye },
-    { id: 'live-projects', label: 'Live Projects', path: '/skill-development/live-projects', icon: Laptop },
     { id: 'research', label: 'Research Programs', path: '/skill-development/research', icon: Search },
     { id: 'mentorship', label: 'Mentorship Programs', path: '/skill-development/mentorship', icon: HeartHandshake },
     { id: 'corporate', label: 'Corporate Training', path: '/skill-development/corporate', icon: Building },

@@ -1,4 +1,4 @@
-import { JobPortal } from './JobVacancyPortal';
+import { JobPortal } from './JobVacancyPortal/JobVacancyPage';
 
 const JobVacancy = () => (
   <JobPortal />

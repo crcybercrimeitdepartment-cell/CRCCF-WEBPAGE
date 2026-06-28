@@ -1,0 +1,125 @@
+[
+  {
+    "img": "awareness_hero.png",
+    "original": "D:\\CRCCF projects\\Final webpage\\NewHomepage\\public\\awareness_hero.png",
+    "new": "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472939/awareness_hero_tst4dm.jpg",
+    "updatedFiles": 1,
+    "usages": [
+      "D:\\CRCCF projects\\Final webpage\\NewHomepage\\src\\pages\\SkillDevelopment\\AwarenessProgram.jsx"
+    ]
+  },
+  {
+    "img": "bonsai_tree.png",
+    "original": "D:\\CRCCF projects\\Final webpage\\NewHomepage\\public\\bonsai_tree.png",
+    "new": "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472939/bonsai_tree_ttryo3.jpg",
+    "updatedFiles": 1,
+    "usages": [
+      "D:\\CRCCF projects\\Final webpage\\NewHomepage\\src\\pages\\SkillDevelopment\\AwarenessProgram.jsx"
+    ]
+  },
+  {
+    "img": "cyber_safety_card.png",
+    "original": "D:\\CRCCF projects\\Final webpage\\NewHomepage\\public\\cyber_safety_card.png",
+    "new": "/pages/cyber-awareness/cyber_safety_card.png",
+    "updatedFiles": 1,
+    "usages": [
+      "D:\\CRCCF projects\\Final webpage\\NewHomepage\\src\\data\\skillDevelopment\\AwarenessPagedata.js"
+    ]
+  },
+  {
+    "img": "fraud_card.png",
+    "original": "D:\\CRCCF projects\\Final webpage\\NewHomepage\\public\\fraud_card.png",
+    "new": "/pages/cyber-awareness/fraud_card.png",
+    "updatedFiles": 1,
+    "usages": [
+      "D:\\CRCCF projects\\Final webpage\\NewHomepage\\src\\data\\skillDevelopment\\AwarenessPagedata.js"
+    ]
+  },
+  {
+    "img": "glowing_shield.png",
+    "original": "D:\\CRCCF projects\\Final webpage\\NewHomepage\\public\\glowing_shield.png",
+    "new": "Deleted",
+    "updatedFiles": 0
+  },
+  {
+    "img": "hanuman_statue.png",
+    "original": "D:\\CRCCF projects\\Final webpage\\NewHomepage\\public\\hanuman_statue.png",
+    "new": "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472939/hanuman_statue_idrylg.jpg",
+    "updatedFiles": 1,
+    "usages": [
+      "D:\\CRCCF projects\\Final webpage\\NewHomepage\\src\\pages\\SkillDevelopment\\AwarenessProgram.jsx"
+    ]
+  },
+  {
+    "img": "internet_card.png",
+    "original": "D:\\CRCCF projects\\Final webpage\\NewHomepage\\public\\internet_card.png",
+    "new": "/pages/cyber-awareness/internet_card.png",
+    "updatedFiles": 1,
+    "usages": [
+      "D:\\CRCCF projects\\Final webpage\\NewHomepage\\src\\data\\skillDevelopment\\AwarenessPagedata.js"
+    ]
+  },
+  {
+    "img": "lady_justice.png",
+    "original": "D:\\CRCCF projects\\Final webpage\\NewHomepage\\public\\lady_justice.png",
+    "new": "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472940/lady_justice_gimkgn.jpg",
+    "updatedFiles": 1,
+    "usages": [
+      "D:\\CRCCF projects\\Final webpage\\NewHomepage\\src\\pages\\SkillDevelopment\\AwarenessProgram.jsx"
+    ]
+  },
+  {
+    "img": "mobile_card.png",
+    "original": "D:\\CRCCF projects\\Final webpage\\NewHomepage\\public\\mobile_card.png",
+    "new": "/pages/cyber-awareness/mobile_card.png",
+    "updatedFiles": 1,
+    "usages": [
+      "D:\\CRCCF projects\\Final webpage\\NewHomepage\\src\\data\\skillDevelopment\\AwarenessPagedata.js"
+    ]
+  },
+  {
+    "img": "password_card.png",
+    "original": "D:\\CRCCF projects\\Final webpage\\NewHomepage\\public\\password_card.png",
+    "new": "/pages/cyber-awareness/password_card.png",
+    "updatedFiles": 1,
+    "usages": [
+      "D:\\CRCCF projects\\Final webpage\\NewHomepage\\src\\data\\skillDevelopment\\AwarenessPagedata.js"
+    ]
+  },
+  {
+    "img": "phishing_card.png",
+    "original": "D:\\CRCCF projects\\Final webpage\\NewHomepage\\public\\phishing_card.png",
+    "new": "/pages/cyber-awareness/phishing_card.png",
+    "updatedFiles": 1,
+    "usages": [
+      "D:\\CRCCF projects\\Final webpage\\NewHomepage\\src\\data\\skillDevelopment\\AwarenessPagedata.js"
+    ]
+  },
+  {
+    "img": "victory_statue.png",
+    "original": "D:\\CRCCF projects\\Final webpage\\NewHomepage\\public\\victory_statue.png",
+    "new": "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472941/victory_statue_dspesv.jpg",
+    "updatedFiles": 1,
+    "usages": [
+      "D:\\CRCCF projects\\Final webpage\\NewHomepage\\src\\pages\\SkillDevelopment\\AwarenessProgram.jsx"
+    ]
+  },
+  {
+    "img": "HeroIMG.png",
+    "original": "D:\\CRCCF projects\\Final webpage\\NewHomepage\\src\\pages\\recruitment\\JobVacancyPortal\\HeroIMG.png",
+    "new": "/pages/home/HeroIMG.png",
+    "updatedFiles": 1,
+    "usages": [
+      "D:\\CRCCF projects\\Final webpage\\NewHomepage\\src\\pages\\recruitment\\JobVacancyPortal\\index.jsx"
+    ]
+  },
+  {
+    "img": "job-vacancy-bg.png",
+    "original": "D:\\CRCCF projects\\Final webpage\\NewHomepage\\src\\pages\\recruitment\\JobVacancyPortal\\job-vacancy-bg.png",
+    "new": "/pages/recruitment/job-vacancy-bg.png",
+    "updatedFiles": 1,
+    "usages": [
+      "D:\\CRCCF projects\\Final webpage\\NewHomepage\\src\\pages\\recruitment\\JobVacancyPortal\\index.jsx"
+    ]
+  }
+]

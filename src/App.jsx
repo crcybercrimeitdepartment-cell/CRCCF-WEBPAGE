@@ -1,7 +1,7 @@
 import { useState, useEffect, useLayoutEffect, Suspense, lazy } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowUp } from 'lucide-react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import SEO from './components/common/SEO'
 import LazySection from './components/common/LazySection'
 import AutoSEO from './components/common/AutoSEO'
@@ -56,7 +56,7 @@ const GalleryLandingPage = lazy(() => import('./pages/GalleryLandingPage'))
 const CategoryPage       = lazy(() => import('./pages/CategoryPage'))
 
 // ─── LAZY: General Pages ─────────────────────────────────────────────────────
-const IntroAnimation       = lazy(() => import('./pages/IntroAnimation'))
+const BuildingAnimationPage = lazy(() => import('./pages/BuildingAnimation/BuildingAnimationPage.jsx'))
 const ReachUsPage        = lazy(() => import('./pages/ReachUsPage'))
 const InsightsPage       = lazy(() => import('./pages/InsightsPage'))
 const ServiceRouter      = lazy(() => import('./pages/Service/ServiceRouter'))
@@ -113,7 +113,7 @@ const InternshipPage         = lazy(() => import('./pages/SkillDevelopment/Inter
 const InternshipDetailPage   = lazy(() => import('./pages/SkillDevelopment/InternshipPage').then(m => ({ default: m.InternshipDetailPage })))
 const CoursePage             = lazy(() => import('./pages/SkillDevelopment/CoursePage'))
 const MentorshipProgramsPage = lazy(() => import('./pages/SkillDevelopment/MentorshipProgramsPage'))
-
+const WorkshopPage           = lazy(() => import('./pages/SkillDevelopment/Workshop/WorkshopPage'))
 // ─── LAZY: Resources ─────────────────────────────────────────────────────────
 const CourseMaterials        = lazy(() => import('./pages/Resources/CourseMaterials'))
 const PracticalTraining      = lazy(() => import('./pages/Resources/PracticalTraining'))
@@ -123,7 +123,7 @@ const LearningEnvironment    = lazy(() => import('./pages/Resources/LearningEnvi
 // ─── LAZY: Recruitment ───────────────────────────────────────────────────────
 const RecruitmentPortal         = lazy(() => import('./pages/recruitment/RecruitmentPortal'))
 const JobVacancy                = lazy(() => import('./pages/recruitment/JobVacancy'))
-const JobVacancyPage            = lazy(() => import('./pages/recruitment/JobVacancyPortal').then(m => ({ default: m.JobVacancyPage })))
+const JobVacancyPage            = lazy(() => import('./pages/recruitment/JobVacancyPortal/JobVacancyPage').then(m => ({ default: m.JobVacancyPage })))
 const PostVacancyMembersOnly    = lazy(() => import('./pages/recruitment/PostVacancyMembersOnly'))
 const OnlineApplicationPortal   = lazy(() => import('./pages/recruitment/OnlineApplicationPortal'))
 const RecruitmentAdvertisements = lazy(() => import('./pages/recruitment/RecruitmentAdvertisements'))
@@ -229,8 +229,9 @@ function AppRoutes() {
       <AutoSEO />
       <Suspense fallback={<PageLoader />}>
         <Routes>
+          <Route path="/" element={<AnimationWrapper />} />
           <Route element={<RootLayout />}>
-            <Route path="/" element={<><SEO title="Home" description="CR Cyber Crime Foundation provides cyber security, cyber awareness, cyber investigation, digital safety services, training, consultancy, and digital empowerment." /><HomePageContent /></>} />
+            <Route path="/homepage" element={<><SEO title="Home" description="CR Cyber Crime Foundation provides cyber security, cyber awareness, cyber investigation, digital safety services, training, consultancy, and digital empowerment." /><HomePageContent /></>} />
             <Route path="/gallery-collections" element={<><SEO title="Gallery Collections" description="View our gallery collections of events, workshops, and cyber awareness programs conducted by CR Cyber Crime Foundation." /><GalleryLandingPage /></>} />
             <Route path="/gallery" element={<><SEO title="Gallery" description="Explore our gallery featuring photos from various cyber security awareness campaigns and training programs." /><GalleryPage /></>} />
             <Route path="/gallery/category/:id" element={<><SEO title="Gallery Category" description="Browse specific categories of our cyber security events and training gallery." /><CategoryPage /></>} />
@@ -270,6 +271,7 @@ function AppRoutes() {
             <Route path="/skill-development/research/*" element={<><SEO title="Research & Development" description="Explore our research and development initiatives in cyber security and digital forensics." /><ResearchPage /></>} />
             <Route path="/skill-development/corporate/*" element={<><SEO title="Corporate Training" description="Customized corporate training programs to build robust cyber security knowledge within your organization." /><CorporateTrainingPage /></>} />
             <Route path="/skill-development/hackathons/*" element={<><SEO title="Hackathons" description="Participate in CRCCF hackathons to solve real-world cyber security challenges." /><HackathonPage /></>} />
+            <Route path="/skill-development/workshops/*" element={<><SEO title="Workshops" description="Join expert-led workshops on cybersecurity and IT." /><WorkshopPage darkMode={false} setDarkMode={() => {}} /></>} />
             <Route path="/skill-development/training/*" element={<><SEO title="Training Programs" description="Comprehensive training programs covering various aspects of cyber security and digital investigation." /><TrainingProgramPage /></>} />
             <Route path="/skill-development/:slug" element={<><SEO title="Skill Development Details" description="Explore specific skill development opportunities in cyber security and IT." /><SkillDevelopmentDetail /></>} />
 
@@ -360,55 +362,14 @@ function AppRoutes() {
   )
 }
 
+function AnimationWrapper() {
+  const hasPlayed = sessionStorage.getItem("animationPlayed") === "true";
+  if (hasPlayed) {
+    return <Navigate to="/homepage" replace />;
+  }
+  return <BuildingAnimationPage />;
+}
+
 export default function App() {
-  const [ready, setReady] = useState(false);
-  const [showIntro, setShowIntro] = useState(null);
-
-  useLayoutEffect(() => {
-    const seen = sessionStorage.getItem("introPlayed");
-    setShowIntro(!seen);
-    setReady(true);
-    
-    if (!seen) {
-      document.body.style.overflow = "hidden";
-      document.body.style.background = "#000";
-    }
-  }, []);
-
-  if (!ready) {
-    return (
-      <div className="fixed inset-0 bg-black z-[9999] flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin" />
-      </div>
-    );
-  }
-
-  if (showIntro) {
-    return (
-      <>
-        <style>{`
-          @keyframes introFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-          }
-        `}</style>
-        <div className="fixed inset-0 z-[9999] bg-[#000]" style={{ animation: 'introFadeIn 0.3s ease-in-out forwards' }}>
-          <Suspense fallback={
-            <div className="fixed inset-0 bg-black z-[9999] flex items-center justify-center">
-              <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin" />
-            </div>
-          }>
-            <IntroAnimation onComplete={() => {
-              sessionStorage.setItem("introPlayed", "true");
-              document.body.style.overflow = "";
-              document.body.style.background = "";
-              setShowIntro(false);
-            }} />
-          </Suspense>
-        </div>
-      </>
-    );
-  }
-
   return <AppRoutes />;
 }

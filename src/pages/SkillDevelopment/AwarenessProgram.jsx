@@ -163,7 +163,7 @@ const TvScreen = () => {
 
         <div className="w-[45%] h-full flex items-center justify-center relative">
            <img loading="lazy" decoding="async" 
-              src="/awareness_hero.png" 
+              src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472939/awareness_hero_tst4dm.jpg" 
               alt="Awareness Hologram" 
               className="w-full h-full object-contain -translate-y-[5%]"
               style={{ mixBlendMode: 'screen', filter: 'contrast(1.5) brightness(1.2)' }}
@@ -191,7 +191,7 @@ const LeftPanel = () => {
          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[15%] h-[3px] bg-amber-100 rounded-b-full shadow-[0_2px_10px_rgba(253,230,138,1)] z-20"></div>
          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[70%] bg-gradient-to-b from-amber-400/30 via-amber-400/5 to-transparent blur-[15px] pointer-events-none z-10"></div>
          <img loading="lazy" decoding="async" 
-            src="/hanuman_statue.png" 
+            src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472939/hanuman_statue_idrylg.jpg" 
             alt="Hanuman Idol" 
             className="max-w-[85%] max-h-[90%] object-contain z-10 translate-y-[17%]" 
             style={{ 
@@ -206,7 +206,7 @@ const LeftPanel = () => {
          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[15%] h-[3px] bg-amber-100 rounded-b-full shadow-[0_2px_10px_rgba(253,230,138,1)] z-20"></div>
          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[70%] bg-gradient-to-b from-amber-400/30 via-amber-400/5 to-transparent blur-[15px] pointer-events-none z-10"></div>
          <img loading="lazy" decoding="async" 
-            src="/bonsai_tree.png" 
+            src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472939/bonsai_tree_ttryo3.jpg" 
             alt="Bonsai Tree in Bowl" 
             className="max-w-[85%] max-h-[90%] object-contain z-10 translate-y-[18%] drop-shadow-[0_10px_10px_rgba(0,0,0,0.9)]" 
             style={{ 
@@ -234,7 +234,7 @@ const RightPanel = () => {
          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[15%] h-[3px] bg-amber-100 rounded-b-full shadow-[0_2px_10px_rgba(253,230,138,1)] z-20"></div>
          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[70%] bg-gradient-to-b from-amber-400/30 via-amber-400/5 to-transparent blur-[15px] pointer-events-none z-10"></div>
          <img loading="lazy" decoding="async" 
-            src="/lady_justice.png" 
+            src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472940/lady_justice_gimkgn.jpg" 
             alt="Lady Justice Statue" 
             className="max-w-[80%] max-h-[85%] object-contain z-10 translate-y-[13%]" 
             style={{ 
@@ -288,7 +288,7 @@ const RightPanel = () => {
          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[15%] h-[3px] bg-amber-100 rounded-b-full shadow-[0_2px_10px_rgba(253,230,138,1)] z-20"></div>
          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[70%] bg-gradient-to-b from-amber-400/30 via-amber-400/5 to-transparent blur-[15px] pointer-events-none z-10"></div>
          <img loading="lazy" decoding="async" 
-            src="/victory_statue.png" 
+            src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472941/victory_statue_dspesv.jpg" 
             alt="Winged Victory of Samothrace" 
             className="max-w-[80%] max-h-[85%] object-contain z-10 translate-y-[8%]" 
             style={{ 

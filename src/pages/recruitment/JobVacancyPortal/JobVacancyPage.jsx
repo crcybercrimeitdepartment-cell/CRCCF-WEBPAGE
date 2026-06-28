@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useScroll, useSpring, useTransform, AnimatePresence } from 'framer-motion';
-import heroImg from './HeroIMG.png';
-import heroBg from './job-vacancy-bg.png';
-import { portalConfig, jobListings, filterOptions, jobVacancyData } from './data';
+const heroImg = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782533602/HeroIMG_zl9wgt.png";
+const heroBg = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782533618/job-vacancy-bg_kubrft.png";
+import { portalConfig, jobListings, filterOptions, jobVacancyData } from '../../../data/recruitment/JobVacancyPageData';
 
 
 // --- EmptyState.jsx ---
@@ -292,7 +292,7 @@ function HeroIllustration({ department, vacancies, status, level, employmentType
         <img loading="lazy" decoding="async" 
           src={heroImg}
           alt="3D Hero Illustration" 
-          className="w-full h-full object-contain object-right"
+          className="w-full h-full object-contain -translate-x-4 lg:-translate-x-10"
         />
       </motion.div>
 

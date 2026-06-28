@@ -5,7 +5,7 @@ import {
     GitBranch, Link, Database, Palette, PenTool, Brush,
     Megaphone, Rocket, FileText, Award, Briefcase, Clipboard,
     Handshake, DollarSign, Scale, FileSignature, ShieldCheck,
-    Building2, Compass, MessageSquare, Users, TrendingUp
+    Building2, Compass, MessageSquare, Users, TrendingUp, ShieldAlert
 } from 'lucide-react';
 
 export const mentorshipPrograms = [
@@ -18,6 +18,7 @@ export const mentorshipPrograms = [
     { id: "incident-response-course", title: "Incident Response Course" },
     { id: "threat-intelligence-course", title: "Threat Intelligence Course" },
     { id: "application-security-course", title: "Application Security (AppSec) Course" },
+    { id: "malware-analysis-course", title: "Malware Analysis Course" },
     { id: "osint-course", title: "OSINT (Open Source Intelligence) Course" },
     { id: "reverse-engineering-course", title: "Reverse Engineering Course" },
     { id: "cyber-forensics-course", title: "Cyber Forensics Course" },
@@ -80,6 +81,7 @@ export const iconMap = {
     "incident-response-course": { icon: Shield, color: "#e11d48" },
     "threat-intelligence-course": { icon: Eye, color: "#7c3aed" },
     "application-security-course": { icon: ShieldCheck, color: "#0891b2" },
+    "malware-analysis-course": { icon: ShieldAlert, color: "#dc2626" },
     "osint-course": { icon: Search, color: "#ca8a04" },
     "reverse-engineering-course": { icon: Cpu, color: "#6d28d9" },
     "cyber-forensics-course": { icon: FileSearch, color: "#0284c7" },
@@ -148,71 +150,50 @@ export function getBookThemeByIndex(index) {
 
 export const heroData = {
     title: "Courses",
-    subtitle: "Develop leadership, communication, management, and workplace skills through expert-led corporate training programs."
+    subtitle: "Explore our comprehensive courses designed to accelerate your career and develop your skills.",
 };
 
-export const sectionsData = [];
-export const cardsData = [];
-export const timelineData = [];
-export const faqData = [];
-export const statsData = [];
-export const testimonialsData = [];
-export const courseData = [];
-export const countersData = [];
-export const iconConfig = {};
-export const imageConfig = {};
-export const constants = {};
-
 export const labels = {
-    corporate: "Corporate",
-    training: "Training",
+    corporate: "CRCCF",
+    training: "COURSES",
     switchLight: "Switch to Light Mode",
     switchDark: "Switch to Dark Mode",
-    footerDesc: "Empowering professionals with industry-leading training programs for skill development, leadership growth, and career advancement.",
+    footerDesc: "Empowering professionals with top-tier education.",
     categories: "Categories",
     company: "Company",
-    copyright: "Corporate Training. All rights reserved.",
+    copyright: "CRCCF. All rights reserved.",
     madeWith: "Made with",
-    forLearning: "for learning",
-    searchPlaceholder: "Search courses by name or category...",
-    clear: "Clear",
-    bookshelfSign: "COURSES",
-    prev: "&lt; PREV",
-    next: "NEXT &gt;",
-    noPrograms: "No Programs Found",
-    noProgramsDesc: "We couldn't find any training programs matching your search. Try a different keyword.",
-    clearSearch: "Clear Search",
+    forLearning: "for continuous learning",
     openingDetails: "Opening Details...",
-    back: "Back",
-    notFound: "Program Not Found",
-    notFoundDesc: "The program you are looking for does not exist or has been moved.",
-    backHome: "Back to Home",
-    comingSoon: "Coming Soon...",
-    underDev: "This section is under development. Stay tuned!",
-    applyTitle: "Apply for Training",
-    applySub: "Secure your spot in the next training cohort.",
+    skills: "Skills Covered",
+    applyTitle: "Apply for Course",
+    applySub: "Submit your details and our team will get in touch.",
     submitApp: "Submit Application",
     appReceived: "Application Received!",
     done: "Done",
-    curriculum: "Curriculum & Roadmap",
-    skills: "Skills You'll Master",
+    searchPlaceholder: "Search courses...",
+    clear: "Clear",
+    bookshelfSign: "Course Catalog",
+    prev: "Previous",
+    next: "Next",
+    noPrograms: "No Courses Found",
+    noProgramsDesc: "We couldn't find any courses matching your search.",
+    clearSearch: "Clear Search",
+    notFound: "Page Not Found",
+    notFoundDesc: "The page you are looking for does not exist.",
+    comingSoon: "Coming Soon",
+    underDev: "This page is currently under development."
 };
 
 export const footerLinks = {
     categories: [
-        { name: "Leadership & Management", href: "#leadership" },
-        { name: "Business & Sales", href: "#business" },
-        { name: "Technology & Digital", href: "#technology" },
-        { name: "Security & Compliance", href: "#cyber" }
+        { label: "Cybersecurity", path: "#" },
+        { label: "Software Dev", path: "#" },
+        { label: "Data Science", path: "#" }
     ],
     company: [
-        { name: "About Us", href: "#about" },
-        { name: "Careers", href: "#careers" },
-        { name: "Contact", href: "#contact" }
-    ],
-    social: [
-        { name: "Github", url: "https://github.com", icon: "github" },
-        { name: "LinkedIn", url: "https://linkedin.com", icon: "linkedin" },
-        { name: "Twitter", url: "https://twitter.com", icon: "twitter" }
+        { label: "About Us", path: "#" },
+        { label: "Contact", path: "#" },
+        { label: "Privacy Policy", path: "#" }
     ]
 };

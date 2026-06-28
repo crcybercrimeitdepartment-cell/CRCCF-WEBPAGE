@@ -4,19 +4,19 @@ import { useNavigate } from "react-router-dom";
 
 
 const cyberNetwork =
-  "https://res.cloudinary.com/dbwnbfdij/image/upload/v1779402304/cyber-network_jmukxj.png";
+  "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782471811/cyber-network_jmukxj_qu3pn5.png";
 
 const holographicPadlock =
-  "https://res.cloudinary.com/dbwnbfdij/image/upload/v1779402399/holographic-padlock_lypzmc.png";
+  "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782471811/holographic-padlock_lypzmc_fzczvm.png";
 
 const serverRoom =
-  "https://res.cloudinary.com/dbwnbfdij/image/upload/v1779402464/server-room_nmgcaj.png";
+  "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782471808/server-room_nmgcaj_fnyphh.png";
 
 const legalScale =
-  "https://res.cloudinary.com/dbwnbfdij/image/upload/v1779402436/legal-scale_bqsmvs.png";
+  "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782471810/legal-scale_bqsmvs_xlb0ah.png";
 
 const aiBrain =
-  "https://res.cloudinary.com/dbwnbfdij/image/upload/v1779398594/ai-brain_dv8lbu.png";
+  "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782471788/ai-brain_dv8lbu_dkxycg.png";
 
 
 const slides = [

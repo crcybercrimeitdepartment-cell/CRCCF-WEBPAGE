@@ -13,30 +13,14 @@ import {
     Award, Megaphone, Cpu, Shield
 } from 'lucide-react';
 import {
-
-
-
-
-
-    heroData,
-    sectionsData,
-    cardsData,
-    timelineData,
-    faqData,
-    statsData,
-    testimonialsData,
-    courseData,
-    countersData,
-    iconConfig,
-    imageConfig,
-    labels,
-    constants,
     mentorshipPrograms,
     CATEGORIES,
     iconMap,
     distinctThemes,
     getProgramIconInfo,
     getBookThemeByIndex,
+    heroData,
+    labels,
     footerLinks
 } from "../../data/skillDevelopment/CoursePageData";
 

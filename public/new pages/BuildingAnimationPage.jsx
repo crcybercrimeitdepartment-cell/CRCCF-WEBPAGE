@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
-import { SKY_URL, DRESS_COLORS } from './building_data';
+import { useNavigate } from 'react-router-dom';
+import '../../src/index.css';
+import { SKY_URL, DRESS_COLORS, TEXT_CONTENT, ROUTES } from './BuildingAnimationPageData';
 
-export default function BuildingAnimation({ onComplete }) {
+let globalAudioCtx = null;
+
+export default function BuildingAnimationPage() {
+  const navigate = useNavigate();
   const [isDoorOpen, setIsDoorOpen] = useState(false);
   const [hasReachedDoor, setHasReachedDoor] = useState(false);
   const [isWalkingBack, setIsWalkingBack] = useState(false);
@@ -60,7 +65,8 @@ export default function BuildingAnimation({ onComplete }) {
             setTimeout(() => {
               setIsWebsiteVisible(true);
               setTimeout(() => {
-                if (onComplete) onComplete();
+                sessionStorage.setItem("animationPlayed", "true");
+                navigate(ROUTES.NEXT_PAGE);
               }, 1400);
             }, 500);
             
@@ -88,6 +94,13 @@ export default function BuildingAnimation({ onComplete }) {
   return (
     <div className="w-full min-h-screen bg-gradient-to-b from-sky-400 via-blue-200 to-blue-100 flex flex-col relative overflow-hidden items-center justify-end">
       
+      {/* Mobile Welcome Message (Top of Screen) */}
+      <div className={`flex sm:hidden absolute top-8 left-0 w-full justify-center z-[200] transition-all duration-[1000ms] ease-out ${hasReachedDoor ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-10 scale-95'}`}>
+          <div className="bg-white/95 backdrop-blur-sm text-blue-900 font-extrabold px-6 py-4 mx-4 rounded-xl shadow-xl border-2 border-blue-300 text-xl sm:text-2xl leading-relaxed text-center tracking-wide">
+              {TEXT_CONTENT.MOBILE_WELCOME_MESSAGE}
+          </div>
+      </div>
+
       {/* FLY-OUT WEBSITE OVERLAY */}
       <div className={`fixed inset-0 z-[1000] bg-white transition-all duration-[1400ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] flex flex-col transform origin-[50%_85%] ${isWebsiteVisible ? 'scale-100 opacity-100 rotate-0 blur-none pointer-events-auto' : 'scale-[0.05] opacity-0 -rotate-6 blur-md pointer-events-none'}`}>
           {/* Browser-like Toolbar */}
@@ -179,15 +192,15 @@ export default function BuildingAnimation({ onComplete }) {
       {/* RESPONSIVE SCENE WRAPPER */}
       <div className={`absolute inset-0 z-10 flex flex-col items-center justify-end pointer-events-none transform origin-bottom transition-transform duration-[6000ms] ease-in-out ${
         isDoorOpen 
-          ? 'scale-[0.45] sm:scale-[0.65] md:scale-[0.85] lg:scale-[1.25] translate-y-[4vh] sm:translate-y-[5vh] lg:translate-y-[6vh]' 
-          : 'scale-[0.35] sm:scale-[0.55] md:scale-[0.75] lg:scale-[0.85] translate-y-[2vh] sm:translate-y-[3vh] lg:translate-y-0'
+          ? 'scale-[0.80] sm:scale-[0.85] md:scale-[0.95] lg:scale-[1.25] translate-y-[4vh] sm:translate-y-[5vh] lg:translate-y-[6vh]' 
+          : 'scale-[0.70] sm:scale-[0.75] md:scale-[0.85] lg:scale-[0.85] translate-y-[2vh] sm:translate-y-[3vh] lg:translate-y-0'
       }`}>
 
          {/* Shadow cast by the building onto the tiled ground */}
          <div className="absolute bottom-[14vh] w-[1070px] h-12 bg-black/20 blur-[15px] rounded-[100%] z-10 pointer-events-none"></div>
 
          {/* Building Container (Pointer events auto to allow clicks) */}
-         <div className="relative w-[950px] h-[850px] flex flex-col items-center justify-end z-20 mt-12 mb-[14vh] pointer-events-auto">
+         <div className="relative w-[950px] h-[850px] flex flex-col items-center justify-end z-20 mt-12 mb-[14vh] pointer-events-auto transition-all duration-700">
         
         {/* ---------------- ROOF CANOPY (Ultra 3D Realism) ---------------- */}
         <div className="absolute bottom-full flex flex-col items-center z-30 w-full mb-[-4px]">
@@ -276,20 +289,39 @@ export default function BuildingAnimation({ onComplete }) {
               
               {/* Internal Floors Visible Through Glass */}
               <div className="absolute inset-0 flex flex-col justify-evenly opacity-30">
-                {[...Array(9)].map((_, i) => <div key={`int-ltop-${i}`} className="w-full h-4 bg-black/50 border-t border-white/10 shadow-[0_5px_15px_rgba(255,255,255,0.1)]"></div>)}
+                <div className="flex sm:hidden flex-col w-full h-full justify-evenly">
+                  {[...Array(36)].map((_, i) => <div key={`int-ltop-m-${i}`} className="w-full h-4 bg-black/50 border-t border-white/10 shadow-[0_5px_15px_rgba(255,255,255,0.1)]"></div>)}
+                </div>
+                <div className="hidden sm:flex flex-col w-full h-full justify-evenly">
+                  {[...Array(9)].map((_, i) => <div key={`int-ltop-${i}`} className="w-full h-4 bg-black/50 border-t border-white/10 shadow-[0_5px_15px_rgba(255,255,255,0.1)]"></div>)}
+                </div>
               </div>
 
               {/* Glass Grid / Mullions */}
-              {[...Array(9)].map((_, r) => (
-                <div key={`ltop-row-${r}`} className="flex w-full flex-1 border-b-[2px] border-[#111]/90 relative z-10">
-                  <div className="absolute bottom-0 w-full h-[1px] bg-white/10"></div> {/* Frame highlight */}
-                  {[...Array(4)].map((_, c) => (
-                    <div key={`ltop-col-${c}`} className="flex-1 border-r-[2px] border-[#111]/90 relative">
-                       <div className="absolute right-0 w-[1px] h-full bg-white/10"></div>
-                    </div>
-                  ))}
-                </div>
-              ))}
+              <div className="flex sm:hidden flex-col w-full flex-1 z-10 relative">
+                {[...Array(36)].map((_, r) => (
+                  <div key={`ltop-row-m-${r}`} className="flex w-full flex-1 border-b-[2px] border-[#111]/90 relative z-10">
+                    <div className="absolute bottom-0 w-full h-[1px] bg-white/10"></div> {/* Frame highlight */}
+                    {[...Array(4)].map((_, c) => (
+                      <div key={`ltop-col-m-${c}`} className="flex-1 border-r-[2px] border-[#111]/90 relative">
+                         <div className="absolute right-0 w-[1px] h-full bg-white/10"></div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+              <div className="hidden sm:flex flex-col w-full flex-1 z-10 relative">
+                {[...Array(9)].map((_, r) => (
+                  <div key={`ltop-row-${r}`} className="flex w-full flex-1 border-b-[2px] border-[#111]/90 relative z-10">
+                    <div className="absolute bottom-0 w-full h-[1px] bg-white/10"></div> {/* Frame highlight */}
+                    {[...Array(4)].map((_, c) => (
+                      <div key={`ltop-col-${c}`} className="flex-1 border-r-[2px] border-[#111]/90 relative">
+                         <div className="absolute right-0 w-[1px] h-full bg-white/10"></div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* The Gap / Recessed Terrace */}
@@ -308,20 +340,39 @@ export default function BuildingAnimation({ onComplete }) {
               
               {/* Internal Floors */}
               <div className="absolute inset-0 flex flex-col justify-evenly opacity-30">
-                {[...Array(6)].map((_, i) => <div key={`int-lbot-${i}`} className="w-full h-4 bg-black/50 border-t border-white/10"></div>)}
+                <div className="flex sm:hidden flex-col w-full h-full justify-evenly">
+                  {[...Array(24)].map((_, i) => <div key={`int-lbot-m-${i}`} className="w-full h-4 bg-black/50 border-t border-white/10"></div>)}
+                </div>
+                <div className="hidden sm:flex flex-col w-full h-full justify-evenly">
+                  {[...Array(6)].map((_, i) => <div key={`int-lbot-${i}`} className="w-full h-4 bg-black/50 border-t border-white/10"></div>)}
+                </div>
               </div>
 
               {/* Glass Grid */}
-              {[...Array(6)].map((_, r) => (
-                <div key={`lbot-row-${r}`} className="flex w-full flex-1 border-b-[2px] border-[#111]/90 relative z-10">
-                  <div className="absolute bottom-0 w-full h-[1px] bg-white/10"></div>
-                  {[...Array(4)].map((_, c) => (
-                    <div key={`lbot-col-${c}`} className="flex-1 border-r-[2px] border-[#111]/90 relative">
-                       <div className="absolute right-0 w-[1px] h-full bg-white/10"></div>
-                    </div>
-                  ))}
-                </div>
-              ))}
+              <div className="flex sm:hidden flex-col w-full flex-1 z-10 relative">
+                {[...Array(24)].map((_, r) => (
+                  <div key={`lbot-row-m-${r}`} className="flex w-full flex-1 border-b-[2px] border-[#111]/90 relative z-10">
+                    <div className="absolute bottom-0 w-full h-[1px] bg-white/10"></div>
+                    {[...Array(4)].map((_, c) => (
+                      <div key={`lbot-col-m-${c}`} className="flex-1 border-r-[2px] border-[#111]/90 relative">
+                         <div className="absolute right-0 w-[1px] h-full bg-white/10"></div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+              <div className="hidden sm:flex flex-col w-full flex-1 z-10 relative">
+                {[...Array(6)].map((_, r) => (
+                  <div key={`lbot-row-${r}`} className="flex w-full flex-1 border-b-[2px] border-[#111]/90 relative z-10">
+                    <div className="absolute bottom-0 w-full h-[1px] bg-white/10"></div>
+                    {[...Array(4)].map((_, c) => (
+                      <div key={`lbot-col-${c}`} className="flex-1 border-r-[2px] border-[#111]/90 relative">
+                         <div className="absolute right-0 w-[1px] h-full bg-white/10"></div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
             </div>
             
           </div>
@@ -339,9 +390,16 @@ export default function BuildingAnimation({ onComplete }) {
 
             {/* Horizontal Seams */}
             <div className="absolute inset-0 flex flex-col justify-evenly opacity-50">
-               {[...Array(12)].map((_, i) => (
-                 <div key={`core-glass-line-${i}`} className="w-full h-[1px] bg-[#334155] shadow-[0_1px_0_rgba(255,255,255,0.05)]"></div>
-               ))}
+               <div className="flex sm:hidden flex-col w-full h-full justify-evenly">
+                 {[...Array(48)].map((_, i) => (
+                   <div key={`core-glass-line-m-${i}`} className="w-full h-[1px] bg-[#334155] shadow-[0_1px_0_rgba(255,255,255,0.05)]"></div>
+                 ))}
+               </div>
+               <div className="hidden sm:flex flex-col w-full h-full justify-evenly">
+                 {[...Array(12)].map((_, i) => (
+                   <div key={`core-glass-line-${i}`} className="w-full h-[1px] bg-[#334155] shadow-[0_1px_0_rgba(255,255,255,0.05)]"></div>
+                 ))}
+               </div>
             </div>
 
             {/* Sharp Environment Reflection (Key for realistic glass/stone) */}
@@ -354,20 +412,39 @@ export default function BuildingAnimation({ onComplete }) {
              
              {/* Internal Floors */}
              <div className="absolute inset-0 flex flex-col justify-evenly opacity-30">
-                {[...Array(16)].map((_, i) => <div key={`int-rtop-${i}`} className="w-full h-4 bg-black/50 border-t border-white/10"></div>)}
+                <div className="flex sm:hidden flex-col w-full h-full justify-evenly">
+                  {[...Array(64)].map((_, i) => <div key={`int-rtop-m-${i}`} className="w-full h-4 bg-black/50 border-t border-white/10"></div>)}
+                </div>
+                <div className="hidden sm:flex flex-col w-full h-full justify-evenly">
+                  {[...Array(16)].map((_, i) => <div key={`int-rtop-${i}`} className="w-full h-4 bg-black/50 border-t border-white/10"></div>)}
+                </div>
              </div>
              
              {/* Full Height Glass Grid */}
-             {[...Array(16)].map((_, r) => (
-               <div key={`rtop-row-${r}`} className="flex w-full flex-1 border-b-[2px] border-[#111]/90 relative z-10">
-                 <div className="absolute bottom-0 w-full h-[1px] bg-white/10"></div>
-                 {[...Array(4)].map((_, c) => (
-                   <div key={`rtop-col-${c}`} className="flex-1 border-r-[2px] border-[#111]/90 relative">
-                     <div className="absolute right-0 w-[1px] h-full bg-white/10"></div>
-                   </div>
-                 ))}
-               </div>
-             ))}
+             <div className="flex sm:hidden flex-col w-full flex-1 z-10 relative">
+               {[...Array(64)].map((_, r) => (
+                 <div key={`rtop-row-m-${r}`} className="flex w-full flex-1 border-b-[2px] border-[#111]/90 relative z-10">
+                   <div className="absolute bottom-0 w-full h-[1px] bg-white/10"></div>
+                   {[...Array(4)].map((_, c) => (
+                     <div key={`rtop-col-m-${c}`} className="flex-1 border-r-[2px] border-[#111]/90 relative">
+                       <div className="absolute right-0 w-[1px] h-full bg-white/10"></div>
+                     </div>
+                   ))}
+                 </div>
+               ))}
+             </div>
+             <div className="hidden sm:flex flex-col w-full flex-1 z-10 relative">
+               {[...Array(16)].map((_, r) => (
+                 <div key={`rtop-row-${r}`} className="flex w-full flex-1 border-b-[2px] border-[#111]/90 relative z-10">
+                   <div className="absolute bottom-0 w-full h-[1px] bg-white/10"></div>
+                   {[...Array(4)].map((_, c) => (
+                     <div key={`rtop-col-${c}`} className="flex-1 border-r-[2px] border-[#111]/90 relative">
+                       <div className="absolute right-0 w-[1px] h-full bg-white/10"></div>
+                     </div>
+                   ))}
+                 </div>
+               ))}
+             </div>
           </div>
 
         </div>
@@ -376,29 +453,33 @@ export default function BuildingAnimation({ onComplete }) {
         <div className="absolute bottom-0 w-[104%] h-[160px] bg-transparent flex flex-col items-center justify-end z-40">
           
           {/* Large Floating Instruction Text */}
-          <div className={`absolute -top-24 sm:-top-16 lg:-top-4 left-[calc(50%-199px)] transform -translate-x-1/2 w-80 sm:w-64 lg:w-48 z-[100] pointer-events-none ${isDoorOpen ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500`}>
-             <div className="animate-bounce flex flex-col items-center drop-shadow-[0_5px_10px_rgba(0,0,0,1)]">
-                 <div className="bg-black/80 backdrop-blur-md px-8 py-6 sm:px-6 sm:py-4 lg:px-3 lg:py-2 rounded-2xl lg:rounded-md border border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.2)] text-center text-3xl sm:text-xl lg:text-xs font-bold text-white uppercase tracking-widest leading-relaxed">
-                    <span>Press the bell</span><br/>
-                    <span>to open door</span>
+          <div className={`absolute bottom-24 sm:bottom-28 lg:-top-4 left-[calc(50%-181px)] transform -translate-x-1/2 w-[170px] sm:w-[200px] lg:w-48 z-[100] pointer-events-none ${isDoorOpen ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500`}>
+             <div className="animate-bounce flex flex-col items-center drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]">
+                 <div className="bg-black px-2 py-4 sm:px-6 sm:py-4 lg:px-3 lg:py-2 rounded-2xl lg:rounded-md border border-gray-600 shadow-[0_0_25px_rgba(0,0,0,1)] text-center text-[22px] leading-[1.1] sm:text-xl lg:text-xs font-black text-white uppercase tracking-tighter sm:tracking-widest">
+                    <span>PRESS THE</span><br/>
+                    <span>BELL</span><br/>
+                    <span>TO OPEN</span><br/>
+                    <span>DOOR</span>
                  </div>
-                 <div className="w-0 h-0 border-l-[16px] border-r-[16px] border-t-[20px] sm:border-l-[10px] sm:border-r-[10px] sm:border-t-[14px] lg:border-l-[6px] lg:border-r-[6px] lg:border-t-[8px] border-l-transparent border-r-transparent border-t-[#0a0a0a] drop-shadow-md -mt-[1px]"></div>
+                 <div className="w-0 h-0 border-l-[14px] border-r-[14px] border-t-[18px] sm:border-l-[10px] sm:border-r-[10px] sm:border-t-[14px] lg:border-l-[6px] lg:border-r-[6px] lg:border-t-[8px] border-l-transparent border-r-transparent border-t-black drop-shadow-md -mt-[2px]"></div>
              </div>
           </div>
 
           {/* Quick Access Text (Right) */}
-          <div className={`absolute -top-24 sm:-top-16 lg:-top-4 left-[calc(50%+199px)] transform -translate-x-1/2 w-80 sm:w-64 lg:w-48 z-[100] pointer-events-none ${isDoorOpen ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500`}>
-             <div className="animate-bounce flex flex-col items-center drop-shadow-[0_5px_10px_rgba(0,0,0,1)] delay-100">
-                 <div className="bg-black/80 backdrop-blur-md px-8 py-6 sm:px-6 sm:py-4 lg:px-3 lg:py-2 rounded-2xl lg:rounded-md border border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.2)] text-center text-3xl sm:text-xl lg:text-xs font-bold text-white uppercase tracking-widest leading-relaxed">
-                    <span>Press the bell</span><br/>
-                    <span>for direct entry</span>
+          <div className={`absolute bottom-24 sm:bottom-28 lg:-top-4 left-[calc(50%+181px)] transform -translate-x-1/2 w-[170px] sm:w-[200px] lg:w-48 z-[100] pointer-events-none ${isDoorOpen ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500`}>
+             <div className="animate-bounce flex flex-col items-center drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] delay-100">
+                 <div className="bg-black px-2 py-4 sm:px-6 sm:py-4 lg:px-3 lg:py-2 rounded-2xl lg:rounded-md border border-gray-600 shadow-[0_0_25px_rgba(0,0,0,1)] text-center text-[22px] leading-[1.1] sm:text-xl lg:text-xs font-black text-white uppercase tracking-tighter sm:tracking-widest">
+                    <span>PRESS THE</span><br/>
+                    <span>BELL</span><br/>
+                    <span>FOR DIRECT</span><br/>
+                    <span>ENTRY</span>
                  </div>
-                 <div className="w-0 h-0 border-l-[16px] border-r-[16px] border-t-[20px] sm:border-l-[10px] sm:border-r-[10px] sm:border-t-[14px] lg:border-l-[6px] lg:border-r-[6px] lg:border-t-[8px] border-l-transparent border-r-transparent border-t-[#0a0a0a] drop-shadow-md -mt-[1px]"></div>
+                 <div className="w-0 h-0 border-l-[14px] border-r-[14px] border-t-[18px] sm:border-l-[10px] sm:border-r-[10px] sm:border-t-[14px] lg:border-l-[6px] lg:border-r-[6px] lg:border-t-[8px] border-l-transparent border-r-transparent border-t-black drop-shadow-md -mt-[2px]"></div>
              </div>
           </div>
 
           {/* Ground Floor Recess / Dark Lobby */}
-          <div className="w-[96%] h-full bg-[#050505] flex justify-between items-center px-10 relative border-t-[4px] border-[#1e1e1e] shadow-[inset_0_20px_30px_rgba(0,0,0,1)] overflow-hidden">
+          <div className="w-[96%] h-full bg-[#050505] flex justify-between items-center px-10 relative border-t-[4px] border-[#1e1e1e] shadow-[inset_0_20px_30px_rgba(0,0,0,1)]">
 
             {/* --- REALISTIC INTERIOR LOBBY (Visible when doors open) --- */}
             <div className="absolute inset-x-0 bottom-0 h-[160px] z-0 flex flex-col items-center justify-end overflow-hidden">
@@ -450,11 +531,11 @@ export default function BuildingAnimation({ onComplete }) {
             {/* Moved outside the Interior Lobby to prevent clipping and stacking context issues with glass doors */}
             <div className={`absolute left-[calc(50%-160px)] bottom-14 w-10 flex flex-col items-center pointer-events-none transition-all ${isReceptionistForward ? `duration-[6000ms] ease-in translate-x-[160px] ${hasReachedDoor ? 'z-40' : 'z-20'}` : 'duration-[6000ms] ease-out translate-x-0 z-0'}`}>
                 {/* Inner div controls vertical movement and scale (moves forward fast to clear desk, then slows down) */}
-                <div className={`origin-bottom transition-all flex flex-col items-center relative ${isReceptionistForward ? 'duration-[6000ms] ease-out scale-[0.8] translate-y-[56px] opacity-100' : 'duration-[6000ms] ease-in scale-[0.45] translate-y-0 opacity-0'}`}>
+                <div className={`origin-bottom transition-all flex flex-col items-center ${isReceptionistForward ? 'duration-[6000ms] ease-out scale-[0.8] translate-y-[56px] opacity-100' : 'duration-[6000ms] ease-in scale-[0.45] translate-y-0 opacity-0'}`}>
                     
-                    {/* Welcome Speech Bubble */}
-                    <div className={`absolute -top-32 sm:-top-24 lg:-top-12 left-14 sm:left-10 lg:left-6 bg-white text-blue-900 text-[40px] sm:text-[24px] lg:text-[10px] font-bold px-8 py-4 sm:px-5 sm:py-2.5 lg:px-3 lg:py-1.5 rounded-t-2xl rounded-br-2xl sm:rounded-t-xl sm:rounded-br-xl rounded-bl-sm shadow-xl whitespace-nowrap border-[3px] sm:border-[1.5px] border-blue-200 transition-all duration-500 origin-bottom-left ${hasReachedDoor ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-50 translate-y-4'}`}>
-                        Welcome!
+                    {/* Welcome Speech Bubble — in-flow above SVG so it never escapes the container */}
+                    <div className={`hidden sm:block relative self-start ml-10 mb-1 bg-white text-blue-900 text-[12px] lg:text-[10px] font-bold px-2 py-1 lg:px-3 lg:py-1.5 rounded-t-xl rounded-br-xl rounded-bl-sm shadow-xl whitespace-nowrap border-[2px] lg:border-[1.5px] border-blue-200 transition-all duration-500 origin-bottom-left z-50 ${hasReachedDoor ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-50 translate-y-2'}`}>
+                        {TEXT_CONTENT.WELCOME_MESSAGE}
                     </div>
 
                     <svg width="40" height="102" viewBox="0 0 40 102" xmlns="http://www.w3.org/2000/svg" className={`drop-shadow-[0_5px_15px_rgba(0,0,0,0.4)] ${(isDoorOpen || isWalkingBack) && !hasReachedDoor ? 'animate-walk-bob' : ''}`}>
@@ -625,7 +706,10 @@ export default function BuildingAnimation({ onComplete }) {
                {/* Large Invisible Clickable Overlay for Mobile */}
                <div 
                  className="absolute inset-0 -m-16 sm:-m-4 lg:m-0 z-50 cursor-pointer" 
-                 onClick={() => { if (onComplete) onComplete(); }}
+                 onClick={() => {
+                   sessionStorage.setItem("animationPlayed", "true");
+                   navigate(ROUTES.NEXT_PAGE);
+                 }}
                ></div>
 
                {/* Doorbell panel */}
@@ -655,22 +739,16 @@ export default function BuildingAnimation({ onComplete }) {
               <div className="w-1/4 h-full relative z-20 bg-gradient-to-br from-blue-100/30 to-blue-500/10 backdrop-blur-md shadow-[inset_0_0_10px_rgba(0,0,0,0.3)]"></div>
             </div>
 
-            {/* Structural Golden Pillars (Only on the sides, leaving the doors completely clear) */}
-            <div className="absolute inset-y-0 left-0 w-40 flex justify-between px-6 z-20">
-              {[...Array(3)].map((_, i) => (
-                <div key={`gpillar-l-${i}`} className="w-4 h-full bg-gradient-to-r from-[#8b754b] via-[#e8ce96] to-[#5c4a2a] shadow-[4px_0_15px_rgba(0,0,0,1)] relative">
-                  <div className="absolute top-0 w-full h-3 bg-black/60"></div>
-                  <div className="absolute bottom-0 w-full h-2 bg-black/40"></div>
-                </div>
-              ))}
+            {/* Structural Golden Pillars (Responsive placement to match specific phone framing) */}
+            <div className="absolute inset-y-0 left-[calc(50%-280px)] sm:left-0 w-[50px] sm:w-40 flex justify-between px-0 sm:px-6 z-20">
+              <div className="w-4 h-full bg-gradient-to-r from-[#8b754b] via-[#e8ce96] to-[#5c4a2a] shadow-[4px_0_15px_rgba(0,0,0,1)] relative"><div className="absolute top-0 w-full h-3 bg-black/60"></div><div className="absolute bottom-0 w-full h-2 bg-black/40"></div></div>
+              <div className="w-4 h-full bg-gradient-to-r from-[#8b754b] via-[#e8ce96] to-[#5c4a2a] shadow-[4px_0_15px_rgba(0,0,0,1)] relative"><div className="absolute top-0 w-full h-3 bg-black/60"></div><div className="absolute bottom-0 w-full h-2 bg-black/40"></div></div>
+              <div className="hidden sm:block w-4 h-full bg-gradient-to-r from-[#8b754b] via-[#e8ce96] to-[#5c4a2a] shadow-[4px_0_15px_rgba(0,0,0,1)] relative"><div className="absolute top-0 w-full h-3 bg-black/60"></div><div className="absolute bottom-0 w-full h-2 bg-black/40"></div></div>
             </div>
-            <div className="absolute inset-y-0 right-0 w-40 flex justify-between px-6 z-20">
-              {[...Array(3)].map((_, i) => (
-                <div key={`gpillar-r-${i}`} className="w-4 h-full bg-gradient-to-r from-[#8b754b] via-[#e8ce96] to-[#5c4a2a] shadow-[4px_0_15px_rgba(0,0,0,1)] relative">
-                  <div className="absolute top-0 w-full h-3 bg-black/60"></div>
-                  <div className="absolute bottom-0 w-full h-2 bg-black/40"></div>
-                </div>
-              ))}
+            <div className="absolute inset-y-0 left-[calc(50%+230px)] sm:left-auto sm:right-0 w-[50px] sm:w-40 flex justify-between px-0 sm:px-6 z-20">
+              <div className="w-4 h-full bg-gradient-to-r from-[#8b754b] via-[#e8ce96] to-[#5c4a2a] shadow-[4px_0_15px_rgba(0,0,0,1)] relative"><div className="absolute top-0 w-full h-3 bg-black/60"></div><div className="absolute bottom-0 w-full h-2 bg-black/40"></div></div>
+              <div className="w-4 h-full bg-gradient-to-r from-[#8b754b] via-[#e8ce96] to-[#5c4a2a] shadow-[4px_0_15px_rgba(0,0,0,1)] relative"><div className="absolute top-0 w-full h-3 bg-black/60"></div><div className="absolute bottom-0 w-full h-2 bg-black/40"></div></div>
+              <div className="hidden sm:block w-4 h-full bg-gradient-to-r from-[#8b754b] via-[#e8ce96] to-[#5c4a2a] shadow-[4px_0_15px_rgba(0,0,0,1)] relative"><div className="absolute top-0 w-full h-3 bg-black/60"></div><div className="absolute bottom-0 w-full h-2 bg-black/40"></div></div>
             </div>
           </div>
 

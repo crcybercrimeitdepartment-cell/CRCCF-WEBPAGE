@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-const logo = "https://res.cloudinary.com/dbwnbfdij/image/upload/v1779516223/Logo_iile24.png";
+const logo = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782471833/Logo_iile24_ormcru.png";
 
 
 const marqueeItems = [

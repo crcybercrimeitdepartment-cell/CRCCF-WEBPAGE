@@ -208,7 +208,7 @@ export default function ReachUsPage() {
 
       {/* Hero Section */}
       <section className="relative h-[45vh] min-h-[350px] flex items-center justify-center text-center overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://res.cloudinary.com/dbwnbfdij/image/upload/v1779403769/contact_lbu4o9.jpg')] bg-cover bg-center brightness-[0.6] z-[1]"></div>
+        <div className="absolute inset-0 bg-[url('https://res.cloudinary.com/dlhmkbijh/image/upload/v1782475374/contact_lbu4o9_mfhdel.jpg')] bg-cover bg-center brightness-[0.6] z-[1]"></div>
         <div className="relative z-[2] max-w-[800px] px-[20px] text-[#ffffff]">
           <motion.h1 
             className="text-[clamp(36px,5vw,64px)] font-[800] mb-[16px] tracking-[-0.02em]"

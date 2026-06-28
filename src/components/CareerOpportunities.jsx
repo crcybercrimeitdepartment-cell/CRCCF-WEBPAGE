@@ -5,32 +5,32 @@ const careerData = [
   {
     title: "Professional Growth & Skill Development",
     content: "At CRCCF, gain practical exposure through structured learning, real-world assignments, and guided experiences designed to strengthen technical, communication, and problem-solving abilities. Develop industry-relevant skills that create long-term professional value and support continuous career growth.",
-    image: "https://res.cloudinary.com/dbwnbfdij/image/upload/v1780406435/career_growth_higvff.jpg"
+    image: "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472746/career_growth_higvff_kwldk6.jpg"
   },
   {
     title: "Experience, Recognition & Achievement",
     content: "Become a part of CRCCF initiatives, collaborate with passionate teams, and showcase your potential through meaningful contributions. Earn recognition, certificates, and growth opportunities that strengthen your professional profile and build lasting credibility.",
-    image: "https://res.cloudinary.com/dbwnbfdij/image/upload/v1780406434/career_achievement_x9ja77.jpg"
+    image: "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472745/career_achievement_x9ja77_nmy71x.jpg"
   },
   {
     title: "Career Exposure & Future Pathways",
     content: "Build your professional journey with CRCCF through mentorship, networking, and growth-oriented opportunities. Gain confidence, develop practical experience, and prepare yourself for future career advancement and leadership opportunities.",
-    image: "https://res.cloudinary.com/dbwnbfdij/image/upload/v1780406441/career_pathways_d6ii9b.jpg"
+    image: "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472745/career_pathways_d6ii9b_qrzhge.jpg"
   },
   {
     title: "Practical Learning & Real Experience",
     content: "At CRCCF, transform knowledge into practical experience through guided activities, collaborative environments, and exposure to meaningful work. Strengthen your capabilities while building confidence for future professional success.",
-    image: "https://res.cloudinary.com/dbwnbfdij/image/upload/v1780406441/career_practical_wpcklw.jpg"
+    image: "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472745/career_practical_wpcklw_rlpphj.jpg"
   },
   {
     title: "Networking & Professional Exposure",
     content: "Expand your horizons with CRCCF by engaging with professionals, mentors, and growth-focused communities. Build valuable connections, gain new perspectives, and unlock opportunities that support long-term career development.",
-    image: "https://res.cloudinary.com/dbwnbfdij/image/upload/v1780406438/career_networking_cpgsta.jpg"
+    image: "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472745/career_networking_cpgsta_ynexdx.jpg"
   },
   {
     title: "Leadership & Career Development",
     content: "Develop leadership qualities, enhance decision-making abilities, and gain experience through impactful participation at CRCCF. Take meaningful steps toward becoming a confident and future-ready professional.",
-    image: "https://res.cloudinary.com/dbwnbfdij/image/upload/v1780406438/career_leadership_irlypr.jpg"
+    image: "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472745/career_leadership_irlypr_b8z9qq.jpg"
   }
 ];
 
