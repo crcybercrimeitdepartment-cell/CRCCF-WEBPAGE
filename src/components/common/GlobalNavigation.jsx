@@ -7,7 +7,7 @@ const GlobalNavigation = () => {
   const location = useLocation();
 
   // Don't show on the home page itself
-  if (location.pathname === '/') {
+  if (location.pathname === '/' || location.pathname === '/homepage') {
     return null;
   }
 
@@ -31,7 +31,7 @@ const GlobalNavigation = () => {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={handleBack}
-        className="pointer-events-auto flex items-center gap-1.5 px-3 py-1.5 rounded-full text-gray-500 hover:text-[#1A56DB] hover:bg-[#EFF6FF] border border-transparent hover:border-[#BFDBFE] transition-all focus:outline-none text-[13px] font-semibold shadow-[0_2px_8px_rgba(0,0,0,0.04)] bg-white/40 backdrop-blur-sm"
+        className="pointer-events-auto flex items-center gap-1.5 px-3 py-1.5 rounded-full text-gray-900 hover:text-[#1A56DB] hover:bg-[#EFF6FF] border border-transparent hover:border-[#BFDBFE] transition-all focus:outline-none text-[13px] font-semibold shadow-[0_2px_8px_rgba(0,0,0,0.04)] bg-white/40 backdrop-blur-sm"
         aria-label="Go Back"
       >
         <ArrowLeft className="w-3.5 h-3.5" />
@@ -42,7 +42,7 @@ const GlobalNavigation = () => {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={handleHome}
-        className="pointer-events-auto flex items-center gap-1.5 px-3 py-1.5 rounded-full text-gray-500 hover:text-[#1A56DB] hover:bg-[#EFF6FF] border border-transparent hover:border-[#BFDBFE] transition-all focus:outline-none text-[13px] font-semibold shadow-[0_2px_8px_rgba(0,0,0,0.04)] bg-white/40 backdrop-blur-sm"
+        className="pointer-events-auto flex items-center gap-1.5 px-3 py-1.5 rounded-full text-gray-900 hover:text-[#1A56DB] hover:bg-[#EFF6FF] border border-transparent hover:border-[#BFDBFE] transition-all focus:outline-none text-[13px] font-semibold shadow-[0_2px_8px_rgba(0,0,0,0.04)] bg-white/40 backdrop-blur-sm"
         aria-label="Back to Home"
       >
         <Home className="w-3.5 h-3.5" />

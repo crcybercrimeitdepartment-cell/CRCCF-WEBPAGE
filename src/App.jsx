@@ -45,7 +45,6 @@ const ProjectsPortfolio  = lazy(() => import('./components/ProjectsPortfolio'))
 const InternshipPrograms = lazy(() => import('./components/InternshipPrograms'))
 const StatsBar           = lazy(() => import('./components/StatsBar'))
 const Testimonials       = lazy(() => import('./components/Testimonials'))
-const Insights           = lazy(() => import('./components/Insights'))
 const CareerOpportunities= lazy(() => import('./components/CareerOpportunities'))
 const WhyChooseUs        = lazy(() => import('./components/WhyChooseUs'))
 const Activities         = lazy(() => import('./components/Activities'))
@@ -96,7 +95,7 @@ const PartnershipCollaboration = lazy(() => import('./pages/AboutUs/PartnershipC
 const History                  = lazy(() => import('./pages/AboutUs/History'))
 
 // ─── LAZY: Report ────────────────────────────────────────────────────────────
-const ReportCrime        = lazy(() => import('./pages/report/ReportCrime'))
+const ReportCrimePage    = lazy(() => import('./pages/report/ReportCrimePage'))
 const ReportComingSoon   = lazy(() => import('./pages/report/ReportComingSoon'))
 
 // ─── LAZY: Skill Development ─────────────────────────────────────────────────
@@ -239,7 +238,7 @@ function AppRoutes() {
             <Route path="/insights" element={<><SEO title="Insights" description="Read our latest insights, articles, and research on cyber security, digital safety, and cyber crime prevention." /><InsightsPage /></>} />
             <Route path="/software-products" element={<><SEO title="Software Products" description="Explore our advanced software products and IT solutions designed for robust cyber security and digital infrastructure." /><SoftwareComingSoon /></>} />
             <Route path="/services/*" element={<><SEO title="Our Services" description="Comprehensive cyber security, digital marketing, IT support, and legal services offered by CRCCF." /><ServiceRouter /></>} />
-            <Route path="/report-crime" element={<><SEO title="Report Cyber Crime" description="Report cyber crime incidents securely. Get assistance with FIR filing, digital evidence collection, and legal support." /><ReportCrime /></>} />
+            <Route path="/report-crime" element={<><SEO title="Report Cyber Crime" description="Report cyber crime incidents securely. Get assistance with FIR filing, digital evidence collection, and legal support." /><ReportCrimePage /></>} />
 
             {/* Dynamic report coming soon pages */}
             {reportCards.map((card) => (
