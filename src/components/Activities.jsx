@@ -6,6 +6,7 @@ import {
   FaCode,
   FaBullhorn,
 } from "react-icons/fa";
+import SectionHeading from "./common/SectionHeading";
 
 export default function Activities() {
   const items = [
@@ -32,36 +33,15 @@ export default function Activities() {
   ];
 
   return (
-    <section className="pt-12 pb-20 lg:pt-16 lg:pb-24 bg-white font-sans overflow-hidden">
+    <section className="section-padding lg: lg: bg-white font-sans overflow-hidden">
       <div className="max-w-[1280px] mx-auto px-6 md:px-12">
         {/* --- HEADER --- */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          viewport={{ once: true, margin: "-50px" }}
-          className="text-center mb-12 md:mb-16" // Reduced margin to pull grid closer
-        >
-          {/* Pill Badge */}
-          <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-[#EFF6FF] border border-[#DBEAFE] mb-4 shadow-sm">
-            <FaBullhorn className="text-[#3B82F6] text-xs" />
-            <span className="text-[#2563EB] font-bold tracking-[0.1em] text-[11px] uppercase">
-              Activities
-            </span>
-          </div>
-
-          {/* Main Heading */}
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#0F172A] leading-tight mb-4">
-            Our <span className="text-[#3B82F6]">Activities</span>
-          </h2>
-
-          {/* Description */}
-          <p className="text-[#64748B] text-base md:text-lg leading-relaxed max-w-3xl mx-auto font-medium">
-            Our Ongoing Initiatives <br />
-            Promoting digital safety, innovation, and knowledge-sharing across
-            communities
-          </p>
-        </motion.div>
+        <SectionHeading 
+          subtitle="Our Programs" 
+          title="Our Activities" 
+          highlightWord="Activities" 
+          description="Our Ongoing Initiatives — Promoting digital safety, innovation, and knowledge-sharing across communities" 
+        />
 
         {/* --- GRID CARDS WITH AUTOMATIC ATTENTION ANIMATION --- */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12 md:gap-y-14">

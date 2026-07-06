@@ -1,7 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, Menu, X, Bell, Search } from 'lucide-react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { 
+  FiHome, 
+  FiInfo, 
+  FiLayers, 
+  FiMonitor, 
+  FiBookOpen, 
+  FiUsers, 
+  FiPieChart, 
+  FiPhone 
+} from 'react-icons/fi';
 import Fuse from 'fuse.js'
 import { searchableData } from '../data/global/searchData'
 import SearchDropdown from './Search/SearchDropdown'
@@ -28,12 +38,38 @@ export default function Navbar() {
   const [searchResults, setSearchResults] = useState([])
   const [selectedIndex, setSelectedIndex] = useState(0)
 
-  const fuse = new Fuse(searchableData, {
-    keys: ['title', 'description', 'tags', 'category'],
-    threshold: 0.35,
-    distance: 100,
-    includeMatches: true
-  })
+  // Search Optimization Refs
+  const searchTimeoutRef = useRef(null)
+  const fuseInstanceRef = useRef(null)
+
+  // Lazy-load and precompute the search index only when the search is opened
+  useEffect(() => {
+    if (searchOpen && !fuseInstanceRef.current) {
+      // Precompute search string for O(1) string joining during search
+      const processedData = searchableData.map(item => ({
+        ...item,
+        precomputedStr: [
+          item.title || "",
+          (item.aliases || []).join(" "),
+          (item.tags || []).join(" "),
+          (item.relatedTerms || []).join(" "),
+          item.description || ""
+        ].join(" ").toLowerCase()
+      }));
+
+      // Initialize Intelligent Ranking with weights
+      fuseInstanceRef.current = new Fuse(processedData, {
+        keys: [
+          { name: 'title', weight: 2.0 },
+          { name: 'precomputedStr', weight: 1.0 }
+        ],
+        threshold: 0.35,
+        distance: 100,
+        includeMatches: true
+      });
+    }
+  }, [searchOpen]);
+
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -74,6 +110,18 @@ export default function Navbar() {
   useEffect(() => {
     if (searchOpen && notifOpen) setNotifOpen(false);
   }, [searchOpen, notifOpen]);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileOpen]);
   const go = (href) => {
     setMobileOpen(false)
     if (href.startsWith('/#')) {
@@ -127,14 +175,25 @@ export default function Navbar() {
   }
 
   const handleSearchChange = (e) => {
-    const q = e.target.value
-    setSearchQuery(q)
+    const q = e.target.value;
+    setSearchQuery(q);
+
+    // Debounce search to prevent lag
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+
     if (q.trim()) {
-      const results = fuse.search(q)
-      setSearchResults(results)
-      setSelectedIndex(0)
+      searchTimeoutRef.current = setTimeout(() => {
+        if (fuseInstanceRef.current) {
+          // Limit results to top 15 for massive rendering speedup
+          const results = fuseInstanceRef.current.search(q, { limit: 15 });
+          setSearchResults(results);
+          setSelectedIndex(0);
+        }
+      }, 250); // 250ms debounce
     } else {
-      setSearchResults([])
+      setSearchResults([]);
     }
   }
 
@@ -181,7 +240,7 @@ export default function Navbar() {
           </a>
 
           {/* ── DESKTOP LINKS ── */}
-          <nav className="flex flex-1 items-center gap-[2px] xl:gap-[6px] max-[1100px]:hidden">
+          <nav className="flex flex-1 items-center justify-center gap-[2px] xl:gap-[4px] 2xl:gap-[6px] max-[1100px]:hidden">
             {navLinks.map(link => {
               const active = link.href.startsWith('/#') 
                 ? (location.pathname === '/' && (location.hash === link.href.replace('/', '') || (link.href === '/#home' && !location.hash)))
@@ -195,10 +254,10 @@ export default function Navbar() {
                   onMouseLeave={() => setOpenDd(null)}
                 >
                   <a
-                    className={`inline-flex cursor-pointer items-center gap-[4px] p-[8px_10px] xl:p-[8px_14px] text-[13px] xl:text-[14px] font-[600] rounded-[6px] whitespace-nowrap transition-all duration-170 no-underline ${
+                    className={`group relative inline-flex cursor-pointer items-center gap-[4px] p-[8px_10px] 2xl:p-[8px_14px] text-[13px] 2xl:text-[14px] font-[600] whitespace-nowrap transition-colors duration-300 no-underline ${
                       active 
-                        ? 'text-[#fff] bg-[#1A56DB] shadow-[0_4px_12px_rgba(26,86,219,0.2)]' 
-                        : 'text-[rgba(255,255,255,0.85)] hover:text-[#fff] hover:bg-[rgba(255,255,255,0.08)]'
+                        ? 'text-cyan-400' 
+                        : 'text-white hover:text-cyan-400'
                     }`}
                     href={link.href}
                     onClick={e => { e.preventDefault(); !link.children && go(link.href) }}
@@ -209,6 +268,7 @@ export default function Navbar() {
                         className={`transition-transform duration-200 opacity-[0.65] ${openDd === link.label ? 'rotate-180' : ''}`}
                       />
                     )}
+                    <span className={`absolute left-[10px] 2xl:left-[14px] bottom-[4px] h-[2px] bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.6)] transition-all duration-300 ${active ? 'w-[calc(100%-20px)] 2xl:w-[calc(100%-28px)]' : 'w-0 group-hover:w-[calc(100%-20px)] 2xl:group-hover:w-[calc(100%-28px)]'}`}></span>
                   </a>
 
                   {link.children && (
@@ -235,7 +295,7 @@ export default function Navbar() {
           </nav>
 
           {/* ── RIGHT ── */}
-          <div className="flex shrink-0 items-center gap-[8px] xl:gap-[14px] ml-auto">
+          <div className="flex shrink-0 min-w-fit items-center gap-[8px] xl:gap-[14px] ml-auto">
 
             {/* SEARCH */}
             <div className="nav-search-zone relative flex items-center">
@@ -311,7 +371,7 @@ export default function Navbar() {
             </div>
 
             <button
-              className="inline-flex items-center justify-center bg-[#E02424] text-white font-['Inter',sans-serif] text-[13px] font-[800] h-[34px] px-[16px] rounded-[6px] border-none cursor-pointer whitespace-nowrap transition-all duration-180 hover:bg-[#C01C1C] hover:-translate-y-[1px] hover:shadow-[0_4px_12px_rgba(224,36,36,0.25)] max-[1100px]:hidden sm:flex max-[520px]:hidden"
+              className="inline-flex shrink-0 min-w-fit items-center justify-center bg-[#E02424] text-white font-['Inter',sans-serif] text-[13px] font-[800] h-[34px] px-[16px] rounded-[6px] border-none cursor-pointer whitespace-nowrap transition-all duration-180 hover:bg-[#C01C1C] hover:-translate-y-[1px] hover:shadow-[0_4px_12px_rgba(224,36,36,0.25)] max-[1100px]:hidden sm:flex max-[520px]:hidden"
               onClick={() => go('/report-crime')}
             >
               Report Crime
@@ -332,93 +392,82 @@ export default function Navbar() {
       {/* ── MOBILE DRAWER ── */}
       <AnimatePresence>
         {mobileOpen && (
-          <>
+          <div className="fixed inset-0 z-[9000] flex justify-end">
             <motion.div
-              className="fixed inset-0 bg-[rgba(0,0,0,0.50)] z-[8000] backdrop-blur-[2px]"
+              className="absolute inset-0 bg-[rgba(0,0,0,0.50)] backdrop-blur-[2px]"
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               onClick={() => setMobileOpen(false)}
             />
+            
             <motion.div
-              className="fixed top-0 right-0 bottom-0 w-[min(320px,92vw)] bg-[#fff] z-[9000] flex flex-col shadow-[-16px_0_60px_rgba(0,0,0,0.22)]"
+              className="w-full max-w-[390px] h-full bg-glass-gradient backdrop-blur-xl border-l border-white/20 p-[20px] pb-[16px] flex flex-col shadow-glass overflow-y-auto overflow-x-hidden relative z-10 scrollbar-hide bg-[#0b0f1c]"
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'tween', duration: 0.28 }}
             >
-              <div className="flex items-center justify-between p-[14px_18px] bg-[#0C1A3A] border-b border-b-[rgba(255,255,255,0.08)]">
-                <img src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782471833/Logo_iile24_ormcru.png" alt="CRCCF" className="h-[40px] w-[40px] object-contain" />
-                <button className="bg-[rgba(255,255,255,0.10)] border-none text-[#fff] cursor-pointer w-[32px] h-[32px] rounded-[6px] flex items-center justify-center transition-all duration-150 hover:bg-[rgba(255,255,255,0.20)]" onClick={() => setMobileOpen(false)}>
-                  <X size={20} />
+              {/* Background Blobs inside drawer */}
+              <div className="absolute -top-[5%] left-[25%] w-[350px] h-[350px] bg-[#00eaff59] rounded-full blur-[80px] z-0 animate-blob-float-1 pointer-events-none"></div>
+              <div className="absolute bottom-[5%] right-[15%] w-[400px] h-[400px] bg-[#0046ff40] rounded-full blur-[100px] z-0 animate-blob-float-2 pointer-events-none"></div>
+              
+              {/* Header */}
+              <div className="flex justify-between items-center mb-3 pb-3 border-b border-white/15 opacity-0 animate-fade-up-sidebar [animation-delay:200ms] relative z-10">
+                <div className="flex items-center justify-center drop-shadow-[0_0_8px_rgba(212,175,55,0.3)] animate-logo-glow">
+                  <img src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782471833/Logo_iile24_ormcru.png" alt="CRCCF" className="h-[46px] w-[46px] object-contain rounded-full" />
+                </div>
+                <button 
+                  className="bg-white/10 border border-white/15 text-white w-9 h-9 rounded-lg flex justify-center items-center cursor-pointer transition-all duration-200 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:bg-white/20 hover:scale-105 hover:rotate-90"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
                 </button>
               </div>
 
-              <nav className="flex-1 overflow-y-auto p-[8px_12px]">
-                {navLinks.map(link => {
-                  const active = link.href.startsWith('/#') 
-                    ? (location.pathname === '/' && (location.hash === link.href.replace('/', '') || (link.href === '/#home' && !location.hash)))
-                    : location.pathname.startsWith(link.href);
-
+              {/* Menu List */}
+              <div className="flex flex-col gap-[2px] flex-1 relative z-10">
+                {[
+                  { text: 'Home', href: '/#home', icon: FiHome, color: '#00eaff' },
+                  { text: 'About Us', href: '/about', icon: FiInfo, color: '#ffd700' },
+                  { text: 'Our Services', href: '/services', icon: FiLayers, color: '#ff7eb3' },
+                  { text: 'Software Products', href: '/software-products', icon: FiMonitor, color: '#7afcff' },
+                  { text: 'Skill Development', href: '/skill-development', icon: FiBookOpen, color: '#00ffcc' },
+                  { text: 'Careers', href: '/careers', icon: FiUsers, color: '#ffb347' },
+                  { text: 'Insights', href: '/insights', icon: FiPieChart, color: '#b57aff' },
+                  { text: 'Contact', href: '/contact', icon: FiPhone, color: '#ff6b6b' }
+                ].map((item, index) => {
+                  const Icon = item.icon;
                   return (
-                    <div key={link.label}>
-                      <div
-                        className={`flex items-center justify-between p-[12px_14px] text-[14px] font-[600] cursor-pointer rounded-[8px] transition-all duration-150 ${
-                          active 
-                            ? 'bg-[#1A56DB] text-[#fff] shadow-[0_4px_12px_rgba(26,86,219,0.2)]' 
-                            : 'text-[#374151] hover:bg-[#EFF6FF] hover:text-[#1A56DB]'
-                        }`}
-                        onClick={() => {
-                          if (link.children) setMobileExp(v => v === link.label ? null : link.label)
-                          else go(link.href)
-                        }}
-                      >
-                        {link.label}
-                        {link.children && (
-                          <ChevronDown size={14}
-                            className={`transition-transform duration-200 opacity-[0.65] ${mobileExp === link.label ? 'rotate-180' : ''}`}
-                          />
-                        )}
-                      </div>
-                      <AnimatePresence>
-                        {link.children && mobileExp === link.label && (
-                          <motion.div
-                            className="overflow-hidden pl-[14px]"
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: 'auto', opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.2 }}
-                          >
-                            {link.children.map(c => {
-                              const childActive = location.hash === c.href.replace('/', '');
-                              return (
-                                <div key={c.label} 
-                                  className={`p-[9px_14px] text-[13.5px] cursor-pointer rounded-[7px] font-[500] transition-all duration-150 ${
-                                    childActive 
-                                      ? 'bg-[#EFF6FF] text-[#1A56DB] font-[700]' 
-                                      : 'text-[#6B7280] hover:bg-[#EFF6FF] hover:text-[#1A56DB]'
-                                  }`}
-                                  onClick={() => go(c.href)}>
-                                  {c.label}
-                                </div>
-                              );
-                            })}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
+                    <div 
+                      className="group flex items-center py-[10px] px-3 text-white/85 cursor-pointer transition-all duration-300 rounded-xl opacity-0 animate-staggered-entry hover:bg-white/15 hover:text-white hover:translate-x-2 hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)]" 
+                      key={item.text}
+                      style={{ 
+                        '--animation-order': index, 
+                        '--icon-color': item.color,
+                        animationDelay: `calc(${index} * 0.1s + 0.3s)` 
+                      }}
+                      onClick={() => go(item.href)}
+                    >
+                      <Icon className="text-xl mr-4 opacity-90 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-hover:drop-shadow-[0_0_8px_var(--icon-color)]" style={{ color: 'var(--icon-color, #fff)' }} />
+                      <span className="font-medium text-base tracking-wide">{item.text}</span>
                     </div>
                   );
                 })}
-              </nav>
+              </div>
 
-              <div className="p-[16px_18px] border-t border-t-[#F3F4F6]">
-                <button
-                  className="inline-flex items-center gap-[7px] bg-[#E02424] text-[#fff] font-['Inter',sans-serif] text-[13px] font-[700] p-[9px_20px] rounded-[6px] border-none cursor-pointer whitespace-nowrap transition-all duration-180 tracking-[0.02em] hover:bg-[#C01C1C] hover:-translate-y-[1px] hover:shadow-[0_6px_18px_rgba(224,36,36,0.35)] w-full justify-center"
+              {/* Footer */}
+              <div className="mt-4 opacity-0 animate-fade-up-sidebar [animation-delay:1000ms] relative z-10">
+                <button 
+                  className="w-full bg-report-gradient text-white border border-white/10 p-[12px] rounded-xl text-base font-semibold tracking-wide cursor-pointer shadow-report transition-all duration-300 hover:-translate-y-[3px] hover:scale-[1.02] hover:shadow-report-hover hover:bg-report-hover active:scale-95"
                   onClick={() => go('/report-crime')}
                 >
                   Report Crime
                 </button>
               </div>
             </motion.div>
-          </>
+          </div>
         )}
       </AnimatePresence>
     </>

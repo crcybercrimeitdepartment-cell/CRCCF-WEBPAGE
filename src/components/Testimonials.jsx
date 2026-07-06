@@ -244,7 +244,7 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-slate-50 relative overflow-hidden min-h-[850px] flex flex-col justify-center">
+    <section className="section-padding bg-slate-50 relative overflow-hidden min-h-[850px] flex flex-col justify-center">
       {/* ================= NAVY HALF-CIRCLE BACKGROUND ================= */}
       <div
         className="absolute left-0 top-1/2 -translate-y-1/2 w-[35%] h-[90%] rounded-r-[250px] pointer-events-none hidden md:block"

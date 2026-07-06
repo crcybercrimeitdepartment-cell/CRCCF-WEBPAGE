@@ -71,7 +71,7 @@ function InternshipCard({ internship }) {
   return (
     <div
       className="group relative w-full whiteboard-card flex items-center gap-3 sm:gap-4 p-3.5 sm:p-4 cursor-pointer text-slate-800 animate-fade-in hover:border-blue-200/50"
-      onClick={() => navigate(`/internship/${id}`)}
+      onClick={() => navigate(`/skill-development/${id}`)}
     >
       <div className="w-11 h-11 sm:w-13 sm:h-13 flex-shrink-0 flex items-center justify-center rounded-xl sm:rounded-2xl neumorphic-icon-container p-2 sm:p-2.5 transition-transform duration-500 group-hover:scale-105 select-none">
         <div

@@ -1,0 +1,4057 @@
+.building-transition {
+  --bt-deep: #020617;
+  --bt-navy: #071a34;
+  --bt-blue: #2563eb;
+  --bt-cyan: #60a5fa;
+
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+
+  display: grid;
+  place-items: center;
+
+  isolation: isolate;
+  color: #ffffff;
+
+  background:
+    radial-gradient(
+      circle at 50% 38%,
+      rgba(37, 99, 235, 0.22),
+      transparent 31%
+    ),
+    linear-gradient(
+      180deg,
+      #071427 0%,
+      #020617 68%,
+      #01040b 100%
+    );
+
+  animation: btFadeIn 420ms ease-out both;
+}
+
+/* Top controls */
+
+.building-transition__controls {
+  position: absolute;
+  top: max(18px, env(safe-area-inset-top));
+  right: max(18px, env(safe-area-inset-right));
+  z-index: 80;
+
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.building-transition__control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  min-height: 38px;
+  padding: 9px 13px;
+
+  border: 1px solid rgba(255, 255, 255, 0.17);
+  border-radius: 999px;
+
+  background: rgba(2, 6, 23, 0.7);
+  color: rgba(255, 255, 255, 0.86);
+
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+
+  backdrop-filter: blur(14px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+
+  cursor: pointer;
+
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    background 180ms ease;
+}
+
+.building-transition__control:hover,
+.building-transition__control:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(96, 165, 250, 0.72);
+  background: rgba(15, 23, 42, 0.9);
+  color: #ffffff;
+  outline: none;
+}
+
+/* Atmosphere */
+
+.building-transition__atmosphere,
+.building-transition__particles,
+.building-transition__vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.building-transition__particles {
+  opacity: 0.22;
+
+  background-image:
+    radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.72) 0 1px,
+      transparent 1.5px
+    ),
+    radial-gradient(
+      circle,
+      rgba(96, 165, 250, 0.8) 0 1px,
+      transparent 1.5px
+    );
+
+  background-position: 0 0, 28px 36px;
+  background-size: 72px 72px, 96px 96px;
+
+  mask-image:
+    linear-gradient(to bottom, #000000, transparent 72%);
+
+  animation: btParticles 18s linear infinite;
+}
+
+.building-transition__vignette {
+  z-index: 2;
+
+  background:
+    radial-gradient(
+      circle at 50% 56%,
+      transparent 45%,
+      rgba(0, 0, 0, 0.34) 100%
+    );
+}
+
+.building-transition__light-beam {
+  position: absolute;
+  top: -24%;
+
+  width: 18vw;
+  height: 115vh;
+
+  opacity: 0.12;
+  filter: blur(7px);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(96, 165, 250, 0.55),
+      transparent 78%
+    );
+
+  transform-origin: top;
+}
+
+.building-transition__light-beam--left {
+  left: 13%;
+  transform: rotate(-18deg);
+}
+
+.building-transition__light-beam--right {
+  right: 13%;
+  transform: rotate(18deg);
+}
+
+/* Camera */
+
+.building-transition__camera {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  perspective: 1700px;
+  transform-origin: 50% 76%;
+
+  will-change: transform, filter;
+
+  animation:
+    btApproach
+    850ms
+    cubic-bezier(0.2, 0.76, 0.25, 1)
+    both;
+}
+
+.building-transition--waiting .building-transition__camera {
+  transform: scale(1.22) translateY(5.5%);
+
+  transition:
+    transform
+    750ms
+    cubic-bezier(0.2, 0.76, 0.25, 1);
+}
+
+.building-transition--ringing .building-transition__camera,
+.building-transition--verifying .building-transition__camera {
+  transform: scale(1.25) translateY(6%);
+  transition: transform 500ms ease;
+}
+
+.building-transition--granted .building-transition__camera,
+.building-transition--opening .building-transition__camera,
+.building-transition--open .building-transition__camera {
+  transform: scale(1.3) translateY(7%);
+
+  transition:
+    transform
+    700ms
+    cubic-bezier(0.2, 0.76, 0.25, 1);
+}
+
+.building-transition--entering .building-transition__camera,
+.building-transition--exiting .building-transition__camera {
+  transform: scale(2.58) translateY(12%);
+  filter: blur(0.55px);
+
+  transition:
+    transform
+    650ms
+    cubic-bezier(0.62, 0, 0.88, 0.38),
+    filter 500ms ease;
+}
+
+/* Building */
+
+.hq-building {
+  position: relative;
+
+  width: min(1120px, 94vw);
+  height: min(720px, 88vh);
+  min-height: 500px;
+
+  transform: rotateX(1.5deg);
+  transform-origin: bottom;
+
+  filter:
+    drop-shadow(
+      0 40px 70px rgba(0, 0, 0, 0.65)
+    );
+}
+
+.hq-building::before,
+.hq-building::after {
+  content: "";
+
+  position: absolute;
+  top: 18%;
+  bottom: 12%;
+
+  width: 18%;
+  z-index: -1;
+
+  border: 1px solid rgba(148, 163, 184, 0.14);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.08),
+      transparent
+    ),
+    linear-gradient(180deg, #101f33, #07111e);
+}
+
+.hq-building::before {
+  left: -8%;
+  transform: skewY(5deg);
+}
+
+.hq-building::after {
+  right: -8%;
+  transform: skewY(-5deg) scaleX(-1);
+}
+
+.hq-building__roof-line {
+  position: absolute;
+  top: 8%;
+  left: 5%;
+  right: 5%;
+
+  height: 2.3%;
+
+  border-radius: 4px 4px 0 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      #334155,
+      #94a3b8 48%,
+      #334155
+    );
+
+  box-shadow:
+    0 -8px 28px rgba(96, 165, 250, 0.1);
+}
+
+/* Company sign */
+
+.hq-building__upper-sign {
+  position: absolute;
+  top: 10.3%;
+  left: 50%;
+  z-index: 8;
+
+  width: min(570px, 72%);
+  min-height: 72px;
+
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+
+  padding: 12px 25px;
+
+  border: 1px solid rgba(96, 165, 250, 0.42);
+  border-top: 0;
+  border-radius: 0 0 15px 15px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(15, 23, 42, 0.98),
+      rgba(2, 6, 23, 0.96)
+    );
+
+  box-shadow:
+    0 17px 40px rgba(0, 0, 0, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.08),
+    0 0 30px rgba(37, 99, 235, 0.16);
+}
+
+.hq-building__emblem {
+  display: grid;
+  place-items: center;
+
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+
+  border: 1px solid rgba(147, 197, 253, 0.24);
+  border-radius: 12px;
+
+  color: #93c5fd;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(37, 99, 235, 0.35),
+      rgba(15, 23, 42, 0.8)
+    );
+
+  box-shadow:
+    0 0 25px rgba(59, 130, 246, 0.24);
+}
+
+.hq-building__brand-copy {
+  min-width: 0;
+  text-align: left;
+}
+
+.hq-building__brand-copy strong,
+.hq-building__brand-copy span {
+  display: block;
+}
+
+.hq-building__brand-copy strong {
+  overflow: hidden;
+
+  color: #f8fafc;
+
+  font-size: clamp(12px, 1.55vw, 21px);
+  font-weight: 900;
+  letter-spacing: 0.13em;
+  line-height: 1.2;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  text-shadow:
+    0 0 18px rgba(255, 255, 255, 0.18);
+}
+
+.hq-building__brand-copy span {
+  margin-top: 5px;
+
+  color: #93c5fd;
+
+  font-size: clamp(9px, 1vw, 12px);
+  font-weight: 800;
+  letter-spacing: 0.18em;
+
+  text-transform: uppercase;
+}
+
+/* Floors */
+
+.hq-building__floor {
+  position: absolute;
+  left: 3%;
+  right: 3%;
+
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+
+  gap: clamp(6px, 0.9vw, 13px);
+
+  padding:
+    clamp(13px, 1.5vw, 20px)
+    clamp(16px, 2vw, 27px);
+
+  border: 1px solid rgba(148, 163, 184, 0.15);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.035),
+      transparent
+    ),
+    linear-gradient(
+      90deg,
+      #111f33,
+      #0a1628 48%,
+      #111f33
+    );
+
+  box-shadow:
+    inset 0 -12px 30px rgba(0, 0, 0, 0.26);
+}
+
+.hq-building__floor--top {
+  top: 20%;
+  height: 18%;
+}
+
+.hq-building__floor--middle {
+  top: 38.3%;
+  height: 18%;
+}
+
+.hq-window {
+  position: relative;
+  overflow: hidden;
+
+  border: 2px solid #24364d;
+  border-radius: 3px;
+
+  background:
+    linear-gradient(
+      112deg,
+      transparent 23%,
+      rgba(255, 255, 255, 0.14) 25%,
+      transparent 28%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(96, 165, 250, 0.2),
+      rgba(15, 23, 42, 0.78)
+    );
+
+  box-shadow:
+    inset 0 0 20px rgba(2, 6, 23, 0.7),
+    0 0 13px rgba(59, 130, 246, 0.05);
+}
+
+.hq-window:nth-child(3n + 1),
+.hq-window:nth-child(5) {
+  background:
+    linear-gradient(
+      112deg,
+      transparent 23%,
+      rgba(255, 255, 255, 0.15) 25%,
+      transparent 28%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(254, 240, 138, 0.16),
+      rgba(15, 23, 42, 0.74)
+    );
+}
+
+/* Ground floor */
+
+.hq-building__ground-floor {
+  position: absolute;
+  left: 1%;
+  right: 1%;
+  top: 56.5%;
+  bottom: 7%;
+
+  display: grid;
+  grid-template-columns: 1fr minmax(300px, 38%) 1fr;
+
+  border: 1px solid rgba(148, 163, 184, 0.16);
+
+  background:
+    linear-gradient(
+      90deg,
+      #0b1728,
+      #13243a 50%,
+      #0b1728
+    );
+
+  box-shadow:
+    inset 0 14px 35px rgba(0, 0, 0, 0.32);
+}
+
+.hq-building__wing {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: clamp(6px, 1vw, 14px);
+
+  align-items: stretch;
+  padding: 9% 7% 7%;
+}
+
+.hq-building__wing-window {
+  border: 2px solid #283b52;
+
+  background:
+    linear-gradient(
+      120deg,
+      transparent 28%,
+      rgba(255, 255, 255, 0.11) 30%,
+      transparent 33%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(59, 130, 246, 0.14),
+      rgba(2, 6, 23, 0.74)
+    );
+
+  box-shadow:
+    inset 0 0 25px rgba(0, 0, 0, 0.65);
+}
+
+/* Entrance */
+
+.hq-entrance {
+  position: relative;
+  z-index: 5;
+
+  margin-top: -4%;
+
+  border-left: 1px solid rgba(148, 163, 184, 0.23);
+  border-right: 1px solid rgba(148, 163, 184, 0.23);
+
+  background:
+    linear-gradient(180deg, #17283d, #081423);
+
+  box-shadow:
+    0 0 36px rgba(0, 0, 0, 0.45);
+}
+
+.hq-entrance__canopy {
+  position: absolute;
+  top: -8%;
+  left: -13%;
+  right: -13%;
+
+  height: 13%;
+
+  transform:
+    perspective(350px)
+    rotateX(15deg);
+
+  border: 1px solid rgba(148, 163, 184, 0.35);
+
+  background:
+    linear-gradient(180deg, #334155, #0f172a);
+
+  box-shadow:
+    0 17px 26px rgba(0, 0, 0, 0.55);
+}
+
+.hq-entrance__canopy span {
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  bottom: 16%;
+
+  height: 18%;
+
+  border-radius: 999px;
+  opacity: 0.76;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #93c5fd,
+      transparent
+    );
+
+  box-shadow:
+    0 0 19px rgba(96, 165, 250, 0.6);
+}
+
+.hq-entrance__branch-display {
+  position: absolute;
+  top: 4.5%;
+  left: 10%;
+  right: 10%;
+  z-index: 7;
+
+  padding: 7px 10px;
+
+  text-align: center;
+
+  border: 1px solid rgba(96, 165, 250, 0.26);
+  border-radius: 7px;
+
+  background: rgba(2, 6, 23, 0.82);
+
+  box-shadow:
+    0 0 20px rgba(37, 99, 235, 0.12);
+}
+
+.hq-entrance__branch-display span,
+.hq-entrance__branch-display strong {
+  display: block;
+}
+
+.hq-entrance__branch-display span {
+  color: #64748b;
+
+  font-size: clamp(6px, 0.65vw, 9px);
+  font-weight: 800;
+  letter-spacing: 0.23em;
+}
+
+.hq-entrance__branch-display strong {
+  margin-top: 2px;
+
+  color: #dbeafe;
+
+  font-size: clamp(8px, 0.9vw, 12px);
+  letter-spacing: 0.12em;
+}
+
+/* Columns */
+
+.hq-entrance__columns {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hq-column {
+  position: absolute;
+  top: 0;
+  bottom: -2%;
+
+  width: 7%;
+
+  background:
+    linear-gradient(
+      90deg,
+      #0f172a,
+      #64748b 48%,
+      #172033
+    );
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.hq-column::before,
+.hq-column::after {
+  content: "";
+
+  position: absolute;
+  left: -20%;
+  right: -20%;
+
+  height: 5%;
+
+  border: 1px solid #64748b;
+  background: #475569;
+}
+
+.hq-column::before {
+  top: 0;
+}
+
+.hq-column::after {
+  bottom: 0;
+}
+
+.hq-column--left {
+  left: 2.5%;
+}
+
+.hq-column--right {
+  right: 2.5%;
+}
+
+/* Door frame and lobby */
+
+.hq-entrance__door-frame {
+  position: absolute;
+  left: 14%;
+  right: 14%;
+  top: 24%;
+  bottom: 8%;
+
+  overflow: hidden;
+
+  border:
+    clamp(5px, 0.7vw, 9px)
+    solid
+    #1f334b;
+
+  border-bottom-width:
+    clamp(7px, 0.9vw, 11px);
+
+  background: #0f172a;
+
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.55),
+    inset 0 0 30px rgba(0, 0, 0, 0.28),
+    0 0 22px rgba(96, 165, 250, 0.1);
+}
+
+.hq-door-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+
+  height: 5%;
+
+  background:
+    linear-gradient(
+      180deg,
+      #64748b,
+      #1e293b 68%,
+      #0f172a
+    );
+
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.35);
+}
+
+.hq-lobby {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.18),
+      transparent 38%,
+      rgba(255, 255, 255, 0.14)
+    ),
+    linear-gradient(
+      180deg,
+      #c7d9ed 0%,
+      #a8c4df 27%,
+      #cbd5e1 28%,
+      #64748b 100%
+    );
+
+  filter:
+    brightness(0.42)
+    saturate(0.72)
+    blur(1.3px);
+
+  transition: filter 1100ms ease;
+}
+
+.building-transition--granted .hq-lobby {
+  filter:
+    brightness(0.58)
+    saturate(0.8)
+    blur(0.8px);
+}
+
+.building-transition--opening .hq-lobby,
+.building-transition--open .hq-lobby,
+.building-transition--entering .hq-lobby,
+.building-transition--exiting .hq-lobby {
+  filter:
+    brightness(0.96)
+    saturate(0.98)
+    blur(0);
+}
+
+.hq-lobby::before,
+.hq-lobby::after {
+  content: "";
+
+  position: absolute;
+  top: 0;
+
+  width: 1px;
+  height: 100%;
+
+  background: rgba(15, 23, 42, 0.18);
+}
+
+.hq-lobby::before {
+  left: 33%;
+}
+
+.hq-lobby::after {
+  right: 33%;
+}
+
+.hq-lobby__ceiling-light {
+  position: absolute;
+  top: 6%;
+  left: 20%;
+  right: 20%;
+
+  height: 5%;
+
+  border-radius: 999px;
+  background: #ffffff;
+
+  box-shadow:
+    0 0 22px 9px rgba(255, 255, 255, 0.72);
+}
+
+.hq-lobby__side-light {
+  position: absolute;
+  top: 16%;
+  bottom: 23%;
+
+  width: 3%;
+
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.82);
+
+  box-shadow:
+    0 0 12px rgba(255, 255, 255, 0.58);
+}
+
+.hq-lobby__side-light--left {
+  left: 11%;
+}
+
+.hq-lobby__side-light--right {
+  right: 11%;
+}
+
+.hq-lobby__logo {
+  position: absolute;
+  top: 21%;
+  left: 50%;
+
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  color: #1e3a8a;
+
+  font-size: clamp(7px, 0.8vw, 11px);
+  font-weight: 900;
+
+  transform: translateX(-50%);
+}
+
+.hq-lobby__branch-card {
+  position: absolute;
+  left: 50%;
+  top: 38%;
+  z-index: 3;
+
+  display: grid;
+  gap: 2px;
+
+  min-width: 46%;
+  padding: 5px 8px;
+
+  transform: translateX(-50%);
+
+  text-align: center;
+
+  border: 1px solid rgba(59, 130, 246, 0.27);
+  border-radius: 5px;
+
+  background: rgba(248, 250, 252, 0.84);
+  color: #0f172a;
+
+  box-shadow:
+    0 5px 14px rgba(15, 23, 42, 0.16);
+}
+
+.hq-lobby__branch-card strong {
+  font-size: clamp(6px, 0.7vw, 9px);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.hq-lobby__branch-card span {
+  color: #475569;
+
+  font-size: clamp(5px, 0.55vw, 7px);
+  font-weight: 900;
+}
+
+.hq-lobby__desk {
+  position: absolute;
+  left: 24%;
+  right: 24%;
+  bottom: 17%;
+
+  height: 28%;
+
+  clip-path:
+    polygon(
+      8% 0,
+      92% 0,
+      100% 100%,
+      0 100%
+    );
+
+  background:
+    linear-gradient(180deg, #334155, #0f172a);
+
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.3);
+}
+
+.hq-lobby__desk-light {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  top: 13%;
+
+  height: 5%;
+
+  border-radius: 999px;
+  background: #60a5fa;
+
+  box-shadow:
+    0 0 10px rgba(96, 165, 250, 0.8);
+}
+
+.hq-lobby__floor-lines {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  bottom: -30%;
+
+  height: 58%;
+
+  transform:
+    perspective(160px)
+    rotateX(58deg);
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 18%,
+      rgba(15, 23, 42, 0.17) 18.5% 19%
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 19%,
+      rgba(15, 23, 42, 0.17) 19.5% 20%
+    );
+}
+
+/* Door pockets */
+
+.hq-door-pocket {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 7;
+
+  width: 10%;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(90deg, #13263d, #071322);
+
+  box-shadow:
+    0 0 13px rgba(0, 0, 0, 0.68);
+}
+
+.hq-door-pocket--left {
+  left: 0;
+}
+
+.hq-door-pocket--right {
+  right: 0;
+  transform: scaleX(-1);
+}
+
+/* Slow sliding doors */
+
+.hq-door {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 5;
+
+  width: 50.2%;
+
+  overflow: hidden;
+  opacity: 1;
+
+  border: 2px solid #7087a2;
+
+  background:
+    linear-gradient(
+      112deg,
+      transparent 12%,
+      rgba(255, 255, 255, 0.3) 16%,
+      transparent 22%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(35, 78, 150, 0.62),
+      rgba(3, 12, 28, 0.92)
+    );
+
+  backdrop-filter: blur(5px);
+
+  box-shadow:
+    inset 0 0 28px rgba(2, 6, 23, 0.66),
+    0 0 10px rgba(2, 6, 23, 0.42);
+
+  will-change: transform;
+
+  transition:
+    transform
+    var(--door-open-duration, 2000ms)
+    cubic-bezier(0.22, 0.72, 0.18, 1);
+}
+
+.hq-door--left {
+  left: 0;
+
+  border-right:
+    3px solid rgba(226, 232, 240, 0.72);
+}
+
+.hq-door--right {
+  right: 0;
+
+  border-left:
+    3px solid rgba(226, 232, 240, 0.72);
+}
+
+.hq-door__inner-frame {
+  position: absolute;
+  inset: 7%;
+
+  border: 1px solid rgba(219, 234, 254, 0.24);
+
+  box-shadow:
+    inset 0 0 12px rgba(255, 255, 255, 0.04);
+}
+
+.hq-door__reflection {
+  position: absolute;
+  top: -20%;
+
+  width: 32%;
+  height: 150%;
+
+  transform: rotate(15deg);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.18),
+      transparent
+    );
+}
+
+.hq-door--left .hq-door__reflection {
+  right: 5%;
+}
+
+.hq-door--right .hq-door__reflection {
+  left: 5%;
+}
+
+.hq-door__handle {
+  position: absolute;
+  top: 42%;
+
+  width: 5px;
+  height: 26%;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #64748b,
+      #f8fafc 50%,
+      #64748b
+    );
+
+  box-shadow:
+    2px 3px 8px rgba(0, 0, 0, 0.55);
+}
+
+.hq-door__handle--left {
+  right: 7%;
+}
+
+.hq-door__handle--right {
+  left: 7%;
+}
+
+.hq-door-threshold {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 11;
+
+  height: 4%;
+
+  background:
+    linear-gradient(180deg, #94a3b8, #334155);
+
+  box-shadow:
+    0 -3px 6px rgba(0, 0, 0, 0.32);
+}
+
+.building-transition--opening .hq-door--left,
+.building-transition--open .hq-door--left,
+.building-transition--entering .hq-door--left,
+.building-transition--exiting .hq-door--left {
+  transform: translateX(-108%);
+}
+
+.building-transition--opening .hq-door--right,
+.building-transition--open .hq-door--right,
+.building-transition--entering .hq-door--right,
+.building-transition--exiting .hq-door--right {
+  transform: translateX(108%);
+}
+
+/* Access panel */
+
+.hq-access-panel {
+  appearance: none;
+
+  position: absolute;
+  right: 7.2%;
+  top: 48%;
+  z-index: 10;
+
+  display: grid;
+  place-items: center;
+
+  width: clamp(24px, 2.7vw, 36px);
+  aspect-ratio: 1 / 1.45;
+
+  padding: 0;
+
+  border: 1px solid #475569;
+  border-radius: 5px;
+
+  color: #64748b;
+
+  background:
+    linear-gradient(145deg, #1e293b, #020617);
+
+  box-shadow:
+    0 7px 13px rgba(0, 0, 0, 0.55);
+
+  cursor: default;
+
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease;
+}
+
+.hq-access-panel:disabled {
+  opacity: 1;
+}
+
+.hq-access-panel__light {
+  position: absolute;
+  top: 13%;
+
+  width: 22%;
+  aspect-ratio: 1;
+
+  border-radius: 50%;
+
+  background: #ef4444;
+
+  box-shadow:
+    0 0 7px rgba(239, 68, 68, 0.65);
+
+  transition:
+    background 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.building-transition--waiting .hq-access-panel {
+  cursor: pointer;
+  color: #dbeafe;
+
+  border-color: rgba(96, 165, 250, 0.78);
+
+  box-shadow:
+    0 0 24px rgba(37, 99, 235, 0.55);
+
+  animation:
+    btBellReady 1.25s ease-in-out infinite;
+}
+
+.building-transition--waiting .hq-access-panel:hover,
+.building-transition--waiting .hq-access-panel:focus-visible {
+  transform: scale(1.11);
+
+  outline:
+    2px solid rgba(147, 197, 253, 0.86);
+
+  outline-offset: 3px;
+}
+
+.building-transition--ringing .hq-access-panel,
+.building-transition--verifying .hq-access-panel {
+  color: #fde68a;
+
+  border-color: rgba(245, 158, 11, 0.75);
+
+  box-shadow:
+    0 0 22px rgba(245, 158, 11, 0.48);
+
+  animation:
+    btBellPanel 480ms ease-out 2;
+}
+
+.building-transition--ringing .hq-access-panel__light,
+.building-transition--verifying .hq-access-panel__light {
+  background: #f59e0b;
+
+  box-shadow:
+    0 0 12px rgba(245, 158, 11, 0.98);
+}
+
+.building-transition--granted .hq-access-panel,
+.building-transition--opening .hq-access-panel,
+.building-transition--open .hq-access-panel,
+.building-transition--entering .hq-access-panel,
+.building-transition--exiting .hq-access-panel {
+  color: #dcfce7;
+
+  border-color: rgba(34, 197, 94, 0.75);
+
+  box-shadow:
+    0 0 22px rgba(34, 197, 94, 0.42);
+}
+
+.building-transition--granted .hq-access-panel__light,
+.building-transition--opening .hq-access-panel__light,
+.building-transition--open .hq-access-panel__light,
+.building-transition--entering .hq-access-panel__light,
+.building-transition--exiting .hq-access-panel__light {
+  background: #22c55e;
+
+  box-shadow:
+    0 0 12px rgba(34, 197, 94, 0.98);
+}
+
+/* Small bell hint — replaces the old bottom panel */
+
+.hq-access-hint {
+  position: absolute;
+  right: 1.5%;
+  top: 66%;
+  z-index: 14;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  padding: 6px 9px;
+
+  border: 1px solid rgba(96, 165, 250, 0.45);
+  border-radius: 999px;
+
+  background: rgba(2, 6, 23, 0.9);
+  color: #dbeafe;
+
+  font: inherit;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+
+  white-space: nowrap;
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.38),
+    0 0 15px rgba(37, 99, 235, 0.22);
+
+  animation:
+    btBellHintPulse 1.4s ease-in-out infinite;
+
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.hq-access-hint:hover,
+.hq-access-hint:focus-visible {
+  transform: translateY(-1px) scale(1.04);
+  border-color: rgba(147, 197, 253, 0.85);
+  background: rgba(15, 23, 42, 0.98);
+  outline: none;
+}
+
+.hq-audio-error {
+  position: absolute;
+  right: 2%;
+  top: 75%;
+  z-index: 14;
+
+  padding: 5px 8px;
+
+  border: 1px solid rgba(248, 113, 113, 0.42);
+  border-radius: 999px;
+
+  background: rgba(69, 10, 10, 0.88);
+  color: #fecaca;
+
+  font-size: 7px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* Steps and landscape */
+
+.hq-entrance__steps {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: -9%;
+
+  height: 18%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.hq-entrance__steps span {
+  height: 33.333%;
+
+  border: 1px solid rgba(148, 163, 184, 0.25);
+
+  background:
+    linear-gradient(180deg, #334155, #111827);
+
+  box-shadow:
+    0 6px 10px rgba(0, 0, 0, 0.36);
+}
+
+.hq-landscape {
+  position: absolute;
+  left: -5%;
+  right: -5%;
+  bottom: 0;
+  z-index: 12;
+
+  height: 12%;
+
+  display: grid;
+  grid-template-columns: 1fr 42% 1fr;
+  align-items: end;
+}
+
+.hq-walkway {
+  height: 100%;
+
+  clip-path:
+    polygon(
+      20% 0,
+      80% 0,
+      100% 100%,
+      0 100%
+    );
+
+  border-top: 1px solid rgba(148, 163, 184, 0.28);
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 19%,
+      rgba(148, 163, 184, 0.18) 19.5% 20%
+    ),
+    linear-gradient(180deg, #334155, #111827);
+}
+
+.hq-planter {
+  position: relative;
+  height: 58%;
+
+  border-top: 2px solid #334155;
+
+  background:
+    linear-gradient(180deg, #10251d, #06110d);
+
+  box-shadow:
+    inset 0 6px 15px rgba(0, 0, 0, 0.5);
+}
+
+.hq-planter i {
+  position: absolute;
+  bottom: 52%;
+
+  width: 12%;
+  height: 84%;
+
+  border-radius: 70% 10% 70% 10%;
+
+  background:
+    linear-gradient(145deg, #14532d, #22c55e);
+
+  box-shadow:
+    0 6px 12px rgba(0, 0, 0, 0.35);
+}
+
+.hq-planter i:nth-child(1) {
+  left: 18%;
+  transform: rotate(-18deg);
+}
+
+.hq-planter i:nth-child(2) {
+  left: 45%;
+  height: 105%;
+}
+
+.hq-planter i:nth-child(3) {
+  right: 18%;
+  transform: rotate(18deg);
+}
+
+.hq-planter--right i:nth-child(1) {
+  left: auto;
+  right: 18%;
+  transform: rotate(18deg);
+}
+
+.hq-planter--right i:nth-child(2) {
+  left: auto;
+  right: 45%;
+}
+
+.hq-planter--right i:nth-child(3) {
+  right: auto;
+  left: 18%;
+  transform: rotate(-18deg);
+}
+
+/* Profile reveal */
+
+.building-transition__profile-cover {
+  position: absolute;
+  inset: 0;
+  z-index: 55;
+
+  pointer-events: none;
+  opacity: 0;
+
+  background:
+    radial-gradient(
+      circle at 50% 58%,
+      rgba(30, 64, 175, 0.2),
+      rgba(7, 20, 39, 0.82) 56%,
+      #020617 100%
+    );
+}
+
+.building-transition--entering
+  .building-transition__profile-cover {
+  opacity: 0.12;
+  transition: opacity 600ms ease-in;
+}
+
+.building-transition--exiting
+  .building-transition__profile-cover {
+  opacity: 0.58;
+  transition: opacity 300ms ease-in;
+}
+
+.building-transition--exiting {
+  opacity: 0;
+  transition: opacity 650ms ease 80ms;
+}
+
+/* Keyframes */
+
+@keyframes btFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes btApproach {
+  from {
+    opacity: 0;
+    transform: scale(0.76) translateY(5%);
+    filter: blur(9px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes btParticles {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(72px);
+  }
+}
+
+@keyframes btBellPanel {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  48% {
+    transform: scale(1.16);
+  }
+}
+
+@keyframes btBellReady {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes btBellHintPulse {
+  0%,
+  100% {
+    opacity: 0.76;
+
+    box-shadow:
+      0 8px 18px rgba(0, 0, 0, 0.38),
+      0 0 10px rgba(37, 99, 235, 0.18);
+  }
+
+  50% {
+    opacity: 1;
+
+    box-shadow:
+      0 8px 18px rgba(0, 0, 0, 0.38),
+      0 0 22px rgba(59, 130, 246, 0.48);
+  }
+}
+
+/* Tablet */
+
+@media (max-width: 760px) {
+  .hq-building {
+    width: 118vw;
+    height: min(670px, 83vh);
+    min-height: 480px;
+  }
+
+  .hq-building__floor {
+    left: 7%;
+    right: 7%;
+  }
+
+  .hq-building__floor .hq-window:nth-child(1),
+  .hq-building__floor .hq-window:nth-child(9) {
+    visibility: hidden;
+  }
+
+  .hq-building__ground-floor {
+    left: 5%;
+    right: 5%;
+
+    grid-template-columns:
+      0.65fr
+      minmax(270px, 48%)
+      0.65fr;
+  }
+
+  .hq-building__wing {
+    padding-inline: 3%;
+  }
+
+  .hq-building__upper-sign {
+    width: 69%;
+    padding-inline: 14px;
+  }
+
+  .hq-building__brand-copy strong {
+    letter-spacing: 0.07em;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 640px) {
+  .building-transition__controls {
+    left: 12px;
+    right: 12px;
+    justify-content: space-between;
+  }
+
+  .building-transition__control span {
+    display: none;
+  }
+
+  .hq-access-hint {
+    right: 0;
+    top: 67%;
+    padding: 5px 7px;
+    font-size: 7px;
+  }
+
+  .hq-audio-error {
+    right: 0;
+    top: 76%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hq-building {
+    width: 145vw;
+  }
+
+  .hq-building__upper-sign {
+    width: 61%;
+  }
+
+  .hq-building__emblem {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+  }
+
+  .hq-building__ground-floor {
+    grid-template-columns:
+      0.45fr
+      minmax(260px, 51%)
+      0.45fr;
+  }
+
+  .hq-building__wing-window:nth-child(1),
+  .hq-building__wing-window:nth-child(3) {
+    display: none;
+  }
+
+  .hq-building__wing {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .building-transition {
+    animation: none !important;
+  }
+
+  .building-transition__particles,
+  .building-transition__light-beam {
+    display: none;
+  }
+
+  .building-transition__camera {
+    animation: none !important;
+  }
+
+  .building-transition--waiting .building-transition__camera,
+  .building-transition--ringing .building-transition__camera,
+  .building-transition--verifying .building-transition__camera,
+  .building-transition--granted .building-transition__camera,
+  .building-transition--opening .building-transition__camera,
+  .building-transition--open .building-transition__camera {
+    transform: scale(1.08) translateY(2%);
+    transition-duration: 200ms !important;
+  }
+
+  .building-transition--entering .building-transition__camera,
+  .building-transition--exiting .building-transition__camera {
+    transform: scale(1.35) translateY(4%);
+    transition-duration: 300ms !important;
+  }
+
+  .hq-access-panel,
+  .hq-access-hint {
+    animation: none !important;
+  }
+
+  .hq-door {
+    transition-duration: var(--door-open-duration, 2000ms) !important;
+  }
+
+  .hq-lobby,
+  .building-transition__profile-cover {
+    transition-duration: 220ms !important;
+  }
+}
+
+/* =========================================================
+   COLORFUL PROFESSIONAL BUILDING THEME OVERRIDES
+   Paste this block at the END of building-transition.css
+   ========================================================= */
+
+.building-transition {
+  --bt-deep: #06152f;
+  --bt-navy: #0d2a55;
+  --bt-blue: #2563eb;
+  --bt-cyan: #38bdf8;
+  --bt-purple: #7c3aed;
+  --bt-gold: #facc15;
+  --bt-mint: #34d399;
+
+  background:
+    radial-gradient(circle at 22% 18%, rgba(56, 189, 248, 0.34), transparent 26%),
+    radial-gradient(circle at 78% 24%, rgba(124, 58, 237, 0.27), transparent 28%),
+    radial-gradient(circle at 50% 72%, rgba(250, 204, 21, 0.16), transparent 30%),
+    linear-gradient(180deg, #0f3a68 0%, #0b2550 42%, #071527 100%);
+}
+
+.building-transition__particles {
+  opacity: 0.34;
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.9) 0 1px, transparent 1.5px),
+    radial-gradient(circle, rgba(56, 189, 248, 0.95) 0 1px, transparent 1.5px),
+    radial-gradient(circle, rgba(250, 204, 21, 0.8) 0 1px, transparent 1.5px);
+  background-position: 0 0, 28px 36px, 52px 18px;
+  background-size: 72px 72px, 96px 96px, 120px 120px;
+}
+
+.building-transition__light-beam {
+  opacity: 0.22;
+  background: linear-gradient(180deg, rgba(125, 211, 252, 0.78), rgba(167, 139, 250, 0.18), transparent 80%);
+}
+
+.building-transition__vignette {
+  background:
+    radial-gradient(circle at 50% 56%, transparent 45%, rgba(15, 23, 42, 0.18) 100%);
+}
+
+.hq-building {
+  filter:
+    drop-shadow(0 42px 75px rgba(2, 6, 23, 0.56))
+    drop-shadow(0 0 34px rgba(56, 189, 248, 0.20));
+}
+
+.hq-building::before,
+.hq-building::after {
+  border-color: rgba(147, 197, 253, 0.28);
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.16), transparent 55%),
+    linear-gradient(180deg, #2b6cb0 0%, #1d4f91 48%, #143a73 100%);
+  box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.05);
+}
+
+.hq-building__roof-line {
+  background: linear-gradient(90deg, #38bdf8, #facc15 50%, #7c3aed);
+  box-shadow:
+    0 -8px 28px rgba(56, 189, 248, 0.32),
+    0 0 22px rgba(250, 204, 21, 0.18);
+}
+
+.hq-building__upper-sign {
+  border-color: rgba(125, 211, 252, 0.75);
+  background:
+    linear-gradient(135deg, rgba(14, 165, 233, 0.94), rgba(37, 99, 235, 0.96) 48%, rgba(124, 58, 237, 0.94));
+  box-shadow:
+    0 18px 44px rgba(15, 23, 42, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    0 0 32px rgba(56, 189, 248, 0.38);
+}
+
+.hq-building__emblem {
+  color: #082f49;
+  border-color: rgba(255, 255, 255, 0.52);
+  background: linear-gradient(145deg, #fef08a, #38bdf8);
+  box-shadow:
+    0 0 22px rgba(250, 204, 21, 0.48),
+    inset 0 1px 0 rgba(255, 255, 255, 0.56);
+}
+
+.hq-building__brand-copy strong {
+  color: #ffffff;
+  text-shadow:
+    0 2px 8px rgba(15, 23, 42, 0.42),
+    0 0 18px rgba(255, 255, 255, 0.24);
+}
+
+.hq-building__brand-copy span {
+  color: #fef9c3;
+}
+
+.hq-building__floor {
+  border-color: rgba(147, 197, 253, 0.28);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.13), transparent 42%),
+    linear-gradient(90deg, #2563eb 0%, #1d4ed8 30%, #0891b2 58%, #2563eb 100%);
+  box-shadow:
+    inset 0 -12px 26px rgba(15, 23, 42, 0.20),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.hq-window,
+.hq-building__wing-window {
+  border-color: rgba(219, 234, 254, 0.48);
+  background:
+    linear-gradient(112deg, transparent 20%, rgba(255, 255, 255, 0.46) 24%, transparent 30%),
+    linear-gradient(180deg, rgba(186, 230, 253, 0.92), rgba(59, 130, 246, 0.58) 55%, rgba(30, 64, 175, 0.76));
+  box-shadow:
+    inset 0 0 15px rgba(255, 255, 255, 0.18),
+    0 0 16px rgba(56, 189, 248, 0.28);
+}
+
+.hq-window:nth-child(3n + 1),
+.hq-window:nth-child(5) {
+  background:
+    linear-gradient(112deg, transparent 20%, rgba(255, 255, 255, 0.48) 24%, transparent 30%),
+    linear-gradient(180deg, rgba(254, 240, 138, 0.95), rgba(251, 191, 36, 0.56) 52%, rgba(59, 130, 246, 0.68));
+  box-shadow:
+    inset 0 0 16px rgba(255, 255, 255, 0.24),
+    0 0 18px rgba(250, 204, 21, 0.34);
+}
+
+.hq-building__ground-floor {
+  border-color: rgba(147, 197, 253, 0.35);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.10), transparent 50%),
+    linear-gradient(90deg, #155e75, #2563eb 44%, #7c3aed 100%);
+  box-shadow:
+    inset 0 14px 30px rgba(15, 23, 42, 0.18),
+    0 0 26px rgba(56, 189, 248, 0.16);
+}
+
+.hq-entrance {
+  border-left-color: rgba(186, 230, 253, 0.44);
+  border-right-color: rgba(186, 230, 253, 0.44);
+  background:
+    linear-gradient(180deg, #38bdf8 0%, #2563eb 44%, #1e40af 100%);
+  box-shadow:
+    0 0 36px rgba(56, 189, 248, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.20);
+}
+
+.hq-entrance__canopy {
+  border-color: rgba(254, 240, 138, 0.48);
+  background: linear-gradient(135deg, #facc15, #fb7185 45%, #7c3aed);
+  box-shadow:
+    0 18px 28px rgba(15, 23, 42, 0.44),
+    0 0 22px rgba(250, 204, 21, 0.25);
+}
+
+.hq-entrance__canopy span {
+  opacity: 0.95;
+  background: linear-gradient(90deg, transparent, #ffffff, #fef08a, transparent);
+  box-shadow: 0 0 22px rgba(254, 240, 138, 0.85);
+}
+
+.hq-entrance__branch-display {
+  border-color: rgba(254, 240, 138, 0.58);
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(30, 64, 175, 0.88));
+  box-shadow: 0 0 22px rgba(250, 204, 21, 0.24);
+}
+
+.hq-entrance__branch-display span {
+  color: #bae6fd;
+}
+
+.hq-entrance__branch-display strong {
+  color: #fef9c3;
+}
+
+.hq-column {
+  background: linear-gradient(90deg, #0f3a68, #bae6fd 48%, #2563eb);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.42);
+}
+
+.hq-column::before,
+.hq-column::after {
+  border-color: rgba(254, 240, 138, 0.48);
+  background: linear-gradient(90deg, #facc15, #38bdf8);
+}
+
+.hq-entrance__door-frame {
+  border-color: #bae6fd;
+  background: #dbeafe;
+  box-shadow:
+    0 10px 25px rgba(15, 23, 42, 0.38),
+    inset 0 0 28px rgba(255, 255, 255, 0.38),
+    0 0 26px rgba(56, 189, 248, 0.36);
+}
+
+.hq-door-track,
+.hq-door-threshold {
+  background: linear-gradient(180deg, #f8fafc, #38bdf8 64%, #2563eb);
+}
+
+.hq-door {
+  border-color: rgba(255, 255, 255, 0.84);
+  background:
+    linear-gradient(112deg, transparent 12%, rgba(255, 255, 255, 0.54) 16%, transparent 22%),
+    linear-gradient(180deg, rgba(186, 230, 253, 0.70), rgba(56, 189, 248, 0.58), rgba(37, 99, 235, 0.48));
+  box-shadow:
+    inset 0 0 30px rgba(255, 255, 255, 0.18),
+    0 0 16px rgba(14, 165, 233, 0.28);
+}
+
+.hq-lobby {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.22), transparent 38%, rgba(255, 255, 255, 0.20)),
+    linear-gradient(180deg, #f8fafc 0%, #dbeafe 28%, #bfdbfe 52%, #93c5fd 100%);
+  filter: brightness(0.72) saturate(1.05) blur(0.7px);
+}
+
+.building-transition--granted .hq-lobby {
+  filter: brightness(0.86) saturate(1.08) blur(0.25px);
+}
+
+.building-transition--opening .hq-lobby,
+.building-transition--open .hq-lobby,
+.building-transition--entering .hq-lobby,
+.building-transition--exiting .hq-lobby {
+  filter: brightness(1.06) saturate(1.12) blur(0);
+}
+
+.hq-lobby__logo {
+  color: #1d4ed8;
+}
+
+.hq-lobby__branch-card {
+  border-color: rgba(37, 99, 235, 0.36);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow:
+    0 5px 16px rgba(37, 99, 235, 0.18),
+    0 0 18px rgba(56, 189, 248, 0.16);
+}
+
+.hq-lobby__desk {
+  background: linear-gradient(180deg, #2563eb, #1e40af);
+}
+
+.hq-lobby__desk-light {
+  background: #facc15;
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.88);
+}
+
+.hq-walkway {
+  border-top-color: rgba(226, 232, 240, 0.55);
+  background:
+    repeating-linear-gradient(90deg, transparent 0 19%, rgba(15, 23, 42, 0.14) 19.5% 20%),
+    linear-gradient(180deg, #e2e8f0, #94a3b8);
+}
+
+.hq-planter {
+  border-top-color: #86efac;
+  background: linear-gradient(180deg, #16a34a, #14532d);
+}
+
+.hq-planter i {
+  background: linear-gradient(145deg, #bbf7d0, #22c55e 45%, #15803d);
+  box-shadow:
+    0 6px 12px rgba(15, 23, 42, 0.26),
+    0 0 10px rgba(34, 197, 94, 0.25);
+}
+
+.hq-access-hint {
+  border-color: rgba(254, 240, 138, 0.7);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.94), rgba(124, 58, 237, 0.94));
+  color: #ffffff;
+  box-shadow:
+    0 8px 20px rgba(15, 23, 42, 0.34),
+    0 0 18px rgba(250, 204, 21, 0.28);
+}
+
+.building-transition__profile-cover {
+  background:
+    radial-gradient(circle at 50% 58%, rgba(56, 189, 248, 0.18), rgba(37, 99, 235, 0.50) 56%, rgba(15, 23, 42, 0.82) 100%);
+}
+
+/* =========================================================
+   LUXURY REALISTIC GLASS BUILDING THEME
+   Paste at the END of building-transition.css
+   ========================================================= */
+
+.building-transition {
+  background:
+    radial-gradient(circle at 50% 22%, rgba(56, 189, 248, 0.22), transparent 28%),
+    radial-gradient(circle at 20% 65%, rgba(250, 204, 21, 0.12), transparent 24%),
+    linear-gradient(180deg, #06172f 0%, #08111f 58%, #020617 100%);
+}
+
+/* Softer premium atmosphere */
+.building-transition__particles {
+  opacity: 0.18;
+}
+
+.building-transition__light-beam {
+  opacity: 0.16;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(186, 230, 253, 0.55),
+      rgba(250, 204, 21, 0.12),
+      transparent 80%
+    );
+}
+
+.building-transition__vignette {
+  background:
+    radial-gradient(
+      circle at 50% 56%,
+      transparent 42%,
+      rgba(2, 6, 23, 0.34) 100%
+    );
+}
+
+/* Main building depth */
+.hq-building {
+  filter:
+    drop-shadow(0 55px 95px rgba(0, 0, 0, 0.72))
+    drop-shadow(0 0 38px rgba(56, 189, 248, 0.16));
+}
+
+/* Side towers - glass effect */
+.hq-building::before,
+.hq-building::after {
+  border-color: rgba(226, 232, 240, 0.22);
+
+  background:
+    linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.18),
+      transparent 22%,
+      rgba(125, 211, 252, 0.16) 45%,
+      transparent 68%
+    ),
+    linear-gradient(
+      180deg,
+      #163b63 0%,
+      #0f2744 48%,
+      #071827 100%
+    );
+
+  box-shadow:
+    inset 0 0 34px rgba(255, 255, 255, 0.06),
+    inset 0 -30px 45px rgba(2, 6, 23, 0.28);
+}
+
+/* Gold roof trim */
+.hq-building__roof-line {
+  height: 2%;
+  background:
+    linear-gradient(
+      90deg,
+      #7c5c16,
+      #facc15 24%,
+      #fef3c7 50%,
+      #facc15 76%,
+      #7c5c16
+    );
+
+  box-shadow:
+    0 -8px 24px rgba(250, 204, 21, 0.28),
+    0 0 18px rgba(255, 255, 255, 0.12);
+}
+
+/* Luxury company sign */
+.hq-building__upper-sign {
+  border-color: rgba(250, 204, 21, 0.62);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(2, 6, 23, 0.96),
+      rgba(15, 23, 42, 0.94) 42%,
+      rgba(30, 64, 175, 0.86)
+    );
+
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.52),
+    0 0 28px rgba(250, 204, 21, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -1px 0 rgba(250, 204, 21, 0.22);
+}
+
+.hq-building__emblem {
+  color: #020617;
+
+  border-color: rgba(255, 255, 255, 0.72);
+
+  background:
+    linear-gradient(
+      145deg,
+      #fef3c7,
+      #facc15 42%,
+      #38bdf8
+    );
+
+  box-shadow:
+    0 0 24px rgba(250, 204, 21, 0.44),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.hq-building__brand-copy strong {
+  color: #ffffff;
+  letter-spacing: 0.16em;
+
+  text-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.58),
+    0 0 14px rgba(255, 255, 255, 0.22);
+}
+
+.hq-building__brand-copy span {
+  color: #fde68a;
+}
+
+/* Floors - premium glass facade */
+.hq-building__floor {
+  border-color: rgba(226, 232, 240, 0.2);
+
+  background:
+    linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.16),
+      transparent 18%,
+      rgba(125, 211, 252, 0.16) 42%,
+      transparent 66%
+    ),
+    linear-gradient(
+      90deg,
+      #0f2d4d 0%,
+      #164b7a 34%,
+      #10375e 70%,
+      #071827 100%
+    );
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -18px 34px rgba(2, 6, 23, 0.28);
+}
+
+/* Windows - more realistic reflective glass */
+.hq-window,
+.hq-building__wing-window {
+  border: 1px solid rgba(219, 234, 254, 0.5);
+  border-radius: 5px;
+
+  background:
+    linear-gradient(
+      118deg,
+      transparent 0%,
+      transparent 24%,
+      rgba(255, 255, 255, 0.58) 28%,
+      rgba(255, 255, 255, 0.16) 32%,
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(224, 242, 254, 0.92) 0%,
+      rgba(96, 165, 250, 0.62) 48%,
+      rgba(30, 64, 175, 0.7) 100%
+    );
+
+  box-shadow:
+    inset 0 0 16px rgba(255, 255, 255, 0.18),
+    inset 0 -12px 18px rgba(15, 23, 42, 0.22),
+    0 0 12px rgba(56, 189, 248, 0.18);
+}
+
+/* Warm lit windows */
+.hq-window:nth-child(3n + 1),
+.hq-window:nth-child(5) {
+  background:
+    linear-gradient(
+      118deg,
+      transparent 0%,
+      transparent 24%,
+      rgba(255, 255, 255, 0.58) 28%,
+      rgba(255, 255, 255, 0.18) 32%,
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(254, 249, 195, 0.96) 0%,
+      rgba(250, 204, 21, 0.58) 45%,
+      rgba(37, 99, 235, 0.64) 100%
+    );
+
+  box-shadow:
+    inset 0 0 18px rgba(255, 255, 255, 0.22),
+    0 0 18px rgba(250, 204, 21, 0.26);
+}
+
+/* Ground floor - luxury glass lobby base */
+.hq-building__ground-floor {
+  border-color: rgba(250, 204, 21, 0.2);
+
+  background:
+    linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.14),
+      transparent 26%,
+      rgba(56, 189, 248, 0.13) 52%,
+      transparent 78%
+    ),
+    linear-gradient(
+      90deg,
+      #082f49,
+      #0f4c81 36%,
+      #1e3a8a 70%,
+      #111827
+    );
+
+  box-shadow:
+    inset 0 16px 30px rgba(255, 255, 255, 0.05),
+    inset 0 -22px 35px rgba(2, 6, 23, 0.24),
+    0 0 32px rgba(56, 189, 248, 0.12);
+}
+
+/* Entrance - premium black/gold/glass */
+.hq-entrance {
+  border-left-color: rgba(250, 204, 21, 0.34);
+  border-right-color: rgba(250, 204, 21, 0.34);
+
+  background:
+    linear-gradient(
+      180deg,
+      #12375c 0%,
+      #0f2744 48%,
+      #071827 100%
+    );
+
+  box-shadow:
+    0 0 36px rgba(56, 189, 248, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* Premium entrance canopy */
+.hq-entrance__canopy {
+  border-color: rgba(250, 204, 21, 0.56);
+
+  background:
+    linear-gradient(
+      135deg,
+      #111827,
+      #1e3a8a 42%,
+      #facc15 43%,
+      #fef3c7 50%,
+      #facc15 57%,
+      #111827 58%
+    );
+
+  box-shadow:
+    0 20px 30px rgba(0, 0, 0, 0.52),
+    0 0 22px rgba(250, 204, 21, 0.22);
+}
+
+.hq-entrance__canopy span {
+  opacity: 0.92;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #fef3c7,
+      #ffffff,
+      #fef3c7,
+      transparent
+    );
+
+  box-shadow:
+    0 0 20px rgba(254, 243, 199, 0.85);
+}
+
+/* Welcome board */
+.hq-entrance__branch-display {
+  border-color: rgba(250, 204, 21, 0.5);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(2, 6, 23, 0.94),
+      rgba(15, 23, 42, 0.92)
+    );
+
+  box-shadow:
+    0 0 20px rgba(250, 204, 21, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.hq-entrance__branch-display span {
+  color: #bfdbfe;
+}
+
+.hq-entrance__branch-display strong {
+  color: #fde68a;
+}
+
+/* Columns - metallic luxury */
+.hq-column {
+  background:
+    linear-gradient(
+      90deg,
+      #111827,
+      #e5e7eb 34%,
+      #fef3c7 50%,
+      #94a3b8 66%,
+      #111827
+    );
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.52),
+    inset 0 0 12px rgba(255, 255, 255, 0.16);
+}
+
+.hq-column::before,
+.hq-column::after {
+  border-color: rgba(250, 204, 21, 0.5);
+  background:
+    linear-gradient(
+      90deg,
+      #7c5c16,
+      #facc15,
+      #fef3c7,
+      #facc15,
+      #7c5c16
+    );
+}
+
+/* Door frame */
+.hq-entrance__door-frame {
+  border-color: rgba(226, 232, 240, 0.88);
+  background: #dbeafe;
+
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.46),
+    inset 0 0 28px rgba(255, 255, 255, 0.32),
+    0 0 28px rgba(56, 189, 248, 0.22);
+}
+
+.hq-door-track,
+.hq-door-threshold {
+  background:
+    linear-gradient(
+      180deg,
+      #fef3c7,
+      #facc15 35%,
+      #64748b 100%
+    );
+}
+
+/* Doors - luxury blue glass */
+.hq-door {
+  border-color: rgba(255, 255, 255, 0.76);
+
+  background:
+    linear-gradient(
+      118deg,
+      transparent 0%,
+      transparent 20%,
+      rgba(255, 255, 255, 0.54) 26%,
+      rgba(255, 255, 255, 0.14) 32%,
+      transparent 42%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(224, 242, 254, 0.72),
+      rgba(56, 189, 248, 0.46),
+      rgba(30, 64, 175, 0.58)
+    );
+
+  backdrop-filter: blur(7px);
+
+  box-shadow:
+    inset 0 0 30px rgba(255, 255, 255, 0.2),
+    inset 0 -18px 24px rgba(15, 23, 42, 0.2),
+    0 0 18px rgba(56, 189, 248, 0.2);
+}
+
+/* Door handles - premium metal */
+.hq-door__handle {
+  width: 6px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #7c5c16,
+      #fef3c7 50%,
+      #7c5c16
+    );
+
+  box-shadow:
+    2px 3px 8px rgba(0, 0, 0, 0.55),
+    0 0 8px rgba(250, 204, 21, 0.28);
+}
+
+/* Lobby realistic lighting */
+.hq-lobby {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.28),
+      transparent 38%,
+      rgba(255, 255, 255, 0.2)
+    ),
+    linear-gradient(
+      180deg,
+      #f8fafc 0%,
+      #e0f2fe 25%,
+      #bfdbfe 52%,
+      #64748b 100%
+    );
+
+  filter:
+    brightness(0.66)
+    saturate(1.02)
+    blur(0.9px);
+}
+
+.building-transition--granted .hq-lobby {
+  filter:
+    brightness(0.86)
+    saturate(1.08)
+    blur(0.35px);
+}
+
+.building-transition--opening .hq-lobby,
+.building-transition--open .hq-lobby,
+.building-transition--entering .hq-lobby,
+.building-transition--exiting .hq-lobby {
+  filter:
+    brightness(1.08)
+    saturate(1.12)
+    blur(0);
+}
+
+.hq-lobby__logo {
+  color: #1e3a8a;
+}
+
+.hq-lobby__branch-card {
+  border-color: rgba(250, 204, 21, 0.4);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.96),
+      rgba(239, 246, 255, 0.9)
+    );
+
+  box-shadow:
+    0 6px 18px rgba(15, 23, 42, 0.18),
+    0 0 18px rgba(250, 204, 21, 0.12);
+}
+
+.hq-lobby__desk {
+  background:
+    linear-gradient(
+      180deg,
+      #1e3a8a,
+      #111827
+    );
+
+  box-shadow:
+    0 9px 20px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.hq-lobby__desk-light {
+  background: #facc15;
+  box-shadow:
+    0 0 12px rgba(250, 204, 21, 0.85);
+}
+
+/* Walkway and planters */
+.hq-walkway {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 19%,
+      rgba(148, 163, 184, 0.22) 19.5% 20%
+    ),
+    linear-gradient(
+      180deg,
+      #e5e7eb,
+      #94a3b8 55%,
+      #475569
+    );
+
+  box-shadow:
+    inset 0 8px 20px rgba(255, 255, 255, 0.16);
+}
+
+.hq-planter {
+  border-top-color: rgba(250, 204, 21, 0.42);
+
+  background:
+    linear-gradient(
+      180deg,
+      #14532d,
+      #052e16
+    );
+
+  box-shadow:
+    inset 0 6px 15px rgba(0, 0, 0, 0.42),
+    0 0 16px rgba(34, 197, 94, 0.12);
+}
+
+.hq-planter i {
+  background:
+    linear-gradient(
+      145deg,
+      #16a34a,
+      #86efac
+    );
+
+  box-shadow:
+    0 6px 12px rgba(0, 0, 0, 0.35),
+    0 0 10px rgba(34, 197, 94, 0.18);
+}
+
+/* Make bell hint premium but small */
+.hq-access-hint {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(15, 23, 42, 0.94),
+      rgba(30, 64, 175, 0.86)
+    );
+
+  border-color: rgba(250, 204, 21, 0.48);
+  color: #fef3c7;
+
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.32),
+    0 0 16px rgba(250, 204, 21, 0.16);
+}
+
+/* Access panel realistic glow */
+.building-transition--waiting .hq-access-panel {
+  border-color: rgba(250, 204, 21, 0.64);
+
+  box-shadow:
+    0 0 22px rgba(250, 204, 21, 0.28);
+}
+
+.building-transition--granted .hq-access-panel,
+.building-transition--opening .hq-access-panel,
+.building-transition--open .hq-access-panel,
+.building-transition--entering .hq-access-panel,
+.building-transition--exiting .hq-access-panel {
+  border-color: rgba(34, 197, 94, 0.75);
+
+  box-shadow:
+    0 0 22px rgba(34, 197, 94, 0.38);
+}
+
+/* =========================================================
+   BRANCH-WISE BUILDING ARCHITECTURE THEMES
+   Auto theme classes are added from BuildingTransition.jsx.
+   Keep this block at the END of the CSS file.
+   ========================================================= */
+
+/* Shared premium improvements */
+.building-theme--bbsr-luxury-hq,
+.building-theme--delhi-command,
+.building-theme--hyderabad-data-hub,
+.building-theme--bengaluru-tech-campus,
+.building-theme--vizag-coastal,
+.building-theme--swiss-alpine,
+.building-theme--malaysia-tropical,
+.building-theme--indonesia-archipelago,
+.building-theme--bhutan-himalayan,
+.building-theme--default-luxury {
+  --branch-accent: #38bdf8;
+  --branch-gold: #facc15;
+  --branch-deep: #020617;
+}
+
+.building-theme--bbsr-luxury-hq .hq-building,
+.building-theme--delhi-command .hq-building,
+.building-theme--hyderabad-data-hub .hq-building,
+.building-theme--bengaluru-tech-campus .hq-building,
+.building-theme--vizag-coastal .hq-building,
+.building-theme--swiss-alpine .hq-building,
+.building-theme--malaysia-tropical .hq-building,
+.building-theme--indonesia-archipelago .hq-building,
+.building-theme--bhutan-himalayan .hq-building,
+.building-theme--default-luxury .hq-building {
+  filter:
+    drop-shadow(0 58px 98px rgba(0, 0, 0, 0.74))
+    drop-shadow(0 0 34px rgba(56, 189, 248, 0.16));
+}
+
+.building-theme--bbsr-luxury-hq .hq-window,
+.building-theme--delhi-command .hq-window,
+.building-theme--hyderabad-data-hub .hq-window,
+.building-theme--bengaluru-tech-campus .hq-window,
+.building-theme--vizag-coastal .hq-window,
+.building-theme--swiss-alpine .hq-window,
+.building-theme--malaysia-tropical .hq-window,
+.building-theme--indonesia-archipelago .hq-window,
+.building-theme--bhutan-himalayan .hq-window,
+.building-theme--default-luxury .hq-window,
+.building-theme--bbsr-luxury-hq .hq-building__wing-window,
+.building-theme--delhi-command .hq-building__wing-window,
+.building-theme--hyderabad-data-hub .hq-building__wing-window,
+.building-theme--bengaluru-tech-campus .hq-building__wing-window,
+.building-theme--vizag-coastal .hq-building__wing-window,
+.building-theme--swiss-alpine .hq-building__wing-window,
+.building-theme--malaysia-tropical .hq-building__wing-window,
+.building-theme--indonesia-archipelago .hq-building__wing-window,
+.building-theme--bhutan-himalayan .hq-building__wing-window,
+.building-theme--default-luxury .hq-building__wing-window {
+  border-radius: 7px;
+  box-shadow:
+    inset 0 0 17px rgba(255, 255, 255, 0.16),
+    inset 0 -14px 20px rgba(15, 23, 42, 0.22),
+    0 0 14px rgba(56, 189, 248, 0.18);
+}
+
+.building-theme--bbsr-luxury-hq .hq-door__handle,
+.building-theme--delhi-command .hq-door__handle,
+.building-theme--hyderabad-data-hub .hq-door__handle,
+.building-theme--bengaluru-tech-campus .hq-door__handle,
+.building-theme--vizag-coastal .hq-door__handle,
+.building-theme--swiss-alpine .hq-door__handle,
+.building-theme--malaysia-tropical .hq-door__handle,
+.building-theme--indonesia-archipelago .hq-door__handle,
+.building-theme--bhutan-himalayan .hq-door__handle,
+.building-theme--default-luxury .hq-door__handle {
+  background: linear-gradient(90deg, #7c5c16, #fef3c7 50%, #7c5c16);
+}
+
+/* 1. Bhubaneswar — Luxury Cyber HQ */
+.building-theme--bbsr-luxury-hq {
+  --branch-accent: #38bdf8;
+  --branch-gold: #facc15;
+  background:
+    radial-gradient(circle at 50% 22%, rgba(250, 204, 21, 0.17), transparent 28%),
+    radial-gradient(circle at 18% 70%, rgba(56, 189, 248, 0.18), transparent 25%),
+    linear-gradient(180deg, #07172f 0%, #08111f 58%, #020617 100%);
+}
+.building-theme--bbsr-luxury-hq .hq-building__roof-line {
+  height: 2.7%;
+  background: linear-gradient(90deg, #7c5c16, #facc15, #fef3c7, #facc15, #7c5c16);
+  box-shadow: 0 0 30px rgba(250, 204, 21, 0.36);
+}
+.building-theme--bbsr-luxury-hq .hq-building__upper-sign {
+  border-color: rgba(250, 204, 21, 0.62);
+  background: linear-gradient(135deg, #020617, #0f172a 42%, #1e3a8a);
+}
+.building-theme--bbsr-luxury-hq .hq-building__emblem {
+  color: #020617;
+  background: linear-gradient(145deg, #fef3c7, #facc15 45%, #38bdf8);
+}
+.building-theme--bbsr-luxury-hq .hq-building__floor {
+  background:
+    linear-gradient(115deg, rgba(255,255,255,0.14), transparent 22%, rgba(125,211,252,0.14) 45%, transparent 70%),
+    linear-gradient(90deg, #0f2d4d, #164b7a, #071827);
+}
+.building-theme--bbsr-luxury-hq .hq-building__ground-floor {
+  background:
+    linear-gradient(115deg, rgba(255,255,255,0.13), transparent 28%, rgba(250,204,21,0.08) 52%, transparent 78%),
+    linear-gradient(90deg, #082f49, #0f4c81, #111827);
+}
+.building-theme--bbsr-luxury-hq .hq-entrance {
+  background: linear-gradient(180deg, #12375c, #0f2744, #071827);
+}
+.building-theme--bbsr-luxury-hq .hq-entrance__canopy {
+  background: linear-gradient(135deg, #111827, #1e3a8a 42%, #facc15 43%, #fef3c7 50%, #facc15 57%, #111827 58%);
+  border-color: rgba(250, 204, 21, 0.56);
+}
+
+/* 2. Delhi — Government Command Office */
+.building-theme--delhi-command {
+  --branch-accent: #e5e7eb;
+  --branch-gold: #f8fafc;
+  background:
+    radial-gradient(circle at 50% 28%, rgba(226, 232, 240, 0.22), transparent 30%),
+    linear-gradient(180deg, #0f172a 0%, #111827 64%, #020617 100%);
+}
+.building-theme--delhi-command .hq-building { transform: rotateX(1.5deg) scaleX(1.02); }
+.building-theme--delhi-command .hq-building__roof-line {
+  height: 3%;
+  background: linear-gradient(90deg, #334155, #e5e7eb, #f8fafc, #e5e7eb, #334155);
+}
+.building-theme--delhi-command .hq-building__upper-sign {
+  border-radius: 0 0 10px 10px;
+  background: linear-gradient(135deg, #1e293b, #334155, #1e40af);
+  border-color: rgba(226, 232, 240, 0.6);
+}
+.building-theme--delhi-command .hq-building__floor {
+  border-radius: 2px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.13), transparent 42%), linear-gradient(90deg, #334155, #475569, #1e3a8a);
+}
+.building-theme--delhi-command .hq-entrance { background: linear-gradient(180deg, #475569, #1e293b, #0f172a); }
+.building-theme--delhi-command .hq-entrance__canopy {
+  border-radius: 2px;
+  background: linear-gradient(135deg, #e5e7eb, #94a3b8, #334155);
+  border-color: rgba(248, 250, 252, 0.66);
+}
+.building-theme--delhi-command .hq-column {
+  width: 8.5%;
+  background: linear-gradient(90deg, #334155, #f8fafc, #94a3b8, #334155);
+}
+
+/* 3. Hyderabad — Data Center Hub */
+.building-theme--hyderabad-data-hub {
+  --branch-accent: #22c55e;
+  --branch-gold: #a7f3d0;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(34, 197, 94, 0.16), transparent 32%),
+    radial-gradient(circle at 75% 20%, rgba(6, 182, 212, 0.2), transparent 28%),
+    linear-gradient(180deg, #052e2b, #041e2d, #020617);
+}
+.building-theme--hyderabad-data-hub .hq-building__roof-line {
+  background: linear-gradient(90deg, #22c55e, #06b6d4, #a7f3d0, #06b6d4, #22c55e);
+  box-shadow: 0 0 28px rgba(34, 197, 94, 0.35);
+}
+.building-theme--hyderabad-data-hub .hq-building__upper-sign {
+  background: linear-gradient(135deg, #052e2b, #0f766e, #0891b2);
+  border-color: rgba(45, 212, 191, 0.65);
+}
+.building-theme--hyderabad-data-hub .hq-building__floor {
+  gap: clamp(4px, 0.65vw, 10px);
+  background: repeating-linear-gradient(90deg, rgba(34,197,94,0.12) 0 2px, transparent 2px 18px), linear-gradient(90deg, #064e3b, #0f766e, #075985);
+}
+.building-theme--hyderabad-data-hub .hq-window {
+  border-radius: 3px;
+  background: linear-gradient(118deg, transparent 20%, rgba(255,255,255,0.52) 26%, transparent 36%), linear-gradient(180deg, rgba(167,243,208,0.88), rgba(34,197,94,0.48), rgba(14,116,144,0.76));
+}
+.building-theme--hyderabad-data-hub .hq-entrance { background: linear-gradient(180deg, #0f766e, #075985, #0f172a); }
+
+/* 4. Bengaluru — Modern Tech Campus */
+.building-theme--bengaluru-tech-campus {
+  --branch-accent: #14b8a6;
+  --branch-gold: #86efac;
+  background:
+    radial-gradient(circle at 18% 28%, rgba(34, 197, 94, 0.18), transparent 30%),
+    radial-gradient(circle at 78% 26%, rgba(56, 189, 248, 0.2), transparent 30%),
+    linear-gradient(180deg, #063b37, #09233a, #020617);
+}
+.building-theme--bengaluru-tech-campus .hq-building { transform: rotateX(1.5deg) scaleX(1.03); }
+.building-theme--bengaluru-tech-campus .hq-building::before,
+.building-theme--bengaluru-tech-campus .hq-building::after {
+  top: 24%;
+  bottom: 12%;
+  border-radius: 18px 18px 0 0;
+}
+.building-theme--bengaluru-tech-campus .hq-building__roof-line {
+  background: linear-gradient(90deg, #22c55e, #38bdf8, #14b8a6, #22c55e);
+}
+.building-theme--bengaluru-tech-campus .hq-building__upper-sign {
+  border-radius: 0 0 24px 24px;
+  background: linear-gradient(135deg, #064e3b, #2563eb, #14b8a6);
+}
+.building-theme--bengaluru-tech-campus .hq-building__floor {
+  border-radius: 12px;
+  background: linear-gradient(115deg, rgba(255,255,255,0.16), transparent 24%, rgba(34,197,94,0.12) 48%, transparent 72%), linear-gradient(90deg, #0f766e, #2563eb, #14b8a6);
+}
+.building-theme--bengaluru-tech-campus .hq-building__ground-floor {
+  background: linear-gradient(90deg, #14532d, #0ea5e9, #1d4ed8);
+}
+.building-theme--bengaluru-tech-campus .hq-entrance__canopy {
+  border-radius: 30px 30px 6px 6px;
+  background: linear-gradient(135deg, #22c55e, #38bdf8, #2563eb);
+}
+
+/* 5. Visakhapatnam — Coastal Cyber Office */
+.building-theme--vizag-coastal {
+  --branch-accent: #67e8f9;
+  --branch-gold: #f8fafc;
+  background:
+    radial-gradient(circle at 50% 24%, rgba(125, 211, 252, 0.26), transparent 30%),
+    linear-gradient(180deg, #075985, #082f49, #020617);
+}
+.building-theme--vizag-coastal .hq-building__roof-line {
+  background: linear-gradient(90deg, #0ea5e9, #67e8f9, #f8fafc, #67e8f9, #0ea5e9);
+}
+.building-theme--vizag-coastal .hq-building__upper-sign {
+  border-radius: 0 0 28px 28px;
+  background: linear-gradient(135deg, #075985, #0284c7, #0f172a);
+}
+.building-theme--vizag-coastal .hq-building__floor {
+  border-radius: 16px 16px 4px 4px;
+  background: linear-gradient(120deg, rgba(255,255,255,0.18), transparent 20%, rgba(186,230,253,0.15) 48%, transparent 72%), linear-gradient(90deg, #0e7490, #0284c7, #1e40af);
+}
+.building-theme--vizag-coastal .hq-entrance__canopy {
+  border-radius: 28px 28px 8px 8px;
+  background: linear-gradient(135deg, #67e8f9, #0ea5e9, #1e3a8a);
+}
+
+/* 6. Switzerland — Alpine Glass Office */
+.building-theme--swiss-alpine {
+  --branch-accent: #e2e8f0;
+  --branch-gold: #ffffff;
+  background:
+    radial-gradient(circle at 50% 26%, rgba(248, 250, 252, 0.22), transparent 30%),
+    linear-gradient(180deg, #1e293b, #0f172a, #020617);
+}
+.building-theme--swiss-alpine .hq-building__roof-line {
+  background: linear-gradient(90deg, #cbd5e1, #ffffff, #38bdf8, #ffffff, #cbd5e1);
+}
+.building-theme--swiss-alpine .hq-building__upper-sign {
+  background: linear-gradient(135deg, #0f172a, #334155, #e11d48);
+  border-color: rgba(248, 250, 252, 0.65);
+}
+.building-theme--swiss-alpine .hq-building__floor {
+  border-radius: 6px;
+  background: linear-gradient(115deg, rgba(255,255,255,0.25), transparent 23%, rgba(226,232,240,0.18) 48%, transparent 72%), linear-gradient(90deg, #334155, #475569, #0f172a);
+}
+.building-theme--swiss-alpine .hq-window {
+  background: linear-gradient(118deg, transparent 20%, rgba(255,255,255,0.72) 28%, transparent 38%), linear-gradient(180deg, rgba(248,250,252,0.92), rgba(148,163,184,0.55), rgba(30,41,59,0.78));
+}
+.building-theme--swiss-alpine .hq-entrance__canopy {
+  background: linear-gradient(135deg, #f8fafc, #cbd5e1, #e11d48);
+}
+
+/* 7. Malaysia — Tropical Tech Office */
+.building-theme--malaysia-tropical {
+  --branch-accent: #10b981;
+  --branch-gold: #facc15;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(16, 185, 129, 0.2), transparent 30%),
+    radial-gradient(circle at 80% 25%, rgba(250, 204, 21, 0.16), transparent 28%),
+    linear-gradient(180deg, #064e3b, #083344, #020617);
+}
+.building-theme--malaysia-tropical .hq-building__roof-line {
+  background: linear-gradient(90deg, #10b981, #facc15, #22d3ee, #facc15, #10b981);
+}
+.building-theme--malaysia-tropical .hq-building__upper-sign {
+  background: linear-gradient(135deg, #064e3b, #0f766e, #ca8a04);
+}
+.building-theme--malaysia-tropical .hq-building__floor {
+  background: linear-gradient(115deg, rgba(255,255,255,0.15), transparent 25%, rgba(250,204,21,0.1) 55%, transparent 78%), linear-gradient(90deg, #065f46, #0f766e, #075985);
+}
+.building-theme--malaysia-tropical .hq-entrance__canopy {
+  border-radius: 22px 22px 6px 6px;
+  background: linear-gradient(135deg, #10b981, #facc15, #0284c7);
+}
+
+/* 8. Indonesia — Archipelago Cyber Office */
+.building-theme--indonesia-archipelago {
+  --branch-accent: #f97316;
+  --branch-gold: #facc15;
+  background:
+    radial-gradient(circle at 55% 28%, rgba(251, 113, 133, 0.18), transparent 30%),
+    radial-gradient(circle at 22% 70%, rgba(250, 204, 21, 0.13), transparent 27%),
+    linear-gradient(180deg, #451a03, #0f172a 48%, #020617);
+}
+.building-theme--indonesia-archipelago .hq-building__roof-line {
+  background: linear-gradient(90deg, #dc2626, #f97316, #facc15, #f97316, #dc2626);
+}
+.building-theme--indonesia-archipelago .hq-building__upper-sign {
+  background: linear-gradient(135deg, #7f1d1d, #ea580c, #0f172a);
+}
+.building-theme--indonesia-archipelago .hq-building__floor {
+  background: linear-gradient(115deg, rgba(255,255,255,0.14), transparent 24%, rgba(251,146,60,0.12) 48%, transparent 72%), linear-gradient(90deg, #7f1d1d, #c2410c, #1e3a8a);
+}
+.building-theme--indonesia-archipelago .hq-entrance__canopy {
+  background: linear-gradient(135deg, #dc2626, #f97316, #facc15);
+}
+
+/* 9. Bhutan — Himalayan Royal Office */
+.building-theme--bhutan-himalayan {
+  --branch-accent: #facc15;
+  --branch-gold: #fef3c7;
+  background:
+    radial-gradient(circle at 50% 24%, rgba(250, 204, 21, 0.17), transparent 32%),
+    linear-gradient(180deg, #3b0764, #1e1b4b, #020617);
+}
+.building-theme--bhutan-himalayan .hq-building__roof-line {
+  height: 3.2%;
+  background: linear-gradient(90deg, #7c2d12, #facc15, #fef3c7, #facc15, #7c2d12);
+}
+.building-theme--bhutan-himalayan .hq-building__upper-sign {
+  background: linear-gradient(135deg, #4c0519, #7c2d12, #1e1b4b);
+}
+.building-theme--bhutan-himalayan .hq-building__floor {
+  background: linear-gradient(115deg, rgba(255,255,255,0.14), transparent 24%, rgba(250,204,21,0.12) 48%, transparent 72%), linear-gradient(90deg, #4c0519, #7c2d12, #312e81);
+}
+.building-theme--bhutan-himalayan .hq-entrance__canopy {
+  border-radius: 18px 18px 4px 4px;
+  background: linear-gradient(135deg, #7c2d12, #facc15 42%, #fef3c7 50%, #facc15 58%, #4c0519);
+}
+.building-theme--bhutan-himalayan .hq-column {
+  background: linear-gradient(90deg, #4c0519, #facc15, #fef3c7, #7c2d12);
+}
+
+/* Default Luxury Office */
+.building-theme--default-luxury {
+  --branch-accent: #0ea5e9;
+  --branch-gold: #facc15;
+}
+.building-theme--default-luxury .hq-building__roof-line {
+  background: linear-gradient(90deg, #0ea5e9, #facc15, #0ea5e9);
+}
+.building-theme--default-luxury .hq-building__upper-sign {
+  background: linear-gradient(135deg, #020617, #1e3a8a, #0f172a);
+}
+.building-theme--default-luxury .hq-building__floor {
+  background: linear-gradient(115deg, rgba(255,255,255,0.14), transparent 24%, rgba(56,189,248,0.12) 48%, transparent 72%), linear-gradient(90deg, #0f2d4d, #164b7a, #071827);
+}
+
+/* =========================================================
+   FULL RESPONSIVE BUILDING TRANSITION LAYER
+   Paste remains at END so it overrides every theme above.
+   Supports: large desktop, laptop, tablet, mobile, small mobile,
+   short-height screens, and landscape phones.
+   ========================================================= */
+
+.building-transition {
+  --bt-scale-desktop: 1;
+  --bt-safe-top: max(14px, env(safe-area-inset-top));
+  --bt-safe-right: max(14px, env(safe-area-inset-right));
+  --bt-safe-bottom: max(12px, env(safe-area-inset-bottom));
+  --bt-safe-left: max(14px, env(safe-area-inset-left));
+}
+
+.building-transition,
+.building-transition * {
+  box-sizing: border-box;
+}
+
+.building-transition__controls {
+  top: var(--bt-safe-top);
+  right: var(--bt-safe-right);
+}
+
+.hq-building {
+  width: clamp(760px, 72vw, 1120px);
+  height: clamp(500px, 74vh, 720px);
+  min-height: 0;
+}
+
+.hq-building__brand-copy strong {
+  font-size: clamp(11px, 1.42vw, 21px);
+}
+
+.hq-building__brand-copy span {
+  font-size: clamp(8px, 0.86vw, 12px);
+}
+
+.hq-entrance__branch-display strong {
+  font-size: clamp(7px, 0.8vw, 12px);
+}
+
+.hq-access-hint {
+  max-width: min(150px, 31vw);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hq-audio-error {
+  max-width: min(160px, 34vw);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Large desktop and ultrawide */
+
+@media (min-width: 1600px) {
+  .hq-building {
+    width: min(1180px, 72vw);
+    height: min(760px, 80vh);
+  }
+
+  .building-transition--waiting .building-transition__camera {
+    transform: scale(1.16) translateY(4.6%);
+  }
+
+  .building-transition--ringing .building-transition__camera,
+  .building-transition--verifying .building-transition__camera {
+    transform: scale(1.2) translateY(5%);
+  }
+
+  .building-transition--granted .building-transition__camera,
+  .building-transition--opening .building-transition__camera,
+  .building-transition--open .building-transition__camera {
+    transform: scale(1.24) translateY(5.8%);
+  }
+
+  .building-transition--entering .building-transition__camera,
+  .building-transition--exiting .building-transition__camera {
+    transform: scale(2.38) translateY(11%);
+  }
+}
+
+/* Standard laptop */
+
+@media (max-width: 1366px) {
+  .hq-building {
+    width: min(980px, 92vw);
+    height: min(650px, 82vh);
+  }
+
+  .building-transition--waiting .building-transition__camera {
+    transform: scale(1.14) translateY(4.8%);
+  }
+
+  .building-transition--ringing .building-transition__camera,
+  .building-transition--verifying .building-transition__camera {
+    transform: scale(1.17) translateY(5.2%);
+  }
+
+  .building-transition--granted .building-transition__camera,
+  .building-transition--opening .building-transition__camera,
+  .building-transition--open .building-transition__camera {
+    transform: scale(1.2) translateY(5.7%);
+  }
+
+  .building-transition--entering .building-transition__camera,
+  .building-transition--exiting .building-transition__camera {
+    transform: scale(2.25) translateY(11%);
+  }
+}
+
+/* Small laptop / large tablet */
+
+@media (max-width: 1180px) {
+  .hq-building {
+    width: min(930px, 98vw);
+    height: min(620px, 82vh);
+  }
+
+  .hq-building::before,
+  .hq-building::after {
+    width: 15%;
+  }
+
+  .hq-building::before {
+    left: -5%;
+  }
+
+  .hq-building::after {
+    right: -5%;
+  }
+
+  .hq-building__upper-sign {
+    width: min(520px, 68%);
+    min-height: 64px;
+    padding: 10px 18px;
+  }
+
+  .hq-building__emblem {
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+  }
+
+  .hq-building__floor {
+    gap: clamp(5px, 0.7vw, 10px);
+    padding:
+      clamp(10px, 1.2vw, 16px)
+      clamp(12px, 1.5vw, 22px);
+  }
+
+  .hq-building__ground-floor {
+    grid-template-columns: 0.9fr minmax(280px, 40%) 0.9fr;
+  }
+
+  .building-transition--waiting .building-transition__camera {
+    transform: scale(1.1) translateY(4%);
+  }
+
+  .building-transition--ringing .building-transition__camera,
+  .building-transition--verifying .building-transition__camera {
+    transform: scale(1.13) translateY(4.8%);
+  }
+
+  .building-transition--granted .building-transition__camera,
+  .building-transition--opening .building-transition__camera,
+  .building-transition--open .building-transition__camera {
+    transform: scale(1.16) translateY(5.4%);
+  }
+
+  .building-transition--entering .building-transition__camera,
+  .building-transition--exiting .building-transition__camera {
+    transform: scale(2.05) translateY(10%);
+  }
+}
+
+/* Tablet portrait */
+
+@media (max-width: 900px) {
+  .building-transition {
+    place-items: end center;
+  }
+
+  .building-transition__controls {
+    left: var(--bt-safe-left);
+    right: var(--bt-safe-right);
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .building-transition__control {
+    min-height: 36px;
+    padding: 8px 11px;
+    font-size: 11px;
+  }
+
+  .building-transition__camera {
+    align-items: flex-end;
+    padding-bottom: 0;
+  }
+
+  .hq-building {
+    width: 112vw;
+    height: min(600px, 78vh);
+  }
+
+  .hq-building::before,
+  .hq-building::after {
+    width: 12%;
+    opacity: 0.85;
+  }
+
+  .hq-building::before {
+    left: -2%;
+  }
+
+  .hq-building::after {
+    right: -2%;
+  }
+
+  .hq-building__roof-line {
+    left: 10%;
+    right: 10%;
+  }
+
+  .hq-building__upper-sign {
+    width: 62%;
+    min-height: 58px;
+    gap: 9px;
+    padding: 9px 12px;
+  }
+
+  .hq-building__emblem {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+    border-radius: 10px;
+  }
+
+  .hq-building__brand-copy strong {
+    max-width: 100%;
+    font-size: clamp(10px, 2.2vw, 16px);
+    letter-spacing: 0.08em;
+  }
+
+  .hq-building__brand-copy span {
+    font-size: clamp(7px, 1.5vw, 10px);
+    letter-spacing: 0.13em;
+  }
+
+  .hq-building__floor {
+    left: 8%;
+    right: 8%;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  .hq-building__floor .hq-window:nth-child(1),
+  .hq-building__floor .hq-window:nth-child(9) {
+    display: none;
+  }
+
+  .hq-building__ground-floor {
+    left: 6%;
+    right: 6%;
+    grid-template-columns: 0.7fr minmax(270px, 48%) 0.7fr;
+  }
+
+  .hq-building__wing {
+    grid-template-columns: repeat(2, 1fr);
+    padding-inline: 5%;
+  }
+
+  .hq-building__wing-window:nth-child(3) {
+    display: none;
+  }
+
+  .hq-entrance__branch-display {
+    left: 8%;
+    right: 8%;
+    padding: 6px 8px;
+  }
+
+  .hq-entrance__door-frame {
+    left: 13%;
+    right: 13%;
+  }
+
+  .hq-access-panel {
+    right: 4.5%;
+    width: clamp(24px, 4vw, 34px);
+  }
+
+  .hq-access-hint {
+    right: 50%;
+    top: 67%;
+    transform: translateX(50%);
+    font-size: 7px;
+    padding: 5px 8px;
+  }
+
+  .hq-access-hint:hover,
+  .hq-access-hint:focus-visible {
+    transform: translateX(50%) translateY(-1px) scale(1.04);
+  }
+
+  .building-transition--waiting .building-transition__camera {
+    transform: scale(1.02) translateY(2.5%);
+  }
+
+  .building-transition--ringing .building-transition__camera,
+  .building-transition--verifying .building-transition__camera {
+    transform: scale(1.05) translateY(3%);
+  }
+
+  .building-transition--granted .building-transition__camera,
+  .building-transition--opening .building-transition__camera,
+  .building-transition--open .building-transition__camera {
+    transform: scale(1.08) translateY(3.5%);
+  }
+
+  .building-transition--entering .building-transition__camera,
+  .building-transition--exiting .building-transition__camera {
+    transform: scale(1.7) translateY(8%);
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 640px) {
+  .building-transition__controls {
+    top: max(10px, env(safe-area-inset-top));
+  }
+
+  .building-transition__control {
+    min-height: 34px;
+    padding: 8px 10px;
+    border-radius: 14px;
+  }
+
+  .building-transition__control span {
+    display: inline;
+    max-width: 84px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .hq-building {
+    width: 134vw;
+    height: min(570px, 76vh);
+  }
+
+  .hq-building::before,
+  .hq-building::after {
+    display: none;
+  }
+
+  .hq-building__roof-line {
+    top: 9%;
+    left: 18%;
+    right: 18%;
+  }
+
+  .hq-building__upper-sign {
+    top: 11.2%;
+    width: 54%;
+    min-height: 50px;
+    gap: 7px;
+    padding: 8px 10px;
+    border-radius: 0 0 12px 12px;
+  }
+
+  .hq-building__emblem {
+    width: 32px;
+    height: 32px;
+    flex-basis: 32px;
+  }
+
+  .hq-building__brand-copy strong {
+    font-size: clamp(8px, 2.65vw, 12px);
+    letter-spacing: 0.055em;
+  }
+
+  .hq-building__brand-copy span {
+    margin-top: 3px;
+    font-size: clamp(6px, 2vw, 8px);
+    letter-spacing: 0.1em;
+  }
+
+  .hq-building__floor {
+    left: 14%;
+    right: 14%;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px;
+    padding: 11px 12px;
+  }
+
+  .hq-building__floor .hq-window:nth-child(1),
+  .hq-building__floor .hq-window:nth-child(2),
+  .hq-building__floor .hq-window:nth-child(8),
+  .hq-building__floor .hq-window:nth-child(9) {
+    display: none;
+  }
+
+  .hq-building__floor--top {
+    top: 21%;
+    height: 17%;
+  }
+
+  .hq-building__floor--middle {
+    top: 38.5%;
+    height: 17%;
+  }
+
+  .hq-building__ground-floor {
+    left: 12%;
+    right: 12%;
+    top: 56%;
+    bottom: 8%;
+    grid-template-columns: 0.42fr minmax(235px, 56%) 0.42fr;
+  }
+
+  .hq-building__wing {
+    grid-template-columns: 1fr;
+    padding: 16% 8% 9%;
+  }
+
+  .hq-building__wing-window:nth-child(2),
+  .hq-building__wing-window:nth-child(3) {
+    display: none;
+  }
+
+  .hq-entrance {
+    margin-top: -5%;
+  }
+
+  .hq-entrance__canopy {
+    left: -10%;
+    right: -10%;
+    height: 12%;
+  }
+
+  .hq-entrance__branch-display {
+    top: 4.5%;
+    left: 7%;
+    right: 7%;
+    padding: 5px 7px;
+  }
+
+  .hq-entrance__branch-display span {
+    font-size: 5.5px;
+    letter-spacing: 0.18em;
+  }
+
+  .hq-entrance__branch-display strong {
+    font-size: 7px;
+    letter-spacing: 0.08em;
+  }
+
+  .hq-column {
+    width: 6%;
+  }
+
+  .hq-entrance__door-frame {
+    left: 12%;
+    right: 12%;
+    top: 25%;
+    bottom: 9%;
+  }
+
+  .hq-lobby__branch-card {
+    min-width: 56%;
+    padding: 4px 6px;
+  }
+
+  .hq-lobby__branch-card strong {
+    font-size: 6px;
+  }
+
+  .hq-lobby__branch-card span {
+    font-size: 5px;
+  }
+
+  .hq-access-panel {
+    right: 2%;
+    top: 48%;
+    width: 25px;
+  }
+
+  .hq-access-hint {
+    top: 66.5%;
+    max-width: 112px;
+    font-size: 6.5px;
+    padding: 5px 7px;
+  }
+
+  .hq-audio-error {
+    right: 50%;
+    top: 76%;
+    transform: translateX(50%);
+    font-size: 6.5px;
+  }
+
+  .hq-landscape {
+    left: 0;
+    right: 0;
+    height: 11%;
+  }
+
+  .building-transition--waiting .building-transition__camera {
+    transform: scale(0.94) translateY(1.5%);
+  }
+
+  .building-transition--ringing .building-transition__camera,
+  .building-transition--verifying .building-transition__camera {
+    transform: scale(0.97) translateY(2%);
+  }
+
+  .building-transition--granted .building-transition__camera,
+  .building-transition--opening .building-transition__camera,
+  .building-transition--open .building-transition__camera {
+    transform: scale(1) translateY(2.8%);
+  }
+
+  .building-transition--entering .building-transition__camera,
+  .building-transition--exiting .building-transition__camera {
+    transform: scale(1.45) translateY(7%);
+  }
+}
+
+/* Small mobile */
+
+@media (max-width: 430px) {
+  .building-transition__control {
+    width: 42px;
+    padding-inline: 0;
+  }
+
+  .building-transition__control span {
+    display: none;
+  }
+
+  .hq-building {
+    width: 158vw;
+    height: min(540px, 74vh);
+  }
+
+  .hq-building__roof-line {
+    left: 24%;
+    right: 24%;
+  }
+
+  .hq-building__upper-sign {
+    width: 47%;
+    min-height: 46px;
+    gap: 6px;
+    padding: 7px 8px;
+  }
+
+  .hq-building__emblem {
+    width: 28px;
+    height: 28px;
+    flex-basis: 28px;
+  }
+
+  .hq-building__brand-copy strong {
+    font-size: 7.8px;
+    letter-spacing: 0.045em;
+  }
+
+  .hq-building__brand-copy span {
+    font-size: 6px;
+  }
+
+  .hq-building__floor {
+    left: 19%;
+    right: 19%;
+    gap: 5px;
+    padding: 10px;
+  }
+
+  .hq-building__ground-floor {
+    left: 17%;
+    right: 17%;
+    grid-template-columns: 0.35fr minmax(215px, 62%) 0.35fr;
+  }
+
+  .hq-entrance__branch-display strong {
+    font-size: 6.4px;
+  }
+
+  .hq-entrance__door-frame {
+    left: 10.5%;
+    right: 10.5%;
+  }
+
+  .hq-access-hint {
+    max-width: 104px;
+    font-size: 6px;
+  }
+
+  .building-transition--waiting .building-transition__camera {
+    transform: scale(0.9) translateY(1%);
+  }
+
+  .building-transition--ringing .building-transition__camera,
+  .building-transition--verifying .building-transition__camera {
+    transform: scale(0.93) translateY(1.8%);
+  }
+
+  .building-transition--granted .building-transition__camera,
+  .building-transition--opening .building-transition__camera,
+  .building-transition--open .building-transition__camera {
+    transform: scale(0.96) translateY(2.4%);
+  }
+
+  .building-transition--entering .building-transition__camera,
+  .building-transition--exiting .building-transition__camera {
+    transform: scale(1.3) translateY(6%);
+  }
+}
+
+/* Very short screens, including small laptops with browser bars */
+
+@media (max-height: 720px) and (min-width: 760px) {
+  .hq-building {
+    height: 86vh;
+    width: min(920px, 88vw);
+  }
+
+  .building-transition__controls {
+    top: 10px;
+  }
+
+  .building-transition--waiting .building-transition__camera {
+    transform: scale(1.04) translateY(2%);
+  }
+
+  .building-transition--ringing .building-transition__camera,
+  .building-transition--verifying .building-transition__camera {
+    transform: scale(1.07) translateY(2.5%);
+  }
+
+  .building-transition--granted .building-transition__camera,
+  .building-transition--opening .building-transition__camera,
+  .building-transition--open .building-transition__camera {
+    transform: scale(1.1) translateY(3%);
+  }
+
+  .building-transition--entering .building-transition__camera,
+  .building-transition--exiting .building-transition__camera {
+    transform: scale(1.75) translateY(7%);
+  }
+}
+
+/* Landscape phones */
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .building-transition__controls {
+    top: 8px;
+    right: 10px;
+    left: auto;
+  }
+
+  .building-transition__control {
+    min-height: 30px;
+    padding: 6px 9px;
+    font-size: 10px;
+  }
+
+  .building-transition__control span {
+    display: none;
+  }
+
+  .hq-building {
+    width: min(780px, 92vw);
+    height: 96vh;
+  }
+
+  .hq-building__upper-sign {
+    min-height: 44px;
+    padding: 6px 10px;
+  }
+
+  .hq-building__emblem {
+    width: 28px;
+    height: 28px;
+    flex-basis: 28px;
+  }
+
+  .hq-building__brand-copy strong {
+    font-size: 9px;
+  }
+
+  .hq-building__brand-copy span {
+    font-size: 6px;
+  }
+
+  .hq-building__floor {
+    padding-block: 8px;
+  }
+
+  .hq-access-hint {
+    top: 65%;
+    font-size: 6px;
+  }
+
+  .building-transition--waiting .building-transition__camera {
+    transform: scale(0.92) translateY(0);
+  }
+
+  .building-transition--ringing .building-transition__camera,
+  .building-transition--verifying .building-transition__camera {
+    transform: scale(0.95) translateY(0.5%);
+  }
+
+  .building-transition--granted .building-transition__camera,
+  .building-transition--opening .building-transition__camera,
+  .building-transition--open .building-transition__camera {
+    transform: scale(0.98) translateY(1%);
+  }
+
+  .building-transition--entering .building-transition__camera,
+  .building-transition--exiting .building-transition__camera {
+    transform: scale(1.36) translateY(4%);
+  }
+}
+
+/* =========================================================
+   MOBILE BELL BUTTON FIX
+   Fixes "Click bell to enter" visibility and positioning
+   on mobile device preview.
+   Paste remains at END so it overrides all previous rules.
+   ========================================================= */
+
+@media (max-width: 640px) {
+  .hq-access-panel {
+    right: 4.5% !important;
+    top: 47% !important;
+    width: 28px !important;
+    border-radius: 8px !important;
+  }
+
+  .hq-access-hint {
+    left: 50% !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: 13.5% !important;
+    transform: translateX(-50%) !important;
+
+    width: max-content !important;
+    min-width: 132px !important;
+    max-width: 168px !important;
+    min-height: 30px !important;
+    padding: 8px 12px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+
+    border-radius: 999px !important;
+    border: 1px solid rgba(250, 204, 21, 0.72) !important;
+
+    background:
+      linear-gradient(
+        135deg,
+        rgba(15, 23, 42, 0.96),
+        rgba(30, 64, 175, 0.92)
+      ) !important;
+
+    color: #fef3c7 !important;
+
+    font-size: 8.5px !important;
+    font-weight: 950 !important;
+    letter-spacing: 0.025em !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+
+    box-shadow:
+      0 10px 24px rgba(0, 0, 0, 0.46),
+      0 0 18px rgba(250, 204, 21, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16) !important;
+  }
+
+  .hq-access-hint svg {
+    width: 12px !important;
+    height: 12px !important;
+    flex: 0 0 12px !important;
+  }
+
+  .hq-access-hint:hover,
+  .hq-access-hint:focus-visible {
+    transform: translateX(-50%) translateY(-1px) scale(1.04) !important;
+    border-color: rgba(254, 243, 199, 0.9) !important;
+    background:
+      linear-gradient(
+        135deg,
+        rgba(30, 41, 59, 0.98),
+        rgba(37, 99, 235, 0.96)
+      ) !important;
+  }
+
+  .hq-audio-error {
+    left: 50% !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: 8.5% !important;
+    transform: translateX(-50%) !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .hq-access-panel {
+    right: 4% !important;
+    width: 26px !important;
+  }
+
+  .hq-access-hint {
+    bottom: 13% !important;
+    min-width: 124px !important;
+    max-width: 150px !important;
+    min-height: 28px !important;
+    padding: 7px 10px !important;
+    font-size: 7.8px !important;
+  }
+
+  .hq-access-hint svg {
+    width: 11px !important;
+    height: 11px !important;
+    flex-basis: 11px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .hq-access-hint {
+    bottom: 12.5% !important;
+    min-width: 118px !important;
+    max-width: 142px !important;
+    font-size: 7.2px !important;
+  }
+}
+
+/* Landscape phone safety */
+@media (max-height: 520px) and (orientation: landscape) {
+  .hq-access-hint {
+    left: auto !important;
+    right: 2% !important;
+    top: 65% !important;
+    bottom: auto !important;
+    transform: none !important;
+
+    min-width: 110px !important;
+    max-width: 130px !important;
+    min-height: 26px !important;
+    padding: 6px 9px !important;
+    font-size: 7px !important;
+  }
+
+  .hq-access-hint:hover,
+  .hq-access-hint:focus-visible {
+    transform: translateY(-1px) scale(1.04) !important;
+  }
+}
+
+/* =========================================================
+   MOBILE BELL HINT UNDER BELL ICON
+   Places "Click bell to enter" directly below the bell panel
+   instead of centered on the door.
+   ========================================================= */
+
+@media (max-width: 640px) {
+  .hq-access-panel {
+    right: 4.2% !important;
+    top: 47% !important;
+    width: 28px !important;
+    z-index: 18 !important;
+  }
+
+  .hq-access-hint {
+    left: auto !important;
+    right: calc(4.2% - 42px) !important;
+    top: calc(47% + 48px) !important;
+    bottom: auto !important;
+    transform: none !important;
+    z-index: 19 !important;
+
+    width: 112px !important;
+    min-width: 112px !important;
+    max-width: 112px !important;
+    min-height: 26px !important;
+    padding: 7px 8px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
+
+    border-radius: 999px !important;
+    border: 1px solid rgba(250, 204, 21, 0.72) !important;
+
+    background:
+      linear-gradient(
+        135deg,
+        rgba(15, 23, 42, 0.96),
+        rgba(30, 64, 175, 0.92)
+      ) !important;
+
+    color: #fef3c7 !important;
+
+    font-size: 7.1px !important;
+    font-weight: 950 !important;
+    letter-spacing: 0.01em !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+
+    box-shadow:
+      0 9px 20px rgba(0, 0, 0, 0.48),
+      0 0 16px rgba(250, 204, 21, 0.23),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  }
+
+  .hq-access-hint::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: -6px;
+    width: 9px;
+    height: 9px;
+    transform: translateX(-50%) rotate(45deg);
+    border-left: 1px solid rgba(250, 204, 21, 0.72);
+    border-top: 1px solid rgba(250, 204, 21, 0.72);
+    background: rgba(15, 23, 42, 0.96);
+  }
+
+  .hq-access-hint svg {
+    width: 10px !important;
+    height: 10px !important;
+    flex: 0 0 10px !important;
+  }
+
+  .hq-access-hint:hover,
+  .hq-access-hint:focus-visible {
+    transform: translateY(-1px) scale(1.04) !important;
+    border-color: rgba(254, 243, 199, 0.9) !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .hq-access-panel {
+    right: 3.7% !important;
+    width: 26px !important;
+  }
+
+  .hq-access-hint {
+    right: calc(3.7% - 39px) !important;
+    top: calc(47% + 45px) !important;
+
+    width: 104px !important;
+    min-width: 104px !important;
+    max-width: 104px !important;
+    min-height: 24px !important;
+    padding: 6px 7px !important;
+
+    font-size: 6.5px !important;
+    gap: 4px !important;
+  }
+
+  .hq-access-hint svg {
+    width: 9px !important;
+    height: 9px !important;
+    flex-basis: 9px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .hq-access-hint {
+    right: calc(3.7% - 36px) !important;
+    width: 96px !important;
+    min-width: 96px !important;
+    max-width: 96px !important;
+    font-size: 6px !important;
+  }
+}
+
+/* Keep landscape phones readable */
+@media (max-height: 520px) and (orientation: landscape) {
+  .hq-access-panel {
+    right: 4% !important;
+    top: 47% !important;
+  }
+
+  .hq-access-hint {
+    left: auto !important;
+    right: calc(4% - 38px) !important;
+    top: calc(47% + 42px) !important;
+    bottom: auto !important;
+    transform: none !important;
+
+    width: 102px !important;
+    min-width: 102px !important;
+    max-width: 102px !important;
+    min-height: 24px !important;
+    padding: 6px 7px !important;
+    font-size: 6.4px !important;
+  }
+}
+
+/* =========================================================
+   MOBILE TOP EMPTY SPACE FIX
+   Moves the building upward on mobile only.
+   No change to bell, door, sound, or branch theme logic.
+   ========================================================= */
+
+@media (max-width: 640px) {
+  .building-transition__camera {
+    align-items: flex-end !important;
+  }
+
+  .hq-building {
+    margin-bottom: 5vh !important;
+  }
+
+  .building-transition--revealing .building-transition__camera,
+  .building-transition--waiting .building-transition__camera {
+    transform: scale(0.94) translateY(-8%) !important;
+  }
+
+  .building-transition--ringing .building-transition__camera,
+  .building-transition--verifying .building-transition__camera {
+    transform: scale(0.97) translateY(-7%) !important;
+  }
+
+  .building-transition--granted .building-transition__camera,
+  .building-transition--opening .building-transition__camera,
+  .building-transition--open .building-transition__camera {
+    transform: scale(1) translateY(-6%) !important;
+  }
+
+  .building-transition--entering .building-transition__camera,
+  .building-transition--exiting .building-transition__camera {
+    transform: scale(1.45) translateY(2%) !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .hq-building {
+    margin-bottom: 6vh !important;
+  }
+
+  .building-transition--revealing .building-transition__camera,
+  .building-transition--waiting .building-transition__camera {
+    transform: scale(0.9) translateY(-10%) !important;
+  }
+
+  .building-transition--ringing .building-transition__camera,
+  .building-transition--verifying .building-transition__camera {
+    transform: scale(0.93) translateY(-9%) !important;
+  }
+
+  .building-transition--granted .building-transition__camera,
+  .building-transition--opening .building-transition__camera,
+  .building-transition--open .building-transition__camera {
+    transform: scale(0.96) translateY(-8%) !important;
+  }
+
+  .building-transition--entering .building-transition__camera,
+  .building-transition--exiting .building-transition__camera {
+    transform: scale(1.3) translateY(1%) !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .hq-building {
+    margin-bottom: 7vh !important;
+  }
+
+  .building-transition--revealing .building-transition__camera,
+  .building-transition--waiting .building-transition__camera {
+    transform: scale(0.88) translateY(-11%) !important;
+  }
+
+  .building-transition--ringing .building-transition__camera,
+  .building-transition--verifying .building-transition__camera {
+    transform: scale(0.91) translateY(-10%) !important;
+  }
+
+  .building-transition--granted .building-transition__camera,
+  .building-transition--opening .building-transition__camera,
+  .building-transition--open .building-transition__camera {
+    transform: scale(0.94) translateY(-9%) !important;
+  }
+}
+
+/* Keep landscape phones safe */
+@media (max-height: 520px) and (orientation: landscape) {
+  .hq-building {
+    margin-bottom: 0 !important;
+  }
+
+  .building-transition--revealing .building-transition__camera,
+  .building-transition--waiting .building-transition__camera {
+    transform: scale(0.92) translateY(0) !important;
+  }
+
+  .building-transition--ringing .building-transition__camera,
+  .building-transition--verifying .building-transition__camera {
+    transform: scale(0.95) translateY(0.5%) !important;
+  }
+
+  .building-transition--granted .building-transition__camera,
+  .building-transition--opening .building-transition__camera,
+  .building-transition--open .building-transition__camera {
+    transform: scale(0.98) translateY(1%) !important;
+  }
+}
+

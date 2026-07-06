@@ -7,7 +7,7 @@ import GlobalNavigation from '../components/common/GlobalNavigation'
 
 const RootLayout = () => {
   return (
-    <div className="flex flex-col min-h-screen bg-white overflow-x-clip">
+    <div className="flex flex-col min-h-screen bg-white">
       <TopBar />
       <Navbar />
       <main className="flex-grow relative">

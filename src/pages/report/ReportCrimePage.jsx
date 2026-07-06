@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { menuItems, useInjectStyles } from "./ReportCrimePageData";
 import {
   FaInfoCircle,
@@ -58,25 +59,11 @@ const getColorClass = (color) => {
   }
 };
 
-/* ========== SUB-COMPONENTS ========== */
-
-function ComingSoonPage({ onBack }) {
-  return (
-    <div className="coming-soon-overlay">
-      <div className="coming-soon-card">
-        <h1 className="csp-text">Coming Soon..</h1>
-        <button className="csp-back-btn" onClick={onBack}>&larr; Back</button>
-      </div>
-    </div>
-  );
-}
-
 /* ========== MAIN COMPONENT ========== */
 
 export default function ReportCrimePage() {
   useInjectStyles();
   const [selected, setSelected] = useState(null);
-  const [openPage, setOpenPage] = useState(null);
   const [doorsOpen, setDoorsOpen] = useState(true);
   const [isManual, setIsManual] = useState(false);
   const [carsState, setCarsState] = useState({
@@ -177,24 +164,30 @@ export default function ReportCrimePage() {
   const leftItems = menuItems.slice(0, 9);
   const rightItems = menuItems.slice(9, 18);
 
+  const navigate = useNavigate();
+
   const handleCardClick = (item) => {
+    // Active routes mapped by card ID. 
+    // To re-enable a page, add its ID and route here.
+    const activeRoutes = {
+      6: '/report-crime/cyber-security-tips',
+      7: '/report-crime/awareness-prevention-tips',
+      8: '/report-crime/legal-guidance-awareness',
+      9: '/report-crime/cyber-laws-and-rights',
+      10: '/report-crime/cyber-safety-women',
+      11: '/report-crime/victim-rights-support'
+    };
+
+    if (activeRoutes[item.id]) {
+      navigate(activeRoutes[item.id]);
+    } else {
+      navigate('/coming-soon');
+    }
+    
     setSelected(item);
-    setOpenPage(item);
-    setDoorsOpen(true);
   };
 
-  const handleBack = () => {
-    setOpenPage(null);
-    setSelected(null);
-  };
 
-  if (openPage) {
-    return (
-      <div className="min-h-screen bg-[#ffffff] flex flex-col justify-between items-center w-full">
-        <ComingSoonPage onBack={handleBack} />
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-[#ffffff] flex flex-col justify-between items-center w-full">

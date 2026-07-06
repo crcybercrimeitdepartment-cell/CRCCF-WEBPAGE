@@ -46,7 +46,7 @@ export default function CareerOpportunities() {
   };
 
   return (
-    <section className="py-20 bg-slate-50 relative overflow-hidden font-sans">
+    <section className="section-padding bg-slate-50 relative overflow-hidden font-sans">
       <div className="max-w-7xl mx-auto px-6">
         
         {/* Section Header */}

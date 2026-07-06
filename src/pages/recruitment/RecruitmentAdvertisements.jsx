@@ -1,3 +1,18 @@
+import ComingSoonPage from '../common/ComingSoonPage';
+
+/*
+=========================================
+TEMPORARILY DISABLED
+Reason:
+This page is currently using the global
+ComingSoonPage component.
+
+Do not remove this content because it
+will be re-enabled in future updates.
+=========================================
+*/
+
+/*
 import RecruitmentPageLayout from './RecruitmentPageLayout'
 
 const RecruitmentAdvertisements = () => (
@@ -8,3 +23,11 @@ const RecruitmentAdvertisements = () => (
 )
 
 export default RecruitmentAdvertisements
+
+*/
+
+const RecruitmentAdvertisements = () => {
+  return <ComingSoonPage />;
+};
+
+export default RecruitmentAdvertisements;

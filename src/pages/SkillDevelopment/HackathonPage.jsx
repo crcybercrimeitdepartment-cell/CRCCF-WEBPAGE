@@ -20,6 +20,7 @@ import {
     constants,
     contentData
 } from '../../data/skillDevelopment/HackathonPageData';
+import ComingSoonPage from '../common/ComingSoonPage';
 
 const { iconConfig } = contentData;
 
@@ -127,7 +128,7 @@ function Homepage() {
 
     const handleExploreProgram = useCallback((program) => {
         const isMobile = window.innerWidth <= 1100;
-        setTimeout(() => { navigate(`/program/${program.id}`); }, isMobile ? 600 : 0);
+        setTimeout(() => { navigate(`program/${program.id}`); }, isMobile ? 600 : 0);
     }, [navigate]);
 
     useEffect(() => {
@@ -262,122 +263,7 @@ function Homepage() {
 }
 
 function ProgramDetail() {
-    const { id } = useParams();
-    const navigate = useNavigate();
-    const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-    const [errors, setErrors] = useState({});
-    const [submitted, setSubmitted] = useState(false);
-    const program = useMemo(() => hackathonData.find(p => p.id === id), [id]);
-
-    if (!program) {
-        return (
-            <div className="min-h-[60vh] flex flex-col items-center justify-center p-6">
-                <h2 className="text-2xl font-bold text-[var(--text-heading)] mb-4">Program Not Found</h2>
-                <p className="text-[var(--text-main)] mb-6">The program you are looking for does not exist or has been moved.</p>
-                
-            </div>
-        );
-    }
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-        if (errors[name]) setErrors((prev) => ({ ...prev, [name]: '' }));
-    };
-    const validateForm = () => {
-        const newErrors = {};
-        if (!formData.name.trim()) newErrors.name = 'Full name is required';
-        if (!formData.email.trim()) newErrors.email = 'Email is required';
-        else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Please enter a valid email address';
-        if (!formData.message.trim()) newErrors.message = 'Please share your career objective';
-        return newErrors;
-    };
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const validationErrors = validateForm();
-        if (Object.keys(validationErrors).length > 0) setErrors(validationErrors);
-        else setSubmitted(true);
-    };
-
-    return (
-        <main className="main-content">
-            
-            <div className="grid grid-cols-[1.3fr_1fr] gap-10 mt-[30px] max-lg:grid-cols-1">
-                <div className="py-5">
-                    <span className="text-[var(--accent-color)] font-bold text-[13px] uppercase tracking-[1px]">{program.category}</span>
-                    <h1 className="text-[42px] font-extrabold mt-2 mb-5 text-[var(--text-heading)] text-left max-md:text-[32px]">{program.title}</h1>
-                    <div className="flex gap-2.5 mb-8 flex-wrap">
-                        <span className="px-4 py-2 rounded-lg font-bold bg-[var(--accent-glow)] text-[var(--accent-color)]">{program.level}</span>
-                        <span className="px-4 py-2 rounded-lg font-semibold bg-[var(--bg-tertiary)] text-[var(--text-main)] inline-flex items-center gap-1.5"><Clock size={14} /> {program.duration}</span>
-                        <span className="px-4 py-2 rounded-lg font-semibold bg-[var(--bg-tertiary)] text-[var(--text-main)]">{program.weeklyCommitment} / week</span>
-                    </div>
-                    <div className="mb-8">
-                        <h3 className="text-xl font-bold mb-3 text-[var(--text-heading)]">About this Training</h3>
-                        <p className="text-[var(--text-main)] text-base leading-relaxed">This specialization program is designed to deliver deep, hands-on understanding. Under the direct guidance of active industry leaders, you will engage in practical simulations, complete concrete milestone projects, and receive customized technical code reviews or strategic feedback to accelerate your career progression.</p>
-                    </div>
-                    <div className="mb-8">
-                        <h3 className="text-xl font-bold mb-5 flex items-center gap-2 text-[var(--text-heading)]"><BookOpen size={20} className="sec-icon" /> Detailed Syllabus Roadmap</h3>
-                        <div className="curriculum-timeline">
-                            {program.curriculum.map((phase, idx) => (
-                                <div key={idx} className="timeline-item">
-                                    <div className="timeline-marker w-5 h-5 text-[11px]">{idx + 1}</div>
-                                    <div className="timeline-content">
-                                        <p className="text-base font-semibold text-[var(--text-heading)]">{phase.split(':')[0]}</p>
-                                        <p className="text-sm text-[var(--text-muted)] mt-1">{phase.split(':')[1] || 'Deep practical implementation, case studies and peer project presentations.'}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    <div>
-                        <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-[var(--text-heading)]"><Award size={20} className="sec-icon" /> Key Skills & Technologies Covered</h3>
-                        <div className="modal-skills-list">
-                            {program.skills.map((skill, idx) => (<span key={idx} className="modal-skill-chip px-4 py-2 text-[13px]">{skill}</span>))}
-                        </div>
-                    </div>
-                </div>
-                <div className="self-start sticky top-[100px]">
-                    <div className="modal-form-col rounded-3xl border border-[var(--border-color)] shadow-[var(--card-shadow)]">
-                        {submitted ? (
-                            <div className="success-state text-center p-5">
-                                <CheckCircle size={72} className="text-emerald-500 mx-auto mb-6 block" />
-                                <h3 className="text-2xl mb-3 text-[var(--text-heading)]">Application Received!</h3>
-                                <p className="text-sm text-[var(--text-main)] mb-6 leading-relaxed">Congratulations <strong>{formData.name}</strong>, your request for <strong>{program.title}</strong> has been logged. We'll contact you at <strong>{formData.email}</strong>.</p>
-                                <button onClick={() => navigate('/')} className="w-full py-3.5 bg-[var(--accent-gradient)] border-transparent text-white rounded-xl font-semibold cursor-pointer transition-all duration-200 hover:-translate-y-px">Return to Dashboard</button>
-                            </div>
-                        ) : (
-                            <form onSubmit={handleSubmit} className="enrollment-form">
-                                <h3>Apply for Training</h3>
-                                <p className="form-sub">Join our next cohort. Limited seats available.</p>
-                                <div className="form-group">
-                                    <label htmlFor="name">Full Name</label>
-                                    <div className="input-wrapper">
-                                        <User size={16} className="input-icon" />
-                                        <input type="text" id="name" name="name" value={formData.name} onChange={handleInputChange} placeholder="John Doe" className={errors.name ? 'error' : ''} />
-                                    </div>
-                                    {errors.name && <span className="error-text">{errors.name}</span>}
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="email">Email Address</label>
-                                    <div className="input-wrapper">
-                                        <Mail size={16} className="input-icon" />
-                                        <input type="email" id="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="john@example.com" className={errors.email ? 'error' : ''} />
-                                    </div>
-                                    {errors.email && <span className="error-text">{errors.email}</span>}
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="message">Career Objectives</label>
-                                    <textarea id="message" name="message" value={formData.message} onChange={handleInputChange} placeholder="Why are you interested in this program?" rows="5" className={errors.message ? 'error' : ''}></textarea>
-                                    {errors.message && <span className="error-text">{errors.message}</span>}
-                                </div>
-                                <button type="submit" className="submit-application-btn py-4">Submit Enrollment Request</button>
-                            </form>
-                        )}
-                    </div>
-                </div>
-            </div>
-        </main>
-    );
+    return <ComingSoonPage />;
 }
 
 const styles = `
@@ -4995,15 +4881,17 @@ const styles = `
 export default function HackathonPage() {
     const [darkMode] = useState(false);
     return (
-        <>
-            <style dangerouslySetInnerHTML={{ __html: styles }} />
-            <div className={`hackathon-app-container ${darkMode ? 'dark-theme' : 'light-theme'}`}>
-                <ScrollToTop />
-                <Routes>
-                    <Route path="/" element={<Homepage />} />
-                    <Route path="/program/:id" element={<ProgramDetail />} />
-                </Routes>
-        </div>
-        </>
+            <Routes>
+                <Route path="/" element={
+                    <>
+                        <style dangerouslySetInnerHTML={{ __html: styles }} />
+                        <div className={`hackathon-app-container ${darkMode ? 'dark-theme' : 'light-theme'}`}>
+                            <ScrollToTop />
+                            <Homepage />
+                        </div>
+                    </>
+                } />
+                <Route path="program/:id" element={<ProgramDetail />} />
+            </Routes>
     );
 }

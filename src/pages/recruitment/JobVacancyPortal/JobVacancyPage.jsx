@@ -1,3 +1,18 @@
+import ComingSoonPage from '../../common/ComingSoonPage';
+
+/*
+=========================================
+TEMPORARILY DISABLED
+Reason:
+This page is currently using the global
+ComingSoonPage component.
+
+Do not remove this content because it
+will be re-enabled in future updates.
+=========================================
+*/
+
+/*
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useScroll, useSpring, useTransform, AnimatePresence } from 'framer-motion';
@@ -26,14 +41,14 @@ function EmptyState() {
       transition={{ duration: 0.5, ease: 'easeOut' }}
       className="flex flex-col items-center justify-center text-center py-24 px-6 max-w-md mx-auto"
     >
-      {/* Illustration */}
+      {/* Illustration * /}
       <div className="relative mb-8">
         <div className="w-28 h-28 rounded-full bg-indigo-50 border-2 border-indigo-100 flex items-center justify-center">
           <svg className="w-14 h-14 text-indigo-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
         </div>
-        {/* Pulsing ring */}
+        {/* Pulsing ring * /}
         <motion.div
           animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.1, 0.4] }}
           transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
@@ -255,18 +270,18 @@ function FloatingCards({ department = "Security", vacancies = "3", status = "Act
 function HeroBackground() {
   return (
     <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-      {/* Base Gradient */}
+      {/* Base Gradient * /}
       <div className="absolute inset-0 bg-gradient-to-br from-white via-indigo-50/30 to-blue-50/50"></div>
       
-      {/* Subtle Orbit Lines */}
+      {/* Subtle Orbit Lines * /}
       <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/3 w-[600px] h-[600px] rounded-full border-[1px] border-indigo-100/40"></div>
       <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/3 w-[800px] h-[800px] rounded-full border-[1px] border-slate-200/40"></div>
       <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/3 w-[1000px] h-[1000px] rounded-full border-[1px] border-indigo-50/60"></div>
 
-      {/* Floating Dots & Particles */}
+      {/* Floating Dots & Particles * /}
       <FloatingDots />
       
-      {/* Light Ambient Glow */}
+      {/* Light Ambient Glow * /}
       <div className="absolute -top-40 -left-40 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl"></div>
       <div className="absolute -bottom-40 right-10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
     </div>
@@ -282,7 +297,7 @@ function HeroBackground() {
 function HeroIllustration({ department, vacancies, status, level, employmentType, workMode }) {
   return (
     <div className="relative w-full max-w-[400px] sm:max-w-[500px] lg:max-w-[650px] xl:max-w-[750px] mx-auto lg:mr-0 aspect-[4/3] lg:aspect-square flex justify-center items-center">
-      {/* The main static 3D illustration */}
+      {/* The main static 3D illustration * /}
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -296,7 +311,7 @@ function HeroIllustration({ department, vacancies, status, level, employmentType
         />
       </motion.div>
 
-      {/* Floating Cards Layers */}
+      {/* Floating Cards Layers * /}
       <FloatingCards 
         department={department}
         vacancies={vacancies}
@@ -335,12 +350,12 @@ function HeroSection({
   return (
     <div className="relative w-full bg-white overflow-hidden py-16 md:py-20 px-6 sm:px-12 lg:px-16 flex flex-col justify-center rounded-3xl border border-neutral-200 shadow-xl mb-10 select-none min-h-[580px] md:min-h-[640px]">
       
-      {/* Background with subtle orbit lines and floating dots */}
+      {/* Background with subtle orbit lines and floating dots * /}
       <HeroBackground />
 
       <div className="relative z-10 w-full max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-0">
         
-        {/* Left Content Column (52%) */}
+        {/* Left Content Column (52%) * /}
         <div className="w-full lg:w-[52%] space-y-7 text-left relative z-20">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -414,7 +429,7 @@ function HeroSection({
           </motion.div>
         </div>
 
-        {/* Right Hero Illustration Column (48%) */}
+        {/* Right Hero Illustration Column (48%) * /}
         <div className="w-full lg:w-[48%] relative flex justify-center lg:justify-end items-center z-10 lg:pl-8">
           <HeroIllustration 
             department={department}
@@ -428,7 +443,7 @@ function HeroSection({
         
       </div>
 
-      {/* Animated Scroll Indicator (Laptop/Desktop View) */}
+      {/* Animated Scroll Indicator (Laptop/Desktop View) * /}
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -511,7 +526,7 @@ function FilterBar({ filters, options, onFilterChange, totalCount, filteredCount
   return (
     <div className="sticky top-0 z-30 bg-white/92 backdrop-blur-md border-b border-slate-200 shadow-sm">
 
-      {/* ── Mobile header ── */}
+      {/* ── Mobile header ── * /}
       <div className="flex items-center justify-between px-4 py-2.5 lg:hidden">
         <div className="flex items-center gap-2">
           <button
@@ -533,7 +548,7 @@ function FilterBar({ filters, options, onFilterChange, totalCount, filteredCount
         <span className="text-[11px] font-bold text-slate-500">{filteredCount} / {totalCount}</span>
       </div>
 
-      {/* ── Mobile expandable panel ── */}
+      {/* ── Mobile expandable panel ── * /}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -550,15 +565,15 @@ function FilterBar({ filters, options, onFilterChange, totalCount, filteredCount
         )}
       </AnimatePresence>
 
-      {/* ── Desktop: single row ── */}
+      {/* ── Desktop: single row ── * /}
       <div className="hidden lg:block max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-3">
         <div className="flex items-end gap-3 xl:gap-4 w-full">
           {filterFields}
 
-        {/* Divider */}
+        {/* Divider * /}
         <div className="w-px h-8 bg-slate-200 self-end mb-0.5 shrink-0" />
 
-        {/* Results + clear — right side */}
+        {/* Results + clear — right side * /}
         <div className="flex flex-col gap-0.5 shrink-0 ml-auto">
           <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400">Results</span>
           <div className="flex items-center gap-2">
@@ -619,11 +634,11 @@ function GridCard({ job, onViewDetails, saved, onSave }) {
       whileHover={{ y: -3, boxShadow: '0 10px 36px -8px rgba(99,102,241,0.13)' }}
       className="group relative bg-white border border-slate-200 hover:border-indigo-200 rounded-2xl overflow-hidden transition-all duration-300 flex flex-col"
     >
-      {/* Top accent */}
+      {/* Top accent * /}
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-indigo-400 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity" />
 
       <div className="p-5 flex flex-col gap-3.5 flex-1">
-        {/* TOP */}
+        {/* TOP * /}
         <div className="flex items-start justify-between gap-2">
           <div className="flex flex-wrap items-center gap-1.5">
             <span className="text-[10px] font-bold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-full uppercase tracking-wider">
@@ -639,7 +654,7 @@ function GridCard({ job, onViewDetails, saved, onSave }) {
           </div>
         </div>
 
-        {/* CENTER */}
+        {/* CENTER * /}
         <div className="space-y-1">
           <h3 className="text-[15px] font-extrabold text-slate-900 tracking-tight leading-snug group-hover:text-indigo-700 transition-colors line-clamp-2">
             {job.jobTitle}
@@ -654,7 +669,7 @@ function GridCard({ job, onViewDetails, saved, onSave }) {
 
         <div className="border-t border-slate-100" />
 
-        {/* BOTTOM META */}
+        {/* BOTTOM META * /}
         <div className="flex flex-wrap gap-1.5">
           <MetaPill icon={<SmIcon d={locationD} />}  label={job.location} />
           <MetaPill icon={<SmIcon d={peopleD} />}    label={`${job.openPositions} open`} />
@@ -662,7 +677,7 @@ function GridCard({ job, onViewDetails, saved, onSave }) {
           <MetaPill icon={<SmIcon d={briefcaseD} />} label={job.employmentType} />
         </div>
 
-        {/* ACTIONS */}
+        {/* ACTIONS * /}
         <div className="flex items-center gap-2 mt-auto pt-1">
           <button
             id={`view-${job.id}`}
@@ -716,11 +731,11 @@ function ListCard({ job, onViewDetails, saved, onSave }) {
       whileHover={{ x: 2, boxShadow: '0 4px 24px -6px rgba(99,102,241,0.12)' }}
       className="group bg-white border border-slate-200 hover:border-indigo-200 rounded-2xl overflow-hidden transition-all duration-250 flex items-stretch"
     >
-      {/* Left accent bar */}
+      {/* Left accent bar * /}
       <div className={`w-1 shrink-0 ${job.status === 'OPEN' ? 'bg-emerald-400' : job.status === 'CLOSING SOON' ? 'bg-amber-400' : job.status === 'UPCOMING' ? 'bg-blue-400' : 'bg-slate-200'}`} />
 
       <div className="flex-1 px-4 py-3.5 flex flex-col sm:flex-row sm:items-center gap-3">
-        {/* Main info */}
+        {/* Main info * /}
         <div className="flex-1 min-w-0 space-y-1">
           <div className="flex flex-wrap items-center gap-1.5">
             <span className="text-[10px] font-bold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-full uppercase tracking-wider">{job.department}</span>
@@ -739,7 +754,7 @@ function ListCard({ job, onViewDetails, saved, onSave }) {
           </div>
         </div>
 
-        {/* Actions */}
+        {/* Actions * /}
         <div className="flex items-center gap-2 shrink-0">
           <button
             id={`view-list-${job.id}`}
@@ -867,7 +882,7 @@ function PageAmbientBackground() {
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-white">
-      {/* Job-related floating icons */}
+      {/* Job-related floating icons * /}
       {elements.map((el) => (
         <motion.div
           key={el.id}
@@ -889,7 +904,7 @@ function PageAmbientBackground() {
         </motion.div>
       ))}
 
-      {/* Tiny particles */}
+      {/* Tiny particles * /}
       {particles.map((p) => (
         <motion.div
           key={p.id}
@@ -1003,16 +1018,16 @@ function PortalHero({ pageTitle, pageSubtitle, searchQuery, onSearchChange }) {
       className="relative w-full overflow-hidden border-b border-slate-100"
       style={{ backgroundImage: `url(${heroBg})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}
     >
-      {/* Light Overlay for readability without blur */}
+      {/* Light Overlay for readability without blur * /}
       <div className="absolute inset-0 bg-white/60" />
-      {/* Subtle ambient glow */}
+      {/* Subtle ambient glow * /}
       <div className="absolute -top-20 -left-20 w-72 h-72 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-10 right-10 w-60 h-60 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 sm:px-10 lg:px-16 py-14 sm:py-20 flex flex-col items-center text-center gap-6">
 
 
-        {/* Title */}
+        {/* Title * /}
         <motion.h1
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
@@ -1022,7 +1037,7 @@ function PortalHero({ pageTitle, pageSubtitle, searchQuery, onSearchChange }) {
           {pageTitle}
         </motion.h1>
 
-        {/* Subtitle */}
+        {/* Subtitle * /}
         <motion.p
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
@@ -1032,7 +1047,7 @@ function PortalHero({ pageTitle, pageSubtitle, searchQuery, onSearchChange }) {
           {pageSubtitle}
         </motion.p>
 
-        {/* Search Bar */}
+        {/* Search Bar * /}
         <motion.div
           initial={{ opacity: 0, y: 16, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -1296,7 +1311,7 @@ const [viewMode,setViewMode]=useState("list");
 
 
 
-      {/* Premium Interactive Hero Section */}
+      {/* Premium Interactive Hero Section * /}
       <div className="max-w-[1400px] w-full mx-auto px-4 lg:px-8 mb-12 relative z-10">
         <HeroSection
           jobTitle={positionInformation.jobTitle}
@@ -1312,7 +1327,7 @@ const [viewMode,setViewMode]=useState("list");
 
       <div className="max-w-[1400px] mx-auto w-full px-4 lg:px-8 space-y-16 relative z-10 pb-32">
 
-        {/* 1. Position Information */}
+        {/* 1. Position Information * /}
         <StackedSection title="1. Position Information" index={1}>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <InfoCard label="Job Title" value={positionInformation.jobTitle} icon={Icons.EmploymentType} />
@@ -1324,7 +1339,7 @@ const [viewMode,setViewMode]=useState("list");
           </div>
         </StackedSection>
 
-        {/* 2. Job Overview */}
+        {/* 2. Job Overview * /}
         <StackedSection title="2. Job Overview" index={2}>
           <div className="grid grid-cols-2 gap-4">
             <InfoCard label="Employment Type" value={jobOverview.employmentType} icon={Icons.EmploymentType} />
@@ -1334,7 +1349,7 @@ const [viewMode,setViewMode]=useState("list");
           </div>
         </StackedSection>
 
-        {/* 3. Job Profile */}
+        {/* 3. Job Profile * /}
         <StackedSection title="3. Job Profile" index={3}>
           <div className="p-5 rounded-2xl bg-slate-50/50 border border-slate-100">
             <FadeText>
@@ -1345,7 +1360,7 @@ const [viewMode,setViewMode]=useState("list");
           </div>
         </StackedSection>
 
-        {/* 4. Job Description */}
+        {/* 4. Job Description * /}
         <StackedSection title="4. Job Description" index={4}>
           <FadeText>
             <p className="text-[15px] text-slate-600 leading-relaxed whitespace-pre-line">
@@ -1354,14 +1369,14 @@ const [viewMode,setViewMode]=useState("list");
           </FadeText>
         </StackedSection>
 
-        {/* 5. Key Responsibilities */}
+        {/* 5. Key Responsibilities * /}
         <StackedSection title="5. Key Responsibilities" index={5}>
           <FadeText>
             <List items={keyResponsibilities.responsibilitiesAndDuties} type="check" />
           </FadeText>
         </StackedSection>
 
-        {/* 6. Eligibility Criteria */}
+        {/* 6. Eligibility Criteria * /}
         <StackedSection title="6. Eligibility Criteria" index={6}>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <InfoCard label="Educational Qualification" value={eligibilityCriteria.educationalQualification} />
@@ -1371,7 +1386,7 @@ const [viewMode,setViewMode]=useState("list");
           </div>
         </StackedSection>
 
-        {/* 7. Skills & Competencies */}
+        {/* 7. Skills & Competencies * /}
         <StackedSection title="7. Skills & Competencies" index={7}>
           <FadeText>
             <div className="space-y-6">
@@ -1424,7 +1439,7 @@ const [viewMode,setViewMode]=useState("list");
           </FadeText>
         </StackedSection>
 
-        {/* 8. Work Environment */}
+        {/* 8. Work Environment * /}
         <StackedSection title="8. Work Environment" index={8}>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <InfoCard label="Shift Type" value={workEnvironment.shiftType} />
@@ -1434,7 +1449,7 @@ const [viewMode,setViewMode]=useState("list");
           </div>
         </StackedSection>
 
-        {/* 9. Compensation & Benefits */}
+        {/* 9. Compensation & Benefits * /}
         <StackedSection title="9. Compensation & Benefits" index={9}>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="p-5 rounded-2xl bg-blue-50/50 border border-blue-100/50 space-y-1">
@@ -1460,14 +1475,14 @@ const [viewMode,setViewMode]=useState("list");
           )}
         </StackedSection>
 
-        {/* 10. Why Join Us? */}
+        {/* 10. Why Join Us? * /}
         <StackedSection title="10. Why Join Us?" index={10}>
           <FadeText>
             <List items={whyJoinUs.allFields} type="check" />
           </FadeText>
         </StackedSection>
 
-        {/* 11. Training & Probation */}
+        {/* 11. Training & Probation * /}
         <StackedSection title="11. Training & Probation" index={11}>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <InfoCard label="Training Period" value={trainingAndProbation.trainingPeriod} icon={Icons.Duration} />
@@ -1477,7 +1492,7 @@ const [viewMode,setViewMode]=useState("list");
           </div>
         </StackedSection>
 
-        {/* 12. Recruitment Process */}
+        {/* 12. Recruitment Process * /}
         <StackedSection title="12. Recruitment Process" index={12}>
           <div className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -1496,7 +1511,7 @@ const [viewMode,setViewMode]=useState("list");
           </div>
         </StackedSection>
 
-        {/* 13. Important Dates */}
+        {/* 13. Important Dates * /}
         <StackedSection title="13. Important Dates" index={13}>
           <FadeText>
             <div className="space-y-4">
@@ -1533,14 +1548,14 @@ const [viewMode,setViewMode]=useState("list");
           </FadeText>
         </StackedSection>
 
-        {/* 14. Required Documents */}
+        {/* 14. Required Documents * /}
         <StackedSection title="14. Required Documents" index={14}>
           <FadeText>
             <List items={requiredDocuments.requiredDocumentsList} type="check" />
           </FadeText>
         </StackedSection>
 
-        {/* 15. Application Information */}
+        {/* 15. Application Information * /}
         <div id="apply-section">
           <StackedSection title="15. Application Information" index={15}>
             <div className="space-y-4">
@@ -1551,7 +1566,7 @@ const [viewMode,setViewMode]=useState("list");
           </StackedSection>
         </div>
 
-        {/* 16. Contact Information */}
+        {/* 16. Contact Information * /}
         <StackedSection title="16. Contact Information" index={16}>
           <FadeText>
             <div className="space-y-4">
@@ -1582,7 +1597,7 @@ const [viewMode,setViewMode]=useState("list");
           </FadeText>
         </StackedSection>
 
-        {/* 17. Important Notices */}
+        {/* 17. Important Notices * /}
         <StackedSection title="17. Important Notices" index={17}>
           <FadeText>
             <div className="space-y-2">
@@ -1649,7 +1664,7 @@ const [viewMode,setViewMode]=useState("list");
       </FadeText>
         </StackedSection>
 
-        {/* Final Call to Action */}
+        {/* Final Call to Action * /}
         <div className="pt-10 pb-8 hidden lg:flex flex-col items-center justify-center text-center space-y-5 border-t border-slate-100 mt-10">
           <h3 className="text-2xl font-bold text-slate-800 tracking-tight">Ready to secure the future?</h3>
           <p className="text-slate-500 max-w-md">Take the next step in your career and join our defense operations team today.</p>
@@ -1661,7 +1676,7 @@ const [viewMode,setViewMode]=useState("list");
           </button>
         </div>
 
-        {/* Sticky Apply Button for Mobile screens */}
+        {/* Sticky Apply Button for Mobile screens * /}
         <div className="sticky bottom-4 left-0 right-0 lg:hidden px-4 py-3 bg-white/85 backdrop-blur-md border border-slate-200 rounded-2xl shadow-lg flex items-center justify-between gap-4">
           <div>
             <span className="block text-[10px] uppercase font-bold text-slate-400">Position Status</span>
@@ -1772,7 +1787,7 @@ function JobPortal() {
       <PortalBackground />
 
       <div className="relative z-10">
-        {/* ── SECTION 1: Small Hero ── */}
+        {/* ── SECTION 1: Small Hero ── * /}
         <PortalHero
           pageTitle={portalConfig.pageTitle}
           pageSubtitle={portalConfig.pageSubtitle}
@@ -1780,7 +1795,7 @@ function JobPortal() {
           onSearchChange={handleHeroSearch}
         />
 
-        {/* ── SECTION 2: Sticky Filter Bar ── */}
+        {/* ── SECTION 2: Sticky Filter Bar ── * /}
         <FilterBar
           filters={filters}
           options={filterOptions}
@@ -1789,10 +1804,10 @@ function JobPortal() {
           filteredCount={filteredJobs.length}
         />
 
-        {/* ── SECTION 3: Job Listing ── */}
+        {/* ── SECTION 3: Job Listing ── * /}
         <main className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-8">
 
-          {/* Section header with view toggle */}
+          {/* Section header with view toggle * /}
           <div className="flex items-center justify-between mb-5">
             <div>
               {filteredJobs.length > 0 ? (
@@ -1808,7 +1823,7 @@ function JobPortal() {
             </div>
 
             <div className="flex items-center gap-3">
-              {/* Active badge */}
+              {/* Active badge * /}
               {filteredJobs.length > 0 && (
                 <div className="hidden sm:flex items-center gap-1.5 text-[11px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-3 py-1.5 rounded-full">
                   <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
@@ -1816,7 +1831,7 @@ function JobPortal() {
                 </div>
               )}
 
-              {/* View toggle */}
+              {/* View toggle * /}
               <div className="flex items-center gap-1 p-1 bg-slate-50 border border-slate-200 rounded-xl">
                 <ViewToggle mode="grid" active={viewMode === 'grid'} onClick={setViewMode} title="Grid view">
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1853,3 +1868,11 @@ function JobPortal() {
 
 
 export { JobPortal, JobVacancyPage };
+
+*/
+
+const handleNotify = () => {
+  return <ComingSoonPage />;
+};
+
+export default handleNotify;

@@ -1,3 +1,18 @@
+import ComingSoonPage from '../common/ComingSoonPage';
+
+/*
+=========================================
+TEMPORARILY DISABLED
+Reason:
+This page is currently using the global
+ComingSoonPage component.
+
+Do not remove this content because it
+will be re-enabled in future updates.
+=========================================
+*/
+
+/*
 import { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { 
@@ -144,7 +159,7 @@ const SubmitResume = () => {
     <div className="min-h-screen bg-[#F8FAFC] flex justify-center py-10 px-4 sm:px-6">
       <div className="w-full max-w-4xl">
 
-        {/* HERO SECTION */}
+        {/* HERO SECTION * /}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -171,10 +186,10 @@ const SubmitResume = () => {
           <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-cyan-400/20 rounded-full blur-3xl pointer-events-none"></div>
         </motion.div>
 
-        {/* FORM */}
+        {/* FORM * /}
         <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
 
-          {/* 1. PERSONAL INFORMATION */}
+          {/* 1. PERSONAL INFORMATION * /}
           <motion.div 
             variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}
             className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8"
@@ -272,7 +287,7 @@ const SubmitResume = () => {
             </div>
           </motion.div>
 
-          {/* 2. FAMILY INFORMATION */}
+          {/* 2. FAMILY INFORMATION * /}
           <motion.div 
             variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}
             className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8"
@@ -303,7 +318,7 @@ const SubmitResume = () => {
             </div>
           </motion.div>
 
-          {/* 3. CONTACT INFORMATION */}
+          {/* 3. CONTACT INFORMATION * /}
           <motion.div 
             variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}
             className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8"
@@ -342,7 +357,7 @@ const SubmitResume = () => {
             </div>
           </motion.div>
 
-          {/* 4. EDUCATION & PROFESSIONAL DETAILS */}
+          {/* 4. EDUCATION & PROFESSIONAL DETAILS * /}
           <motion.div 
             variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}
             className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8"
@@ -365,7 +380,7 @@ const SubmitResume = () => {
             </div>
           </motion.div>
 
-          {/* 5. ADDITIONAL INFORMATION */}
+          {/* 5. ADDITIONAL INFORMATION * /}
           <motion.div 
             variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}
             className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8"
@@ -388,7 +403,7 @@ const SubmitResume = () => {
             </div>
           </motion.div>
 
-          {/* 6. UPLOAD CV */}
+          {/* 6. UPLOAD CV * /}
           <motion.div 
             variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}
             className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8"
@@ -454,7 +469,7 @@ const SubmitResume = () => {
             
           </motion.div>
 
-          {/* SUBMIT BUTTON */}
+          {/* SUBMIT BUTTON * /}
           <motion.div variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
             <button
               type="submit"
@@ -471,3 +486,11 @@ const SubmitResume = () => {
 }
 
 export default SubmitResume
+
+*/
+
+const SubmitResume = () => {
+  return <ComingSoonPage />;
+};
+
+export default SubmitResume;

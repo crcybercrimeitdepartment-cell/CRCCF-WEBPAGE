@@ -50,7 +50,6 @@ const ServiceRouter = () => {
         <Route path="cyber-awareness" element={<CyberAwareness />} />
         <Route path="legal-support" element={<LegalSupport />} />
         <Route path="technical-assistance" element={<ServiceComingSoon title="Technical Assistance" />} />
-        <Route path="innovation-technology" element={<ServiceComingSoon title="Innovation & Technology" />} />
 
         {/* SOFTWARE SERVICES */}
         <Route path="software-it/software-services-introduction" element={<SoftwareServicesIntroduction />} />

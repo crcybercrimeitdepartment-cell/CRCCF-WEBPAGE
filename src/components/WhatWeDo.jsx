@@ -7,6 +7,7 @@ import {
   FaUserGraduate,
   FaArrowRight,
 } from "react-icons/fa";
+import SectionHeading from "./common/SectionHeading";
 
 export default function WhatWeDo() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -68,24 +69,18 @@ export default function WhatWeDo() {
   return (
     <section 
       ref={sectionRef}
-      className="min-h-screen pt-12 pb-12 md:pt-16 md:pb-16 flex items-center bg-[#F8FAFC] font-sans relative overflow-hidden"
+      className="section-padding min-h-screen   md: md: flex items-center bg-[#F8FAFC] font-sans relative overflow-hidden"
     >
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-blue-50 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 opacity-70 pointer-events-none" />
 
       <div className="max-w-[1280px] mx-auto px-6 md:px-10 relative z-10 w-full">
         {/* HEADER */}
-        <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
-          <p className="section-tag">What We Do</p>
-          <h2 className="section-title">
-            Our Core Work{" "}
-            <span className="section-title-accent">
-              Domains
-            </span>
-          </h2>
-          <p className="section-subtitle mx-auto">
-            We work across multiple domains including
-          </p>
-        </div>
+        <SectionHeading 
+          subtitle="What We Do" 
+          title="Our Core Work Domains" 
+          highlightWord="Domains" 
+          description="We provide specialized cybersecurity services, comprehensive training programs, and customized software solutions." 
+        />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-start lg:items-center">
           {/* LEFT CARDS / MOBILE ACCORDION */}
@@ -152,11 +147,7 @@ export default function WhatWeDo() {
                           <p className="text-sm text-slate-500 leading-relaxed mb-6">
                             {item.desc}
                           </p>
-                          <button
-                            className={`inline-flex items-center gap-2 px-5 py-2 rounded-full text-white text-xs font-semibold bg-gradient-to-r ${item.gradient}`}
-                          >
-                            Explore Domain <FaArrowRight className="text-[10px]" />
-                          </button>
+
                         </div>
                       </motion.div>
                     )}
@@ -195,11 +186,7 @@ export default function WhatWeDo() {
                     {items[activeIndex].desc}
                   </p>
 
-                  <button
-                    className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-white text-sm font-semibold bg-gradient-to-r ${items[activeIndex].gradient}`}
-                  >
-                    Explore Domain <FaArrowRight className="text-xs" />
-                  </button>
+
                 </motion.div>
               </AnimatePresence>
             </div>

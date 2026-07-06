@@ -1,3 +1,18 @@
+import ComingSoonPage from '../common/ComingSoonPage';
+
+/*
+=========================================
+TEMPORARILY DISABLED
+Reason:
+This page is currently using the global
+ComingSoonPage component.
+
+Do not remove this content because it
+will be re-enabled in future updates.
+=========================================
+*/
+
+/*
 // Template for any page (e.g., OurIntroduction.jsx)
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
@@ -33,3 +48,10 @@ const Achievement = () => {
 }
 
 export default Achievement
+*/
+
+const Achievement = () => {
+  return <ComingSoonPage />;
+};
+
+export default Achievement;

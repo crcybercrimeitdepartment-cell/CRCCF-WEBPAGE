@@ -1,328 +1,299 @@
-import React, { useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  Trophy, Calendar, Users, PartyPopper, Briefcase, 
-  Presentation, ShieldCheck, GraduationCap, Mic, 
-  Smile, Map, HeartHandshake, BookOpen, Star, 
-  Coffee, Sparkles, ArrowRight,
-  Camera, Image as ImageIcon, Film, Sparkles as SparklesIcon, 
-  Focus, Layers, LayoutGrid, Palette, Pin, Wand2, Square, 
-  Circle, Layout, FolderArchive, Aperture
-} from 'lucide-react';
 
-const categories = [
-  { title: 'Events Gallery', icon: Calendar, color: 'from-blue-400 to-indigo-500', count: 56 },
-  { title: 'Employees Gallery', icon: Users, color: 'from-green-400 to-emerald-600', count: 18 },
-  { title: 'Annual Celebrations Gallery', icon: PartyPopper, color: 'from-pink-400 to-rose-500', count: 12 },
-  { title: 'Workplace Gallery', icon: Briefcase, color: 'from-slate-400 to-slate-600', count: 32 },
-  { title: 'Seminars & Workshops Gallery', icon: Presentation, color: 'from-purple-400 to-fuchsia-500', count: 45 },
-  { title: 'Cyber Awareness Gallery', icon: ShieldCheck, color: 'from-cyan-400 to-blue-600', count: 67 },
-  { title: 'Student Activities Gallery', icon: GraduationCap, color: 'from-teal-400 to-emerald-500', count: 29 },
-  { title: 'Media & Press Gallery', icon: Mic, color: 'from-red-400 to-rose-600', count: 41 },
-  { title: 'Team Moments Gallery', icon: Smile, color: 'from-amber-400 to-orange-500', count: 38 },
-  { title: 'Product Launches Gallery', icon: Sparkles, color: 'from-blue-400 to-cyan-500', count: 14 },
-  { title: 'Awards & Recognition Gallery', icon: Star, color: 'from-yellow-300 to-yellow-500', count: 19 },
-  { title: 'Office Culture Gallery', icon: Coffee, color: 'from-orange-400 to-red-500', count: 27 },
-  { title: 'Success Stories Gallery', icon: Trophy, color: 'from-emerald-400 to-teal-500', count: 21 },
-  { title: 'Work Highlights Gallery', icon: HeartHandshake, color: 'from-rose-400 to-pink-600', count: 33 },
-  { title: 'Achievement Gallery', icon: Trophy, color: 'from-yellow-400 to-orange-500', count: 24 },
-  { title: 'Journey Gallery', icon: Map, color: 'from-indigo-400 to-violet-600', count: 15 },
-  { title: 'Course Gallery', icon: BookOpen, color: 'from-blue-500 to-cyan-400', count: 42 },
-  { title: 'Student Gallery', icon: Users, color: 'from-green-500 to-teal-400', count: 85 },
-  { title: 'Internship Gallery', icon: Briefcase, color: 'from-purple-500 to-pink-400', count: 34 },
-  { title: 'Project Gallery', icon: FolderArchive, color: 'from-orange-500 to-amber-400', count: 56 }
+const galleryData = [
+  { id: 1, imageUrl: 'https://picsum.photos/seed/1/150/150', title: 'Event Gallery' },
+  { id: 2, imageUrl: 'https://picsum.photos/seed/2/150/150', title: 'Employees Gallery' },
+  { id: 3, imageUrl: 'https://picsum.photos/seed/3/150/150', title: 'Annual Celebrations Gallery' },
+  { id: 4, imageUrl: 'https://picsum.photos/seed/4/150/150', title: 'Workplace Gallery' },
+  { id: 5, imageUrl: 'https://picsum.photos/seed/5/150/150', title: 'Seminars & Workshops Gallery' },
+  { id: 6, imageUrl: 'https://picsum.photos/seed/6/150/150', title: 'Cyber Awareness Gallery' },
+  { id: 7, imageUrl: 'https://picsum.photos/seed/7/150/150', title: 'Student Activities Gallery' },
+  { id: 8, imageUrl: 'https://picsum.photos/seed/8/150/150', title: 'Media & Press Gallery' },
+  { id: 9, imageUrl: 'https://picsum.photos/seed/9/150/150', title: 'Team Moments Gallery' },
+  { id: 10, imageUrl: 'https://picsum.photos/seed/10/150/150', title: 'Product Launches Gallery' },
+  { id: 11, imageUrl: 'https://picsum.photos/seed/11/150/150', title: 'Awards & Recognition Gallery' },
+  { id: 12, imageUrl: 'https://picsum.photos/seed/12/150/150', title: 'Office Culture Gallery' },
+  { id: 13, imageUrl: 'https://picsum.photos/seed/13/150/150', title: 'Success Stories Gallery' },
+  { id: 14, imageUrl: 'https://picsum.photos/seed/14/150/150', title: 'Work Highlights Gallery' },
+  { id: 15, imageUrl: 'https://picsum.photos/seed/15/150/150', title: 'Achievement Gallery' },
+  { id: 16, imageUrl: 'https://picsum.photos/seed/16/150/150', title: 'Journey Gallery' },
+  { id: 17, imageUrl: 'https://picsum.photos/seed/17/150/150', title: 'Course Gallery' },
+  { id: 18, imageUrl: 'https://picsum.photos/seed/18/150/150', title: 'Student Gallery' },
+  { id: 19, imageUrl: 'https://picsum.photos/seed/19/150/150', title: 'Internship Gallery' },
+  { id: 20, imageUrl: 'https://picsum.photos/seed/20/150/150', title: 'Project Gallery' }
 ];
 
-const floatingIcons = [
-  { Icon: Camera, top: '12%', left: '8%', size: 64, anim: 'float', delay: '0s', opacity: 0.08, parallax: 1.5 },
-  { Icon: ImageIcon, top: '25%', left: '85%', size: 80, anim: 'float-reverse', delay: '2s', opacity: 0.06, parallax: -1 },
-  { Icon: Film, top: '65%', left: '10%', size: 70, anim: 'drift', delay: '1s', opacity: 0.07, parallax: 1.2 },
-  { Icon: SparklesIcon, top: '8%', left: '45%', size: 40, anim: 'float', delay: '3s', opacity: 0.1, parallax: 0.8 },
-  { Icon: Focus, top: '75%', left: '85%', size: 90, anim: 'float-reverse', delay: '0.5s', opacity: 0.05, parallax: -1.5 },
-  { Icon: Layers, top: '45%', left: '4%', size: 50, anim: 'drift', delay: '4s', opacity: 0.08, parallax: 1.1 },
-  { Icon: LayoutGrid, top: '55%', left: '88%', size: 60, anim: 'float', delay: '1.5s', opacity: 0.06, parallax: -0.9 },
-  { Icon: Palette, top: '88%', left: '25%', size: 65, anim: 'float-reverse', delay: '2.5s', opacity: 0.07, parallax: 1.3 },
-  { Icon: Pin, top: '32%', left: '78%', size: 45, anim: 'drift', delay: '3.5s', opacity: 0.09, parallax: -1.2 },
-  { Icon: Wand2, top: '70%', left: '45%', size: 55, anim: 'float', delay: '5s', opacity: 0.08, parallax: 0.7 },
-  { Icon: Square, top: '18%', left: '60%', size: 65, anim: 'float-reverse', delay: '1.2s', opacity: 0.05, parallax: -0.8 },
-  { Icon: Circle, top: '48%', left: '50%', size: 140, anim: 'drift', delay: '0s', opacity: 0.03, blur: true, parallax: 0.5 },
-  { Icon: Layout, top: '92%', left: '65%', size: 75, anim: 'float', delay: '4.5s', opacity: 0.06, parallax: -1.4 },
-  { Icon: FolderArchive, top: '28%', left: '22%', size: 52, anim: 'drift', delay: '2.2s', opacity: 0.07, parallax: 1.2 },
-  { Icon: Aperture, top: '5%', left: '82%', size: 68, anim: 'float-reverse', delay: '3.8s', opacity: 0.08, parallax: -1.1 },
-  { Icon: Circle, top: '80%', left: '15%', size: 120, anim: 'float', delay: '1s', opacity: 0.03, blur: true, parallax: 0.6 }
+// Preload audio outside the component to ensure it's ready immediately
+const clickAudio = new Audio('https://res.cloudinary.com/dlhmkbijh/video/upload/v1783319084/click_sound_e9eptn.mp3');
+clickAudio.preload = 'auto';
+clickAudio.volume = 0.5;
+
+const titleColors = [
+  'text-pink-300',
+  'text-blue-300',
+  'text-green-300',
+  'text-yellow-300',
+  'text-purple-300',
+  'text-cyan-300',
+  'text-orange-300',
+  'text-teal-300',
+  'text-rose-300',
+  'text-fuchsia-300'
 ];
 
-import { eventGalleryData } from '../data/gallery/eventGalleryData';
-
-const getCategoryImage = (title) => {
-  const t = title.toLowerCase();
-  
-  // Dynamic mapping based on available eventGalleryData
-  if (t.includes('award') || t.includes('achievement')) {
-    return eventGalleryData.find(e => e.title.includes('Awards'))?.photos?.[0]?.url;
-  }
-  if (t.includes('event') || t.includes('press') || t.includes('media')) {
-    return eventGalleryData.find(e => e.title.includes('Summit'))?.photos?.[0]?.url;
-  }
-  if (t.includes('cyber') || t.includes('awareness')) {
-    return eventGalleryData.find(e => e.title.includes('Awareness'))?.photos?.[0]?.url;
-  }
-  if (t.includes('workshop') || t.includes('training') || t.includes('student') || t.includes('internship') || t.includes('course') || t.includes('project')) {
-    return eventGalleryData.find(e => e.title.includes('Internship'))?.photos?.[0]?.url;
-  }
-  if (t.includes('celebration') || t.includes('moments') || t.includes('culture') || t.includes('workplace') || t.includes('employee')) {
-    return eventGalleryData.find(e => e.title.includes('Awards'))?.photos?.[2]?.url; // Using a different photo for variety
-  }
-
-  return null;
-};
-
-const CategoryCard = ({ category, index, onClick }) => {
-  const [imgLoaded, setImgLoaded] = React.useState(false);
-  const imageUrl = getCategoryImage(category.title);
-  
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.4, delay: index * 0.05 }}
-      onClick={() => onClick(category.title)}
-      className="group relative bg-white rounded-[20px] overflow-hidden transition-all duration-500 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.05)] border border-slate-100 hover:-translate-y-2 hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)] hover:border-violet-600/20 active:-translate-y-1 active:scale-[0.98] cursor-pointer"
-    >
-      {/* Shine */}
-      <div className="absolute inset-0 card-shine opacity-0 transition-opacity duration-300 group-hover:opacity-100 z-20 pointer-events-none" />
-
-      {/* Glow */}
-      <div className="absolute -inset-[10px] bg-[radial-gradient(circle_at_50%_0%,rgba(124,58,237,0.3)_0%,transparent_70%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
-
-      {/* Content */}
-      <div className="p-5 h-full flex flex-col gap-3 relative z-10">
-        
-        {/* Dynamic Image Area */}
-        <div className="w-full h-[120px] rounded-xl transition-all duration-500 relative overflow-hidden flex items-center justify-center group-hover:-translate-y-1 group-hover:scale-[1.05] group-hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)] bg-slate-100">
-          {imageUrl ? (
-            <>
-              {/* Skeleton Shimmer */}
-              {!imgLoaded && (
-                <div className="absolute inset-0 bg-slate-200 animate-pulse" />
-              )}
-              {/* Image */}
-              <img 
-                src={imageUrl} 
-                alt={category.title}
-                loading="lazy"
-                onLoad={() => setImgLoaded(true)}
-                className={`w-full h-full object-cover transition-opacity duration-700 ease-in-out ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
-              />
-              {/* Optional color overlay matching original design */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${category.color} mix-blend-overlay opacity-40`} />
-              
-              {/* Dark Hover Overlay */}
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300" />
-              
-              {/* "View Gallery" Indicator */}
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <span className="bg-white/90 text-slate-800 text-[11px] font-bold px-4 py-1.5 rounded-full shadow-lg backdrop-blur-md transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 uppercase tracking-wide">
-                  View Gallery
-                </span>
-              </div>
-            </>
-          ) : (
-            /* Empty State */
-            <div className={`absolute inset-0 flex flex-col items-center justify-center w-full h-full bg-gradient-to-br ${category.color} opacity-90`}>
-              <div className="absolute inset-0 bg-white/20 backdrop-blur-[2px]" />
-              <Camera className="w-8 h-8 mb-2 text-white/70 relative z-10" strokeWidth={1.5} />
-              <span className="text-[9px] text-white/90 font-bold uppercase tracking-widest relative z-10">Images coming soon</span>
-            </div>
-          )}
-        </div>
-
-        {/* Text & Footer container */}
-        <div className="flex flex-col gap-1 mt-2 flex-grow">
-          <h3 className="text-slate-800 text-[1.1em] m-0 font-bold transition-all duration-300 group-hover:text-violet-600 group-hover:translate-x-[2px]">
-            {category.title}
-          </h3>
-          <p className="text-slate-800 text-[0.75em] m-0 opacity-70 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-[2px]">
-            {category.count} items
-          </p>
-
-          <div className="flex justify-between items-center mt-auto pt-3">
-            <span className="text-slate-800 font-bold text-[1em] transition-all duration-300 group-hover:text-violet-600 group-hover:translate-x-[2px]">
-              Explore
-            </span>
-            <div className="w-7 h-7 bg-violet-600 rounded-full flex items-center justify-center text-white transition-all duration-300 scale-90 group-hover:scale-100 group-hover:shadow-[0_0_0_4px_rgba(124,58,237,0.2)]">
-              <ArrowRight className="w-3.5 h-3.5 card-icon" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-};
-
-export default function GalleryLandingPage() {
+function ImageCard({ id, index, imageUrl, title, onShutterPress }) {
+  const cardRef = useRef(null);
+  const titleColorClass = titleColors[index % titleColors.length];
   const navigate = useNavigate();
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    // Disable parallax on smaller screens for performance
-    if (window.innerWidth < 768) return;
+  
+  const handleClick = () => {
+    // Rewind and play the preloaded audio
+    clickAudio.currentTime = 0;
     
-    const handleMouseMove = (e) => {
-      if (!containerRef.current) return;
-      const x = (e.clientX / window.innerWidth - 0.5) * 30; // Max 15px shift
-      const y = (e.clientY / window.innerHeight - 0.5) * 30;
-      containerRef.current.style.setProperty('--mouse-x', `${x}px`);
-      containerRef.current.style.setProperty('--mouse-y', `${y}px`);
+    // Press the shutter button visually
+    onShutterPress(true);
+    
+    let navigated = false;
+    const doNavigate = () => {
+      if (!navigated) {
+        navigated = true;
+        navigate('/gallery', { state: { category: title } });
+      }
     };
     
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
-  const handleCardClick = (title) => {
-    navigate('/gallery', { state: { category: title } });
+    // Ensure shutter animation is fully visible before navigating (at least 600ms)
+    setTimeout(doNavigate, 600);
+    
+    clickAudio.play().catch(e => {
+      console.log('Audio playback prevented by browser:', e);
+    });
+  };
+  
+  const handleMouseEnter = () => {
+    if (cardRef.current) {
+      cardRef.current.dataset.hovered = 'true';
+      cardRef.current.style.zIndex = '50';
+    }
+  };
+  
+  const handleMouseLeave = () => {
+    if (cardRef.current) {
+      cardRef.current.dataset.hovered = 'false';
+      cardRef.current.style.zIndex = '30';
+      cardRef.current.style.transition = 'transform 0.5s ease-out';
+      
+      setTimeout(() => {
+        if (cardRef.current && cardRef.current.dataset.hovered === 'false') {
+          cardRef.current.style.transition = 'none';
+        }
+      }, 500);
+    }
   };
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-[#F8FAFC] w-full pt-32 pb-24 px-4 relative">
+    <div 
+      ref={cardRef}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
+      className="absolute top-0 left-0 w-[90px] h-[90px] -mt-[45px] -ml-[45px] pointer-events-auto z-30 group"
+    >
+      <div className="w-full h-full bg-white/5 backdrop-blur-md border border-white/20 p-[4px] shadow-lg rounded-lg transition-transform duration-300 ease-out cursor-pointer group-hover:scale-[1.3] relative">
+        <img src={imageUrl} alt="Gallery item" className="w-full h-full object-cover rounded-md opacity-80 group-hover:opacity-100 transition-opacity" />
+        <div className="absolute top-[4px] right-[4px] bottom-[4px] left-[4px] bg-gradient-to-t from-black/90 via-black/40 to-transparent rounded-md flex items-end justify-center pb-[6px]">
+          <span className={`${titleColorClass} text-[11px] font-bold tracking-wider text-center drop-shadow-md`}>{title}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Screw({ className }) {
+  return (
+    <div className={`absolute w-[16px] h-[16px] rounded-full flex justify-center items-center z-20 bg-[linear-gradient(135deg,#7a7a7a,#333)] shadow-[0_2px_5px_rgba(0,0,0,0.9),inset_0_1px_1px_rgba(255,255,255,0.4),inset_0_-1px_2px_rgba(0,0,0,0.6)] ${className}`}>
+      {/* Screw Head Detail */}
+      <div className="w-[7px] h-[7px] bg-[#111] rounded-[1px] shadow-[inset_0_1px_2px_#000]"></div>
+    </div>
+  );
+}
+
+export default function GalleryLandingPage() {
+  const trackRef = useRef(null);
+  const [isShutterPressed, setIsShutterPressed] = useState(false);
+
+  // Shutter reset effect
+  useEffect(() => {
+    if (isShutterPressed) {
+      const timer = setTimeout(() => setIsShutterPressed(false), 400);
+      return () => clearTimeout(timer);
+    }
+  }, [isShutterPressed]);
+
+  useEffect(() => {
+    let lastTime = performance.now();
+    let accumulatedTime = 0;
+    let rafId;
+
+    const getPosition = (progress) => {
+      const p = progress * 2352;
+      if (p < 748) return { x: p, y: 0 };
+      if (p < 1176) return { x: 748, y: p - 748 };
+      if (p < 1924) return { x: 748 - (p - 1176), y: 428 };
+      return { x: 0, y: 428 - (p - 1924) };
+    };
+
+    const animate = (time) => {
+      const delta = time - lastTime;
+      lastTime = time;
+      
+      if (trackRef.current) {
+        const cards = trackRef.current.children;
+        let isAnyHovered = false;
+        
+        for (let i = 0; i < cards.length; i++) {
+          if (cards[i].dataset.hovered === 'true') {
+            isAnyHovered = true;
+            break;
+          }
+        }
+
+        if (!isAnyHovered) {
+          accumulatedTime += delta;
+        }
+
+        const progress = (accumulatedTime / 40000) % 1;
+        
+        for (let i = 0; i < cards.length; i++) {
+          const card = cards[i];
+          if (card.dataset.hovered === 'true') continue;
+          
+          const p = (progress + i / galleryData.length) % 1;
+          const { x, y } = getPosition(p);
+          card.style.transform = `translate(${x}px, ${y}px)`;
+        }
+      }
+      rafId = requestAnimationFrame(animate);
+    };
+    
+    rafId = requestAnimationFrame((time) => {
+      lastTime = time;
+      animate(time);
+    });
+    return () => cancelAnimationFrame(rafId);
+  }, []);
+  
+  return (
+    <div className="min-h-screen bg-[#f4f6f9] flex flex-col items-center justify-start md:justify-center font-sans overflow-hidden pt-6 md:pt-32 pb-24">
       <style>{`
-        @keyframes shine {
-          0% { background-position: -100% 0; }
-          100% { background-position: 200% 0; }
-        }
-        @keyframes pulse-icon {
-          0% { transform: scale(1); }
-          50% { transform: scale(1.2); }
-          100% { transform: scale(1); }
-        }
-        @keyframes slide-in-left {
-          0% { transform: translateX(-200%); }
-          100% { transform: translateX(0); }
-        }
-        @keyframes slide-in-right {
-          0% { transform: translateX(200%); }
-          100% { transform: translateX(0); }
-        }
-        .split-text-container {
-          display: flex;
-          overflow: hidden;
-        }
-        .text-part {
-          display: inline-block;
-          position: relative;
-          animation-duration: 1.5s;
-          animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-          animation-fill-mode: forwards;
-        }
-        .text-part.left {
-          transform: translateX(-200%);
-          animation-name: slide-in-left;
-        }
-        .text-part.right {
-          transform: translateX(200%);
-          animation-name: slide-in-right;
-        }
-        @keyframes float {
-          0%, 100% { transform: translateY(0) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(5deg); }
-        }
-        @keyframes float-reverse {
-          0%, 100% { transform: translateY(0) rotate(0deg); }
-          50% { transform: translateY(20px) rotate(-5deg); }
-        }
-        @keyframes drift {
-          0%, 100% { transform: translateX(0) rotate(0deg); }
-          50% { transform: translateX(20px) rotate(3deg); }
-        }
-        .card-shine {
-          background: linear-gradient(120deg, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 60%);
-          background-size: 200% 100%;
-        }
-        .group:hover .card-shine {
-          animation: shine 3s infinite;
-        }
-        .group:hover .card-icon {
-          animation: pulse-icon 1.5s infinite;
+        .responsive-scale {
+          transform-origin: top center;
+          transform: scale(max(0.65, min(calc((100vw - 32px) / 960), calc((100vh - 32px) / 662), 1.5)));
+          transition: transform 0.4s ease-out;
         }
       `}</style>
+      
+      {/* Header Section */}
+      <div className="text-center mb-12 md:mb-32 z-10 relative px-4 shrink-0 w-full">
+        <h1 className="text-2xl sm:text-4xl lg:text-[5rem] font-black mb-3 sm:mb-6 tracking-tight flex flex-wrap items-center justify-center gap-x-2 sm:gap-4">
+          <span className="text-[#111827]">Gallery</span>
+          <div className="relative">
+             <span className="text-[#1d4ed8]">Collections</span>
+          </div>
+        </h1>
+        <p className="text-[#64748b] text-xs sm:text-base md:text-xl max-w-3xl mx-auto font-medium leading-relaxed px-2">
+          Explore moments, achievements, celebrations and memories through our organized galleries.
+        </p>
+      </div>
 
-      {/* Floating Gallery-Themed Symbols */}
-      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        {floatingIcons.map((item, i) => {
-          const Icon = item.Icon;
-          // Hide every other icon on mobile for performance optimization
-          const visibilityClass = i % 2 !== 0 ? 'hidden md:block' : 'block';
+      <div className="camera-wrapper responsive-scale shrink-0">
+        <div className="camera relative w-[960px] h-[620px] rounded-xl bg-[radial-gradient(circle_at_center,#232426,#161718)] shadow-[0_40px_60px_rgba(0,0,0,0.4),0_10px_20px_rgba(0,0,0,0.2),inset_0_2px_3px_rgba(255,255,255,0.15),inset_0_-3px_6px_rgba(0,0,0,0.8),inset_0_0_0_2px_#0a0a0a]">
           
-          return (
-              <div 
-                key={i}
-                className={`absolute transition-transform duration-700 ease-out ${visibilityClass}`}
-                style={{
-                  top: item.top,
-                  left: item.left,
-                  transform: `translate(calc(var(--mouse-x, 0px) * ${item.parallax}), calc(var(--mouse-y, 0px) * ${item.parallax}))`
-                }}
-              >
-                <div 
-                  className={`text-slate-600 ${item.blur ? 'blur-xl' : 'blur-[1px]'}`}
-                  style={{
-                    opacity: item.opacity,
-                    animation: `${item.anim} 15s ease-in-out infinite`,
-                    animationDelay: item.delay,
-                  }}
-                >
-                <Icon size={item.size} strokeWidth={1} />
+          {/* Top Knobs */}
+          <div className="knob absolute -top-[24px] w-[36px] h-[24px] rounded-t-sm z-10 left-[90px] bg-[linear-gradient(to_right,#111_0%,#3a3a3a_30%,#444_50%,#222_80%,#0a0a0a_100%)] shadow-[0_-2px_5px_rgba(0,0,0,0.6)] before:content-[''] before:absolute before:-top-[12px] before:left-[2px] before:w-[32px] before:h-[12px] before:bg-[linear-gradient(to_right,#111_0%,#4a4a4a_40%,#111_100%)] before:rounded-t-sm"></div>
+          <div className={`knob absolute w-[36px] h-[24px] rounded-t-sm z-10 right-[90px] bg-[linear-gradient(to_right,#111_0%,#3a3a3a_30%,#444_50%,#222_80%,#0a0a0a_100%)] shadow-[0_-2px_5px_rgba(0,0,0,0.6)] before:content-[''] before:absolute before:-top-[12px] before:left-[2px] before:w-[32px] before:h-[12px] before:bg-[linear-gradient(to_right,#111_0%,#4a4a4a_40%,#111_100%)] before:rounded-t-sm transition-all duration-150 ease-out cursor-pointer ${isShutterPressed ? '-top-[14px]' : '-top-[24px]'}`}></div>
+          
+          {/* Small Top Bumps */}
+          <div className="small-bump absolute -top-[12px] w-[20px] h-[12px] rounded-t z-10 left-[230px] bg-[linear-gradient(to_right,#0a0a0a,#2a2a2a,#0a0a0a)]"></div>
+          <div className="small-bump absolute -top-[12px] w-[20px] h-[12px] rounded-t z-10 right-[230px] bg-[linear-gradient(to_right,#0a0a0a,#2a2a2a,#0a0a0a)]"></div>
+          
+          {/* Top Logo Housing */}
+          <div className="top-housing absolute -top-[42px] left-1/2 -translate-x-1/2 w-[280px] h-[42px] rounded-t-md flex justify-center items-center z-10 bg-[linear-gradient(to_bottom,#1d1e1f,#151617)] shadow-[inset_0_2px_3px_rgba(255,255,255,0.1),inset_0_0_0_1px_#050505]">
+            <div className="logo-box w-[240px] h-[30px] bg-[#050505] rounded-sm flex justify-center items-center shadow-[inset_0_0_10px_rgba(0,0,0,1),0_1px_1px_rgba(255,255,255,0.15)]">
+              <div className="text-[#f8f8f8] font-black text-[22px] tracking-[4px] leading-none pb-[2px]" style={{ fontFamily: '"Arial Black", "Impact", sans-serif' }}>
+                CRCCF
               </div>
             </div>
-          );
-        })}
-      </div>
-
-      {/* Subtle Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-100/40 blur-3xl" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-indigo-100/40 blur-3xl" />
-      </div>
-
-      <div className="max-w-[1400px] mx-auto relative z-10">
-        
-        {/* Header Section */}
-        <div className="text-center mb-16 flex flex-col items-center w-full">
-          {/* Split Text Heading */}
-          <div className="flex justify-center mb-2 w-full">
-            <h1 className="split-text-container flex justify-center gap-[0.3em] text-4xl md:text-5xl lg:text-6xl font-black tracking-tight">
-              <span className="text-part left text-[#0F172A]">
-                Gallery
-              </span>
-              <span className="text-part right text-blue-600">
-                Collections
-              </span>
-            </h1>
           </div>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-slate-500 text-lg md:text-xl font-medium max-w-3xl mx-auto"
-          >
-            Explore moments, achievements, celebrations and memories through our organized galleries.
-          </motion.p>
-        </div>
+          
+          {/* Outer Screws */}
+          <Screw className="top-[120px] left-[10px]" />
+          <Screw className="bottom-[120px] left-[10px]" />
+          <Screw className="top-[120px] right-[10px]" />
+          <Screw className="bottom-[120px] right-[10px]" />
+          
+          {/* Matte Box Outer Rim and Slant */}
+          <div className="matte-box-hole absolute top-[36px] left-[36px] right-[36px] bottom-[36px] shadow-[0_0_0_2px_#0a0a0a,0_0_20px_rgba(0,0,0,0.9),inset_0_0_40px_rgba(0,0,0,1)] border-solid border-t-[120px] border-t-[#141516] border-b-[120px] border-b-[#2a2b2c] border-l-[140px] border-l-[#1a1b1c] border-r-[140px] border-r-[#1a1b1c]">
+            {/* Flat Inner Backplate */}
+            <div className="backplate relative w-full h-full bg-[#111213] shadow-[inset_0_0_50px_rgba(0,0,0,1)] flex justify-center items-center">
+              
+              {/* Raised Lens Mount Platform */}
+              <div className="lens-mount-sq relative w-[330px] h-[330px] bg-[#161718] rounded-md flex justify-center items-center shadow-[0_15px_30px_rgba(0,0,0,0.9),0_5px_15px_rgba(0,0,0,0.6),inset_0_1px_2px_rgba(255,255,255,0.08),inset_0_0_0_1px_#050505] shrink-0">
+                
+                {/* Inner Screws */}
+                <Screw className="top-[15px] left-[15px]" />
+                <Screw className="top-[15px] right-[15px]" />
+                <Screw className="bottom-[15px] left-[15px]" />
+                <Screw className="bottom-[15px] right-[15px]" />
+                
+                {/* Concentric Lens Rings */}
+                <div className="lens-ring-outer w-[290px] h-[290px] shrink-0 aspect-square bg-[#080808] rounded-full flex justify-center items-center shadow-[0_0_0_2px_#111,inset_0_10px_20px_rgba(0,0,0,1),inset_0_0_0_6px_#161616,inset_0_0_0_8px_#000]">
+                  <div className="lens-ring-mid w-[230px] h-[230px] shrink-0 aspect-square bg-[#111] rounded-full flex justify-center items-center shadow-[0_0_10px_#000,inset_0_0_0_5px_#181818,inset_0_0_0_9px_#0a0a0a,inset_0_0_0_14px_#121212,inset_0_0_0_18px_#000]">
+                    <div className="lens-ring-inner w-[170px] h-[170px] shrink-0 aspect-square bg-[#050505] rounded-full flex justify-center items-center shadow-[0_0_15px_#000,inset_0_0_0_3px_#1f1f1f,inset_0_0_0_6px_#030303,inset_0_0_20px_#000]">
+                      
+                      {/* Glass Lens Surface */}
+                      <div className="lens-glass relative w-[135px] h-[135px] shrink-0 aspect-square rounded-full bg-[#040404] overflow-hidden shadow-[inset_0_0_30px_#000,inset_0_-10px_25px_rgba(255,255,255,0.06)]">
+                        
+                        {/* Shutter Blades */}
+                        <div className={`absolute top-0 left-0 right-0 h-1/2 bg-[#111111]/80 backdrop-blur-sm border-b-2 border-white/10 origin-top z-40 transition-transform duration-150 ease-in-out ${isShutterPressed ? 'scale-y-100' : 'scale-y-0'}`}></div>
+                        <div className={`absolute bottom-0 left-0 right-0 h-1/2 bg-[#111111]/80 backdrop-blur-sm border-t-2 border-black/50 origin-bottom z-40 transition-transform duration-150 ease-in-out ${isShutterPressed ? 'scale-y-100' : 'scale-y-0'}`}></div>
 
-        {/* Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          {categories.map((category, index) => (
-            <CategoryCard 
-              key={category.title} 
-              category={category} 
-              index={index} 
-              onClick={handleCardClick} 
-            />
-          ))}
-        </div>
+                        {/* Lens Reflections Effects */}
+                        <div className="absolute top-[45%] left-[45%] w-[90px] h-[90px] -translate-x-1/2 -translate-y-1/2 rounded-full mix-blend-screen bg-[radial-gradient(circle,rgba(100,60,130,0.35)_0%,transparent_65%)]"></div>
+                        <div className="absolute top-[60%] left-[60%] w-[70px] h-[70px] -translate-x-1/2 -translate-y-1/2 rounded-full mix-blend-screen bg-[radial-gradient(circle,rgba(150,110,70,0.4)_0%,transparent_60%)]"></div>
+                        <div className="absolute top-[20%] left-[25%] w-[40px] h-[18px] bg-[rgba(255,255,255,0.15)] rounded-full -rotate-[35deg] blur-[2px]"></div>
+                        
+                        <div className="absolute top-[10%] left-[10%] right-[10%] bottom-[10%] rounded-full border-t-[1px] border-t-[rgba(255,255,255,0.1)] border-b-[2px] border-b-[rgba(0,0,0,0.9)]"></div>
+                        
+                        <div className="absolute top-[53%] left-[47%] w-[16px] h-[16px] bg-[#e8a2d1] rounded-full shadow-[0_0_12px_#e8a2d1,0_0_25px_#cc66a3] blur-[1.5px] z-10"></div>
+                        <div className="absolute top-[48%] left-[51%] w-[8px] h-[8px] bg-white rounded-full shadow-[0_0_6px_#fff] blur-[0.5px] z-10"></div>
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[38px] h-[38px] bg-[#020202] rounded-full shadow-[0_0_12px_#000]"></div>
+                        
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
 
+            </div>
+          </div>
+          
+          {/* Continuous Carousel Track */}
+          <div ref={trackRef} className="absolute top-[96px] left-[106px] w-[748px] h-[428px] pointer-events-none z-30">
+            {galleryData.map((item, i) => (
+              <ImageCard 
+                key={`carousel-${item.id}`} 
+                id={item.id} 
+                index={i} 
+                imageUrl={item.imageUrl} 
+                title={item.title} 
+                onShutterPress={setIsShutterPressed} 
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

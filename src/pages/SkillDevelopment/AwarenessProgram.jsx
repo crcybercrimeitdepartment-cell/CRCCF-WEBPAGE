@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as Icons from 'lucide-react';
 import { Shield, Play, Info, ChevronRight, ChevronLeft } from 'lucide-react';
 import { programsData } from '../../data/skillDevelopment/AwarenessPagedata';
@@ -15,9 +16,12 @@ const TopShelf = () => {
 
 const ProgramCard = ({ program }) => {
   const IconComponent = Icons[program.icon] || Icons.Shield;
+  const navigate = useNavigate();
+  const slug = program.title.toLowerCase().replace(/[\s/]+/g, '-');
 
   return (
     <div 
+      onClick={() => navigate(`/skill-development/${slug}`)}
       className="w-full h-full bg-slate-50 border border-slate-200 rounded-xl flex flex-col justify-center items-center text-center p-3 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:bg-white relative overflow-hidden group"
       style={{ boxShadow: `0 8px 20px -5px ${program.color}40` }}
     >
@@ -375,7 +379,7 @@ export default function AwarenessProgram() {
   const [isTvOn, setIsTvOn] = useState(true);
 
   return (
-    <div className="w-screen h-screen bg-[#e8e4db] relative overflow-hidden flex items-center justify-center font-sans">
+    <div className="w-full h-screen bg-[#e8e4db] relative overflow-hidden flex items-center justify-center font-sans">
       
       <div className="absolute inset-0 bg-gradient-to-b from-[#f2efeb] to-[#d6d0c4] z-0"></div>
 

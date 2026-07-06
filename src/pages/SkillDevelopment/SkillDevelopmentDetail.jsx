@@ -1,3 +1,18 @@
+import ComingSoonPage from '../common/ComingSoonPage';
+
+/*
+=========================================
+TEMPORARILY DISABLED
+Reason:
+This page is currently using the global
+ComingSoonPage component.
+
+Do not remove this content because it
+will be re-enabled in future updates.
+=========================================
+*/
+
+/*
 import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 
@@ -29,7 +44,7 @@ const SkillDevelopmentDetail = () => {
         
         
 
-        {/* Content Section */}
+        {/* Content Section * /}
         <div className="bg-white rounded-lg sm:rounded-2xl shadow-lg sm:shadow-xl p-8 sm:p-12 md:p-16 text-center max-w-3xl mx-auto border border-[#DBEAFE]">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#0F172A] mb-6">
             {title}
@@ -50,3 +65,11 @@ const SkillDevelopmentDetail = () => {
 }
 
 export default SkillDevelopmentDetail
+
+*/
+
+const SkillDevelopmentDetail = () => {
+  return <ComingSoonPage />;
+};
+
+export default SkillDevelopmentDetail;

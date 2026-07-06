@@ -12,6 +12,7 @@ import {
     emptyStateData, programDetailNotFoundData, programDetailComingSoonData, 
     heroData, footerData 
 } from '../../data/skillDevelopment/CorporateTrainingPageData';
+import ComingSoonPage from '../common/ComingSoonPage';
 
 // ==========================================================================
 // SCROLL TO TOP UTILITY
@@ -340,95 +341,34 @@ function ProgramDetail({ darkMode, setDarkMode }) {
         );
     }
 
-    return (
-        <>
-            <main className="main-content">
-
-
-                <div className="coming-soon-container" style={{
-                    maxWidth: '800px',
-                    margin: '60px auto',
-                    padding: '50px 40px',
-                    textAlign: 'center',
-                    background: 'var(--card-bg, linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%))',
-                    backdropFilter: 'blur(20px)',
-                    WebkitBackdropFilter: 'blur(20px)',
-                    border: '1px solid var(--border-color, rgba(255, 255, 255, 0.1))',
-                    borderRadius: '24px',
-                    boxShadow: '0 20px 50px rgba(0, 0, 0, 0.1)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: '24px'
-                }}>
-                    <div style={{
-                        width: '80px',
-                        height: '80px',
-                        borderRadius: '50%',
-                        background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        boxShadow: '0 8px 24px rgba(59, 130, 246, 0.4)',
-                        color: '#ffffff',
-                        marginBottom: '10px'
-                    }}>
-                        <Clock size={36} className="animate-pulse" />
-                    </div>
-
-                    <span style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: '700', color: '#3b82f6' }}>
-                        {program.category}
-                    </span>
-
-                    <h1 style={{ fontSize: '36px', fontWeight: '800', color: 'var(--text-heading)', margin: '0' }}>
-                        {program.title}
-                    </h1>
-
-                    <h2 style={{ fontSize: '22px', fontWeight: '600', color: '#8b5cf6', margin: '0' }}>
-                        {programDetailComingSoonData.subtitle}
-                    </h2>
-
-                    <p style={{ color: 'var(--text-main)', fontSize: '16px', lineHeight: '1.6', maxWidth: '600px', margin: '0' }}>
-                        {programDetailComingSoonData.description}
-                    </p>
-
-
-                </div>
-            </main>
-        </>
-    );
+    return <ComingSoonPage />;
 }
 
 // ==========================================================================
 // CENTRAL ROUTING CONFIGURATION
 // ==========================================================================
-function AppRoutes({ darkMode, setDarkMode }) {
+export default function CorporateTrainingPage() {
+    const [darkMode, setDarkMode] = useState(true);
+
     return (
         <>
             <ScrollToTop />
             <Routes>
                 <Route
                     path="/"
-                    element={<Homepage darkMode={darkMode} setDarkMode={setDarkMode} />}
+                    element={
+                        <div className={`app-container ${darkMode ? 'dark-theme' : 'light-theme'}`}>
+                            <Homepage darkMode={darkMode} setDarkMode={setDarkMode} />
+                        </div>
+                    }
                 />
                 <Route
                     path="program/:id"
-                    element={<ProgramDetail darkMode={darkMode} setDarkMode={setDarkMode} />}
+                    element={
+                        <ProgramDetail darkMode={darkMode} setDarkMode={setDarkMode} />
+                    }
                 />
             </Routes>
         </>
-    );
-}
-
-// ==========================================================================
-// ROOT APP CONTAINER
-// ==========================================================================
-export default function CorporateTrainingPage() {
-    const [darkMode, setDarkMode] = useState(true);
-
-    return (
-        <div className={`app-container ${darkMode ? 'dark-theme' : 'light-theme'}`}>
-            <AppRoutes darkMode={darkMode} setDarkMode={setDarkMode} />
-        </div>
     );
 }

@@ -1,3 +1,4 @@
+import SectionHeading from './common/SectionHeading';
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, useInView, AnimatePresence, useMotionValue, useAnimationFrame, useTransform, wrap } from 'framer-motion'
@@ -566,4 +567,5 @@ export default function InternshipPrograms() {
     </section>
   )
 }
+
 

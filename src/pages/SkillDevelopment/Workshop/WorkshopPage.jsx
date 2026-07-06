@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { mentorshipPrograms } from './WorkshopPageData';
+import ComingSoonPage from '../../common/ComingSoonPage';
 
 function ScrollToTop() {
     const { pathname } = useLocation();
@@ -22,13 +23,20 @@ function ScrollToTop() {
 
 export default function WorkshopPage({ darkMode, setDarkMode }) {
     return (
-        <>
-            <ScrollToTop />
-            <Routes>
-                <Route path="/" element={<WorkshopPageInner darkMode={darkMode} setDarkMode={setDarkMode} />} />
-                <Route path="/program/:id" element={<DataPage darkMode={darkMode} setDarkMode={setDarkMode} />} />
-            </Routes>
-        </>
+        <Routes>
+            <Route path="/" element={
+                <div className={`workshop-app-container ${darkMode ? 'dark-theme' : 'light-theme'}`}>
+                    <ScrollToTop />
+                    <WorkshopPageInner darkMode={darkMode} setDarkMode={setDarkMode} />
+                </div>
+            } />
+            <Route path="program/:id" element={
+                <>
+                    <ScrollToTop />
+                    <DataPage darkMode={darkMode} setDarkMode={setDarkMode} />
+                </>
+            } />
+        </Routes>
     );
 }
 
@@ -58,24 +66,7 @@ function DataPage({ darkMode, setDarkMode }) {
         );
     }
 
-    return (
-        <main className="flex-grow w-full max-w-[1400px] mx-auto px-6 pb-[60px] animate-[pageScrollDown_0.5s_ease-out] py-8">
-            <div className="mt-8 mb-4 pl-6">
-                <button 
-                    onClick={() => navigate(-1)} 
-                    className="inline-flex items-center gap-2 bg-[var(--bg-tertiary)] border border-[var(--border-color)] text-[var(--accent-color)] py-2.5 px-5 rounded-xl font-semibold text-sm cursor-pointer transition-all duration-200"
-                >
-                    <ArrowLeft size={18} /> Back
-                </button>
-            </div>
-            <div className="flex flex-col items-center justify-center mt-16 mb-32">
-                <div className="p-10 rounded-3xl border border-[var(--border-color)] bg-[var(--bg-secondary)] shadow-[0_10px_40px_rgba(0,0,0,0.1)] text-center max-w-[600px] w-full">
-                    <h2 className="text-[var(--accent-color)] text-[30px] font-bold mb-3">Coming Soon...</h2>
-                    <p className="text-[var(--text-muted)] text-[16px]">This section is under development. Stay tuned!</p>
-                </div>
-            </div>
-        </main>
-    );
+    return <ComingSoonPage />;
 }
 
 // ==========================================
@@ -295,7 +286,7 @@ function WorkshopPageInner({ darkMode, setDarkMode }) {
     }, [filteredPrograms, currentPage]);
 
     const handleExploreProgram = useCallback((program) => {
-        navigate(`/program/${program.id}`);
+        navigate(`program/${program.id}`);
     }, [navigate]);
 
     const handlePageChange = useCallback((newPage) => {

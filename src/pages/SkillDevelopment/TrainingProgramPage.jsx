@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   heroData,
   sectionsData,
@@ -151,9 +152,14 @@ const Mouse = () => {
 // --- ProgramCard Component ---
 const ProgramCard = ({ program }) => {
   const Icon = program.icon;
+  const navigate = useNavigate();
+  const slug = program.name.toLowerCase().replace(/[\s/]+/g, '-');
 
   return (
-    <div className={`border border-transparent hover:border-gray-300 flex flex-col items-center justify-start p-2 md:p-2 rounded-xl cursor-pointer ${program.color} bg-transparent hover:bg-black/5 transition-all duration-200 group`}>
+    <div 
+      onClick={() => navigate(`/skill-development/${slug}`)}
+      className={`border border-transparent hover:border-gray-300 flex flex-col items-center justify-start p-2 md:p-2 rounded-xl cursor-pointer ${program.color} bg-transparent hover:bg-black/5 transition-all duration-200 group`}
+    >
       <div className="flex-shrink-0 flex items-center justify-center w-16 h-16 md:w-20 md:h-20 mb-1 border-2 border-current bg-white/60 rounded-2xl shadow-sm group-hover:shadow-md group-hover:bg-white group-hover:scale-110 transition-all">
         <Icon className="text-3xl md:text-4xl drop-shadow-sm" />
       </div>

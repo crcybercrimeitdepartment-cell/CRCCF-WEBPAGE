@@ -23,6 +23,7 @@ import {
     labels,
     footerLinks
 } from "../../data/skillDevelopment/CoursePageData";
+import ComingSoonPage from '../common/ComingSoonPage';
 
 // ==========================================
 // 0. INJECTED STYLES
@@ -4436,7 +4437,7 @@ a {
   cursor: pointer;
   z-index: 11;
   margin-bottom: -2px;
-  /* Stand right on the shelf line */
+  will-change: transform;
 }
 
 .book-3d {
@@ -4445,6 +4446,7 @@ a {
   height: 100%;
   transform-style: preserve-3d;
   transform: rotateY(-24deg) rotateX(2deg) translateZ(0);
+  will-change: transform;
 }
 
 .book-3d-container:hover .book-3d {
@@ -4462,6 +4464,7 @@ a {
   z-index: 10;
   transform-style: preserve-3d;
   transform: translateZ(16px);
+  will-change: transform;
   /* Front cover pushed +16px forward */
   box-shadow:
     inset 2px 0 3px rgba(255, 255, 255, 0.12),
@@ -4482,6 +4485,7 @@ a {
   z-index: 1;
   transform-style: preserve-3d;
   transform: translateZ(-16px);
+  will-change: transform;
   /* Back cover pushed -16px backward */
   box-shadow:
     -2px 3px 8px rgba(0, 0, 0, 0.5),
@@ -5137,6 +5141,7 @@ a {
     1px 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   z-index: 4;
+  will-change: transform;
 }
 
 .book-inside-page-right {
@@ -5594,7 +5599,6 @@ function Card({ program, index, onLearnMore }) {
     return (
         <motion.div
             className="book-3d-container"
-            layout
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
@@ -5891,7 +5895,7 @@ function Homepage({ darkMode, setDarkMode }) {
     const handleExploreProgram = useCallback((program) => {
         setActiveProgramId(program.id);
         setTimeout(() => {
-            navigate(`/program/${program.id}`);
+            navigate(`program/${program.id}`);
         }, 1000);
     }, [navigate]);
 
@@ -6030,34 +6034,25 @@ function ProgramDetail({ darkMode, setDarkMode }) {
         );
     }
 
-    return (
-        <main className="main-content">
-            
-            <div className="flex flex-col items-center justify-center mt-16 mb-32">
-                <div className="px-10 py-16 rounded-3xl border border-gray-200 bg-white shadow-lg text-center max-w-2xl w-full">
-                    <h2 style={{ color: '#2563eb' }} className="text-3xl font-bold mb-3">{labels.comingSoon}</h2>
-                    <p className="text-gray-500 text-base">{labels.underDev}</p>
-                </div>
-            </div>
-        </main>
-    );
+    return <ComingSoonPage />;
 }
 
 export default function CoursePage({ darkMode, setDarkMode }) {
     return (
-        <div className="course-page-wrapper">
-      <StyleInjector />
-            <ScrollToTop />
-            <Routes>
-                <Route
-                    path="/"
-                    element={<Homepage darkMode={darkMode} setDarkMode={setDarkMode} />}
-                />
-                <Route
-                    path="/program/:id"
-                    element={<ProgramDetail darkMode={darkMode} setDarkMode={setDarkMode} />}
-                />
-            </Routes>
-        </div>
+        <Routes>
+            <Route path="/" element={
+                <div className="course-page-wrapper">
+                    <StyleInjector />
+                    <ScrollToTop />
+                    <Homepage darkMode={darkMode} setDarkMode={setDarkMode} />
+                </div>
+            } />
+            <Route path="program/:id" element={
+                <>
+                    <ScrollToTop />
+                    <ProgramDetail darkMode={darkMode} setDarkMode={setDarkMode} />
+                </>
+            } />
+        </Routes>
     );
 }

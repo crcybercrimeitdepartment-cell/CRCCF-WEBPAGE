@@ -1,3 +1,18 @@
+import ComingSoonPage from '../common/ComingSoonPage';
+
+/*
+=========================================
+TEMPORARILY DISABLED
+Reason:
+This page is currently using the global
+ComingSoonPage component.
+
+Do not remove this content because it
+will be re-enabled in future updates.
+=========================================
+*/
+
+/*
 import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import PageHeader from '../../components/AboutUs/common/PageHeader'
@@ -46,3 +61,11 @@ const CertificateComingSoon = () => {
 }
 
 export default CertificateComingSoon
+
+*/
+
+const CertificateComingSoon = () => {
+  return <ComingSoonPage />;
+};
+
+export default CertificateComingSoon;

@@ -3,6 +3,7 @@ import { Routes, Route, useNavigate, useLocation, useParams } from 'react-router
 import { Search, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { mentorshipPrograms } from '../../data/skillDevelopment/ResearchPageData';
+import ComingSoonPage from '../common/ComingSoonPage';
 
 function ScrollToTop() {
     const { pathname } = useLocation();
@@ -66,38 +67,7 @@ function Card({ program, index, onLearnMore }) {
 }
 
 function DataPage({ darkMode, setDarkMode }) {
-    const { id } = useParams();
-    const navigate = useNavigate();
-
-    const program = useMemo(() => {
-        return mentorshipPrograms.find(p => p.id === id);
-    }, [id]);
-
-    if (!program) {
-        return (
-            <>
-                <div style={{ minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
-                    <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: 'var(--text-heading)', marginBottom: '16px' }}>Program Not Found</h2>
-                    <p style={{ color: 'var(--text-main)', marginBottom: '24px' }}>The program you are looking for does not exist or has been moved.</p>
-                    
-                </div>
-            </>
-        );
-    }
-
-    return (
-        <>
-            <main className="main-content">
-                
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginTop: '4rem', marginBottom: '8rem' }}>
-                    <div style={{ padding: '40px', borderRadius: '24px', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', boxShadow: '0 10px 40px rgba(0,0,0,0.1)', textAlign: 'center', maxWidth: '600px', width: '100%' }}>
-                        <h2 style={{ color: 'var(--accent-color)', fontSize: '30px', fontWeight: 'bold', marginBottom: '12px' }}>Coming Soon...</h2>
-                        <p style={{ color: 'var(--text-muted)', fontSize: '16px' }}>This section is under development. Stay tuned!</p>
-                    </div>
-                </div>
-            </main>
-        </>
-    );
+    return <ComingSoonPage />;
 }
 
 function ResearchPageInner({ darkMode, setDarkMode }) {
@@ -239,7 +209,7 @@ function ResearchPageInner({ darkMode, setDarkMode }) {
     }, [filteredPrograms, currentPage]);
 
     const handleExploreProgram = useCallback((program) => {
-        navigate(`program/${program.id}`);
+        navigate(`/skill-development/${program.id}`);
     }, [navigate]);
 
     useEffect(() => {

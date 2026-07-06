@@ -1,3 +1,4 @@
+import SectionHeading from './common/SectionHeading';
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 
@@ -166,23 +167,7 @@ export default function WhoWeAre() {
   return (
     <section id="about" ref={sectionRef} className="section-padding bg-[#F9FAFB]">
       <div className="container-custom">
-        <motion.div
-          className="text-center mb-[clamp(32px,7vw,52px)] flex flex-col items-center"
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: .55 }}
-        >
-          <p className="section-tag">Who We Are</p>
-          <h2 className="section-title">
-            About <span className="section-title-accent">CR Cyber Crime Foundation</span>
-          </h2>
-
-          <p className="section-subtitle">
-            A trusted partner in India's cybersecurity ecosystem — combining technology expertise,
-            legal knowledge, and community outreach to create a safer digital India.
-          </p>
-        </motion.div>
+        <SectionHeading subtitle="Who We Are" title="About CR Cyber Crime Foundation" highlightWord="CR Cyber Crime Foundation" description="A trusted partner in India's cybersecurity ecosystem — combining technology expertise, legal knowledge, and community outreach to create a safer digital India." />
 
         {/* ── FIXED GRID CONTAINER USING ITEMS-STRETCH ── */}
         <div className="grid grid-cols-2 items-stretch gap-[24px] max-[640px]:gap-[14px] max-[380px]:gap-[10px]">

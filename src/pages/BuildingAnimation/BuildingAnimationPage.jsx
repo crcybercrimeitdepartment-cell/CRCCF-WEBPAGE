@@ -19,10 +19,10 @@ export default function BuildingAnimationPage() {
 
   useEffect(() => {
     // Preload audio files immediately on component mount
-    bellAudioRef.current = new Audio('/door_bell.mpeg');
+    bellAudioRef.current = new Audio('https://res.cloudinary.com/dlhmkbijh/video/upload/v1782471857/door_bell_bls0mt.mp3');
     bellAudioRef.current.preload = 'auto';
 
-    doorAudioRef.current = new Audio('/door_opening_sound.mp3');
+    doorAudioRef.current = new Audio('https://res.cloudinary.com/dlhmkbijh/video/upload/v1782471858/door_opening_sound_ct7rrb.mp3');
     doorAudioRef.current.preload = 'auto';
   }, []);
 

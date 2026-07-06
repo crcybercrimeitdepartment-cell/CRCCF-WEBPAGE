@@ -1,3 +1,18 @@
+import ComingSoonPage from '../../../common/ComingSoonPage';
+
+/*
+=========================================
+TEMPORARILY DISABLED
+Reason:
+This page is currently using the global
+ComingSoonPage component.
+
+Do not remove this content because it
+will be re-enabled in future updates.
+=========================================
+*/
+
+/*
 import { playPageTurnSound } from "../../../../utils/pageTurnSound";
 
 ﻿import { useState, useRef } from "react";
@@ -13,7 +28,7 @@ import {
 // Import data
 import { legalAuthorizationsData } from '../../../../data/aboutUs/legalCompliance/LegalAuthorizationsData';
 
-/* -------------------------------- Motion -------------------------------- */
+/* -------------------------------- Motion -------------------------------- * /
 const useAnims = () => {
   const shouldReduce = useReducedMotion();
   const container = {
@@ -32,7 +47,7 @@ const useAnims = () => {
   return { container, itemUp };
 };
 
-/* -------------------------- SVG Components -------------------------- */
+/* -------------------------- SVG Components -------------------------- * /
 
 const SVG_Auth = () => (
   <svg viewBox="0 0 100 100" className="w-full h-full">
@@ -67,7 +82,7 @@ const svgMap = {
     "auth-compliance": SVG_Compliance,
 };
 
-/* -------------------------- InsightCard (The Book) -------------------------- */
+/* -------------------------- InsightCard (The Book) -------------------------- * /
 const InsightCard = ({ allPages }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activePageIndex, setActivePageIndex] = useState(0);
@@ -108,7 +123,7 @@ const InsightCard = ({ allPages }) => {
           ${isOpen ? 'shadow-[0_30px_70px_rgba(0,0,0,0.15)]' : 'hover:shadow-[0_30px_70px_rgba(0,0,0,0.15)]'}
         `}
       >
-        {/* Pages Stack */}
+        {/* Pages Stack * /}
         {allPages.map((page, pageIdx) => {
           const isFlipped = activePageIndex > pageIdx;
           const PageSVG = svgMap[page.id] || SVG_Auth;
@@ -176,7 +191,7 @@ const InsightCard = ({ allPages }) => {
           );
         })}
 
-        {/* COVER */}
+        {/* COVER * /}
         <div
           className={`
             absolute inset-0 w-full h-full rounded-[24px] cursor-pointer 
@@ -211,7 +226,7 @@ const InsightCard = ({ allPages }) => {
         </div>
       </motion.article>
 
-      {/* Scrubber */}
+      {/* Scrubber * /}
       <div className={`transition-all duration-500 ease-out mt-4 ${isOpen || showScrubber ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
         <div className="flex flex-col gap-4 bg-white/50 backdrop-blur-sm p-3 sm:p-4 md:p-6 rounded-[16px] sm:rounded-[24px] border border-slate-100">
           <div className="flex justify-between items-center">
@@ -255,7 +270,7 @@ const InsightCard = ({ allPages }) => {
   );
 };
 
-/* ------------------------------ Main Page ------------------------------ */
+/* ------------------------------ Main Page ------------------------------ * /
 export default function LegalAuthorizationsCyberLicenses() {
   const navigate = useNavigate();
   const { container, itemUp } = useAnims();
@@ -310,3 +325,11 @@ export default function LegalAuthorizationsCyberLicenses() {
     </div>
   );
 }
+
+*/
+
+const useAnims = () => {
+  return <ComingSoonPage />;
+};
+
+export default useAnims;

@@ -1,3 +1,4 @@
+import SectionHeading from './common/SectionHeading';
 import { useEffect, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 
@@ -108,23 +109,17 @@ export default function StatsBar() {
     <div ref={ref}>
       {/* DIGITAL FOOTPRINT — dark section */}
       <section
-        className="relative overflow-hidden bg-[#0C1A3A] py-[clamp(40px,7vw,64px)] before:absolute before:inset-0 before:content-[''] before:pointer-events-none before:[background-image:linear-gradient(rgba(255,255,255,.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.03)_1px,transparent_1px)] before:[background-size:48px_48px]"
+        className="section-padding relative overflow-hidden bg-[#0C1A3A] py-[clamp(40px,7vw,64px)] before:absolute before:inset-0 before:content-[''] before:pointer-events-none before:[background-image:linear-gradient(rgba(255,255,255,.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.03)_1px,transparent_1px)] before:[background-size:48px_48px]"
       >
         <div className="container-custom">
 
           {/* Heading */}
-          <motion.div
-            className="text-center mb-[40px] relative z-[1] flex flex-col items-center"
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: .5 }}
-          >
-            <p className="section-tag" style={{ color: 'rgba(255,255,255,.60)' }}>Digital Footprint</p>
-            <h2 className="section-title" style={{ color: '#fff' }}>
-              Our Numbers <span style={{ color: '#60A5FA' }}>Speak</span>
-            </h2>
-          </motion.div>
+          <SectionHeading 
+            subtitle="Digital Footprint" 
+            title="Our Numbers Speak" 
+            highlightWord="Speak" 
+            theme="dark" 
+          />
 
           {/* Stats grid */}
           <div className="relative z-[1] grid grid-cols-[repeat(4,1fr)] gap-[20px] max-[900px]:grid-cols-[repeat(2,1fr)] max-[900px]:gap-[12px]">
@@ -275,3 +270,4 @@ export default function StatsBar() {
     </div>
   )
 }
+

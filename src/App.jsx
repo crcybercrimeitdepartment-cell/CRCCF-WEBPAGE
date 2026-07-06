@@ -11,29 +11,12 @@ import ScrollToTop from './components/ScrollToTop'
 import EventBanner from './components/EventBanner'
 import Hero from './components/Hero'
 import RootLayout from './layouts/RootLayout'
-import LaptopLayout from './layouts/ContactUs/LaptopLayout'
 import AboutLayout from './layouts/AboutLayout'
-import PageWrapper from './components/ContactUs/PageWrapper'
 
-// --- CONTACT HUB DATA (tiny, needed at route registration) ---
-import { employees } from './data/contactUs/employeesData'
-import { officers } from './data/contactUs/officersData'
-import { teachers } from './data/contactUs/teachersData'
-import { reporters } from './data/contactUs/reportersData'
-import { advocates } from './data/contactUs/advocatesData'
-import { legalAdvisors } from './data/contactUs/legalAdvisorsData'
-import { directors } from './data/contactUs/directorsData'
-import { members } from './data/contactUs/membersData'
+// --- SHARED DATA (tiny, needed at route registration) ---
 import { reportCards } from './data/report/reportCards'
 import { softwareCards } from './data/software/softwareCards'
 
-// --- CONTACT HUB ICONS (lucide is tree-shaken, named imports are fine) ---
-import {
-  BadgeCent, Users, BookOpen, Mic, Scale, Gavel, UserCheck, UserPlus,
-  Headset, LifeBuoy, MessageSquare, Ticket, MapPin, Building, Globe,
-  Navigation, User, Briefcase, FileText, Star, ThumbsUp, MessageCircle,
-  Bot, Megaphone, Sparkles
-} from "lucide-react"
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa"
 
 // ─── LAZY: Homepage sections (below the fold) ────────────────────────────────
@@ -61,17 +44,10 @@ const InsightsPage       = lazy(() => import('./pages/InsightsPage'))
 const ServiceRouter      = lazy(() => import('./pages/Service/ServiceRouter'))
 const SoftwareComingSoon = lazy(() => import('./pages/SoftwareComingSoon'))
 const SoftwareProductDetailComingSoon = lazy(() => import('./pages/SoftwareProductDetailComingSoon'))
+const ComingSoonPage     = lazy(() => import('./pages/common/ComingSoonPage'))
 
 // ─── LAZY: Contact Hub ───────────────────────────────────────────────────────
-const Dashboard          = lazy(() => import('./pages/ContactUs/Dashboard'))
-const DirectorySection   = lazy(() => import('./pages/ContactUs/DirectorySection'))
-const HelpDesk           = lazy(() => import('./sections/ContactUs/HelpDesk'))
-const BranchDetails      = lazy(() => import('./sections/ContactUs/BranchDetails'))
-const AIChat             = lazy(() => import('./sections/ContactUs/AIChat'))
-const Review             = lazy(() => import('./sections/ContactUs/Review'))
-const Feedback           = lazy(() => import('./sections/ContactUs/Feedback'))
-const Announcements      = lazy(() => import('./sections/ContactUs/Announcements'))
-const FollowApps         = lazy(() => import('./sections/ContactUs/FollowApps'))
+const ContactRouter      = lazy(() => import('./pages/Contact/ContactRouter'))
 
 // ─── LAZY: About Us ──────────────────────────────────────────────────────────
 const AboutPage                = lazy(() => import('./pages/AboutUs/AboutPage'))
@@ -85,7 +61,7 @@ const Objective                = lazy(() => import('./pages/AboutUs/Objective'))
 const Achievement              = lazy(() => import('./pages/AboutUs/Achievement'))
 const LegalComplianceRouter    = lazy(() => import('./pages/AboutUs/LegalComplianceRouter'))
 const PrivacyPolicy            = lazy(() => import('./pages/AboutUs/PrivacyPolicy'))
-const DataProtection           = lazy(() => import('./pages/AboutUs/DataProtection'))
+const MeaningBehindOurNamePage = lazy(() => import('./pages/AboutUs/MeaningBehindOurNamePage'))
 const TermsConditions          = lazy(() => import('./pages/AboutUs/TermsConditions'))
 const RulesRegulation          = lazy(() => import('./pages/AboutUs/RulesRegulation'))
 const Instruction              = lazy(() => import('./pages/AboutUs/Instruction'))
@@ -97,7 +73,40 @@ const History                  = lazy(() => import('./pages/AboutUs/History'))
 // ─── LAZY: Report ────────────────────────────────────────────────────────────
 const ReportCrimePage    = lazy(() => import('./pages/report/ReportCrimePage'))
 const ReportComingSoon   = lazy(() => import('./pages/report/ReportComingSoon'))
-
+const RightsOfCybercrimeVictimsEmpoweringYouwithCRCCFPage = lazy(() => import("./pages/report/VictimRightsAndSupport/RightsOfCybercrimeVictimsEmpoweringYouwithCRCCFPage"))
+const VictimAssistanceAndProtectionPage = lazy(() => import("./pages/report/VictimRightsAndSupport/VictimAssistanceAndProtectionPage"))
+const CybercrimeVictimRightsAndReliefPage = lazy(() => import("./pages/report/VictimRightsAndSupport/CybercrimeVictimRightsAndReliefPage"))
+const DigitalCrimeVictimHelpDeskPage = lazy(() => import("./pages/report/VictimRightsAndSupport/DigitalCrimeVictimHelpDeskPage"))
+const SupportServicesforVictimsPage = lazy(() => import("./pages/report/VictimRightsAndSupport/SupportServicesforVictimsPage"))
+const HelpAndJusticeforVictimsPage = lazy(() => import("./pages/report/VictimRightsAndSupport/HelpAndJusticeforVictimsPage"))
+const EmpoweringCybercrimeVictimsPage = lazy(() => import("./pages/report/VictimRightsAndSupport/EmpoweringCybercrimeVictimsPage"))
+const DigitalVictimSupportAndProtectionPage = lazy(() => import("./pages/report/VictimRightsAndSupport/DigitalVictimSupportAndProtectionPage"))
+const VictimProtectionAndLegalAidPage = lazy(() => import("./pages/report/VictimRightsAndSupport/VictimProtectionAndLegalAidPage"))
+const OnlineHarassmentHelpAndRightsPage = lazy(() => import("./pages/report/VictimRightsAndSupport/OnlineHarassmentHelpAndRightsPage"))
+const CyberJusticeforVictimsPage = lazy(() => import("./pages/report/VictimRightsAndSupport/CyberJusticeforVictimsPage"))
+const CybercrimeVictimAdvocacyPage = lazy(() => import("./pages/report/VictimRightsAndSupport/CybercrimeVictimAdvocacyPage"))
+const OnlineSafetyAndVictimHelpPage = lazy(() => import("./pages/report/VictimRightsAndSupport/OnlineSafetyAndVictimHelpPage"))
+const JusticeAndHealingforVictimsPage = lazy(() => import("./pages/report/VictimRightsAndSupport/JusticeAndHealingforVictimsPage"))
+const RestoringDignitytoCyberVictimsPage = lazy(() => import("./pages/report/VictimRightsAndSupport/RestoringDignitytoCyberVictimsPage"))
+const DigitalJusticeSupportServicesPage = lazy(() => import("./pages/report/VictimRightsAndSupport/DigitalJusticeSupportServicesPage"))
+const VictimOutreachAndLegalSupportPage = lazy(() => import("./pages/report/VictimRightsAndSupport/VictimOutreachAndLegalSupportPage"))
+const PsychologicalCounsellingforCyberVictimsPage = lazy(() => import("./pages/report/VictimRightsAndSupport/PsychologicalCounsellingforCyberVictimsPage"))
+const VictimHelplineAndChatSupportPage = lazy(() => import("./pages/report/VictimRightsAndSupport/VictimHelplineAndChatSupportPage"))
+const WomenAndChildCyberSafetySupportPage = lazy(() => import("./pages/report/VictimRightsAndSupport/WomenAndChildCyberSafetySupportPage"))
+const LegalGuidanceforDigitalCrimeVictimsPage = lazy(() => import("./pages/report/VictimRightsAndSupport/LegalGuidanceforDigitalCrimeVictimsPage"))
+const DataPrivacyAndProtectionSupportPage = lazy(() => import("./pages/report/VictimRightsAndSupport/DataPrivacyAndProtectionSupportPage"))
+const SocialMediaMisuseVictimAidPage = lazy(() => import("./pages/report/VictimRightsAndSupport/SocialMediaMisuseVictimAidPage"))
+const PhishingAndOnlineScamVictimSupportPage = lazy(() => import("./pages/report/VictimRightsAndSupport/PhishingAndOnlineScamVictimSupportPage"))
+const CyberExtortionAndBlackmailResponseTeamPage = lazy(() => import("./pages/report/VictimRightsAndSupport/CyberExtortionAndBlackmailResponseTeamPage"))
+const DigitalForensicsAssistanceforVictimsPage = lazy(() => import("./pages/report/VictimRightsAndSupport/DigitalForensicsAssistanceforVictimsPage"))
+const EducationalResourcesforVictimRightsPage = lazy(() => import("./pages/report/VictimRightsAndSupport/EducationalResourcesforVictimRightsPage"))
+const CyberVictimReliefEmergencyResponsePage = lazy(() => import("./pages/report/VictimRightsAndSupport/CyberVictimReliefEmergencyResponsePage"))
+const ReportACyberCrimeVictimRightandSupportPage = lazy(() => import('./pages/report/ReportACyberCrimeVictimRightandSupportPage'))
+const CyberSecurityTipsPage = lazy(() => import('./pages/report/CyberSecurityTipsPage'))
+const AwarenessAndPreventionTipsPage = lazy(() => import('./pages/report/Awareness&PreventionTipsPage'))
+const CyberSafetyAndSupportForGirlsAndWomenPage = lazy(() => import('./pages/report/CyberSafetyAndSupportForGirlsAndWomenPage'))
+const LegalGuidanceAndAwarenessPage = lazy(() => import('./pages/report/LegalGuidance&AwarenessPage'))
+const CyberLawsAndRightsPage = lazy(() => import('./pages/report/CyberLawsAndRightsPage'))
 // ─── LAZY: Skill Development ─────────────────────────────────────────────────
 const SkillDevelopmentPage   = lazy(() => import('./pages/SkillDevelopment/SkillDevelopmentPage'))
 const SkillDevelopmentDetail = lazy(() => import('./pages/SkillDevelopment/SkillDevelopmentDetail'))
@@ -131,23 +140,10 @@ const ApplicationStatus         = lazy(() => import('./pages/recruitment/Applica
 const SubmitResume              = lazy(() => import('./pages/recruitment/SubmitResume'))
 const CertificateVerification   = lazy(() => import('./pages/recruitment/CertificateVerification'))
 const CertificateComingSoon     = lazy(() => import('./pages/recruitment/CertificateComingSoon'))
+const IdCardVerificationComingSoon = lazy(() => import('./pages/recruitment/IdCardVerificationComingSoon'))
 
 // ─── LAZY: Recruitment Rules & Policies ──────────────────────────────────────
 const RecruitmentRulesPolicies             = lazy(() => import('./pages/recruitment/rules/RecruitmentRulesPolicies'))
-const RecruitmentPolicyEmploymentOverview  = lazy(() => import('./pages/recruitment/rules/RecruitmentPolicyEmploymentOverview'))
-const CareerDevelopmentProgress            = lazy(() => import('./pages/recruitment/rules/CareerDevelopmentProgress'))
-const EmployeeGrowthFutureOpportunity      = lazy(() => import('./pages/recruitment/rules/EmployeeGrowthFutureOpportunity'))
-const EmploymentEligibilityCriteria        = lazy(() => import('./pages/recruitment/rules/EmploymentEligibilityCriteria'))
-const RecruitmentSelectionProcess          = lazy(() => import('./pages/recruitment/rules/RecruitmentSelectionProcess'))
-const RecruitmentInstructions              = lazy(() => import('./pages/recruitment/rules/RecruitmentInstructions'))
-const RecruitmentGuidelines                = lazy(() => import('./pages/recruitment/rules/RecruitmentGuidelines'))
-const RecruitmentCalendar                  = lazy(() => import('./pages/recruitment/rules/RecruitmentCalendar'))
-const CodeOfConductProfessionalEthics      = lazy(() => import('./pages/recruitment/rules/CodeOfConductProfessionalEthics'))
-const TrainingOrientationSkillDevelopment  = lazy(() => import('./pages/recruitment/rules/TrainingOrientationSkillDevelopment'))
-const PerformanceReviewEvaluationSystem    = lazy(() => import('./pages/recruitment/rules/PerformanceReviewEvaluationSystem'))
-const EmployeeRightsResponsibilities       = lazy(() => import('./pages/recruitment/rules/EmployeeRightsResponsibilities'))
-const VolunteerInternshipPolicy            = lazy(() => import('./pages/recruitment/rules/VolunteerInternshipPolicy'))
-const EmployeeRecognitionAwards            = lazy(() => import('./pages/recruitment/rules/EmployeeRecognitionAwards'))
 
 // ─── Shared Loading Fallback ─────────────────────────────────────────────────
 const PageLoader = () => (
@@ -239,6 +235,41 @@ function AppRoutes() {
             <Route path="/software-products" element={<><SEO title="Software Products" description="Explore our advanced software products and IT solutions designed for robust cyber security and digital infrastructure." /><SoftwareComingSoon /></>} />
             <Route path="/services/*" element={<><SEO title="Our Services" description="Comprehensive cyber security, digital marketing, IT support, and legal services offered by CRCCF." /><ServiceRouter /></>} />
             <Route path="/report-crime" element={<><SEO title="Report Cyber Crime" description="Report cyber crime incidents securely. Get assistance with FIR filing, digital evidence collection, and legal support." /><ReportCrimePage /></>} />
+            <Route path="/report-crime/victim-rights-support" element={<><SEO title="Victim Rights & Support" description="Learn about victim rights, emotional support, and legal assistance provided by CRCCF for victims of cyber crime." /><ReportACyberCrimeVictimRightandSupportPage /></>} />
+<Route path="/report-crime/victim-rights-support/right-of-cybercrime-victims" element={<><SEO title="Right of Cybercrime Victims" description="Right of Cybercrime Victims" /><RightsOfCybercrimeVictimsEmpoweringYouwithCRCCFPage /></>} />
+<Route path="/report-crime/victim-rights-support/victim-assistance-protection" element={<><SEO title="Victim Assistance & Protection" description="Victim Assistance & Protection" /><VictimAssistanceAndProtectionPage /></>} />
+<Route path="/report-crime/victim-rights-support/cybercrime-victim-rights-relief" element={<><SEO title="Cybercrime Victim Rights & Relief" description="Cybercrime Victim Rights & Relief" /><CybercrimeVictimRightsAndReliefPage /></>} />
+<Route path="/report-crime/victim-rights-support/digital-crime-victim-help-desk" element={<><SEO title="Digital Crime Victim Help Desk" description="Digital Crime Victim Help Desk" /><DigitalCrimeVictimHelpDeskPage /></>} />
+<Route path="/report-crime/victim-rights-support/support-services-for-victims" element={<><SEO title="Support Services for Victims" description="Support Services for Victims" /><SupportServicesforVictimsPage /></>} />
+<Route path="/report-crime/victim-rights-support/help-justice-for-victims" element={<><SEO title="Help & Justice for Victims" description="Help & Justice for Victims" /><HelpAndJusticeforVictimsPage /></>} />
+<Route path="/report-crime/victim-rights-support/empowering-cybercrime-victims" element={<><SEO title="Empowering Cybercrime Victims" description="Empowering Cybercrime Victims" /><EmpoweringCybercrimeVictimsPage /></>} />
+<Route path="/report-crime/victim-rights-support/digital-victim-support-protection" element={<><SEO title="Digital Victim Support & Protection" description="Digital Victim Support & Protection" /><DigitalVictimSupportAndProtectionPage /></>} />
+<Route path="/report-crime/victim-rights-support/victim-protection-legal-aid" element={<><SEO title="Victim Protection & Legal Aid" description="Victim Protection & Legal Aid" /><VictimProtectionAndLegalAidPage /></>} />
+<Route path="/report-crime/victim-rights-support/online-harassment-help-rights" element={<><SEO title="Online Harassment Help & Rights" description="Online Harassment Help & Rights" /><OnlineHarassmentHelpAndRightsPage /></>} />
+<Route path="/report-crime/victim-rights-support/cyber-justice-for-victims" element={<><SEO title="Cyber Justice for Victims" description="Cyber Justice for Victims" /><CyberJusticeforVictimsPage /></>} />
+<Route path="/report-crime/victim-rights-support/cybercrime-victim-advocacy" element={<><SEO title="Cybercrime Victim Advocacy" description="Cybercrime Victim Advocacy" /><CybercrimeVictimAdvocacyPage /></>} />
+<Route path="/report-crime/victim-rights-support/online-safety-victim-help" element={<><SEO title="Online Safety & Victim Help" description="Online Safety & Victim Help" /><OnlineSafetyAndVictimHelpPage /></>} />
+<Route path="/report-crime/victim-rights-support/justice-healing-for-victims" element={<><SEO title="Justice & Healing for Victims" description="Justice & Healing for Victims" /><JusticeAndHealingforVictimsPage /></>} />
+<Route path="/report-crime/victim-rights-support/restoring-dignity-to-cyber-victims" element={<><SEO title="Restoring Dignity to Cyber Victims" description="Restoring Dignity to Cyber Victims" /><RestoringDignitytoCyberVictimsPage /></>} />
+<Route path="/report-crime/victim-rights-support/digital-justice-support-services" element={<><SEO title="Digital Justice Support Services" description="Digital Justice Support Services" /><DigitalJusticeSupportServicesPage /></>} />
+<Route path="/report-crime/victim-rights-support/victim-outreach-legal-support" element={<><SEO title="Victim Outreach & Legal Support" description="Victim Outreach & Legal Support" /><VictimOutreachAndLegalSupportPage /></>} />
+<Route path="/report-crime/victim-rights-support/psychological-counselling-for-cyber-victims" element={<><SEO title="Psychological Counselling for Cyber Victims" description="Psychological Counselling for Cyber Victims" /><PsychologicalCounsellingforCyberVictimsPage /></>} />
+<Route path="/report-crime/victim-rights-support/victim-helpline-chat-support" element={<><SEO title="24/7 Victim Helpline & Chat Support" description="24/7 Victim Helpline & Chat Support" /><VictimHelplineAndChatSupportPage /></>} />
+<Route path="/report-crime/victim-rights-support/women-child-cyber-safety-support" element={<><SEO title="Women & Child Cyber Safety Support" description="Women & Child Cyber Safety Support" /><WomenAndChildCyberSafetySupportPage /></>} />
+<Route path="/report-crime/victim-rights-support/legal-guidance-for-digital-crime-victims" element={<><SEO title="Legal Guidance for Digital Crime Victims" description="Legal Guidance for Digital Crime Victims" /><LegalGuidanceforDigitalCrimeVictimsPage /></>} />
+<Route path="/report-crime/victim-rights-support/data-privacy-protection-support" element={<><SEO title="Data Privacy & Protection Support" description="Data Privacy & Protection Support" /><DataPrivacyAndProtectionSupportPage /></>} />
+<Route path="/report-crime/victim-rights-support/social-media-misuse-victim-aid" element={<><SEO title="Social Media Misuse Victim Aid" description="Social Media Misuse Victim Aid" /><SocialMediaMisuseVictimAidPage /></>} />
+<Route path="/report-crime/victim-rights-support/phishing-online-scam-victim-support" element={<><SEO title="Phishing & Online Scam Victim Support" description="Phishing & Online Scam Victim Support" /><PhishingAndOnlineScamVictimSupportPage /></>} />
+<Route path="/report-crime/victim-rights-support/cyber-extortion-blackmail-response-team" element={<><SEO title="Cyber Extortion & Blackmail Response Team" description="Cyber Extortion & Blackmail Response Team" /><CyberExtortionAndBlackmailResponseTeamPage /></>} />
+<Route path="/report-crime/victim-rights-support/digital-forensics-assistance-for-victims" element={<><SEO title="Digital Forensics Assistance for Victims" description="Digital Forensics Assistance for Victims" /><DigitalForensicsAssistanceforVictimsPage /></>} />
+<Route path="/report-crime/victim-rights-support/educational-resources-for-victim-rights" element={<><SEO title="Educational Resources for Victim Rights" description="Educational Resources for Victim Rights" /><EducationalResourcesforVictimRightsPage /></>} />
+<Route path="/report-crime/victim-rights-support/cyber-victim-relief-emergency-response" element={<><SEO title="Cyber Victim Relief & Emergency Response" description="Cyber Victim Relief & Emergency Response" /><CyberVictimReliefEmergencyResponsePage /></>} />
+
+            <Route path="/report-crime/cyber-security-tips" element={<><SEO title="Cyber Security Tips" description="Cyber Security Tips and Guidelines from CR Cyber Crime Foundation." /><CyberSecurityTipsPage /></>} />
+            <Route path="/report-crime/awareness-prevention-tips" element={<><SEO title="Awareness & Prevention Tips" description="Learn important cyber security awareness and prevention tips from CR Cyber Crime Foundation." /><AwarenessAndPreventionTipsPage /></>} />
+            <Route path="/report-crime/cyber-safety-women" element={<><SEO title="Cyber Safety & Support for Girls and Women" description="Learn about cyber safety and support for girls and women." /><CyberSafetyAndSupportForGirlsAndWomenPage /></>} />
+            <Route path="/report-crime/legal-guidance-awareness" element={<><SEO title="Legal Guidance & Awareness" description="Legal Guidance and Awareness." /><LegalGuidanceAndAwarenessPage /></>} />
+            <Route path="/report-crime/cyber-laws-and-rights" element={<><SEO title="Cyber Laws & Rights" description="Learn about cyber laws and your digital rights." /><CyberLawsAndRightsPage /></>} />
 
             {/* Dynamic report coming soon pages */}
             {reportCards.map((card) => (
@@ -281,26 +312,7 @@ function AppRoutes() {
             <Route path="/resources/learning-environment" element={<><SEO title="Learning Environment" description="Discover our state-of-the-art learning environment designed for optimal cyber security education." /><LearningEnvironment /></>} />
 
             {/* Contact Hub */}
-            <Route path="/contact" element={<><SEO title="Contact Us" description="Get in touch with CR Cyber Crime Foundation for any inquiries, support, or services." /><LaptopLayout /></>}>
-              <Route index element={<><SEO title="Dashboard" description="CR Cyber Crime Foundation Dashboard" /><Dashboard /></>} />
-            </Route>
-
-            <Route path="/contact/help-desk" element={<PageWrapper bgIcons={[Headset, LifeBuoy, MessageSquare, Ticket]}><HelpDesk /></PageWrapper>} />
-            <Route path="/contact/follow-apps" element={<PageWrapper bgIcons={[FaFacebook, FaTwitter, FaInstagram, FaLinkedin]}><FollowApps /></PageWrapper>} />
-            <Route path="/follow-apps" element={<PageWrapper bgIcons={[FaFacebook, FaTwitter, FaInstagram, FaLinkedin]}><FollowApps /></PageWrapper>} />
-            <Route path="/contact/branch-details" element={<PageWrapper bgIcons={[MapPin, Building, Globe, Navigation]}><BranchDetails /></PageWrapper>} />
-            <Route path="/contact/officer" element={<PageWrapper bgIcons={[User, Users, Briefcase, BadgeCent]} transparentBg={true}><DirectorySection title="Officer" Icon={BadgeCent} data={officers} /></PageWrapper>} />
-            <Route path="/contact/employee" element={<PageWrapper bgIcons={[User, Users, Briefcase]} transparentBg={true}><DirectorySection title="Employee" Icon={Users} data={employees} /></PageWrapper>} />
-            <Route path="/contact/teacher" element={<PageWrapper bgIcons={[User, BookOpen, FileText]} transparentBg={true}><DirectorySection title="Teacher" Icon={BookOpen} data={teachers} /></PageWrapper>} />
-            <Route path="/contact/reporter" element={<PageWrapper bgIcons={[Mic, User, FileText]} transparentBg={true}><DirectorySection title="Reporter" Icon={Mic} data={reporters} /></PageWrapper>} />
-            <Route path="/contact/advocate" element={<PageWrapper bgIcons={[Scale, Gavel, User]} transparentBg={true}><DirectorySection title="Advocate" Icon={Scale} data={advocates} /></PageWrapper>} />
-            <Route path="/contact/legal-advisor" element={<PageWrapper bgIcons={[Gavel, Scale, Briefcase]} transparentBg={true}><DirectorySection title="Legal Advisor" Icon={Gavel} data={legalAdvisors} /></PageWrapper>} />
-            <Route path="/contact/board-of-director" element={<PageWrapper bgIcons={[UserCheck, Users, Briefcase]} transparentBg={true}><DirectorySection title="Board of Director" Icon={UserCheck} data={directors} /></PageWrapper>} />
-            <Route path="/contact/board-of-member" element={<PageWrapper bgIcons={[UserPlus, Users, Briefcase]} transparentBg={true}><DirectorySection title="Board of Member" Icon={UserPlus} data={members} /></PageWrapper>} />
-            <Route path="/contact/ai-chat" element={<PageWrapper bgIcons={[Bot]}><AIChat /></PageWrapper>} />
-            <Route path="/contact/review" element={<PageWrapper bgIcons={[Star, ThumbsUp]}><Review /></PageWrapper>} />
-            <Route path="/contact/feedback" element={<PageWrapper bgIcons={[MessageCircle, MessageSquare]}><Feedback /></PageWrapper>} />
-            <Route path="/contact/announcements" element={<PageWrapper bgIcons={[Megaphone, Sparkles]} iconCount={10} transparentBg={true}><Announcements /></PageWrapper>} />
+            <Route path="/contact/*" element={<ContactRouter />} />
 
             {/* About Section */}
             <Route path="/about" element={<><SEO title="About Us" description="Learn about CR Cyber Crime Foundation, our mission, vision, and core activities in cyber security." /><AboutLayout /></>}>
@@ -315,7 +327,7 @@ function AppRoutes() {
               <Route path="achievement" element={<><SEO title="Achievement" description="CR Cyber Crime Foundation Achievement page." /><Achievement /></>} />
               <Route path="legal-compliance/*" element={<><SEO title="*" description="CR Cyber Crime Foundation * page." /><LegalComplianceRouter /></>} />
               <Route path="privacy-policy" element={<><SEO title="Privacy Policy" description="CR Cyber Crime Foundation Privacy Policy page." /><PrivacyPolicy /></>} />
-              <Route path="data-protection" element={<><SEO title="Data Protection" description="CR Cyber Crime Foundation Data Protection page." /><DataProtection /></>} />
+              <Route path="data-protection" element={<><SEO title="Meaning Behind Our Name" description="CR Cyber Crime Foundation Meaning Behind Our Name page." /><MeaningBehindOurNamePage /></>} />
               <Route path="terms-conditions" element={<><SEO title="Terms Conditions" description="CR Cyber Crime Foundation Terms Conditions page." /><TermsConditions /></>} />
               <Route path="rules-regulation" element={<><SEO title="Rules Regulation" description="CR Cyber Crime Foundation Rules Regulation page." /><RulesRegulation /></>} />
               <Route path="instruction" element={<><SEO title="Instruction" description="CR Cyber Crime Foundation Instruction page." /><Instruction /></>} />
@@ -338,22 +350,10 @@ function AppRoutes() {
             <Route path="/recruitment/submit-resume" element={<><SEO title="Submit Resume" description="Submit your resume for future career opportunities with CRCCF." /><SubmitResume /></>} />
             <Route path="/recruitment/certificate-verification" element={<><SEO title="Certificate Verification" description="Verify the authenticity of certificates issued by CR Cyber Crime Foundation." /><CertificateVerification /></>} />
             <Route path="/recruitment/certificate-verification/:slug" element={<><SEO title="Certificate Verification Details" description="Detailed certificate verification portal." /><CertificateComingSoon /></>} />
+            <Route path="/recruitment/id-card-verification" element={<><SEO title="ID Card Verification" description="Verify the authenticity of ID cards." /><IdCardVerificationComingSoon /></>} />
 
             <Route path="/recruitment/rules-policies" element={<><SEO title="Recruitment Rules & Policies" description="Read the comprehensive rules and policies governing our recruitment process." /><RecruitmentRulesPolicies /></>} />
-            <Route path="/recruitment/rules-policies/employment-overview" element={<><SEO title="Employment Overview" description="Overview of employment practices and opportunities at CRCCF." /><RecruitmentPolicyEmploymentOverview /></>} />
-            <Route path="/recruitment/rules-policies/career-development-progress" element={<><SEO title="Career Development" description="Information on career development and progression within CRCCF." /><CareerDevelopmentProgress /></>} />
-            <Route path="/recruitment/rules-policies/employee-growth-future-opportunity" element={<><SEO title="Employee Growth" description="Learn about employee growth and future opportunities at our organization." /><EmployeeGrowthFutureOpportunity /></>} />
-            <Route path="/recruitment/rules-policies/employment-eligibility-criteria" element={<><SEO title="Eligibility Criteria" description="Review the employment eligibility criteria for joining CRCCF." /><EmploymentEligibilityCriteria /></>} />
-            <Route path="/recruitment/rules-policies/recruitment-selection-process" element={<><SEO title="Selection Process" description="Understand our recruitment and selection process." /><RecruitmentSelectionProcess /></>} />
-            <Route path="/recruitment/rules-policies/recruitment-instructions" element={<><SEO title="Recruitment Instructions" description="Important instructions for candidates applying for positions." /><RecruitmentInstructions /></>} />
-            <Route path="/recruitment/rules-policies/recruitment-guidelines" element={<><SEO title="Recruitment Guidelines" description="General guidelines and procedures for the recruitment process." /><RecruitmentGuidelines /></>} />
-            <Route path="/recruitment/rules-policies/recruitment-calendar" element={<><SEO title="Recruitment Calendar" description="View the calendar for upcoming recruitment drives and events." /><RecruitmentCalendar /></>} />
-            <Route path="/recruitment/rules-policies/code-of-conduct-professional-ethics" element={<><SEO title="Code of Conduct" description="Read our code of conduct and professional ethics for employees." /><CodeOfConductProfessionalEthics /></>} />
-            <Route path="/recruitment/rules-policies/training-orientation-skill-development" element={<><SEO title="Training & Orientation" description="Details about employee training, orientation, and skill development." /><TrainingOrientationSkillDevelopment /></>} />
-            <Route path="/recruitment/rules-policies/performance-review-evaluation-system" element={<><SEO title="Performance Review" description="Information on our performance review and evaluation system." /><PerformanceReviewEvaluationSystem /></>} />
-            <Route path="/recruitment/rules-policies/employee-rights-responsibilities" element={<><SEO title="Employee Rights" description="Understand the rights and responsibilities of employees at CRCCF." /><EmployeeRightsResponsibilities /></>} />
-            <Route path="/recruitment/rules-policies/volunteer-internship-policy" element={<><SEO title="Volunteer & Internship Policy" description="Read our policies regarding volunteer work and internships." /><VolunteerInternshipPolicy /></>} />
-            <Route path="/recruitment/rules-policies/employee-recognition-awards" element={<><SEO title="Recognition & Awards" description="Learn about our employee recognition programs and awards." /><EmployeeRecognitionAwards /></>} />
+            <Route path="/coming-soon" element={<><SEO title="Coming Soon" description="This section is currently under development." /><ComingSoonPage /></>} />
           </Route>
         </Routes>
       </Suspense>

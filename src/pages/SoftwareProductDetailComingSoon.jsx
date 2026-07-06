@@ -1,3 +1,18 @@
+import ComingSoonPage from './common/ComingSoonPage';
+
+/*
+=========================================
+TEMPORARILY DISABLED
+Reason:
+This page is currently using the global
+ComingSoonPage component.
+
+Do not remove this content because it
+will be re-enabled in future updates.
+=========================================
+*/
+
+/*
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 
@@ -10,7 +25,7 @@ export default function SoftwareProductDetailComingSoon({ title }) {
         
         
 
-        {/* Coming Soon Card */}
+        {/* Coming Soon Card * /}
         <div className="bg-white rounded-2xl sm:rounded-[24px] shadow-sm sm:shadow-[0_8px_30px_rgba(0,0,0,0.04)] p-8 sm:p-16 md:p-24 text-center border border-slate-100">
           <h1 className="text-3xl sm:text-4xl md:text-[42px] font-bold text-[#0F172A] tracking-tight leading-tight mb-8">
             {title}
@@ -29,3 +44,11 @@ export default function SoftwareProductDetailComingSoon({ title }) {
     </div>
   );
 }
+
+*/
+
+const SoftwareProductDetailComingSoon = () => {
+  return <ComingSoonPage />;
+};
+
+export default SoftwareProductDetailComingSoon;

@@ -1,0 +1,18 @@
+export const RecruitmentPoliciesData = [
+  { id: 1,  title: "Recruitment Policy and Employment Overview", icon: "FileText", color: "#1d4ed8" },
+  { id: 2,  title: "Career Development and Progress",            icon: "Zap", color: "#2563eb" },
+  { id: 3,  title: "Employee Growth and Future Opportunity",     icon: "GraduationCap", color: "#1d4ed8" },
+  { id: 4,  title: "CRCCF Employment Eligibility Criteria",      icon: "Shield", color: "#3b82f6" },
+  { id: 5,  title: "CRCCF Recruitment & Selection Process",      icon: "Users", color: "#2563eb" },
+  { id: 6,  title: "CRCCF Recruitment Instructions",             icon: "FileText", color: "#1d4ed8" },
+  { id: 7,  title: "CRCCF Recruitment Guidelines",               icon: "BookOpen", color: "#3b82f6" },
+  { id: 8,  title: "CRCCF Recruitment Calendar",                 icon: "Clock", color: "#1d4ed8" },
+  { id: 9,  title: "Code of Conduct & Professional Ethics",      icon: "Scale", color: "#2563eb" },
+  { id: 10, title: "Training, Orientation & Skill Development",  icon: "Brain", color: "#1d4ed8" },
+  { id: 11, title: "Performance Review & Evaluation System",     icon: "Search", color: "#3b82f6" },
+  { id: 12, title: "Employee Rights & Responsibilities",         icon: "HeartHandshake", color: "#2563eb" },
+  { id: 13, title: "Volunteer & Internship Policy",              icon: "Heart", color: "#1d4ed8" },
+  { id: 14, title: "Employee Recognition & Awards",              icon: "Star", color: "#3b82f6" },
+  { id: 15, title: "Dummy Policy 1",                             icon: "Server", color: "#2563eb" },
+  { id: 16, title: "Dummy Policy 2",                             icon: "Database", color: "#1d4ed8" },
+];

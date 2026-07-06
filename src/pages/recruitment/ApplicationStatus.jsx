@@ -1,3 +1,18 @@
+import ComingSoonPage from '../common/ComingSoonPage';
+
+/*
+=========================================
+TEMPORARILY DISABLED
+Reason:
+This page is currently using the global
+ComingSoonPage component.
+
+Do not remove this content because it
+will be re-enabled in future updates.
+=========================================
+*/
+
+/*
 import RecruitmentPageLayout from './RecruitmentPageLayout'
 
 const ApplicationStatus = () => (
@@ -8,3 +23,11 @@ const ApplicationStatus = () => (
 )
 
 export default ApplicationStatus
+
+*/
+
+const ApplicationStatus = () => {
+  return <ComingSoonPage />;
+};
+
+export default ApplicationStatus;

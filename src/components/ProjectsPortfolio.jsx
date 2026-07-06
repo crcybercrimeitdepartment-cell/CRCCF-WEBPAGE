@@ -1,3 +1,4 @@
+import SectionHeading from './common/SectionHeading';
 import { useState, useEffect, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Briefcase, Rocket, Globe, Trophy } from 'lucide-react'
@@ -82,7 +83,7 @@ export default function ProjectsPortfolio() {
   }, [])
 
   return (
-    <section id="projects-portfolio" className="py-[clamp(48px,8vw,80px)] bg-[#F8FAFC] relative overflow-hidden max-[900px]:p-[60px_20px] max-[600px]:p-[50px_15px]" ref={ref}>
+    <section id="projects-portfolio" className="section-padding py-[clamp(48px,8vw,80px)] bg-[#F8FAFC] relative overflow-hidden max-[900px]:p-[60px_20px] max-[600px]:p-[50px_15px]" ref={ref}>
       <div className="container-custom">
         {/* Header & Overview Section */}
         <motion.div 
@@ -261,3 +262,4 @@ export default function ProjectsPortfolio() {
     </section>
   )
 }
+

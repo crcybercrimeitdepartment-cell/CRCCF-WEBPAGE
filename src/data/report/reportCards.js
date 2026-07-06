@@ -32,8 +32,6 @@ export const reportCards = [
   { title: "Cyber Fraud Complaint Registration", icon: FileEdit, path: "/fraud-complaint" },
   { title: "Track Your Case Status", icon: Search, path: "/track-status" },
   { title: "Types of Cyber Crime", icon: FileText, path: "/types" },
-  { title: "Cyber Security Tips", icon: Lightbulb, path: "/tips" },
-  { title: "Report a Cyber Crime – Awareness & Prevention Tips", icon: Eye, path: "/awareness-prevention" },
   { title: "Legal Guidance & Awareness", icon: Gavel, path: "/legal-guidance" },
   { title: "Cyber Laws & Rights", icon: Book, path: "/laws-rights" },
   { title: "Cyber Safety & Support for Girls and Women", icon: Users, path: "/women-safety" },

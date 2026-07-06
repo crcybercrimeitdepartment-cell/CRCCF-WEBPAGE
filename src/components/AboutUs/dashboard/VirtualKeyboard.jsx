@@ -3,13 +3,15 @@ import {
   User, Info, Wrench, Target, Activity, Lightbulb,
   Flag, Trophy, Scale, Shield, Database, FileText,
   BookOpen, GraduationCap, AlertTriangle, Copyright,
-  Handshake, History as HistoryIcon
+  Handshake, History as HistoryIcon, HelpCircle, Image
 } from 'lucide-react'
 
 const VirtualKeyboard = () => {
   const navigate = useNavigate()
 // about us keyboard  
   const menuItems = [
+    { id: 'data', label: 'Meaning Behind Our Name', path: '/about/data-protection', icon: HelpCircle, color: 'from-[#1D4ED8] to-[#2563EB]' },
+    { id: 'gallery', label: 'Our Gallery', path: '/gallery-collections', icon: Image, color: 'from-[#1D4ED8] to-[#2563EB]' },
     { id: 'identity', label: ' Identity', path: '/about/identity', icon: User, color: 'from-[#2563EB] to-[#3B82F6]' },
     { id: 'introduction', label: ' Introduction', path: '/about/introduction', icon: Info, color: 'from-[#2563EB] to-[#3B82F6]' },
     { id: 'what-we-do', label: 'What We Do', path: '/about/what-we-do', icon: Wrench, color: 'from-[#2563EB] to-[#3B82F6]' },
@@ -20,9 +22,7 @@ const VirtualKeyboard = () => {
     { id: 'achievement', label: 'Achievement', path: '/about/achievement', icon: Trophy, color: 'from-[#2563EB] to-[#3B82F6]' },
     { id: 'legal', label: 'Legal & Compliance', path: '/about/legal-compliance', icon: Scale, color: 'from-[#1D4ED8] to-[#2563EB]' },
     { id: 'privacy', label: 'Privacy Policy', path: '/about/privacy-policy', icon: Shield, color: 'from-[#1D4ED8] to-[#2563EB]' },
-    { id: 'data', label: 'Data Protection', path: '/about/data-protection', icon: Database, color: 'from-[#1D4ED8] to-[#2563EB]' },
     { id: 'terms', label: 'Terms & Condition', path: '/about/terms-conditions', icon: FileText, color: 'from-[#1D4ED8] to-[#2563EB]' },
-    { id: 'rules', label: 'Rules & Regulation', path: '/about/rules-regulation', icon: BookOpen, color: 'from-[#1D4ED8] to-[#2563EB]' },
     { id: 'instruction', label: 'Instruction', path: '/about/instruction', icon: GraduationCap, color: 'from-[#1D4ED8] to-[#2563EB]' },
     { id: 'disclaimer', label: 'Legal Disclaimer', path: '/about/legal-disclaimer', icon: AlertTriangle, color: 'from-[#1D4ED8] to-[#2563EB]' },
     { id: 'copyright', label: 'Copyright', path: '/about/copyright', icon: Copyright, color: 'from-[#1D4ED8] to-[#2563EB]' },

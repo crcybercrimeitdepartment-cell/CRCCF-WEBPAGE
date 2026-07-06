@@ -1,3 +1,18 @@
+import ComingSoonPage from '../common/ComingSoonPage';
+
+/*
+=========================================
+TEMPORARILY DISABLED
+Reason:
+This page is currently using the global
+ComingSoonPage component.
+
+Do not remove this content because it
+will be re-enabled in future updates.
+=========================================
+*/
+
+/*
 // src/pages/about/PrivacyPolicy.jsx
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -26,6 +41,14 @@ const PrivacyPolicy = () => {
       </motion.div>
     </section>
   );
+};
+
+export default PrivacyPolicy;
+
+*/
+
+const PrivacyPolicy = () => {
+  return <ComingSoonPage />;
 };
 
 export default PrivacyPolicy;

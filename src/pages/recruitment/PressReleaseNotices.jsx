@@ -1,3 +1,18 @@
+import ComingSoonPage from '../common/ComingSoonPage';
+
+/*
+=========================================
+TEMPORARILY DISABLED
+Reason:
+This page is currently using the global
+ComingSoonPage component.
+
+Do not remove this content because it
+will be re-enabled in future updates.
+=========================================
+*/
+
+/*
 import RecruitmentPageLayout from './RecruitmentPageLayout'
 
 const PressReleaseNotices = () => (
@@ -8,3 +23,11 @@ const PressReleaseNotices = () => (
 )
 
 export default PressReleaseNotices
+
+*/
+
+const PressReleaseNotices = () => {
+  return <ComingSoonPage />;
+};
+
+export default PressReleaseNotices;

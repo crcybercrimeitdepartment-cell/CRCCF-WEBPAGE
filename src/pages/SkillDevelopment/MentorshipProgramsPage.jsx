@@ -4,7 +4,8 @@ import { motion } from 'framer-motion';
 import {
   Search, ArrowLeft, ArrowRight, CheckCircle, ChevronLeft, ChevronRight
 } from 'lucide-react';
-import { heroData, sectionsData, constants, contentData, mentorshipProgramsData } from "../../data/skillDevelopment/MentorshipProgramsPageData";
+import { heroData, sectionsData, constants, contentData, mentorshipProgramsData } from '../../data/skillDevelopment/MentorshipProgramsPageData';
+import ComingSoonPage from '../common/ComingSoonPage';
 import * as LucideIcons from 'lucide-react';
 // ==========================================
 // 0. INJECTED STYLES
@@ -1476,7 +1477,7 @@ function Home() {
   }, [filteredPrograms, currentPage]);
 
   const handleExploreProgram = (program) => {
-    navigate(`/program/${program.id}`);
+    navigate(`program/${program.id}`);
   };
 
   return (
@@ -1593,17 +1594,7 @@ function Home() {
 // 4. PROGRAM DETAIL PAGE COMPONENT
 // ==========================================
 function ProgramDetail() {
-  const navigate = useNavigate();
-
-  return (
-    <main className="main-content" style={{ minHeight: '60vh', padding: '40px' }}>
-      
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '50vh' }}>
-        <h1 style={{ fontSize: '42px', fontWeight: 800, marginBottom: '12px', color: 'var(--text-heading)' }}>Coming Soon</h1>
-        <p style={{ color: 'var(--text-muted)', fontSize: '18px' }}>This program page is under development. Stay tuned!</p>
-      </div>
-    </main>
-  );
+  return <ComingSoonPage />;
 }
 
 // ==========================================
@@ -1647,29 +1638,25 @@ function ScrollToTop() {
 // ==========================================
 // 7. APP ROUTES
 // ==========================================
-function AppRoutes() {
-  return (
-    <>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/program/:id" element={<ProgramDetail />} />
-        <Route path="/success" element={<Success />} />
-      </Routes>
-    </>
-  );
-}
-
-// ==========================================
-// 8. APP COMPONENT
-// ==========================================
 export default function MentorshipProgramsPage() {
   return (
-    <div className="mentorship-programs-page-wrapper">
-      <div className="app-container dark-theme">
-        <StyleInjector />
-        <AppRoutes />
-      </div>
-    </div>
+    <Routes>
+      <Route path="/" element={
+        <div className="mentorship-programs-page-wrapper">
+          <div className="app-container dark-theme">
+            <StyleInjector />
+            <ScrollToTop />
+            <Home />
+          </div>
+        </div>
+      } />
+      <Route path="program/:id" element={
+        <>
+          <ScrollToTop />
+          <ProgramDetail />
+        </>
+      } />
+      <Route path="success" element={<Success />} />
+    </Routes>
   );
 }

@@ -216,7 +216,7 @@ const techData = [
 
 const TechStack = () => {
   return (
-    <section className="tech-stack-container">
+    <section className="section-padding tech-stack-container">
       <style>{`
         .tech-stack-container {
           font-family: 'Inter', system-ui, sans-serif;

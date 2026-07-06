@@ -1,3 +1,18 @@
+import ComingSoonPage from '../../../common/ComingSoonPage';
+
+/*
+=========================================
+TEMPORARILY DISABLED
+Reason:
+This page is currently using the global
+ComingSoonPage component.
+
+Do not remove this content because it
+will be re-enabled in future updates.
+=========================================
+*/
+
+/*
 import { playPageTurnSound } from "../../../../utils/pageTurnSound";
 
 ﻿import { useState, useRef } from "react";
@@ -13,7 +28,7 @@ import {
 // Import data
 import { complianceWithIndianCyberLawsData } from '../../../../data/aboutUs/legalCompliance/complianceWithIndianCyberLawsData';
 
-/* -------------------------------- Motion -------------------------------- */
+/* -------------------------------- Motion -------------------------------- * /
 const useAnims = () => {
   const shouldReduce = useReducedMotion();
   const container = {
@@ -32,7 +47,7 @@ const useAnims = () => {
   return { container, itemUp };
 };
 
-/* -------------------------- SVG Mapping -------------------------- */
+/* -------------------------- SVG Mapping -------------------------- * /
 const getSvgIcon = (id) => {
     if (id.includes('introduction')) return Landmark;
     if (id.includes('it-act')) return Scale;
@@ -44,7 +59,7 @@ const getSvgIcon = (id) => {
     return Gavel;
 };
 
-/* -------------------------- InsightCard (The Book) -------------------------- */
+/* -------------------------- InsightCard (The Book) -------------------------- * /
 const InsightCard = ({ allPages }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activePageIndex, setActivePageIndex] = useState(0);
@@ -85,7 +100,7 @@ const InsightCard = ({ allPages }) => {
           ${isOpen ? 'shadow-[0_30px_70px_rgba(0,0,0,0.15)]' : 'hover:shadow-[0_30px_70px_rgba(0,0,0,0.15)]'}
         `}
       >
-        {/* Pages Stack */}
+        {/* Pages Stack * /}
         {allPages.map((page, pageIdx) => {
           const isVisible = Math.abs(pageIdx - activePageIndex) <= 2 || pageIdx < activePageIndex;
           if (!isVisible) return null;
@@ -156,7 +171,7 @@ const InsightCard = ({ allPages }) => {
           );
         })}
 
-        {/* COVER */}
+        {/* COVER * /}
         <div
           className={`
             absolute inset-0 w-full h-full rounded-[24px] cursor-pointer 
@@ -191,7 +206,7 @@ const InsightCard = ({ allPages }) => {
         </div>
       </motion.article>
 
-      {/* Scrubber */}
+      {/* Scrubber * /}
       <div className={`transition-all duration-500 ease-out mt-4 ${isOpen || showScrubber ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
         <div className="flex flex-col gap-4 bg-white/50 backdrop-blur-sm p-3 sm:p-4 md:p-6 rounded-[16px] sm:rounded-[24px] border border-slate-100">
           <div className="flex justify-between items-center">
@@ -235,7 +250,7 @@ const InsightCard = ({ allPages }) => {
   );
 };
 
-/* ------------------------------ Main Page ------------------------------ */
+/* ------------------------------ Main Page ------------------------------ * /
 export default function ComplianceWithIndianCyberLaws() {
   const navigate = useNavigate();
   const { container, itemUp } = useAnims();
@@ -287,7 +302,7 @@ export default function ComplianceWithIndianCyberLaws() {
           </div>
         </div>
 
-        {/* Legal Highlights Grid */}
+        {/* Legal Highlights Grid * /}
         <motion.div variants={itemUp} className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
                 { icon: Scale, label: "IT Act 2000", sub: "Legal Framework" },
@@ -311,3 +326,11 @@ export default function ComplianceWithIndianCyberLaws() {
 }
 
 
+
+*/
+
+const useAnims = () => {
+  return <ComingSoonPage />;
+};
+
+export default useAnims;

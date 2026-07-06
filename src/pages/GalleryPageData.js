@@ -1,0 +1,22 @@
+export const galleryData = [
+  { id: 1, imageUrl: 'https://picsum.photos/seed/1/150/150', title: 'Event Gallery', link: 'https://example.com/demo-1' },
+  { id: 2, imageUrl: 'https://picsum.photos/seed/2/150/150', title: 'Employees Gallery', link: 'https://example.com/demo-2' },
+  { id: 3, imageUrl: 'https://picsum.photos/seed/3/150/150', title: 'Annual Celebrations Gallery', link: 'https://example.com/demo-3' },
+  { id: 4, imageUrl: 'https://picsum.photos/seed/4/150/150', title: 'Workplace Gallery', link: 'https://example.com/demo-4' },
+  { id: 5, imageUrl: 'https://picsum.photos/seed/5/150/150', title: 'Seminars & Workshops Gallery', link: 'https://example.com/demo-5' },
+  { id: 6, imageUrl: 'https://picsum.photos/seed/6/150/150', title: 'Cyber Awareness Gallery', link: 'https://example.com/demo-6' },
+  { id: 7, imageUrl: 'https://picsum.photos/seed/7/150/150', title: 'Student Activities Gallery', link: 'https://example.com/demo-7' },
+  { id: 8, imageUrl: 'https://picsum.photos/seed/8/150/150', title: 'Media & Press Gallery', link: 'https://example.com/demo-8' },
+  { id: 9, imageUrl: 'https://picsum.photos/seed/9/150/150', title: 'Team Moments Gallery', link: 'https://example.com/demo-9' },
+  { id: 10, imageUrl: 'https://picsum.photos/seed/10/150/150', title: 'Product Launches Gallery', link: 'https://example.com/demo-10' },
+  { id: 11, imageUrl: 'https://picsum.photos/seed/11/150/150', title: 'Awards & Recognition Gallery', link: 'https://example.com/demo-11' },
+  { id: 12, imageUrl: 'https://picsum.photos/seed/12/150/150', title: 'Office Culture Gallery', link: 'https://example.com/demo-12' },
+  { id: 13, imageUrl: 'https://picsum.photos/seed/13/150/150', title: 'Success Stories Gallery', link: 'https://example.com/demo-13' },
+  { id: 14, imageUrl: 'https://picsum.photos/seed/14/150/150', title: 'Work Highlights Gallery', link: 'https://example.com/demo-14' },
+  { id: 15, imageUrl: 'https://picsum.photos/seed/15/150/150', title: 'Achievement Gallery', link: 'https://example.com/demo-15' },
+  { id: 16, imageUrl: 'https://picsum.photos/seed/16/150/150', title: 'Journey Gallery', link: 'https://example.com/demo-16' },
+  { id: 17, imageUrl: 'https://picsum.photos/seed/17/150/150', title: 'Course Gallery', link: 'https://example.com/demo-17' },
+  { id: 18, imageUrl: 'https://picsum.photos/seed/18/150/150', title: 'Student Gallery', link: 'https://example.com/demo-18' },
+  { id: 19, imageUrl: 'https://picsum.photos/seed/19/150/150', title: 'Internship Gallery', link: 'https://example.com/demo-19' },
+  { id: 20, imageUrl: 'https://picsum.photos/seed/20/150/150', title: 'Project Gallery', link: 'https://example.com/demo-20' }
+];

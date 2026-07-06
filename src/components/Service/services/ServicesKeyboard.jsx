@@ -92,12 +92,6 @@ const ServicesKeyboard = () => {
       path: "/services/legal-support",
       icon: Gavel,
     },
-    {
-      id: "innovation-technology",
-      label: "Innovation & Technology",
-      path: "/services/innovation-technology",
-      icon: Cpu,
-    },
   ];
 
   return (
@@ -107,7 +101,7 @@ const ServicesKeyboard = () => {
         <p className="text-gray-500 mt-1">Explore our comprehensive range of cyber security and IT solutions</p>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
         {serviceItems.map((item) => {
           const Icon = item.icon;
 
