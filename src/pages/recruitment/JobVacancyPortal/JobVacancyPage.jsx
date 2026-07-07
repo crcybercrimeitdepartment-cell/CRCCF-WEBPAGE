@@ -1,3 +1,4 @@
+import Cloudinary from '../../../constants/Cloudinary';
 import ComingSoonPage from '../../common/ComingSoonPage';
 
 /*
@@ -16,8 +17,8 @@ will be re-enabled in future updates.
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useScroll, useSpring, useTransform, AnimatePresence } from 'framer-motion';
-const heroImg = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782533602/HeroIMG_zl9wgt.png";
-const heroBg = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782533618/job-vacancy-bg_kubrft.png";
+const heroImg = Cloudinary.heroimg;
+const heroBg = Cloudinary.jobVacancyBg;
 import { portalConfig, jobListings, filterOptions, jobVacancyData } from '../../../data/recruitment/JobVacancyPageData';
 
 

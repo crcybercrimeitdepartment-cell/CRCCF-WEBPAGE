@@ -1,9 +1,10 @@
+import Cloudinary from '../constants/Cloudinary';
 let pageAudio = null;
 
 export const playPageTurnSound = () => {
   try {
     if (!pageAudio) {
-      pageAudio = new Audio("https://res.cloudinary.com/dlhmkbijh/video/upload/v1782471857/Page_Sound_igkonb.mp3");
+      pageAudio = new Audio(Cloudinary.pageSound);
       pageAudio.preload = "auto";
       pageAudio.volume = 0.45;
     }

@@ -1,7 +1,8 @@
+import Cloudinary from '../../constants/Cloudinary';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const clickAudio = new Audio('https://res.cloudinary.com/dlhmkbijh/video/upload/v1783319084/click_sound_e9eptn.mp3');
+const clickAudio = new Audio(Cloudinary.clickSound);
 clickAudio.preload = 'auto';
 clickAudio.volume = 0.5;
 

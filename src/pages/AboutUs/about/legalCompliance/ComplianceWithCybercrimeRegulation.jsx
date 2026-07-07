@@ -1,3 +1,4 @@
+import Cloudinary from '../../../../constants/Cloudinary';
 import ComingSoonPage from '../../../common/ComingSoonPage';
 
 /*
@@ -188,7 +189,7 @@ const InsightCard = ({ allPages }) => {
           onClick={handleOpen}
         >
           <div className="w-[80px] h-[80px] sm:w-[110px] sm:h-[110px] rounded-[24px] sm:rounded-[30px] flex items-center justify-center mb-10 shadow-sm bg-white/60 backdrop-blur-sm p-4">
-            <img src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782471833/Logo_iile24_ormcru.png" alt="CRCCF Logo" loading="lazy" decoding="async" width="100" height="100" className="w-full h-full object-contain" />
+            <img src={Cloudinary.logoIile24} alt="CRCCF Logo" loading="lazy" decoding="async" width="100" height="100" className="w-full h-full object-contain" />
           </div>
 
           <style>{`@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');`}</style>

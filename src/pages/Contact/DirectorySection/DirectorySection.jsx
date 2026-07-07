@@ -1,10 +1,11 @@
+import Cloudinary from '../../../constants/Cloudinary';
 import React, { useState, useEffect, useMemo } from "react";
 import { ArrowLeft, Search, X, Megaphone, UserX } from "lucide-react";
 import { Link } from "react-router-dom";
 import Announcements from "../sections/Announcements/Announcements";
 import { createPortal } from "react-dom";
 import { directorySectionData } from "./DirectorySectionData";
-const stickyNoteBg = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1783339184/download-removebg-preview_e7ndal.png";
+const stickyNoteBg = Cloudinary.downloadRemovebgPreview;
 
 
 // Custom hook for the Typewriter Effect

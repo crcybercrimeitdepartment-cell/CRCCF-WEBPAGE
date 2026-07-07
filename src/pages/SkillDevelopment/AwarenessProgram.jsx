@@ -1,3 +1,4 @@
+import Cloudinary from '../../constants/Cloudinary';
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Icons from 'lucide-react';
@@ -13,15 +14,15 @@ const TopShelf = () => {
       <div className="absolute bottom-0 left-0 w-full h-[3px] bg-amber-100 shadow-[0_-2px_10px_rgba(253,230,138,1)] z-20 md:hidden"></div>
 
       <div className="flex md:hidden w-full h-[90%] items-end justify-between z-30 pb-1 px-1">
-         <img loading="lazy" decoding="async" src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472939/hanuman_statue_idrylg.jpg" className="h-full max-w-[18%] object-contain" style={{ mixBlendMode: 'lighten' }} />
-         <img loading="lazy" decoding="async" src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472939/bonsai_tree_ttryo3.jpg" className="h-full max-w-[18%] object-contain drop-shadow-[0_10px_10px_rgba(0,0,0,0.9)]" />
-         <img loading="lazy" decoding="async" src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472940/lady_justice_gimkgn.jpg" className="h-full max-w-[18%] object-contain" style={{ mixBlendMode: 'screen', filter: 'contrast(1.3) brightness(1.2)' }} />
+         <img loading="lazy" decoding="async" src={Cloudinary.hanumanStatue} className="h-full max-w-[18%] object-contain" style={{ mixBlendMode: 'lighten' }} />
+         <img loading="lazy" decoding="async" src={Cloudinary.bonsaiTree} className="h-full max-w-[18%] object-contain drop-shadow-[0_10px_10px_rgba(0,0,0,0.9)]" />
+         <img loading="lazy" decoding="async" src={Cloudinary.ladyJustice} className="h-full max-w-[18%] object-contain" style={{ mixBlendMode: 'screen', filter: 'contrast(1.3) brightness(1.2)' }} />
          <div className="h-[80%] max-w-[18%] flex items-end justify-center gap-1 mb-1">
              <div className="w-[8px] sm:w-[12px] h-[90%] bg-gradient-to-r from-[#2a2a2a] via-[#1a1a1a] to-[#0a0a0a] rounded-sm shadow-md"></div>
              <div className="w-[10px] sm:w-[14px] h-[100%] bg-gradient-to-r from-[#1a1a1a] via-[#0d0d0d] to-[#000000] rounded-sm shadow-md"></div>
              <div className="w-[12px] sm:w-[16px] h-[95%] bg-gradient-to-r from-[#3d2b1f] via-[#2a1d13] to-[#1a110a] rounded-sm shadow-md"></div>
          </div>
-         <img loading="lazy" decoding="async" src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472941/victory_statue_dspesv.jpg" className="h-full max-w-[18%] object-contain" style={{ mixBlendMode: 'screen', filter: 'contrast(1.2) brightness(1.1)' }} />
+         <img loading="lazy" decoding="async" src={Cloudinary.victoryStatue} className="h-full max-w-[18%] object-contain" style={{ mixBlendMode: 'screen', filter: 'contrast(1.2) brightness(1.1)' }} />
       </div>
     </div>
   );
@@ -170,8 +171,20 @@ const TvScreen = () => {
 
   const remoteCursor = `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="64" viewBox="0 0 32 72"><rect x="4" y="2" width="24" height="68" rx="6" fill="%23111" stroke="%23555" stroke-width="1.5" /><circle cx="16" cy="12" r="3.5" fill="%23ef4444" /><circle cx="16" cy="28" r="8" fill="%23222" stroke="%23555" stroke-width="1" /><circle cx="16" cy="28" r="3" fill="%23555" /><rect x="8" y="44" width="6" height="12" rx="2" fill="%23333" /><rect x="18" y="44" width="6" height="12" rx="2" fill="%23333" /><circle cx="10" cy="62" r="1.5" fill="%23555" /><circle cx="16" cy="62" r="1.5" fill="%23555" /><circle cx="22" cy="62" r="1.5" fill="%23555" /></svg>') 14 12, auto`;
 
+  const handleExploreClick = () => {
+    const section = document.getElementById('programs-section');
+    const container = document.getElementById('tv-scroll-container');
+    if (section && container) {
+      container.scrollTo({
+        top: section.offsetTop,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <div 
+      id="tv-scroll-container"
       className="absolute inset-0 z-10 overflow-y-auto hide-scrollbar bg-gradient-to-br from-[#0a1118] via-[#05080c] to-[#020305]" 
       style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', cursor: remoteCursor }}
     >
@@ -181,35 +194,31 @@ const TvScreen = () => {
           <span className="text-xs tracking-widest font-semibold uppercase text-slate-200">Awareness Programs</span>
         </header>
 
-        <div className="flex-none flex flex-col md:flex-row w-full min-h-[auto] md:min-h-[450px] mb-12">
-          <div className="w-full md:w-[60%] flex flex-col justify-center pr-0 md:pr-4 py-4 order-2 md:order-1">
-            <h1 className="text-3xl md:text-[3vw] font-black leading-[1.1] mb-2 tracking-tight">
+        <div className="flex-none flex flex-col md:flex-row w-full min-h-[auto] md:min-h-[350px] mb-6">
+          <div className="w-full md:w-[60%] flex flex-col justify-center pr-0 md:pr-4 py-2 order-2 md:order-1">
+            <h1 className="text-3xl md:text-[2.5vw] font-black leading-[1.1] mb-2 tracking-tight">
               Awareness <span className="text-[#3b82f6]">PROGRAMMES</span>
             </h1>
-            <h2 className="text-lg md:text-[1vw] font-semibold text-slate-300 mb-2 tracking-wide">
+            <h2 className="text-lg md:text-[0.9vw] font-semibold text-slate-300 mb-2 tracking-wide">
             STAY SAFE
             STAY SECURE
             </h2>
-            <p className="text-sm md:text-[0.9vw] text-[#3b82f6] font-medium mb-1">Learn. Understand. Protect.</p>
-            <p className="text-xs md:text-[0.8vw] text-slate-400 max-w-full md:max-w-[80%] mb-4 leading-relaxed">
+            <p className="text-sm md:text-[0.85vw] text-[#3b82f6] font-medium mb-1">Learn. Understand. Protect.</p>
+            <p className="text-xs md:text-[0.8vw] text-slate-400 max-w-full md:max-w-[80%] mb-3 leading-relaxed">
               Stay informed about cyber threats and safeguard yourself in the digital world.
             </p>
             
             <div className="flex gap-2 md:gap-4 flex-wrap">
-              <button className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-pink-600 hover:from-blue-600 hover:to-pink-700 text-white px-4 md:px-5 py-2 md:py-2.5 rounded-lg font-medium transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] text-xs md:text-[0.9vw]">
+              <button onClick={handleExploreClick} className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-pink-600 hover:from-blue-600 hover:to-pink-700 text-white px-6 md:px-8 py-2 md:py-2.5 rounded-md font-medium transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] text-xs md:text-[0.9vw]">
                 <Play className="w-3 h-3 md:w-4 md:h-4 fill-current" />
                 Explore Programs
-              </button>
-              <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 md:px-5 py-2 md:py-2.5 rounded-lg font-medium transition-all border border-white/10 text-xs md:text-[0.9vw]">
-                <Info className="w-3 h-3 md:w-4 md:h-4" />
-                More Info
               </button>
             </div>
           </div>
 
-          <div className="w-full md:w-[45%] h-[150px] md:h-full flex items-center justify-center relative order-1 md:order-2 mb-4 md:mb-0">
+          <div className="w-full md:w-[45%] h-[150px] md:h-[350px] flex items-center justify-center relative order-1 md:order-2 mb-4 md:mb-0">
              <img loading="lazy" decoding="async" 
-                src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472939/awareness_hero_tst4dm.jpg" 
+                src={Cloudinary.awarenessHero} 
                 alt="Awareness Hologram" 
                 className="w-full h-full object-contain md:-translate-y-[5%]"
                 style={{ mixBlendMode: 'screen', filter: 'contrast(1.5) brightness(1.2)' }}
@@ -217,10 +226,12 @@ const TvScreen = () => {
           </div>
         </div>
 
-        <CarouselRow title="Cyber Security Awareness" programs={row1} />
-        <CarouselRow title="Technology & Development" programs={row2} />
-        <CarouselRow title="Design, Business & Marketing" programs={row3} />
-        <CarouselRow title="Professional & Legal Awareness" programs={row4} />
+        <div id="programs-section">
+          <CarouselRow title="Cyber Security Awareness" programs={row1} />
+          <CarouselRow title="Technology & Development" programs={row2} />
+          <CarouselRow title="Design, Business & Marketing" programs={row3} />
+          <CarouselRow title="Professional & Legal Awareness" programs={row4} />
+        </div>
 
         <div className="flex-none h-8 w-full"></div>
       </div>
@@ -238,7 +249,7 @@ const LeftPanel = () => {
          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[15%] h-[3px] bg-amber-100 rounded-b-full shadow-[0_2px_10px_rgba(253,230,138,1)] z-20"></div>
          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[70%] bg-gradient-to-b from-amber-400/30 via-amber-400/5 to-transparent blur-[15px] pointer-events-none z-10"></div>
          <img loading="lazy" decoding="async" 
-            src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472939/hanuman_statue_idrylg.jpg" 
+            src={Cloudinary.hanumanStatue} 
             alt="Hanuman Idol" 
             className="max-w-[85%] max-h-[90%] object-contain z-10 translate-y-[17%]" 
             style={{ 
@@ -253,7 +264,7 @@ const LeftPanel = () => {
          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[15%] h-[3px] bg-amber-100 rounded-b-full shadow-[0_2px_10px_rgba(253,230,138,1)] z-20"></div>
          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[70%] bg-gradient-to-b from-amber-400/30 via-amber-400/5 to-transparent blur-[15px] pointer-events-none z-10"></div>
          <img loading="lazy" decoding="async" 
-            src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472939/bonsai_tree_ttryo3.jpg" 
+            src={Cloudinary.bonsaiTree} 
             alt="Bonsai Tree in Bowl" 
             className="max-w-[85%] max-h-[90%] object-contain z-10 translate-y-[18%] drop-shadow-[0_10px_10px_rgba(0,0,0,0.9)]" 
             style={{ 
@@ -281,7 +292,7 @@ const RightPanel = () => {
          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[15%] h-[3px] bg-amber-100 rounded-b-full shadow-[0_2px_10px_rgba(253,230,138,1)] z-20"></div>
          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[70%] bg-gradient-to-b from-amber-400/30 via-amber-400/5 to-transparent blur-[15px] pointer-events-none z-10"></div>
          <img loading="lazy" decoding="async" 
-            src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472940/lady_justice_gimkgn.jpg" 
+            src={Cloudinary.ladyJustice} 
             alt="Lady Justice Statue" 
             className="max-w-[80%] max-h-[85%] object-contain z-10 translate-y-[13%]" 
             style={{ 
@@ -335,7 +346,7 @@ const RightPanel = () => {
          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[15%] h-[3px] bg-amber-100 rounded-b-full shadow-[0_2px_10px_rgba(253,230,138,1)] z-20"></div>
          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[70%] bg-gradient-to-b from-amber-400/30 via-amber-400/5 to-transparent blur-[15px] pointer-events-none z-10"></div>
          <img loading="lazy" decoding="async" 
-            src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472941/victory_statue_dspesv.jpg" 
+            src={Cloudinary.victoryStatue} 
             alt="Winged Victory of Samothrace" 
             className="max-w-[80%] max-h-[85%] object-contain z-10 translate-y-[8%]" 
             style={{ 

@@ -1,3 +1,4 @@
+import Cloudinary from '../../../../constants/Cloudinary';
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   BellRing,
@@ -15,8 +16,8 @@ import { buildingTransitionData } from "./BuildingTransitionData";
  * Keep both files inside:
  * public/sounds/
  */
-const BELL_SOUND_FILE = "https://res.cloudinary.com/dlhmkbijh/video/upload/v1783319161/office-bell_cjg885.mp3";
-const DOOR_SOUND_FILE = "https://res.cloudinary.com/dlhmkbijh/video/upload/v1783319160/gate1_open_yf3dzd.mp3";
+const BELL_SOUND_FILE = Cloudinary.officeBell;
+const DOOR_SOUND_FILE = Cloudinary.gate1Open;
 
 /*
  * INTERACTION TIMING

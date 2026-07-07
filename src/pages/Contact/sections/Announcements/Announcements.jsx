@@ -1,6 +1,7 @@
+import Cloudinary from '../../../../constants/Cloudinary';
 import React, { useState, useEffect } from "react";
 import Confetti from "react-confetti";
-const suraj = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782214033/suraj-DW86i7lK_gnggjq.png";
+const suraj = Cloudinary.surajDw86i7lk;
 import { announcementsData } from "./AnnouncementsData";
 
 const Announcements = ({

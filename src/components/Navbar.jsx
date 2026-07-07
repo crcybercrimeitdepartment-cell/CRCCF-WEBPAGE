@@ -1,3 +1,4 @@
+import Cloudinary from '../constants/Cloudinary';
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, Menu, X, Bell, Search } from 'lucide-react'
@@ -232,7 +233,7 @@ export default function Navbar() {
 
           {/* ── LOGO ── */}
           <a className="group flex shrink-0 cursor-pointer items-center gap-[10px] no-underline" href="#home" onClick={e => { e.preventDefault(); go('#home') }}>
-            <img src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782471833/Logo_iile24_ormcru.png" alt="CRCCF Logo" className="h-[46px] w-[46px] object-contain" />
+            <img src={Cloudinary.logoIile24} alt="CRCCF Logo" className="h-[46px] w-[46px] object-contain" />
             <div className="flex flex-col">
               <span className="font-['Outfit',sans-serif] text-[17px] font-[900] text-[#fff] tracking-[-0.01em] leading-[1]">CRCCF</span>
               <span className="mt-[3px] text-[8px] font-[600] text-[rgba(255,255,255,0.40)] uppercase tracking-[0.06em]">CR CYBER CRIME FOUNDATION</span>
@@ -413,7 +414,7 @@ export default function Navbar() {
               {/* Header */}
               <div className="flex justify-between items-center mb-3 pb-3 border-b border-white/15 opacity-0 animate-fade-up-sidebar [animation-delay:200ms] relative z-10">
                 <div className="flex items-center justify-center drop-shadow-[0_0_8px_rgba(212,175,55,0.3)] animate-logo-glow">
-                  <img src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782471833/Logo_iile24_ormcru.png" alt="CRCCF" className="h-[46px] w-[46px] object-contain rounded-full" />
+                  <img src={Cloudinary.logoIile24} alt="CRCCF" className="h-[46px] w-[46px] object-contain rounded-full" />
                 </div>
                 <button 
                   className="bg-white/10 border border-white/15 text-white w-9 h-9 rounded-lg flex justify-center items-center cursor-pointer transition-all duration-200 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:bg-white/20 hover:scale-105 hover:rotate-90"

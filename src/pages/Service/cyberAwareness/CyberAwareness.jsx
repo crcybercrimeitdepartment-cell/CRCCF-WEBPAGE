@@ -265,7 +265,7 @@ function CyberBook({ allPages, bookTitle = "Cyber Security", bookSubtitle = "Our
           onClick={handleOpen}
         >
           <div className="w-[100px] h-[100px] rounded-[28px] flex items-center justify-center mb-10 shadow-sm bg-white/60 backdrop-blur-sm p-4">
-            <img src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782471833/Logo_iile24_ormcru.png" alt="CRCCF Logo" loading="lazy" decoding="async" width="100" height="100" className="w-full h-full object-contain filter drop-shadow-sm" />
+            <img src={Cloudinary.logoIile24} alt="CRCCF Logo" loading="lazy" decoding="async" width="100" height="100" className="w-full h-full object-contain filter drop-shadow-sm" />
           </div>
           <style>{`@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');`}</style>
           <h3 className="text-slate-900 leading-[1.1] mb-8 text-[32px] font-bold" style={{ fontFamily: "'Dancing Script', cursive" }}>

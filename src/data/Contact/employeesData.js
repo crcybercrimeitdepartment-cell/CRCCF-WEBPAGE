@@ -1,16 +1,17 @@
-const Suraj = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782214033/suraj-DW86i7lK_gnggjq.png";
-const gyanaranjan = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782214022/gyanaranjan-DKJxxVVJ_rbrgs6.jpg";
-const Lingraj = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782215461/Lingraj_zuxqwb.jpg";
-const subrajit = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782214027/Subrajit-Cqd7cjeB_mnss7j.jpg";
-const Sai_priyadarshani = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782214031/Sai-1BtoB2Z5_ipvris.png";
-const Prince = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782214025/Prince-tbe_ZzIC_tr4ste.jpg";
-const Debajani = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782214026/Debajani-Behq78I7_j656jo.png";
-const Aryaman = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782214027/Aryman-aoZxFhpC_fvij3l.png";
-const Priyanka = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782214030/Priyanka-KNLrKfHi_hkv8sm.png";
-const Jagadish = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782214023/Jagadish-CZfpd5sJ_gjzqck.jpg";
-const Niranjan = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782214023/Niranjan-D68zC8fj_pvdr7a.jpg";
-const Debanshu = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782214022/Debanshu--ThI0qF0_oqabq6.jpg";
-const Biswajit = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782214021/Biswajit-B1aK4yju_dhzh5z.jpg";
+import Cloudinary from '../../constants/Cloudinary';
+const Suraj = Cloudinary.surajDw86i7lk;
+const gyanaranjan = Cloudinary.gyanaranjanDkjxxvvj;
+const Lingraj = Cloudinary.lingraj;
+const subrajit = Cloudinary.subrajitCqd7cjeb;
+const Sai_priyadarshani = Cloudinary.sai1btob2z5;
+const Prince = Cloudinary.princeTbeZzic;
+const Debajani = Cloudinary.debajaniBehq78i7;
+const Aryaman = Cloudinary.arymanAozxfhpc;
+const Priyanka = Cloudinary.priyankaKnlrkfhi;
+const Jagadish = Cloudinary.jagadishCzfpd5sj;
+const Niranjan = Cloudinary.niranjanD68zc8fj;
+const Debanshu = Cloudinary.debanshuThi0qf0;
+const Biswajit = Cloudinary.biswajitB1ak4yju;
 
 export const employees = [
 

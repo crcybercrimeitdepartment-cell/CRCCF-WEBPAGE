@@ -1,3 +1,4 @@
+import Cloudinary from '../../constants/Cloudinary';
 import { Helmet } from 'react-helmet-async';
 
 export default function SEO({ 
@@ -5,7 +6,7 @@ export default function SEO({
   description, 
   name = "CR Cyber Crime Foundation", 
   type = "website",
-  image = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782471833/Logo_iile24_ormcru.png",
+  image = Cloudinary.logoIile24,
   url = "https://crccf.org"
 }) {
   const pageTitle = title ? `${title} | ${name}` : name;

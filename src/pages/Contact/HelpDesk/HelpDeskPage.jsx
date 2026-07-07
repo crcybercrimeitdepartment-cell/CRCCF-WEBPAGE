@@ -1,3 +1,4 @@
+import Cloudinary from '../../../constants/Cloudinary';
 import React, { useState, useEffect } from 'react';
 import { allCards } from './HelpDeskPageData';
 
@@ -360,19 +361,19 @@ export default function HelpDeskPage() {
           
           {/* Desktop Image */}
           <img 
-            src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1783316838/girl_gc66hw.png" 
+            src={Cloudinary.girl} 
             alt="Character Illustration Desktop" 
             className="relative z-20 object-contain object-bottom w-auto h-[90vh] max-w-[100vw] drop-shadow-[0_-15px_40px_rgba(0,0,0,0.1)] block align-bottom pointer-events-none hidden lg:block device-girl-desktop"
           />
           {/* Pad Image */}
           <img 
-            src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1783316838/girl3_rd0yv1.png" 
+            src={Cloudinary.girl3} 
             alt="Character Illustration Pad" 
             className="relative z-20 object-contain object-bottom w-auto h-[90vh] max-w-[100vw] drop-shadow-[0_-15px_40px_rgba(0,0,0,0.1)] align-bottom pointer-events-none hidden md:max-lg:block device-girl-pad"
           />
           {/* Mobile Image */}
           <img 
-            src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1783316864/girl2_zf3cy2.png" 
+            src={Cloudinary.girl2} 
             alt="Character Illustration Mobile" 
             className="relative z-20 object-contain object-bottom w-auto h-[90vh] max-w-[100vw] drop-shadow-[0_-15px_40px_rgba(0,0,0,0.1)] align-bottom pointer-events-none max-md:block hidden"
           />

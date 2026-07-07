@@ -1,5 +1,6 @@
+import Cloudinary from '../../../constants/Cloudinary';
 import { motion } from 'framer-motion'
-const logo = "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782471833/Logo_iile24_ormcru.png";
+const logo = Cloudinary.logoIile24;
 
 
 const marqueeItems = [

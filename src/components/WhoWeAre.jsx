@@ -1,3 +1,4 @@
+import Cloudinary from '../constants/Cloudinary';
 import SectionHeading from './common/SectionHeading';
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
@@ -80,7 +81,7 @@ const cards = [
     icon: <ServeIcon />,
     color: '#3B82F6',
     title: 'Who We Serve',
-    bg: 'https://res.cloudinary.com/dlhmkbijh/image/upload/v1782475330/serve_c3m079_hojxrn.jpg',
+    bg: Cloudinary.serveC3m079,
     desc: (
       <>
         We serve :<br />
@@ -96,7 +97,7 @@ const cards = [
     icon: <FocusIcon />,
     color: '#1D4ED8',
     title: 'Our Core Focus',
-    bg: 'https://res.cloudinary.com/dlhmkbijh/image/upload/v1782475332/focus_z5jjcr_fzuszn.jpg',
+    bg: Cloudinary.focusZ5jjcr,
     desc: (
       <>
         Our focus extends to :<br /><br />
@@ -110,7 +111,7 @@ const cards = [
     icon: <MissionIcon />,
     color: '#0284C7',
     title: 'Our Mission',
-    bg: 'https://res.cloudinary.com/dlhmkbijh/image/upload/v1782475331/Mission_azi7c_zxea2x.png',
+    bg: Cloudinary.missionAzi7c,
     desc: (
       <>
         Our mission is to lead the Cyber Revolution by integrating cybersecurity awareness , advanced technology , and research-driven solutions . We are committed to empowering the next generation with practical skills, industry knowledge, and ethical values to build a secure and future-ready digital ecosystem .
@@ -121,7 +122,7 @@ const cards = [
     icon: <VisionIcon />,
     color: '#2563EB',
     title: 'Our Vision',
-    bg: 'https://res.cloudinary.com/dlhmkbijh/image/upload/v1782475330/vision_kxgkbv_jnoshv.jpg',
+    bg: Cloudinary.visionKxgkbv,
     desc: (
       <>
         by integrating:<br /><br />

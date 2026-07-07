@@ -1,22 +1,23 @@
+import Cloudinary from '../constants/Cloudinary';
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 
 const cyberNetwork =
-  "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782471811/cyber-network_jmukxj_qu3pn5.png";
+  Cloudinary.cyberNetworkJmukxj;
 
 const holographicPadlock =
-  "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782471811/holographic-padlock_lypzmc_fzczvm.png";
+  Cloudinary.holographicPadlockLypzmc;
 
 const serverRoom =
-  "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782471808/server-room_nmgcaj_fnyphh.png";
+  Cloudinary.serverRoomNmgcaj;
 
 const legalScale =
-  "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782471810/legal-scale_bqsmvs_xlb0ah.png";
+  Cloudinary.legalScaleBqsmvs;
 
 const aiBrain =
-  "https://res.cloudinary.com/dlhmkbijh/image/upload/v1782471788/ai-brain_dv8lbu_dkxycg.png";
+  Cloudinary.aiBrainDv8lbu;
 
 
 const slides = [
