@@ -383,7 +383,7 @@ function WorkshopPageInner({ darkMode, setDarkMode }) {
                                     <AnimatePresence mode="wait">
                                         <motion.div
                                             key={currentPage + "_" + searchQuery}
-                                            className="grid grid-cols-2 gap-y-2 gap-x-3 lg:gap-y-2.5 lg:gap-x-3"
+                                            className="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-3 lg:gap-y-2.5 lg:gap-x-3"
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
                                             exit={{ opacity: 0 }}

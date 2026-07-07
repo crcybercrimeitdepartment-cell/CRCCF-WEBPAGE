@@ -42,8 +42,7 @@ const ScrollCard = memo(({ section, index, totalSections, scrollYProgress }) => 
         scale,
         opacity,
         zIndex: totalSections - index,
-        willChange: "transform, opacity",
-        transform: "translateZ(0)",
+        willChange: "transform, opacity"
       }}
       className="absolute w-full max-h-[85vh] bg-white rounded-[2rem] border border-slate-200 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] p-8 md:p-12 overflow-y-auto origin-bottom flex flex-col"
     >
@@ -205,10 +204,9 @@ const TalentPlacementProgram = () => {
         className="relative bg-slate-50"
         style={{ height: `${totalSections * 100}vh` }}
       >
-        {/* sticky panel — GPU-composited to avoid paint on scroll */}
         <div
           className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden py-12 md:py-20"
-          style={{ willChange: "transform", transform: "translateZ(0)" }}
+          style={{ willChange: "transform" }}
         >
           <FloatingIconsBackground />
           <div className="relative w-full max-w-4xl px-4 md:px-8 flex items-center justify-center h-full z-10">

@@ -423,16 +423,20 @@ export default function RecruitmentRulesPolicies() {
     >
       <FloatingWatermarks />
 
-      <div className="w-full flex flex-col items-center text-center z-50 px-4 py-10 sm:py-12 relative bg-slate-50 shadow-sm sm:shadow-none">
-        <h1 className="text-3xl md:text-4xl font-black text-[#2563eb] tracking-tight mb-4">
-          Recruitment Policies & Career Development Framework
+      {/* Hero Section */}
+      <div className="w-full pt-20 pb-16 px-6 flex flex-col items-center justify-center shrink-0 z-50 bg-transparent">
+        <h3 className="text-[#2563EB] font-bold text-[12px] md:text-[14px] tracking-[8px] uppercase mb-4 text-center ml-[8px]">
+          RECRUITMENT
+        </h3>
+        <h1 className="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[60px] font-black mb-6 text-[#0F172A] leading-[1.1] max-w-5xl mx-auto text-center">
+          Recruitment Policies & <br className="hidden md:block" /> <span className="text-[#2563EB]">Career Development Framework</span>
         </h1>
-        <p className="text-slate-600 max-w-3xl text-base sm:text-lg font-medium leading-relaxed">
+        <p className="text-[16px] md:text-[18px] text-[#64748B] max-w-[850px] mx-auto leading-[1.7] font-medium text-center">
           Discover our comprehensive guidelines designed to attract top talent and provide a clear, structured roadmap for continuous professional growth and career progression.
         </p>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center w-full pt-32 sm:pt-48 pb-20 relative z-10">
+      <div className="flex-1 flex flex-col items-center justify-center w-full pt-32 sm:pt-48 pb-32 sm:pb-40 relative z-10">
         <div
           className="scale-wrapper flex-shrink-0 transition-transform duration-300"
           style={{

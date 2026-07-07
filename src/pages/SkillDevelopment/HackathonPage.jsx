@@ -51,7 +51,7 @@ function getProgramIconInfo(program) {
     return Target;
 }
 
-function Card({ program, onLearnMore }) {
+function Card({ program, index = 0, onLearnMore }) {
     const iconRef = getProgramIconInfo(program);
     const mapped = iconConfig[program.id];
     const iconColor = mapped ? mapped.color : '#6366f1';
@@ -59,7 +59,15 @@ function Card({ program, onLearnMore }) {
     const borderColor = iconColor + '25';
 
     return (
-        <motion.div className="new-program-card" layout initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.25 }} whileHover={{ y: -8 }} onClick={() => onLearnMore(program)}>
+        <motion.div 
+            className="new-program-card" 
+            layout 
+            initial={{ opacity: 0, y: 15 }} 
+            animate={{ opacity: 1, y: 0, transition: { duration: 0.3, delay: index * 0.08 } }} 
+            exit={{ opacity: 0, scale: 0.95 }} 
+            whileHover={{ y: -8, transition: { duration: 0.2, delay: 0 } }} 
+            onClick={() => onLearnMore(program)}
+        >
             <div className="new-program-icon-wrapper" style={{ color: iconColor, backgroundColor: bgColor, border: `1px solid ${borderColor}` }}>
                 {createElement(iconRef, { size: 24, strokeWidth: 2.2 })}
             </div>
@@ -158,8 +166,8 @@ function Homepage() {
             }
         };
         const animate = () => {
-            currentPos.current.x += (targetPos.current.x - currentPos.current.x) * 0.06;
-            currentPos.current.y += (targetPos.current.y - currentPos.current.y) * 0.06;
+            currentPos.current.x += (targetPos.current.x - currentPos.current.x) * 0.45;
+            currentPos.current.y += (targetPos.current.y - currentPos.current.y) * 0.45;
             mouse.style.left = `${currentPos.current.x}px`;
             mouse.style.top = `${currentPos.current.y}px`;
             rafId.current = requestAnimationFrame(animate);
@@ -243,12 +251,12 @@ function Homepage() {
                                 </div>
                             </div>
                             <div className="mousepad-grid-wrapper">
-                                <div className="cards-grid">
-                                    {displayedPrograms.map((program) => (<Card key={program.id} program={program} onLearnMore={handleExploreProgram} />))}
+                                <div className="cards-grid" key={currentPage + '-' + searchQuery}>
+                                    {displayedPrograms.map((program, index) => (<Card key={program.id} program={program} index={index} onLearnMore={handleExploreProgram} />))}
                                 </div>
                             </div>
                         </div>
-                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={(page) => { setCurrentPage(page); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
+                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={(page) => { setCurrentPage(page); }} />
                     </>
                 ) : (
                     <div className="empty-state">
@@ -772,10 +780,10 @@ const styles = `
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 24px;
   margin-bottom: 40px;
   justify-items: center;
-  cursor: none;
+  cursor: url('data:image/svg+xml;utf8,<svg width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><circle cx="6" cy="6" r="4" fill="%232563eb" stroke="white" stroke-width="1.5" /></svg>') 6 6, auto;
 }
 
 .custom-cursor {
@@ -3502,14 +3510,14 @@ const styles = `
 .hackathon-app-container .new-program-card {
   display: flex;
   align-items: center;
-  padding: 14px 18px;
+  padding: 14px 14px;
   background-color: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(226, 232, 240, 0.8);
   border-radius: 16px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-  cursor: none;
+  cursor: url('data:image/svg+xml;utf8,<svg width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><circle cx="6" cy="6" r="4" fill="%232563eb" stroke="white" stroke-width="1.5" /></svg>') 6 6, auto;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   text-decoration: none;
   width: 100%;
@@ -3523,8 +3531,8 @@ const styles = `
 }
 
 .hackathon-app-container .new-program-icon-wrapper {
-  width: 50px;
-  height: 50px;
+  width: 44px;
+  height: 44px;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -3540,7 +3548,7 @@ const styles = `
   flex-direction: column;
   justify-content: flex-start;
   gap: 6px;
-  margin-left: 16px;
+  margin-left: 14px;
   text-align: left;
   flex-grow: 1;
   height: 100%;
@@ -4579,7 +4587,7 @@ const styles = `
    3D MOUSEPAD CONTAINER SYSTEM
    ========================================== */
 .hackathon-app-container .mousepad-container {
-  max-width: 1200px;
+  max-width: 1350px;
   width: 100%;
   margin: 0 auto;
   position: relative;
@@ -4591,7 +4599,7 @@ const styles = `
   min-height: 500px;
   display: flex;
   align-items: center;
-  cursor: none;
+  cursor: url('data:image/svg+xml;utf8,<svg width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><circle cx="6" cy="6" r="4" fill="%232563eb" stroke="white" stroke-width="1.5" /></svg>') 6 6, auto;
 }
 
 .dark-theme .mousepad-container {
@@ -4826,14 +4834,15 @@ const styles = `
 .hackathon-app-container .mousepad-grid-wrapper {
   position: relative;
   z-index: 5;
-  padding: 60px 80px;
-  cursor: none;
+  padding: 60px 40px;
+  margin: 0; /* Overrides leaking global margin */
+  cursor: url('data:image/svg+xml;utf8,<svg width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><circle cx="6" cy="6" r="4" fill="%232563eb" stroke="white" stroke-width="1.5" /></svg>') 6 6, auto;
 }
 
 .hackathon-app-container .mousepad-grid-wrapper .cards-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 24px;
   margin-bottom: 0px;
   justify-items: center;
   align-items: stretch;

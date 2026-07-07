@@ -1442,12 +1442,17 @@ function getIsMobile() {
 }
 
 const Header = () => (
-  <header className="cyber-safety-header w-full flex flex-col items-center text-center mb-8 px-4">
-    <h1 className="text-center font-bold text-[#3a2815] mb-3 max-w-[840px] text-balance break-words" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>Cyber Safety and Support for Women & Girls</h1>
-    <p className="text-center text-[#6b5740] max-w-[680px]" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
+  <div className="w-full pt-20 pb-16 px-6 flex flex-col items-center justify-center shrink-0 z-10 bg-transparent">
+    <h3 className="text-[#2563EB] font-bold text-[12px] md:text-[14px] tracking-[8px] uppercase mb-4 text-center ml-[8px]">
+      REPORT CRIME
+    </h3>
+    <h1 className="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[60px] font-black mb-6 text-[#0F172A] leading-[1.1] max-w-5xl mx-auto text-center">
+      Cyber Safety & <br className="hidden md:block" /> <span className="text-[#2563EB]">Support for Girls and Women</span>
+    </h1>
+    <p className="text-[16px] md:text-[18px] text-[#64748B] max-w-[850px] mx-auto leading-[1.7] font-medium text-center">
       Empowering women with knowledge, legal guidance, and a secure environment against digital threats.
     </p>
-  </header>
+  </div>
 );
 
 export default function CyberSafetyAndSupportPage() {

@@ -682,7 +682,7 @@ a {
     inset 0 0 20px rgba(0, 0, 0, 0.35),
     0 15px 35px rgba(0, 0, 0, 0.35),
     0 5px 15px rgba(0, 0, 0, 0.2);
-  animation: screenUnroll 6s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  animation: screenUnroll 1.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
   transform: rotateX(1.5deg);
   transform-origin: top center;
 }
@@ -716,7 +716,6 @@ a {
   background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.35) 0%, rgba(59, 130, 246, 0.08) 40%, transparent 80%);
   pointer-events: none;
   z-index: 4;
-  mix-blend-mode: screen;
 }
 
 .screen-surface-inner {
@@ -737,7 +736,7 @@ a {
     0 2px 4px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
   position: relative;
-  animation: bottomBarDrop 1s ease 5.5s forwards;
+  animation: bottomBarDrop 0.5s ease 1s forwards;
   opacity: 0;
 }
 
@@ -5373,7 +5372,7 @@ a {
 
 @keyframes screenUnroll {
   0% {
-    max-height: 0;
+    clip-path: inset(0 0 100% 0);
     opacity: 0;
     transform: perspective(800px) rotateX(-5deg);
     transform-origin: top center;
@@ -5392,7 +5391,7 @@ a {
   }
 
   100% {
-    max-height: 2000px;
+    clip-path: inset(0 0 0 0);
     opacity: 1;
     transform: perspective(800px) rotateX(0deg);
     transform-origin: top center;

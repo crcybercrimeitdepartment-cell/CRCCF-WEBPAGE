@@ -107,17 +107,19 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
 // ==========================================================================
 // PROJECTOR CARD COMPONENT
 // ==========================================================================
-function ProjectorCard({ program, onClick }) {
+function ProjectorCard({ program, onClick, index, columnSide }) {
     const theme = programThemeMap[program.id] || { icon: BookOpen, color: "#3b82f6" };
     const IconComponent = theme.icon;
+    const animationClass = columnSide === 'left' ? 'projector-card-animate-left' : 'projector-card-animate-right';
 
     return (
         <div
-            className="projector-card"
+            className={`projector-card ${animationClass}`}
             onClick={onClick}
             style={{
                 borderLeft: `4px solid ${theme.color}`,
-                "--hover-glow": `${theme.color}35`
+                "--hover-glow": `${theme.color}35`,
+                animationDelay: `${index * 0.05}s`
             }}
             role="button"
             tabIndex={0}
@@ -201,7 +203,7 @@ function Homepage({ darkMode, setDarkMode }) {
 
     return (
         <>
-            <main className="main-content" key={currentPage}>
+            <main className="main-content">
                 {/* HERO BANNER SECTION */}
                 <header className="hero-banner">
                     <h1>{heroData.title}</h1>
@@ -236,18 +238,20 @@ function Homepage({ darkMode, setDarkMode }) {
                 <section className="catalog-section">
                     {displayedPrograms.length > 0 ? (
                         <>
-                            <div className="projector-dashboard-container">
+                            <div className="projector-dashboard-container" key={`projector-page-${currentPage}`}>
                                 <div className="projector-chassis">
                                     <div className="projector-column projector-column-left">
-                                        {leftColumnPrograms.map((program) => (
+                                        {leftColumnPrograms.map((program, idx) => (
                                             <ProjectorCard
                                                 key={program.id}
                                                 program={program}
                                                 onClick={() => handleExploreProgram(program)}
+                                                index={idx}
+                                                columnSide="left"
                                             />
                                         ))}
                                         {Array.from({ length: Math.max(0, 6 - leftColumnPrograms.length) }).map((_, idx) => (
-                                            <div key={`left-placeholder-${idx}`} className="projector-card-placeholder" />
+                                            <div key={`left-placeholder-${idx}`} className="projector-card-placeholder projector-card-animate-left" style={{ animationDelay: `${(leftColumnPrograms.length + idx) * 0.05}s` }} />
                                         ))}
                                     </div>
 
@@ -272,15 +276,17 @@ function Homepage({ darkMode, setDarkMode }) {
                                     </div>
 
                                     <div className="projector-column projector-column-right">
-                                        {rightColumnPrograms.map((program) => (
+                                        {rightColumnPrograms.map((program, idx) => (
                                             <ProjectorCard
                                                 key={program.id}
                                                 program={program}
                                                 onClick={() => handleExploreProgram(program)}
+                                                index={idx}
+                                                columnSide="right"
                                             />
                                         ))}
                                         {Array.from({ length: Math.max(0, 6 - rightColumnPrograms.length) }).map((_, idx) => (
-                                            <div key={`right-placeholder-${idx}`} className="projector-card-placeholder" />
+                                            <div key={`right-placeholder-${idx}`} className="projector-card-placeholder projector-card-animate-right" style={{ animationDelay: `${(rightColumnPrograms.length + idx) * 0.05}s` }} />
                                         ))}
                                     </div>
                                 </div>
@@ -293,14 +299,15 @@ function Homepage({ darkMode, setDarkMode }) {
                                 <div className="projector-shadow"></div>
                             </div>
 
-                            <Pagination
-                                currentPage={currentPage}
-                                totalPages={totalPages}
-                                onPageChange={(page) => {
-                                    setCurrentPage(page);
-                                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                                }}
-                            />
+                            <div style={{ marginTop: '-70px', position: 'relative', zIndex: 10 }}>
+                                <Pagination
+                                    currentPage={currentPage}
+                                    totalPages={totalPages}
+                                    onPageChange={(page) => {
+                                        setCurrentPage(page);
+                                    }}
+                                />
+                            </div>
                         </>
                     ) : (
                         <div className="empty-state">

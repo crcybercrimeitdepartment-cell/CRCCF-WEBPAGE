@@ -501,12 +501,15 @@ export default function CyberLawsAndRightsPage() {
     <div className="relative w-full min-h-[100dvh] overflow-x-hidden overflow-y-auto flex flex-col font-sans">
       <style>{inlineStyles}</style>
 
-      {/* Header Section */}
-      <div className="w-full text-center pt-12 md:pt-16 pb-6 md:pb-12 px-6 shrink-0 z-10">
-        <h1 className="text-4xl md:text-6xl font-extrabold mb-4 text-[#0f172a] tracking-tight">
-          Explore Your <span className="text-[#2563eb]">Cyber Laws & Rights</span>
+      {/* Hero Section */}
+      <div className="w-full pt-20 pb-16 px-6 flex flex-col items-center justify-center shrink-0 z-10 bg-transparent">
+        <h3 className="text-[#2563EB] font-bold text-[12px] md:text-[14px] tracking-[8px] uppercase mb-4 text-center ml-[8px]">
+          REPORT CRIME
+        </h3>
+        <h1 className="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[60px] font-black mb-6 text-[#0F172A] leading-[1.1] max-w-5xl mx-auto text-center">
+          Explore Your <br className="hidden md:block" /> <span className="text-[#2563EB]">Cyber Laws & Rights</span>
         </h1>
-        <p className="text-base md:text-lg text-[#475569] max-w-2xl mx-auto leading-relaxed font-medium">
+        <p className="text-[16px] md:text-[18px] text-[#64748B] max-w-[850px] mx-auto leading-[1.7] font-medium text-center">
           Empower yourself with digital jurisprudence. Navigate through our comprehensive guide to understand your legal protections, online responsibilities, and fundamental rights in the cyber world.
         </p>
       </div>

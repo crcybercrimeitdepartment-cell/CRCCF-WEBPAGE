@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useMemo, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   internshipData,
@@ -9,14 +10,49 @@ import {
   imageConfig
 } from "../../data/skillDevelopment/InternshipPageData";
 
+// ─── Animation Variants ───
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.1
+    }
+  },
+  exit: {
+    opacity: 0,
+    transition: {
+      staggerChildren: 0.05,
+      staggerDirection: -1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30, scale: 0.95 },
+  show: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1,
+    transition: { duration: 0.5, ease: "easeOut" }
+  },
+  exit: { 
+    opacity: 0, 
+    y: -20, 
+    scale: 0.95,
+    transition: { duration: 0.3, ease: "easeIn" }
+  }
+};
+
 // ─── Pagination ───
-function Pagination({ currentPage, totalPages, onPageChange }) {
+function Pagination({ currentPage, totalPages, onPageChange, isAnimating }) {
   return (
     <div className="flex flex-row justify-between items-center bg-white border border-slate-100/80 rounded-full py-1.5 px-1.5 sm:px-4 mt-10 shadow-sm animate-fade-in z-10">
       <button
         className="flex items-center gap-1 bg-slate-100/50 border border-slate-100/80 text-slate-600 px-2 sm:px-5 py-1 sm:py-2 rounded-full cursor-pointer font-body text-[11px] sm:text-sm font-semibold transition-all duration-300 hover:bg-slate-100 hover:text-slate-900 disabled:opacity-40 disabled:cursor-not-allowed justify-center shrink-0"
         onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
+        disabled={currentPage === 1 || isAnimating}
       >
         <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -33,8 +69,9 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
               className={`flex flex-col items-center justify-center bg-transparent border py-0.5 px-1.5 sm:px-4 rounded-lg sm:rounded-xl cursor-pointer transition-all duration-300 shrink-0 ${isActive
                   ? 'bg-blue-100/70 border-blue-500/30 shadow-[0_2px_6px_rgba(37,99,235,0.06)]'
                   : 'border-transparent text-slate-500 hover:bg-slate-100/50 hover:border-slate-100/30'
-                }`}
+                } ${isAnimating ? 'opacity-50 cursor-not-allowed' : ''}`}
               onClick={() => onPageChange(page.number)}
+              disabled={isAnimating}
             >
               <span className={`font-heading font-extrabold text-xs sm:text-base leading-none transition-colors duration-300 ${isActive ? 'text-blue-700' : 'text-slate-500'}`}>
                 {page.number}
@@ -51,7 +88,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
       <button
         className="flex items-center gap-1 bg-slate-100/50 border border-slate-100/80 text-slate-600 px-2 sm:px-5 py-1 sm:py-2 rounded-full cursor-pointer font-body text-[11px] sm:text-sm font-semibold transition-all duration-300 hover:bg-slate-100 hover:text-slate-900 disabled:opacity-40 disabled:cursor-not-allowed justify-center shrink-0"
         onClick={() => currentPage < totalPages && onPageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
+        disabled={currentPage === totalPages || isAnimating}
       >
         <span className="hidden sm:inline">Next</span>
         <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
@@ -69,8 +106,10 @@ function InternshipCard({ internship }) {
   const config = iconConfig[id];
 
   return (
-    <div
-      className="group relative w-full whiteboard-card flex items-center gap-3 sm:gap-4 p-3.5 sm:p-4 cursor-pointer text-slate-800 animate-fade-in hover:border-blue-200/50"
+    <motion.div
+      variants={itemVariants}
+      className="group relative w-full whiteboard-card flex items-center gap-3 sm:gap-4 p-3.5 sm:p-4 cursor-pointer text-slate-800 hover:border-blue-200/50"
+      style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}
       onClick={() => navigate(`/skill-development/${id}`)}
     >
       <div className="w-11 h-11 sm:w-13 sm:h-13 flex-shrink-0 flex items-center justify-center rounded-xl sm:rounded-2xl neumorphic-icon-container p-2 sm:p-2.5 transition-transform duration-500 group-hover:scale-105 select-none">
@@ -99,13 +138,13 @@ function InternshipCard({ internship }) {
           </span>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 // ─── Internship List ───
 function InternshipList({ category }) {
-  const filtered = internshipData.filter((item) => item.category === category);
+  const filtered = useMemo(() => internshipData.filter((item) => item.category === category), [category]);
   return filtered.map((internship) => (
     <InternshipCard key={internship.id} internship={internship} />
   ));
@@ -113,13 +152,15 @@ function InternshipList({ category }) {
 
 // ─── Search Results ───
 function SearchResults({ searchQuery }) {
-  const query = searchQuery.toLowerCase();
-  const results = internshipData.filter((item) => {
-    return (
-      item.title.toLowerCase().includes(query) ||
-      item.skills.some((skill) => skill.toLowerCase().includes(query))
-    );
-  });
+  const results = useMemo(() => {
+    const query = searchQuery.toLowerCase();
+    return internshipData.filter((item) => {
+      return (
+        item.title.toLowerCase().includes(query) ||
+        item.skills.some((skill) => skill.toLowerCase().includes(query))
+      );
+    });
+  }, [searchQuery]);
 
   if (results.length === 0) {
     return (
@@ -144,12 +185,15 @@ function SearchResults({ searchQuery }) {
 export function InternshipDashboard() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isAnimating, setIsAnimating] = useState(false);
 
-  const handlePageChange = (pageNumber) => {
+  const handlePageChange = useCallback((pageNumber) => {
+    if (isAnimating) return;
+    setIsAnimating(true);
     setCurrentPage(pageNumber);
     setSearchQuery('');
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  }, [isAnimating]);
 
   return (
     <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6 sm:py-10 flex flex-col min-h-screen bg-corporate-radial">
@@ -210,18 +254,28 @@ export function InternshipDashboard() {
             <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/10 opacity-70 pointer-events-none z-10" />
             <div className="absolute inset-0 border border-slate-400/35 rounded-[16px] pointer-events-none" />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 relative z-10">
-              {searchQuery ? (
-                <SearchResults searchQuery={searchQuery} />
-              ) : (
-                <>
-                  {currentPage === 1 && <InternshipList category="cyber" />}
-                  {currentPage === 2 && <InternshipList category="software" />}
-                  {currentPage === 3 && <InternshipList category="other" />}
-                  {currentPage === 4 && <InternshipList category="law" />}
-                </>
-              )}
-            </div>
+            <AnimatePresence mode="wait">
+              <motion.div 
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 relative z-10" 
+                key={currentPage + '-' + searchQuery}
+                variants={containerVariants}
+                initial="hidden"
+                animate="show"
+                exit="exit"
+                onAnimationComplete={() => setIsAnimating(false)}
+              >
+                {searchQuery ? (
+                  <SearchResults searchQuery={searchQuery} />
+                ) : (
+                  <>
+                    {currentPage === 1 && <InternshipList category="cyber" />}
+                    {currentPage === 2 && <InternshipList category="software" />}
+                    {currentPage === 3 && <InternshipList category="other" />}
+                    {currentPage === 4 && <InternshipList category="law" />}
+                  </>
+                )}
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           <div className="absolute bottom-[-13px] left-[12%] right-[12%] h-3.5 bg-gradient-to-b from-slate-200 via-slate-300 to-slate-400 rounded-b-md shadow-[0_6px_12px_rgba(15,23,42,0.15)] border-t border-slate-400 flex items-end justify-between px-6 sm:px-12 pb-[2.5px] z-30 select-none pointer-events-none">
@@ -314,6 +368,7 @@ export function InternshipDashboard() {
         currentPage={currentPage}
         totalPages={4}
         onPageChange={handlePageChange}
+        isAnimating={isAnimating}
       />
 
     </div>
@@ -429,24 +484,6 @@ export default function InternshipPage() {
     --color-white: #FFFFFF;
     --color-slate-100: #F1F5F9;
   }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px) scale(0.98); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-  }
-  .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
-  .animate-fade-in:nth-child(1) { animation-delay: 0ms; }
-  .animate-fade-in:nth-child(2) { animation-delay: 50ms; }
-  .animate-fade-in:nth-child(3) { animation-delay: 100ms; }
-  .animate-fade-in:nth-child(4) { animation-delay: 150ms; }
-  .animate-fade-in:nth-child(5) { animation-delay: 200ms; }
-  .animate-fade-in:nth-child(6) { animation-delay: 250ms; }
-  .animate-fade-in:nth-child(7) { animation-delay: 300ms; }
-  .animate-fade-in:nth-child(8) { animation-delay: 350ms; }
-  .animate-fade-in:nth-child(9) { animation-delay: 400ms; }
-  .animate-fade-in:nth-child(10) { animation-delay: 450ms; }
-  .animate-fade-in:nth-child(11) { animation-delay: 500ms; }
-  .animate-fade-in:nth-child(12) { animation-delay: 550ms; }
 
   .bg-corporate-radial {
     background-image:

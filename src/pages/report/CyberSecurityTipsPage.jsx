@@ -173,10 +173,18 @@ function CyberSecurityTipsPage() {
 
   return (
     <div className="relative select-none flex flex-col items-center cyber-security-wrapper" style={{ perspective: "1200px" }}>
-      {/* Header: Project title with blue gradient */}
-      <h1 className="font-oswald font-extrabold text-[48px] max-md:text-[28px] max-sm:text-[24px] tracking-[0.03em] mb-4 text-center whitespace-nowrap" style={{ background: "linear-gradient(135deg, #4a90d9 0%, #1a5fb4 50%, #003d99 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.2))" }}>Cyber Security Tips</h1>
-      {/* Subtitle description */}
-      <p className="font-lora text-[17px] max-md:text-[15px] text-gray-700 text-center mb-12 max-md:mb-26 max-w-[500px] leading-relaxed tracking-wide">Stay safe online with essential cyber security awareness. Learn how to protect yourself from phishing, malware, and online fraud.</p>
+      {/* Hero Section */}
+      <div className="w-full pt-20 pb-16 px-6 flex flex-col items-center justify-center shrink-0 z-10 bg-transparent">
+        <h3 className="text-[#2563EB] font-bold text-[12px] md:text-[14px] tracking-[8px] uppercase mb-4 text-center ml-[8px]">
+          REPORT CRIME
+        </h3>
+        <h1 className="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[60px] font-black mb-6 text-[#0F172A] leading-[1.1] max-w-5xl mx-auto text-center">
+          Cyber Security <span className="text-[#2563EB]">Tips</span>
+        </h1>
+        <p className="text-[16px] md:text-[18px] text-[#64748B] max-w-[850px] mx-auto leading-[1.7] font-medium text-center">
+          Stay safe online with essential cyber security awareness. Learn how to protect yourself from phishing, malware, and online fraud.
+        </p>
+      </div>
 
       {/* Wrapper to center the open folder (shifts right by half width on desktop) */}
       <div 

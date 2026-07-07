@@ -377,7 +377,7 @@ const styles = `
   border-left: none;
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
 }
-.housing-.mentorship-programs-page-wrapper {
+.housing-body {
   flex: 1;
   height: 38px;
   background: linear-gradient(180deg, #ffffff 0%, #e8e8e8 20%, #cdcdcd 75%, #a0a0a0 100%);
@@ -526,7 +526,7 @@ const styles = `
     inset 0 -1px 2px rgba(0, 0, 0, 0.2);
 }
 /* Marker Body */
-.marker-.mentorship-programs-page-wrapper {
+.mentorship-programs-page-wrapper .marker-body {
   position: absolute;
   left: 16px;
   top: 22px;
@@ -631,7 +631,7 @@ const styles = `
 .mentorship-programs-page-wrapper .dark-theme .housing-cap-right {
   box-shadow: 3px 2px 6px rgba(0, 0, 0, 0.3);
 }
-.dark-theme .housing-.mentorship-programs-page-wrapper {
+.dark-theme .housing-body {
   background: linear-gradient(180deg, #3a3a3a 0%, #2a2a2a 20%, #1e1e1e 80%, #151515 100%);
   border-top-color: #444;
   border-bottom-color: #111;
@@ -1228,7 +1228,7 @@ const styles = `
     height: 28px;
   }
 
-  .housing-.mentorship-programs-page-wrapper {
+  .housing-body {
     height: 28px;
   }
 
@@ -1473,7 +1473,16 @@ function Home() {
   const totalPages = Math.ceil(filteredPrograms.length / CARDS_PER_PAGE);
   const displayedPrograms = useMemo(() => {
     const startIdx = (currentPage - 1) * CARDS_PER_PAGE;
-    return filteredPrograms.slice(startIdx, startIdx + CARDS_PER_PAGE);
+    const items = filteredPrograms.slice(startIdx, startIdx + CARDS_PER_PAGE);
+    
+    // Pad with placeholders to maintain grid height on the last page
+    const paddedItems = [...items];
+    if (items.length > 0 && items.length < CARDS_PER_PAGE) {
+      for (let i = items.length; i < CARDS_PER_PAGE; i++) {
+        paddedItems.push({ id: `placeholder-${i}`, isPlaceholder: true });
+      }
+    }
+    return paddedItems;
   }, [filteredPrograms, currentPage]);
 
   const handleExploreProgram = (program) => {
@@ -1482,26 +1491,38 @@ function Home() {
 
   return (
     <>
-      <main className="main-content" key={currentPage}>
+      <main className="main-content">
         <header className="hero-banner">
           <h1>{heroData.title}</h1>
           <p className="hero-subtitle">{heroData.subtitle}</p>
 
-          <div className="search-container">
-            <div className="search-bar-wrapper">
-              <Search className="search-icon" size={20} />
-              <input
-                type="text"
-                placeholder={heroData.searchPlaceholder}
-                value={searchQuery}
-                onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
-                aria-label="Search programs"
-              />
-              {searchQuery && (
-                <button onClick={() => setSearchQuery('')} className="clear-search-btn" aria-label="Clear search">Clear</button>
-              )}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '20px', width: '100%', maxWidth: '800px', marginBottom: '20px' }}>
+            <div className="search-container" style={{ margin: 0, flex: 1, maxWidth: '650px' }}>
+              <div className="search-bar-wrapper">
+                <Search className="search-icon" size={20} />
+                <input
+                  type="text"
+                  placeholder={heroData.searchPlaceholder}
+                  value={searchQuery}
+                  onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
+                  aria-label="Search programs"
+                />
+                {searchQuery && (
+                  <button onClick={() => setSearchQuery('')} className="clear-search-btn" aria-label="Clear search">Clear</button>
+                )}
+              </div>
             </div>
           </div>
+
+          {displayedPrograms.length > 0 && totalPages > 1 && (
+            <div style={{ marginTop: '10px' }}>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={(page) => setCurrentPage(page)}
+              />
+            </div>
+          )}
         </header>
 
         <section className="catalog-section">
@@ -1516,6 +1537,7 @@ function Home() {
                   <div className="housing-cap housing-cap-right"></div>
                 </div>
                 <div
+                  key={currentPage}
                   className="screen-surface"
                   onMouseEnter={() => { if (markerRef.current) markerRef.current.style.opacity = '1'; }}
                   onMouseLeave={() => { setIsMouseDown(false); if (markerRef.current) markerRef.current.style.opacity = '0'; }}
@@ -1536,7 +1558,11 @@ function Home() {
                   <div className="screen-surface-inner">
                     <div className="cards-grid">
                       {displayedPrograms.map((program) => (
-                        <MentorshipCard key={program.id} program={program} onLearnMore={handleExploreProgram} />
+                        program.isPlaceholder ? (
+                          <div key={program.id} style={{ visibility: 'hidden', pointerEvents: 'none' }}></div>
+                        ) : (
+                          <MentorshipCard key={program.id} program={program} onLearnMore={handleExploreProgram} />
+                        )
                       ))}
                     </div>
                   </div>
@@ -1567,15 +1593,6 @@ function Home() {
                   </div>
                 </div>
               </div>
-
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={(page) => {
-                  setCurrentPage(page);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-              />
             </>
           ) : (
             <div className="empty-state">

@@ -160,11 +160,11 @@ const ProgramCard = ({ program }) => {
       onClick={() => navigate(`/skill-development/${slug}`)}
       className={`border border-transparent hover:border-gray-300 flex flex-col items-center justify-start p-2 md:p-2 rounded-xl cursor-pointer ${program.color} bg-transparent hover:bg-black/5 transition-all duration-200 group`}
     >
-      <div className="flex-shrink-0 flex items-center justify-center w-16 h-16 md:w-20 md:h-20 mb-1 border-2 border-current bg-white/60 rounded-2xl shadow-sm group-hover:shadow-md group-hover:bg-white group-hover:scale-110 transition-all">
-        <Icon className="text-3xl md:text-4xl drop-shadow-sm" />
+      <div className="flex-shrink-0 flex items-center justify-center w-12 h-12 md:w-16 md:h-16 mb-1 border-2 border-current bg-white/60 rounded-xl shadow-sm group-hover:shadow-md group-hover:bg-white group-hover:scale-110 transition-all">
+        <Icon className="text-2xl md:text-3xl drop-shadow-sm" />
       </div>
-      <div className="flex flex-col items-center justify-start w-full text-center">
-        <span className="text-xs md:text-sm text-gray-800 uppercase font-bold leading-tight line-clamp-2 px-1">
+      <div className="flex flex-col items-center justify-start w-full text-center mt-1">
+        <span className="text-[10px] md:text-xs text-gray-800 uppercase font-bold leading-tight px-1 break-words">
           {program.name}
         </span>
       </div>
@@ -211,25 +211,20 @@ const ScreenContent = () => {
             {labels.systemVersion}
           </div>
           
-          <h1 className="text-sm md:text-2xl lg:text-3xl font-bold tracking-[0.2em] text-[#2d2d2d] text-center drop-shadow-sm flex-1 sm:flex-none">
+          <h1 className="text-sm sm:text-base md:text-lg font-bold tracking-[0.1em] text-[#2d2d2d] text-center drop-shadow-sm flex-1 mx-2">
             {labels.mainTitle}
           </h1>
           
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1 sm:space-x-2">
             <div className="relative flex items-center">
-              <FaSearch className="absolute left-2 text-[#2d2d2d]/50 text-xs" />
+              <FaSearch className="absolute left-1 sm:left-2 text-[#2d2d2d]/50 text-[10px] sm:text-xs" />
               <input 
                 type="text" 
                 placeholder={labels.searchPlaceholder} 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-white/50 border border-[#2d2d2d]/30 text-[#2d2d2d] placeholder-[#2d2d2d]/50 text-xs px-2 py-1 pl-6 rounded-sm outline-none focus:border-[#2d2d2d] focus:shadow-[0_0_10px_rgba(0,0,0,0.1)] w-28 md:w-40 font-mono tracking-widest uppercase transition-all"
+                className="bg-white/50 border border-[#2d2d2d]/30 text-[#2d2d2d] placeholder-[#2d2d2d]/50 text-[10px] sm:text-xs px-1 sm:px-2 py-1 pl-4 sm:pl-6 rounded-sm outline-none focus:border-[#2d2d2d] focus:shadow-[0_0_10px_rgba(0,0,0,0.1)] w-20 sm:w-28 md:w-32 font-mono tracking-widest uppercase transition-all min-w-0"
               />
-            </div>
-            <div className="hidden lg:flex space-x-1 ml-2">
-              <div className="w-3 h-2 border border-[#2d2d2d]/30 rounded-sm"></div>
-              <div className="w-3 h-2 border border-[#2d2d2d]/30 rounded-sm"></div>
-              <div className="w-3 h-2 border border-[#2d2d2d] rounded-sm bg-[#2d2d2d]/20"></div>
             </div>
           </div>
         </header>
@@ -238,9 +233,9 @@ const ScreenContent = () => {
         <main 
           ref={scrollRef}
           onScroll={handleScroll}
-          className="flex-1 overflow-y-auto custom-scrollbar relative z-20 pr-2"
+          className="flex-1 overflow-y-auto custom-scrollbar relative z-20 pr-1 sm:pr-2"
         >
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 md:gap-x-6 lg:gap-x-8 gap-y-2 md:gap-y-3 lg:gap-y-4 auto-rows-max pb-8 pt-2 px-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-2 sm:gap-x-4 gap-y-2 sm:gap-y-4 auto-rows-max pb-8 pt-2 px-1 sm:px-4">
             {trainingProgramData.filter(program => program.name.toLowerCase().includes(searchQuery.toLowerCase())).map((program) => (
               <ProgramCard key={program.id} program={program} />
             ))}
@@ -289,50 +284,50 @@ const Taskbar = () => {
     <div className="h-10 shrink-0 bg-[#c0c0c0] border-t border-gray-400 flex items-center justify-between px-2 text-black font-sans text-xs relative z-50">
       
       {/* Left / Center Taskbar Items */}
-      <div className="flex items-center space-x-1 h-full">
+      <div className="flex items-center space-x-1 h-full overflow-hidden">
         {/* Weather */}
-        <div className="hidden lg:flex items-center hover:bg-black/10 px-2 rounded-md h-8 cursor-pointer transition-colors mr-2">
-          <FaCloudSun className="text-yellow-500 text-lg mr-2" />
+        <div className="hidden sm:flex items-center hover:bg-black/10 px-1 sm:px-2 rounded-md h-8 cursor-pointer transition-colors mr-1 sm:mr-2 shrink-0">
+          <FaCloudSun className="text-yellow-500 text-sm sm:text-lg mr-1 sm:mr-2" />
           <div className="flex flex-col leading-tight">
-            <span className="font-semibold">{constants.weatherTemp}</span>
-            <span className="text-[10px] text-gray-700">{constants.weatherCondition}</span>
+            <span className="font-semibold text-[10px] sm:text-xs">{constants.weatherTemp}</span>
+            <span className="text-[8px] sm:text-[10px] text-gray-700 hidden md:block">{constants.weatherCondition}</span>
           </div>
         </div>
         
         {/* Start Button */}
-        <div className="hover:bg-black/10 p-2 rounded-md cursor-pointer transition-colors flex items-center font-bold italic text-blue-800">
-          <FaWindows className="text-blue-600 text-lg mr-1" />
-          {labels.start}
+        <div className="hover:bg-black/10 p-1 sm:p-2 rounded-md cursor-pointer transition-colors flex items-center font-bold italic text-blue-800 shrink-0">
+          <FaWindows className="text-blue-600 text-sm sm:text-lg mr-1" />
+          <span className="hidden sm:inline">{labels.start}</span>
         </div>
 
         {/* Search Bar */}
-        <div className="hidden md:flex items-center bg-white border-gray-400 border shadow-inner px-3 py-1.5 w-48 mx-2 transition-colors cursor-pointer">
-          <FaSearch className="text-gray-500 mr-2" />
-          <span className="text-gray-500 text-xs italic">{labels.searchTaskbar}</span>
+        <div className="hidden md:flex items-center bg-white border-gray-400 border shadow-inner px-2 py-1 w-24 sm:w-32 mx-1 transition-colors cursor-pointer shrink-0">
+          <FaSearch className="text-gray-500 mr-1 sm:mr-2 text-[10px] sm:text-xs" />
+          <span className="text-gray-500 text-[10px] sm:text-xs italic truncate">{labels.searchTaskbar}</span>
         </div>
 
         {/* Taskbar App Icons */}
-        <div className="flex space-x-1 px-2 border-l border-gray-400 pl-2 ml-1">
-          <div className="hover:bg-black/10 p-1.5 rounded-md cursor-pointer"><FcFolder className="text-lg" /></div>
-          <div className="hover:bg-black/10 p-1.5 rounded-md cursor-pointer"><FaEdge className="text-blue-600 text-lg" /></div>
-          <div className="hover:bg-black/10 p-1.5 rounded-md cursor-pointer"><SiWhatsapp className="text-green-600 text-lg" /></div>
-          <div className="hover:bg-black/10 p-1.5 rounded-md cursor-pointer"><SiGooglechrome className="text-yellow-500 text-lg" /></div>
-          <div className="hover:bg-black/10 p-1.5 rounded-md cursor-pointer"><SiCanva className="text-blue-500 text-lg" /></div>
+        <div className="flex space-x-0.5 sm:space-x-1 px-1 sm:px-2 border-l border-gray-400 pl-1 sm:pl-2 ml-1 shrink-0">
+          <div className="hover:bg-black/10 p-1 sm:p-1.5 rounded-md cursor-pointer"><FcFolder className="text-sm sm:text-lg" /></div>
+          <div className="hover:bg-black/10 p-1 sm:p-1.5 rounded-md cursor-pointer"><FaEdge className="text-blue-600 text-sm sm:text-lg" /></div>
+          <div className="hover:bg-black/10 p-1 sm:p-1.5 rounded-md cursor-pointer"><SiWhatsapp className="text-green-600 text-sm sm:text-lg" /></div>
+          <div className="hover:bg-black/10 p-1 sm:p-1.5 rounded-md cursor-pointer"><SiGooglechrome className="text-yellow-500 text-sm sm:text-lg" /></div>
+          <div className="hover:bg-black/10 p-1 sm:p-1.5 rounded-md cursor-pointer"><SiCanva className="text-blue-500 text-sm sm:text-lg" /></div>
         </div>
       </div>
 
       {/* Right System Tray */}
-      <div className="flex items-center space-x-1 h-full border-l border-white pl-2 ml-2 shadow-[-1px_0_0_#888]">
-        <div className="hover:bg-black/10 p-1.5 rounded-md cursor-pointer hidden md:block"><FaAngleUp /></div>
-        <div className="hover:bg-black/10 px-2 rounded-md cursor-pointer h-8 hidden md:flex items-center text-[10px] leading-tight text-center">{labels.language}<br/>{labels.languageSub}</div>
-        <div className="hover:bg-black/10 p-1.5 rounded-md cursor-pointer flex items-center space-x-2">
+      <div className="flex items-center space-x-0.5 sm:space-x-1 h-full border-l border-white pl-1 sm:pl-2 ml-1 sm:ml-2 shadow-[-1px_0_0_#888] shrink-0">
+        <div className="hover:bg-black/10 p-1 sm:p-1.5 rounded-md cursor-pointer hidden md:block"><FaAngleUp className="text-[10px] sm:text-sm" /></div>
+        <div className="hover:bg-black/10 px-1 sm:px-2 rounded-md cursor-pointer h-8 hidden sm:flex items-center text-[8px] sm:text-[10px] leading-tight text-center">{labels.language}<br/>{labels.languageSub}</div>
+        <div className="hover:bg-black/10 p-1 sm:p-1.5 rounded-md cursor-pointer flex items-center space-x-1 sm:space-x-2 text-[10px] sm:text-sm">
           <FaWifi />
           <FaVolumeUp />
-          <div className="hidden sm:flex items-center space-x-1"><FaBatteryFull className="text-green-600" /><span>{labels.battery}</span></div>
+          <div className="hidden sm:flex items-center space-x-1"><FaBatteryFull className="text-green-600" /><span className="text-[10px]">{labels.battery}</span></div>
         </div>
-        <div className="hover:bg-black/10 px-2 rounded-md h-8 cursor-pointer flex flex-col items-end justify-center leading-tight transition-colors">
-          <span>{formatTime(time)}</span>
-          <span className="text-[10px]">{formatDate(time)}</span>
+        <div className="hover:bg-black/10 px-1 sm:px-2 rounded-md h-8 cursor-pointer flex flex-col items-end justify-center leading-tight transition-colors">
+          <span className="text-[10px] sm:text-xs">{formatTime(time)}</span>
+          <span className="text-[8px] sm:text-[10px]">{formatDate(time)}</span>
         </div>
       </div>
 
@@ -345,7 +340,7 @@ export default function TrainingProgramPage() {
   const [isScreenOn, setIsScreenOn] = useState(true);
 
   return (
-    <div className="min-h-screen w-full bg-[#f0ede1] flex flex-col items-center justify-end font-sans overflow-hidden">
+    <div className="min-h-screen w-full bg-[#f0ede1] flex flex-col items-center justify-start pt-24 md:justify-end md:pt-0 font-sans overflow-hidden">
       
       {/* Background Room Lighting */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none" 
@@ -353,14 +348,13 @@ export default function TrainingProgramPage() {
       </div>
 
       {/* The Physical Monitor Casing */}
-      <div className="monitor-casing-3d relative w-[95%] max-w-[1200px] bg-[#d3cebe] rounded-[2rem] p-4 md:p-6 lg:p-8 pb-12 md:pb-16 shadow-[0_40px_80px_rgba(0,0,0,0.4),inset_0_5px_20px_rgba(255,255,255,0.9),inset_0_-10px_30px_rgba(0,0,0,0.1)] z-10 mx-auto mt-4 md:mt-6">
+      <div className="monitor-casing-3d relative w-[95%] max-w-[700px] bg-[#d3cebe] rounded-[2rem] p-4 md:p-6 lg:p-8 pb-12 md:pb-16 shadow-[0_40px_80px_rgba(0,0,0,0.4),inset_0_5px_20px_rgba(255,255,255,0.9),inset_0_-10px_30px_rgba(0,0,0,0.1)] z-10 mx-auto mt-4 md:mt-6">
         
-        {/* Embossed Logo & Power Area */}
-        <div className="absolute bottom-0.5 md:bottom-1 left-8 md:left-12 text-[#8a8474] font-extrabold text-lg md:text-2xl tracking-widest uppercase shadow-embossed font-sans z-20">
+        <div className="absolute bottom-0 md:bottom-1 left-8 md:left-12 text-[#8a8474] font-extrabold text-lg md:text-2xl tracking-widest uppercase shadow-embossed font-sans z-20">
           {labels.logo}
         </div>
 
-        <div className="absolute bottom-0.5 md:bottom-1 right-8 md:right-12 flex space-x-2 md:space-x-4 items-center z-20">
+        <div className="absolute bottom-1 md:bottom-2 right-8 md:right-12 flex space-x-2 md:space-x-4 items-center z-20">
           <div className="w-10 h-3 md:w-16 md:h-5 bg-[#b8b3a3] rounded-sm shadow-inset-dark"></div>
           <div 
             onClick={() => setIsScreenOn(!isScreenOn)}
@@ -371,10 +365,10 @@ export default function TrainingProgramPage() {
         </div>
 
         {/* Inner Bezel Frame */}
-        <div className="monitor-bezel-3d bg-[#e6e2d3] rounded-[1.5rem] p-4 md:p-8 shadow-[inset_0_15px_30px_rgba(0,0,0,0.2),0_2px_5px_rgba(255,255,255,0.5)] relative border-b-2 border-white/50">
+        <div className="monitor-bezel-3d bg-[#e6e2d3] rounded-[1.5rem] p-4 md:p-6 shadow-[inset_0_15px_30px_rgba(0,0,0,0.2),0_2px_5px_rgba(255,255,255,0.5)] relative border-b-2 border-white/50">
           
           {/* CRT Screen */}
-          <div className="crt-container w-full h-[45vh] md:h-[50vh] xl:h-[55vh] rounded-2xl overflow-hidden relative border-[12px] border-[#b8b3a3] transition-colors duration-500" style={{ backgroundColor: isScreenOn ? '#f0ece1' : '#080808' }}>
+          <div className="crt-container w-full aspect-[4/3] sm:aspect-[4/3] rounded-2xl overflow-hidden relative border-[12px] border-[#b8b3a3] transition-colors duration-500" style={{ backgroundColor: isScreenOn ? '#f0ece1' : '#080808' }}>
             <div className={`w-full h-full flex flex-col bg-[#f0ece1] relative z-10 overflow-hidden font-sans transition-opacity duration-300 ${isScreenOn ? 'screen-flicker opacity-100' : 'opacity-0 pointer-events-none'}`}>
               
               <ScreenContent />
@@ -398,12 +392,12 @@ export default function TrainingProgramPage() {
       </div>
 
       {/* The Physical Desk Surface */}
-      <div className="w-full h-[20vh] lg:h-[22vh] bg-[#d8cfc0] relative flex justify-center shadow-[inset_0_20px_50px_rgba(0,0,0,0.2)] border-t border-white/40" style={{
+      <div className="w-full flex-1 md:flex-none h-auto md:h-[20vh] lg:h-[22vh] bg-[#d8cfc0] relative flex justify-center shadow-[inset_0_20px_50px_rgba(0,0,0,0.2)] border-t border-white/40" style={{
         backgroundImage: `linear-gradient(to bottom, #dcd3c3, #c8bba6), repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.02) 10px, rgba(0,0,0,0.02) 20px)`
       }}>
         
         {/* Hardware Elements Container */}
-        <div className="absolute bottom-2 md:bottom-6 w-[95%] max-w-[1000px] flex justify-center items-end gap-4 md:gap-8 z-10">
+        <div className="absolute top-2 sm:top-4 md:top-auto md:bottom-6 w-[95%] max-w-[1000px] flex justify-center items-end gap-4 md:gap-8 z-10">
           
           <Keyboard />
           <Mouse />

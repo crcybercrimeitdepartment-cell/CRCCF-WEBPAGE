@@ -17,7 +17,7 @@
     -moz-osx-font-smoothing: grayscale;
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   body {
@@ -29,7 +29,7 @@
     line-height: 1.6;
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
 
@@ -8925,6 +8925,7 @@
 }
 
 .search-icon {
+  position: static;
   color: #64748b;
   margin-right: 12px;
   flex-shrink: 0;
@@ -11288,3 +11289,30 @@
   display: none;
 }
 
+/* --- TV Screen Animations --- */
+@keyframes tv-off {
+  0% { transform: scale(1, 1); opacity: 1; filter: brightness(1); }
+  40% { transform: scale(1, 0.01); opacity: 1; filter: brightness(10); }
+  70% { transform: scale(0.01, 0.01); opacity: 0.8; filter: brightness(10); }
+  100% { transform: scale(0, 0); opacity: 0; filter: brightness(10); }
+}
+
+@keyframes tv-on {
+  0% { transform: scale(0, 0); opacity: 0; filter: brightness(10); }
+  30% { transform: scale(0.01, 0.01); opacity: 0.8; filter: brightness(10); }
+  60% { transform: scale(1, 0.01); opacity: 1; filter: brightness(10); }
+  100% { transform: scale(1, 1); opacity: 1; filter: brightness(1); }
+}
+
+.animate-tv-off {
+  animation: tv-off 0.4s cubic-bezier(0.8, 0, 0.2, 1) forwards;
+}
+
+.animate-tv-on {
+  animation: tv-on 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes projectorSlideInLeft { 0% { opacity: 0; transform: translateX(-30px); } 100% { opacity: 1; transform: translateX(0); } }
+@keyframes projectorSlideInRight { 0% { opacity: 0; transform: translateX(30px); } 100% { opacity: 1; transform: translateX(0); } }
+.projector-card-animate-left { animation: projectorSlideInLeft 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+.projector-card-animate-right { animation: projectorSlideInRight 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }

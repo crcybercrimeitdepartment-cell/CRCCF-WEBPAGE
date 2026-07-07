@@ -472,18 +472,21 @@ export function StampPad() {
     >
       <FloatingWatermarks />
 
-      {/* Header section explicitly separated and placed at the top */}
-      <div className="w-full flex flex-col items-center text-center z-50 px-4 py-10 sm:py-12 relative bg-slate-50 shadow-sm sm:shadow-none">
-        <h1 className="text-3xl md:text-4xl font-black tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#2563eb] to-[#93c5fd]">
-          {PAGE_TEXT.header.title}
+      {/* Hero Section */}
+      <div className="w-full pt-20 pb-16 px-6 flex flex-col items-center justify-center shrink-0 z-50 bg-transparent">
+        <h3 className="text-[#2563EB] font-bold text-[12px] md:text-[14px] tracking-[8px] uppercase mb-4 text-center ml-[8px]">
+          REPORT CRIME
+        </h3>
+        <h1 className="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[60px] font-black mb-6 text-[#0F172A] leading-[1.1] max-w-5xl mx-auto text-center">
+          Report a Cyber Crime <br className="hidden md:block" /> <span className="text-[#2563EB]">Victim Right and Support</span>
         </h1>
-        <p className="text-slate-600 max-w-3xl text-base sm:text-lg font-medium leading-relaxed">
+        <p className="text-[16px] md:text-[18px] text-[#64748B] max-w-[850px] mx-auto leading-[1.7] font-medium text-center">
           {PAGE_TEXT.header.description}
         </p>
       </div>
 
       {/* Stamp Pad container pushed down significantly to accommodate the 3D lid rotation */}
-      <div className="flex-1 flex flex-col items-center justify-center w-full pt-32 sm:pt-48 pb-20 relative z-10">
+      <div className="flex-1 flex flex-col items-center justify-center w-full pt-32 sm:pt-48 pb-32 sm:pb-40 relative z-10">
         <div
           className="scale-wrapper flex-shrink-0 transition-transform duration-300"
           style={{

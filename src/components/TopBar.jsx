@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { eventGalleryData } from '../data/gallery/eventGalleryData'
+import ImaxCamera from './gallery/ImaxCamera'
 
 /* ─── Marquee text ─────────────────────────────────────────── */
 const NOTICE =
@@ -91,106 +92,106 @@ function AnalogClock() {
 
 /* ─── Gallery Popup ─────────────────────────────────────────── */
 function GalleryPopup({ navigate }) {
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  useEffect(() => {
-    if (!eventGalleryData || eventGalleryData.length === 0) return;
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % eventGalleryData.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
-
-  if (!eventGalleryData || eventGalleryData.length === 0) {
-    return (
-      <motion.div
-        className="gallery-popup absolute top-[calc(100%+6px)] right-0 w-[340px] overflow-hidden rounded-[14px] border border-[#E5E7EB] bg-[#fff] shadow-[0_20px_60px_rgba(0,0,0,.22)] z-[9999] max-[480px]:w-[280px] max-[480px]:right-[-10px]"
-        initial={{ opacity: 0, y: -6, scale: 0.96 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: -6, scale: 0.96 }}
-        transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
-      >
-        <div className="p-6 text-center text-slate-500 font-medium">
-          No Gallery Events Available
-        </div>
-      </motion.div>
-    );
-  }
-
-  const activeEvent = eventGalleryData[activeIndex];
-  const coverImage = activeEvent.photos && activeEvent.photos.length > 0 ? activeEvent.photos[0].url : '';
+  const collectionsRow1 = [
+    'Event Gallery', 'Employees', 'Annual Celebrations', 'Workplace', 'Seminars & Workshops',
+    'Cyber Awareness', 'Student Activities', 'Media & Press', 'Team Moments', 'Product Launches'
+  ];
+  
+  const collectionsRow2 = [
+    'Awards', 'Office Culture', 'Success Stories', 'Work Highlights', 'Achievement',
+    'Journey', 'Course Gallery', 'Student Gallery', 'Internship', 'Project Gallery'
+  ];
 
   return (
     <motion.div
-      className="gallery-popup absolute top-[calc(100%+6px)] right-0 w-[340px] overflow-hidden rounded-[14px] border border-[#E5E7EB] bg-[#fff] shadow-[0_20px_60px_rgba(0,0,0,.22)] z-[9999] max-[480px]:w-[280px] max-[480px]:right-[-10px]"
-      onClick={() => navigate('/gallery', { state: { targetEventId: activeEvent.id } })}
-      initial={{ opacity: 0, y: -6, scale: 0.96 }}
+      className="gallery-popup absolute top-[calc(100%+6px)] right-0 w-[330px] overflow-hidden rounded-[16px] border border-[#E5E7EB] bg-[#ffffff] shadow-[0_24px_60px_rgba(0,0,0,.15)] z-[9999] max-[480px]:w-[280px] max-[480px]:right-[-10px] group transition-all duration-300"
+      onClick={() => navigate('/gallery-collections')}
+      initial={{ opacity: 0, y: -8, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: -6, scale: 0.96 }}
-      transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
+      exit={{ opacity: 0, y: -8, scale: 0.95 }}
+      transition={{ duration: 0.25, ease: [0.34, 1.56, 0.64, 1] }}
       style={{ cursor: 'pointer' }}
     >
-      <div className="gallery-popup-head flex items-center justify-between px-[16px] pt-[12px] pb-[10px] border-b border-[#F3F4F6] text-[13px] font-[700] text-[#111827]">
-        <span> Latest Events </span>
-        <span className="gallery-popup-count text-[10px] font-[600] text-[#1A56DB] bg-[#EFF6FF] px-[8px] py-[2px] rounded-[999px]">
-          {activeIndex + 1} of {eventGalleryData.length}
-        </span>
+      <style>{`
+        @keyframes slide-left {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+        @keyframes slide-right {
+          from { transform: translateX(-50%); }
+          to { transform: translateX(0); }
+        }
+        .animate-slide-left {
+          animation: slide-left 25s linear infinite;
+        }
+        .animate-slide-right {
+          animation: slide-right 25s linear infinite;
+        }
+      `}</style>
+
+      <div className="gallery-popup-head flex items-center justify-between px-[18px] pt-[16px] pb-[12px] text-[13px] font-[700]">
+        <div className="flex items-center gap-[6px]">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1A56DB" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#1A56DB] to-[#3B82F6] font-[800]">Official Gallery</span>
+        </div>
       </div>
       
-      <div className="p-[12px]">
-        <div className="relative w-full aspect-video rounded-[10px] overflow-hidden bg-slate-100 mb-3 group">
-          <AnimatePresence mode="wait">
-            <motion.img
-              key={activeEvent.id}
-              src={coverImage}
-              alt={activeEvent.title}
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            />
-          </AnimatePresence>
-          {/* Overlay gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+      <div className="px-[16px] pb-[16px] overflow-hidden">
+        {/* IMAX Camera Scaled Container */}
+        <div className="relative w-full h-[170px] rounded-[12px] overflow-hidden bg-[#1f2022] mb-4 flex justify-center items-center shadow-[inset_0_0_0_1px_rgba(0,0,0,0.2)] transition-transform duration-500 ease-out group-hover:scale-[1.02]">
+          <div style={{ transform: 'scale(0.28)', transformOrigin: 'center' }} className="pointer-events-none">
+            <ImaxCamera galleryData={[]} />
+          </div>
           
-          <div className="absolute bottom-3 left-3 flex gap-2">
-            <span className="text-[10px] font-bold text-white bg-blue-600/90 px-2 py-0.5 rounded-full backdrop-blur-sm shadow-sm">
-              {activeEvent.photos?.length || 0} Photos
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-90 pointer-events-none" />
+          
+          <div className="absolute bottom-3 left-3 right-3 flex justify-between items-end z-10 pointer-events-none">
+            <span className="flex items-center gap-[6px] text-[10px] font-[700] text-white bg-white/10 backdrop-blur-md border border-white/20 px-[10px] py-[4px] rounded-full shadow-lg">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              View Collections
             </span>
           </div>
         </div>
 
-        <div className="flex flex-col gap-1 px-1">
-          <AnimatePresence mode="wait">
-             <motion.div
-               key={activeEvent.id}
-               initial={{ opacity: 0, y: 5 }}
-               animate={{ opacity: 1, y: 0 }}
-               exit={{ opacity: 0, y: -5 }}
-               transition={{ duration: 0.3 }}
-             >
-                <div className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-0.5">
-                  {activeEvent.date}
-                </div>
-                <h4 className="text-[14px] font-bold text-slate-800 leading-tight">
-                  {activeEvent.title}
-                </h4>
-             </motion.div>
-          </AnimatePresence>
+        <div className="flex flex-col gap-[6px] px-[2px] mb-[12px]">
+          <h4 className="text-[15px] font-[800] text-[#0F172A] leading-[1.3]">
+            Explore Moments & Memories
+          </h4>
+          <p className="text-[12px] text-[#64748B] font-[500] leading-snug line-clamp-2 pr-2">
+            Dive into our organized collections featuring events, team achievements, awareness programs, and celebrations.
+          </p>
         </div>
-      </div>
 
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          navigate('/gallery', { state: { targetEventId: activeEvent.id } });
-        }}
-        className="gallery-popup-cta w-full flex items-center justify-center p-[10px] text-[12.5px] font-[700] text-[#1A56DB] no-underline transition-[background] duration-[150ms] tracking-[.03em] hover:bg-[#EFF6FF]"
-        style={{width: '100%', background: 'none', border: 'none', borderTop: '1px solid #F3F4F6', cursor: 'pointer'}}
-      >
-        View Event Details →
-      </button>
+        {/* 20 Collections Marquee */}
+        <div className="relative w-full overflow-hidden mb-[16px] pointer-events-none" style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
+          <div className="flex w-max animate-slide-left gap-[6px] mb-[6px]">
+            {[...collectionsRow1, ...collectionsRow1].map((c, i) => (
+              <span key={i} className="text-[10px] font-[600] text-[#475569] bg-[#F1F5F9] border border-[#E2E8F0] px-[8px] py-[3px] rounded-full whitespace-nowrap shadow-sm">
+                {c}
+              </span>
+            ))}
+          </div>
+          <div className="flex w-max animate-slide-right gap-[6px]">
+            {[...collectionsRow2, ...collectionsRow2].map((c, i) => (
+              <span key={i} className="text-[10px] font-[600] text-[#475569] bg-[#F1F5F9] border border-[#E2E8F0] px-[8px] py-[3px] rounded-full whitespace-nowrap shadow-sm">
+                {c}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate('/gallery-collections');
+          }}
+          className="w-full flex items-center justify-center gap-[8px] p-[12px] text-[13px] font-[700] text-white bg-gradient-to-r from-[#1A56DB] to-[#3B82F6] rounded-[10px] shadow-[0_4px_14px_rgba(26,86,219,0.3)] transition-all duration-[200ms] group-hover:shadow-[0_6px_20px_rgba(26,86,219,0.4)] group-hover:translate-y-[-2px]"
+          style={{ border: 'none', cursor: 'pointer' }}
+        >
+          Open Main Gallery
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+      </div>
     </motion.div>
   )
 }

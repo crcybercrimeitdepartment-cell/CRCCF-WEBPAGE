@@ -6,10 +6,23 @@ import { programsData } from '../../data/skillDevelopment/AwarenessPagedata';
 
 const TopShelf = () => {
   return (
-    <div className="absolute top-[6%] left-[2%] w-[96%] h-[3.5%] bg-[#3d2b1f] shadow-[0_15px_30px_rgba(0,0,0,0.5)] z-20">
-      <div className="w-full h-[2px] bg-white/10 absolute top-0 left-0"></div>
+    <div className="absolute top-[2%] md:top-[6%] left-[2%] w-[96%] h-[12%] md:h-[3.5%] bg-[#3d2b1f] shadow-[0_15px_30px_rgba(0,0,0,0.5)] z-20 flex items-end justify-between px-2">
+      <div className="w-full h-[2px] bg-white/10 absolute top-0 left-0 hidden md:block"></div>
       <div className="absolute -top-[25px] left-[5%] w-[90%] h-[25px] bg-amber-400/30 blur-[20px]"></div>
-      <div className="absolute -bottom-[25px] left-[5%] w-[90%] h-[25px] bg-amber-400/30 blur-[20px]"></div>
+      <div className="absolute -bottom-[25px] left-[5%] w-[90%] h-[25px] bg-amber-400/30 blur-[20px] hidden md:block"></div>
+      <div className="absolute bottom-0 left-0 w-full h-[3px] bg-amber-100 shadow-[0_-2px_10px_rgba(253,230,138,1)] z-20 md:hidden"></div>
+
+      <div className="flex md:hidden w-full h-[90%] items-end justify-between z-30 pb-1 px-1">
+         <img loading="lazy" decoding="async" src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472939/hanuman_statue_idrylg.jpg" className="h-full max-w-[18%] object-contain" style={{ mixBlendMode: 'lighten' }} />
+         <img loading="lazy" decoding="async" src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472939/bonsai_tree_ttryo3.jpg" className="h-full max-w-[18%] object-contain drop-shadow-[0_10px_10px_rgba(0,0,0,0.9)]" />
+         <img loading="lazy" decoding="async" src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472940/lady_justice_gimkgn.jpg" className="h-full max-w-[18%] object-contain" style={{ mixBlendMode: 'screen', filter: 'contrast(1.3) brightness(1.2)' }} />
+         <div className="h-[80%] max-w-[18%] flex items-end justify-center gap-1 mb-1">
+             <div className="w-[8px] sm:w-[12px] h-[90%] bg-gradient-to-r from-[#2a2a2a] via-[#1a1a1a] to-[#0a0a0a] rounded-sm shadow-md"></div>
+             <div className="w-[10px] sm:w-[14px] h-[100%] bg-gradient-to-r from-[#1a1a1a] via-[#0d0d0d] to-[#000000] rounded-sm shadow-md"></div>
+             <div className="w-[12px] sm:w-[16px] h-[95%] bg-gradient-to-r from-[#3d2b1f] via-[#2a1d13] to-[#1a110a] rounded-sm shadow-md"></div>
+         </div>
+         <img loading="lazy" decoding="async" src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472941/victory_statue_dspesv.jpg" className="h-full max-w-[18%] object-contain" style={{ mixBlendMode: 'screen', filter: 'contrast(1.2) brightness(1.1)' }} />
+      </div>
     </div>
   );
 };
@@ -42,13 +55,13 @@ const ProgramCard = ({ program }) => {
           />
         ) : (
           <IconComponent 
-            className="w-[2.5vw] h-[2.5vw] transition-transform duration-300 group-hover:scale-110" 
+            className="w-[28px] h-[28px] md:w-[36px] md:h-[36px] transition-transform duration-300 group-hover:scale-110" 
             style={{ color: program.color, filter: `drop-shadow(0 4px 8px ${program.color}60)` }} 
           />
         )}
       </div>
       <div className="flex-none h-[35%] w-full flex items-start justify-center z-10 pt-2">
-        <h3 className="text-[0.65vw] font-extrabold uppercase text-slate-800 leading-[1.3] px-1 tracking-wider group-hover:text-black transition-colors">
+        <h3 className="text-[9px] md:text-[10px] lg:text-xs font-extrabold uppercase text-slate-800 leading-[1.3] px-2 tracking-wider group-hover:text-black transition-colors">
           {program.title}
         </h3>
       </div>
@@ -60,6 +73,9 @@ const CarouselRow = ({ title, programs }) => {
   const scrollContainerRef = useRef(null);
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
+
+  const [isHovered, setIsHovered] = useState(false);
+  const [isInteracting, setIsInteracting] = useState(false);
 
   const checkScroll = () => {
     if (scrollContainerRef.current) {
@@ -75,6 +91,23 @@ const CarouselRow = ({ title, programs }) => {
     return () => window.removeEventListener('resize', checkScroll);
   }, []);
 
+  useEffect(() => {
+    if (isHovered || isInteracting) return;
+    
+    const interval = setInterval(() => {
+      if (scrollContainerRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+        if (scrollLeft + clientWidth >= scrollWidth - 10) {
+          scrollContainerRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          scrollContainerRef.current.scrollBy({ left: 280, behavior: 'smooth' });
+        }
+      }
+    }, 3000);
+    
+    return () => clearInterval(interval);
+  }, [isHovered, isInteracting]);
+
   const scrollLeftBtn = () => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
@@ -88,7 +121,15 @@ const CarouselRow = ({ title, programs }) => {
   };
 
   return (
-    <div className="flex-none h-[35%] w-full flex flex-col mt-4 relative group">
+    <div 
+      className="flex-none min-h-[150px] md:min-h-[180px] w-full flex flex-col mt-4 relative group"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onTouchStart={() => setIsInteracting(true)}
+      onTouchEnd={() => {
+        setTimeout(() => setIsInteracting(false), 3000);
+      }}
+    >
       <h3 className="text-sm font-bold text-slate-200 mb-2 tracking-wide">{title}</h3>
       
       <button 
@@ -112,7 +153,7 @@ const CarouselRow = ({ title, programs }) => {
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {programs.map((program) => (
-          <div key={program.id} className="snap-start flex-shrink-0 w-[11vw]">
+          <div key={program.id} className="snap-start flex-shrink-0 w-[220px] md:w-[280px]">
             <ProgramCard program={program} />
           </div>
         ))}
@@ -131,63 +172,65 @@ const TvScreen = () => {
 
   return (
     <div 
-      className="absolute inset-0 z-10 flex flex-col px-8 py-4 text-white font-sans overflow-y-auto hide-scrollbar bg-gradient-to-br from-[#0a1118] via-[#05080c] to-[#020305]" 
+      className="absolute inset-0 z-10 overflow-y-auto hide-scrollbar bg-gradient-to-br from-[#0a1118] via-[#05080c] to-[#020305]" 
       style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', cursor: remoteCursor }}
     >
-      <header className="flex-none flex items-center gap-2 mb-2">
-        <Shield className="w-5 h-5 text-white" />
-        <span className="text-xs tracking-widest font-semibold uppercase text-slate-200">Awareness Programs</span>
-      </header>
+      <div className="flex flex-col px-8 py-4 text-white font-sans w-full">
+        <header className="flex-none flex items-center gap-2 mb-2">
+          <Shield className="w-5 h-5 text-white" />
+          <span className="text-xs tracking-widest font-semibold uppercase text-slate-200">Awareness Programs</span>
+        </header>
 
-      <div className="flex-none flex w-full min-h-[55%] mb-12">
-        <div className="w-[60%] flex flex-col justify-center pr-4 py-4">
-          <h1 className="text-[3vw] font-black leading-[1.1] mb-2 tracking-tight">
-            Awareness <span className="text-[#3b82f6]">PROGRAMMES</span>
-          </h1>
-          <h2 className="text-[1vw] font-semibold text-slate-300 mb-2 tracking-wide">
-          STAY SAFE
-          STAY SECURE
-          </h2>
-          <p className="text-[0.9vw] text-[#3b82f6] font-medium mb-1">Learn. Understand. Protect.</p>
-          <p className="text-[0.8vw] text-slate-400 max-w-[80%] mb-4 leading-relaxed">
-            Stay informed about cyber threats and safeguard yourself in the digital world.
-          </p>
-          
-          <div className="flex gap-4">
-            <button className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-pink-600 hover:from-blue-600 hover:to-pink-700 text-white px-5 py-2.5 rounded-lg font-medium transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] text-[0.9vw]">
-              <Play className="w-4 h-4 fill-current" />
-              Explore Programs
-            </button>
-            <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-5 py-2.5 rounded-lg font-medium transition-all border border-white/10 text-[0.9vw]">
-              <Info className="w-4 h-4" />
-              More Info
-            </button>
+        <div className="flex-none flex flex-col md:flex-row w-full min-h-[auto] md:min-h-[450px] mb-12">
+          <div className="w-full md:w-[60%] flex flex-col justify-center pr-0 md:pr-4 py-4 order-2 md:order-1">
+            <h1 className="text-3xl md:text-[3vw] font-black leading-[1.1] mb-2 tracking-tight">
+              Awareness <span className="text-[#3b82f6]">PROGRAMMES</span>
+            </h1>
+            <h2 className="text-lg md:text-[1vw] font-semibold text-slate-300 mb-2 tracking-wide">
+            STAY SAFE
+            STAY SECURE
+            </h2>
+            <p className="text-sm md:text-[0.9vw] text-[#3b82f6] font-medium mb-1">Learn. Understand. Protect.</p>
+            <p className="text-xs md:text-[0.8vw] text-slate-400 max-w-full md:max-w-[80%] mb-4 leading-relaxed">
+              Stay informed about cyber threats and safeguard yourself in the digital world.
+            </p>
+            
+            <div className="flex gap-2 md:gap-4 flex-wrap">
+              <button className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-pink-600 hover:from-blue-600 hover:to-pink-700 text-white px-4 md:px-5 py-2 md:py-2.5 rounded-lg font-medium transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] text-xs md:text-[0.9vw]">
+                <Play className="w-3 h-3 md:w-4 md:h-4 fill-current" />
+                Explore Programs
+              </button>
+              <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 md:px-5 py-2 md:py-2.5 rounded-lg font-medium transition-all border border-white/10 text-xs md:text-[0.9vw]">
+                <Info className="w-3 h-3 md:w-4 md:h-4" />
+                More Info
+              </button>
+            </div>
+          </div>
+
+          <div className="w-full md:w-[45%] h-[150px] md:h-full flex items-center justify-center relative order-1 md:order-2 mb-4 md:mb-0">
+             <img loading="lazy" decoding="async" 
+                src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472939/awareness_hero_tst4dm.jpg" 
+                alt="Awareness Hologram" 
+                className="w-full h-full object-contain md:-translate-y-[5%]"
+                style={{ mixBlendMode: 'screen', filter: 'contrast(1.5) brightness(1.2)' }}
+             />
           </div>
         </div>
 
-        <div className="w-[45%] h-full flex items-center justify-center relative">
-           <img loading="lazy" decoding="async" 
-              src="https://res.cloudinary.com/dlhmkbijh/image/upload/v1782472939/awareness_hero_tst4dm.jpg" 
-              alt="Awareness Hologram" 
-              className="w-full h-full object-contain -translate-y-[5%]"
-              style={{ mixBlendMode: 'screen', filter: 'contrast(1.5) brightness(1.2)' }}
-           />
-        </div>
+        <CarouselRow title="Cyber Security Awareness" programs={row1} />
+        <CarouselRow title="Technology & Development" programs={row2} />
+        <CarouselRow title="Design, Business & Marketing" programs={row3} />
+        <CarouselRow title="Professional & Legal Awareness" programs={row4} />
+
+        <div className="flex-none h-8 w-full"></div>
       </div>
-
-      <CarouselRow title="Cyber Security Awareness" programs={row1} />
-      <CarouselRow title="Technology & Development" programs={row2} />
-      <CarouselRow title="Design, Business & Marketing" programs={row3} />
-      <CarouselRow title="Professional & Legal Awareness" programs={row4} />
-
-      <div className="flex-none h-8 w-full"></div>
     </div>
   );
 };
 
 const LeftPanel = () => {
   return (
-    <div className="absolute top-[9.5%] left-[2%] w-[12%] h-[73.5%] bg-[#3d2b1f] z-10 shadow-2xl flex flex-col">
+    <div className="hidden md:flex absolute top-[9.5%] left-[2%] w-[12%] h-[73.5%] bg-[#3d2b1f] z-10 shadow-2xl flex-col">
       <div className="absolute inset-0 bg-[repeating-linear-gradient(90deg,transparent,transparent_6px,rgba(0,0,0,0.4)_6px,rgba(0,0,0,0.4)_10px)] opacity-60"></div>
       
       <div className="flex-1 border-b-[8px] border-[#2a1d13] relative flex items-end justify-center pb-[10%] w-full">
@@ -230,7 +273,7 @@ const LeftPanel = () => {
 
 const RightPanel = () => {
   return (
-    <div className="absolute top-[9.5%] right-[2%] w-[12%] h-[73.5%] bg-[#3d2b1f] z-10 shadow-2xl flex flex-col">
+    <div className="hidden md:flex absolute top-[9.5%] right-[2%] w-[12%] h-[73.5%] bg-[#3d2b1f] z-10 shadow-2xl flex-col">
        <div className="absolute inset-0 bg-[repeating-linear-gradient(90deg,transparent,transparent_6px,rgba(0,0,0,0.4)_6px,rgba(0,0,0,0.4)_10px)] opacity-60"></div>
        
        <div className="flex-1 border-b-[8px] border-[#2a1d13] relative flex items-end justify-center pb-[10%] w-full">
@@ -307,16 +350,16 @@ const RightPanel = () => {
 
 const MediaConsole = ({ isTvOn, setIsTvOn }) => {
   return (
-    <div className="absolute bottom-[8%] left-[2%] w-[96%] h-[10%] bg-[#e0dcd3] shadow-[0_30px_40px_rgba(0,0,0,0.3)] z-20 flex rounded-sm border-t border-b border-[#c8c2b7]">
+    <div className="absolute bottom-[2%] md:bottom-[8%] left-[2%] w-[96%] h-[12%] md:h-[10%] bg-[#e0dcd3] shadow-[0_30px_40px_rgba(0,0,0,0.3)] z-20 flex rounded-sm border-t border-b border-[#c8c2b7]">
        
-       <div className="w-[28%] h-full flex items-center justify-end pr-[2%] border-r-[2px] border-[#c0b9ae] relative">
+       <div className="w-[20%] md:w-[28%] h-full flex items-center justify-end pr-[2%] border-r-[2px] border-[#c0b9ae] relative">
           <div className="w-[3px] h-[50%] bg-[#b0a99e] rounded-full shadow-inner"></div>
        </div>
        
-       <div className="w-[44%] h-full bg-[#110f0e] shadow-[inset_0_10px_20px_rgba(0,0,0,0.8)] relative flex items-end justify-between px-[5%] border-r-[2px] border-[#c0b9ae] pb-[2px]">
+       <div className="w-[60%] md:w-[44%] h-full bg-[#110f0e] shadow-[inset_0_10px_20px_rgba(0,0,0,0.8)] relative flex items-end justify-between px-[4%] md:px-[5%] border-r-[2px] border-[#c0b9ae] pb-[2px]">
           <div className="absolute top-0 left-0 w-full h-[15px] bg-amber-400/30 blur-[10px]"></div>
           
-          <div className="w-[35%] h-[35%] bg-gradient-to-b from-[#1a1a1a] to-[#050505] rounded-[3px] flex items-center px-[4%] border-t border-[#333] border-b-4 border-[#020202] shadow-[0_10px_20px_rgba(0,0,0,0.8)] relative mb-[2px] gap-3">
+          <div className="w-fit px-3 md:px-4 h-[35%] bg-gradient-to-b from-[#1a1a1a] to-[#050505] rounded-[3px] flex items-center border-t border-[#333] border-b-4 border-[#020202] shadow-[0_10px_20px_rgba(0,0,0,0.8)] relative mb-[2px] gap-2 md:gap-3">
              <div className={`w-1.5 h-1.5 rounded-full transition-colors duration-500 ${isTvOn ? 'bg-blue-500 shadow-[0_0_8px_blue] animate-pulse' : 'bg-red-600 shadow-[0_0_4px_red]'}`}></div>
              
              <div 
@@ -348,7 +391,7 @@ const MediaConsole = ({ isTvOn, setIsTvOn }) => {
           </div>
        </div>
 
-       <div className="w-[28%] h-full flex">
+       <div className="w-[20%] md:w-[28%] h-full flex">
           <div className="w-[40%] h-full border-r-[2px] border-[#c0b9ae] flex items-center justify-end pr-[4%]">
           </div>
           <div className="w-[60%] h-full flex items-center justify-start pl-[5%]">
@@ -364,7 +407,7 @@ const MediaConsole = ({ isTvOn, setIsTvOn }) => {
 
 const Soundbar = () => {
   return (
-    <div className="absolute bottom-[18%] left-1/2 -translate-x-1/2 w-[35%] h-[2.5%] z-30 flex flex-col items-center">
+    <div className="absolute bottom-[16%] md:bottom-[18%] left-1/2 -translate-x-1/2 w-[60%] md:w-[35%] h-[2.5%] z-30 flex flex-col items-center">
        <div className="absolute -bottom-[15px] w-[95%] h-[15px] bg-black/40 blur-[8px] rounded-[100%] pointer-events-none"></div>
        <div className="w-[98%] h-[25%] bg-gradient-to-b from-[#4a4a4a] to-[#222] rounded-t-[2px] border-t border-white/10"></div>
        <div className="w-full h-[75%] bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] rounded-b-[2px] border-t border-black flex items-center px-[3%] relative overflow-hidden">
@@ -389,7 +432,7 @@ export default function AwarenessProgram() {
         <LeftPanel />
         <RightPanel />
 
-        <div className="absolute top-[12.5%] left-[16%] w-[68%] h-[67%] bg-[#020202] rounded-sm border-[4px] border-[#0a0a0a] shadow-[0_25px_60px_rgba(0,0,0,0.8)] z-20 flex p-[1px]">
+        <div className="absolute top-[16%] md:top-[12.5%] left-[2%] md:left-[16%] w-[96%] md:w-[68%] h-[66%] md:h-[67%] bg-[#020202] rounded-sm border-[4px] border-[#0a0a0a] shadow-[0_25px_60px_rgba(0,0,0,0.8)] z-20 flex p-[1px]">
            <div className="flex-1 bg-[#050505] rounded-[2px] relative overflow-hidden flex items-center justify-center border border-[#111]">
               
               <div className="absolute -inset-10 bg-cyan-400/10 blur-[60px] pointer-events-none"></div>

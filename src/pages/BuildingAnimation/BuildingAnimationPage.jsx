@@ -13,6 +13,20 @@ export default function BuildingAnimationPage() {
   const [isReceptionistForward, setIsReceptionistForward] = useState(false);
   const [isWebsiteVisible, setIsWebsiteVisible] = useState(false);
   const [dressColor, setDressColor] = useState(DRESS_COLORS[0]);
+  const [timeTheme, setTimeTheme] = useState('day');
+
+  useEffect(() => {
+    const updateTheme = () => {
+      const hour = new Date().getHours();
+      if (hour >= 7 && hour < 16) setTimeTheme('day');
+      else if (hour >= 16 && hour < 18) setTimeTheme('evening');
+      else if (hour >= 18 || hour < 4) setTimeTheme('night');
+      else setTimeTheme('sunrise');
+    };
+    updateTheme();
+    const interval = setInterval(updateTheme, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   const bellAudioRef = useRef(null);
   const doorAudioRef = useRef(null);
@@ -107,7 +121,33 @@ export default function BuildingAnimationPage() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-gradient-to-b from-sky-400 via-blue-200 to-blue-100 flex flex-col relative overflow-hidden items-center justify-end">
+    <div className="w-full min-h-screen bg-black flex flex-col relative overflow-hidden items-center justify-end">
+      
+      {/* --- DAY/NIGHT SKY SYSTEM --- */}
+      {/* Day Sky */}
+      <div className={`absolute inset-0 bg-gradient-to-b from-sky-400 via-blue-200 to-blue-100 transition-opacity duration-[3000ms] ease-in-out ${timeTheme === 'day' ? 'opacity-100' : 'opacity-0'}`} />
+      {/* Evening Sky */}
+      <div className={`absolute inset-0 bg-gradient-to-b from-orange-400 via-pink-400 to-amber-200 transition-opacity duration-[3000ms] ease-in-out ${timeTheme === 'evening' ? 'opacity-100' : 'opacity-0'}`} />
+      {/* Night Sky */}
+      <div className={`absolute inset-0 bg-gradient-to-b from-slate-900 via-[#0a0f25] to-[#020617] transition-opacity duration-[3000ms] ease-in-out ${timeTheme === 'night' ? 'opacity-100' : 'opacity-0'}`} />
+      {/* Sunrise Sky */}
+      <div className={`absolute inset-0 bg-gradient-to-b from-blue-800 via-pink-300 to-orange-100 transition-opacity duration-[3000ms] ease-in-out ${timeTheme === 'sunrise' ? 'opacity-100' : 'opacity-0'}`} />
+
+      {/* Stars (Only Night/Sunrise) */}
+      <div 
+        className={`absolute inset-0 transition-opacity duration-[3000ms] ease-in-out ${timeTheme === 'night' ? 'opacity-100' : timeTheme === 'sunrise' ? 'opacity-40' : 'opacity-0'}`}
+        style={{
+          backgroundImage: 'radial-gradient(1.5px 1.5px at 20px 30px, #ffffff, rgba(0,0,0,0)), radial-gradient(1.5px 1.5px at 140px 70px, #ffffff, rgba(0,0,0,0)), radial-gradient(2px 2px at 250px 130px, #ffffff, rgba(0,0,0,0)), radial-gradient(1px 1px at 300px 50px, #ffffff, rgba(0,0,0,0)), radial-gradient(1.5px 1.5px at 80px 180px, #ffffff, rgba(0,0,0,0))',
+          backgroundSize: '350px 350px',
+        }}
+      >
+        <div className="absolute inset-0 animate-pulse bg-transparent" style={{ animationDuration: '4s' }}>
+          <div className="w-full h-full" style={{ backgroundImage: 'radial-gradient(1px 1px at 50px 100px, #ffffff, rgba(0,0,0,0)), radial-gradient(1.5px 1.5px at 200px 200px, #ffffff, rgba(0,0,0,0))', backgroundSize: '250px 250px' }} />
+        </div>
+      </div>
+
+      {/* Moon (Only Night) */}
+      <div className={`absolute top-12 right-12 sm:top-20 sm:right-32 w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#fdf8e7] shadow-[0_0_40px_rgba(253,248,231,0.6),inset_-10px_-10px_20px_rgba(0,0,0,0.1)] transition-all duration-[4000ms] ease-out ${timeTheme === 'night' ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-75'}`} />
       
       {/* Mobile Welcome Message (Top of Screen) */}
       <div className={`flex sm:hidden absolute top-8 left-0 w-full justify-center z-[200] transition-all duration-[1000ms] ease-out ${hasReachedDoor ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-10 scale-95'}`}>
@@ -1400,6 +1440,8 @@ export default function BuildingAnimationPage() {
             </div>
 
          </div>
+
+
       </div>
       
     </div>
