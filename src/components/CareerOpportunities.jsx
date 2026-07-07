@@ -77,7 +77,15 @@ export default function CareerOpportunities() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.15 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0.2 }}
+                onViewportEnter={() => {
+                  setTimeout(() => {
+                    setActiveCards(prev => prev.includes(index) ? prev : [...prev, index]);
+                    setTimeout(() => {
+                      setActiveCards(prev => prev.filter(i => i !== index));
+                    }, 1500); // 1.5 second duration makes it more visible before reverting
+                  }, 600 + index * 150);
+                }}
                 onClick={() => toggleCard(index)}
                 className="group relative w-full h-[210px] sm:h-[240px] md:h-[400px] transition-all duration-500 rounded-[1.5rem] shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_40px_rgba(37,99,235,0.2)] hover:-translate-y-2 hover:scale-[1.02] cursor-pointer overflow-hidden flex flex-col justify-center items-center bg-white"
               >

@@ -395,13 +395,13 @@ export default function ReachUsPage() {
 
           <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-[24px]">
             {[
-              { title: "Google Reviews", icon: <Star size={24} />, color: "#F59E0B", bg: "rgba(245,158,11,0.1)", link: "#" },
-              { title: "Student Reviews", icon: <GraduationCap size={24} />, color: "#3B82F6", bg: "rgba(59,130,246,0.1)", link: "#" },
-              { title: "Client Reviews", icon: <Briefcase size={24} />, color: "#10B981", bg: "rgba(16,185,129,0.1)", link: "#" },
-              { title: "Victim Testimonials", icon: <ShieldCheck size={24} />, color: "#EF4444", bg: "rgba(239,68,68,0.1)", link: "#" },
-              { title: "Employee Reviews", icon: <Users size={24} />, color: "#8B5CF6", bg: "rgba(139,92,246,0.1)", link: "#" },
-              { title: "Candidate Reviews", icon: <UserPlus size={24} />, color: "#06B6D4", bg: "rgba(6,182,212,0.1)", link: "#" },
-              { title: "Add Review", icon: <PlusCircle size={24} />, color: "#EC4899", bg: "rgba(236,72,153,0.1)", link: "#" }
+              { title: "Google Reviews", icon: <Star size={24} />, color: "#F59E0B", bg: "rgba(245,158,11,0.1)", link: "/coming-soon" },
+              { title: "Student Reviews", icon: <GraduationCap size={24} />, color: "#3B82F6", bg: "rgba(59,130,246,0.1)", link: "/coming-soon" },
+              { title: "Client Reviews", icon: <Briefcase size={24} />, color: "#10B981", bg: "rgba(16,185,129,0.1)", link: "/coming-soon" },
+              { title: "Victim Testimonials", icon: <ShieldCheck size={24} />, color: "#EF4444", bg: "rgba(239,68,68,0.1)", link: "/coming-soon" },
+              { title: "Employee Reviews", icon: <Users size={24} />, color: "#8B5CF6", bg: "rgba(139,92,246,0.1)", link: "/coming-soon" },
+              { title: "Candidate Reviews", icon: <UserPlus size={24} />, color: "#06B6D4", bg: "rgba(6,182,212,0.1)", link: "/coming-soon" },
+              { title: "Add Review", icon: <PlusCircle size={24} />, color: "#EC4899", bg: "rgba(236,72,153,0.1)", link: "/coming-soon" }
             ].map((review, i) => (
               <motion.a
                 key={i}
