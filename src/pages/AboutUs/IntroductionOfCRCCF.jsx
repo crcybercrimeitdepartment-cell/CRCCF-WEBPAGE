@@ -80,7 +80,7 @@ const IntroHeroOverlay = () => {
 
       <g transform="translate(150, 180)">
         <motion.circle
-          r="60"
+          r={60}
           fill="url(#sunGrad)"
           initial={{ scale: 0, y: 50 }}
           animate={{ scale: 1, y: 0 }}
@@ -195,7 +195,7 @@ const SvgVision = ({ className }) => (
   <svg viewBox="0 0 100 100" className={className}>
     <path d="M10 50 Q 50 10, 90 50 Q 50 90, 10 50" fill="none" stroke={color.slate700} strokeWidth="2" />
     <circle cx="50" cy="50" r="15" fill={color.blue500} />
-    <motion.circle cx="50" cy="50" r="8" fill={color.white} animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 2, repeat: Infinity }} />
+    <motion.circle cx={50} cy={50} r={8} fill={color.white} animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 2, repeat: Infinity }} />
   </svg>
 );
 
@@ -223,7 +223,7 @@ const SvgTech = ({ className }) => (
     <rect x="30" y="30" width="40" height="40" rx="4" fill={color.slate800} />
     <path d="M50 30 V 10 M 50 70 V 90 M 30 50 H 10 M 70 50 H 90" stroke={color.blue500} strokeWidth="2" />
     <circle cx="50" cy="50" r="5" fill="#22D3EE" />
-    <motion.rect x="30" y="30" width="40" height="40" stroke="#22D3EE" strokeWidth="1" fill="none" animate={{ opacity: [0, 1, 0] }} transition={{ duration: 2, repeat: Infinity }} />
+    <motion.rect x={30} y={30} width={40} height={40} stroke="#22D3EE" strokeWidth="1" fill="none" animate={{ opacity: [0, 1, 0] }} transition={{ duration: 2, repeat: Infinity }} />
   </svg>
 );
 
@@ -233,7 +233,7 @@ const SvgCommunity = ({ className }) => (
     <circle cx="30" cy="50" r="8" fill={color.slate400} />
     <circle cx="70" cy="50" r="8" fill={color.slate400} />
     <path d="M50 40 L 20 80 H 80 Z" fill="none" stroke={color.indigo500} strokeWidth="1" />
-    <motion.circle cx="50" cy="40" r="15" stroke={color.amber500} strokeWidth="1" fill="none" strokeDasharray="2 2" animate={{ rotate: 360 }} transition={{ duration: 4, repeat: Infinity, ease: "linear" }} />
+    <motion.circle cx={50} cy={40} r={15} stroke={color.amber500} strokeWidth="1" fill="none" strokeDasharray="2 2" animate={{ rotate: 360 }} transition={{ duration: 4, repeat: Infinity, ease: "linear" }} />
   </svg>
 );
 
@@ -251,7 +251,7 @@ const SvgWomen = ({ className }) => (
     <circle cx="50" cy="40" r="15" stroke={color.rose500} strokeWidth="2" fill="none" />
     <line x1="50" y1="55" x2="50" y2="80" stroke={color.rose500} strokeWidth="2" />
     <line x1="40" y1="70" x2="60" y2="70" stroke={color.rose500} strokeWidth="2" />
-    <motion.circle cx="50" cy="40" r="20" stroke={color.rose100} strokeWidth="1" fill="none" animate={{ scale: [1, 1.2], opacity: [1, 0] }} transition={{ duration: 2, repeat: Infinity }} />
+    <motion.circle cx={50} cy={40} r={20} stroke={color.rose100} strokeWidth="1" fill="none" animate={{ scale: [1, 1.2], opacity: [1, 0] }} transition={{ duration: 2, repeat: Infinity }} />
   </svg>
 );
 
@@ -259,7 +259,7 @@ const SvgCollab = ({ className }) => (
   <svg viewBox="0 0 100 100" className={className}>
     <path d="M30 30 H 50 V 50 H 30 Z" fill={color.blue500} />
     <path d="M50 50 H 70 V 70 H 50 Z" fill={color.emerald500} />
-    <motion.rect x="50" y="30" width="20" height="20" fill={color.amber500} animate={{ opacity: [0, 1, 0] }} transition={{ duration: 2, repeat: Infinity }} />
+    <motion.rect x={50} y={30} width={20} height={20} fill={color.amber500} animate={{ opacity: [0, 1, 0] }} transition={{ duration: 2, repeat: Infinity }} />
     <rect x="30" y="50" width="20" height="20" fill={color.slate400} />
   </svg>
 );
@@ -268,7 +268,7 @@ const SvgInnovation = ({ className }) => (
   <svg viewBox="0 0 100 100" className={className}>
     <path d="M35 30 C 35 10, 65 10, 65 30 C 65 45, 55 50, 55 60 H 45 C 45 50, 35 45, 35 30" fill="none" stroke={color.amber500} strokeWidth="2" />
     <rect x="45" y="60" width="10" height="5" fill="#94A3B8" />
-    <motion.circle cx="50" cy="30" r="5" fill={color.amber400} animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 1, repeat: Infinity }} />
+    <motion.circle cx={50} cy={30} r={5} fill={color.amber400} animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 1, repeat: Infinity }} />
   </svg>
 );
 
@@ -292,7 +292,7 @@ const SvgPartnership = ({ className }) => (
     <path d="M30 60 L 50 50 L 70 60" fill="none" stroke={color.slate500} strokeWidth="3" />
     <circle cx="40" cy="40" r="8" fill={color.blue500} />
     <circle cx="60" cy="40" r="8" fill={color.emerald500} />
-    <motion.circle cx="50" cy="50" r="25" stroke={color.slate200} strokeWidth="1" fill="none" strokeDasharray="4 4" animate={{ rotate: 360 }} transition={{ duration: 6, repeat: Infinity, ease: "linear" }} />
+    <motion.circle cx={50} cy={50} r={25} stroke={color.slate200} strokeWidth="1" fill="none" strokeDasharray="4 4" animate={{ rotate: 360 }} transition={{ duration: 6, repeat: Infinity, ease: "linear" }} />
   </svg>
 );
 
@@ -309,7 +309,7 @@ const SvgSkills = ({ className }) => (
     <line x1="20" y1="80" x2="20" y2="20" stroke={color.slate400} strokeWidth="2" />
     <rect x="30" y="60" width="10" height="20" fill="#93C5FD" />
     <rect x="45" y="40" width="10" height="40" fill={color.blue500} />
-    <motion.rect x="60" y="20" width="10" height="60" fill={color.blue600} initial={{ height: 0 }} animate={{ height: 60 }} transition={{ duration: 1 }} />
+    <motion.rect x={60} y={20} width={10} height={60} fill={color.blue600} initial={{ height: 0 }} animate={{ height: 60 }} transition={{ duration: 1 }} />
   </svg>
 );
 
@@ -329,7 +329,7 @@ const SvgVolunteer = ({ className }) => (
   <svg viewBox="0 0 100 100" className={className}>
     <rect x="40" y="50" width="20" height="40" fill={color.blue500} />
     <circle cx="50" cy="40" r="8" fill={color.amber500} />
-    <motion.circle cx="50" cy="40" r="15" stroke={color.white} strokeWidth="1" fill="none" animate={{ scale: [1, 1.5], opacity: [1, 0] }} transition={{ duration: 1.5, repeat: Infinity }} />
+    <motion.circle cx={50} cy={40} r={15} stroke={color.white} strokeWidth="1" fill="none" animate={{ scale: [1, 1.5], opacity: [1, 0] }} transition={{ duration: 1.5, repeat: Infinity }} />
   </svg>
 );
 
@@ -337,7 +337,7 @@ const SvgResilience = ({ className }) => (
   <svg viewBox="0 0 100 100" className={className}>
     <rect x="45" y="60" width="10" height="30" fill={color.slate600} />
     <circle cx="50" cy="40" r="20" fill={color.emerald500} />
-    <motion.circle cx="50" cy="40" r="25" stroke={color.emerald400} strokeWidth="1" fill="none" animate={{ r: [20, 25, 20] }} transition={{ duration: 3, repeat: Infinity }} />
+    <motion.circle initial={{ r: 0 }} cx={50} cy={40} r={25} stroke={color.emerald400} strokeWidth="1" fill="none" animate={{ r: [20, 25, 20] }} transition={{ duration: 3, repeat: Infinity }} />
   </svg>
 );
 
@@ -345,7 +345,7 @@ const SvgResearch = ({ className }) => (
   <svg viewBox="0 0 100 100" className={className}>
     <path d="M40 70 L 60 70 L 50 30 Z" fill={color.slate300} />
     <circle cx="50" cy="30" r="10" fill={color.blue500} />
-    <motion.circle cx="50" cy="30" r="15" stroke={color.blue300} strokeWidth="1" fill="none" animate={{ opacity: [0, 1, 0] }} transition={{ duration: 2, repeat: Infinity }} />
+    <motion.circle cx={50} cy={30} r={15} stroke={color.blue300} strokeWidth="1" fill="none" animate={{ opacity: [0, 1, 0] }} transition={{ duration: 2, repeat: Infinity }} />
   </svg>
 );
 
@@ -354,7 +354,7 @@ const SvgNation = ({ className }) => (
     <path d="M20 70 H 80" stroke={color.amber500} strokeWidth="2" />
     <path d="M30 60 H 70" stroke={color.white} strokeWidth="2" />
     <path d="M40 50 H 60" stroke={color.emerald500} strokeWidth="2" />
-    <motion.circle cx="50" cy="30" r="5" fill={color.blue900} animate={{ y: [0, -5, 0] }} transition={{ duration: 2, repeat: Infinity }} />
+    <motion.circle cx={50} cy={30} r={5} fill={color.blue900} animate={{ y: [0, -5, 0] }} transition={{ duration: 2, repeat: Infinity }} />
   </svg>
 );
 
@@ -362,14 +362,14 @@ const SvgEthics = ({ className }) => (
   <svg viewBox="0 0 100 100" className={className}>
     <circle cx="50" cy="50" r="30" stroke={color.slate400} strokeWidth="1" fill="none" />
     <path d="M50 20 V 80 M 20 50 H 80" stroke={color.slate200} strokeWidth="1" />
-    <motion.circle cx="50" cy="50" r="5" fill={color.indigo500} animate={{ scale: [1, 1.5, 1] }} transition={{ duration: 2, repeat: Infinity }} />
+    <motion.circle cx={50} cy={50} r={5} fill={color.indigo500} animate={{ scale: [1, 1.5, 1] }} transition={{ duration: 2, repeat: Infinity }} />
   </svg>
 );
 
 const SvgFuture = ({ className }) => (
   <svg viewBox="0 0 100 100" className={className}>
     <path d="M20 70 H 80" stroke={color.slate800} strokeWidth="2" />
-    <motion.circle cx="50" cy="70" r="15" fill={color.amber500} animate={{ cy: 50 }} transition={{ duration: 3 }} />
+    <motion.circle initial={{ cx: 0, cy: 0 }} cx={50} cy={70} r={15} fill={color.amber500} animate={{ cy: 50 }} transition={{ duration: 3 }} />
   </svg>
 );
 
@@ -629,7 +629,7 @@ export default function IntroductionOfCRCCF() {
       >
         
 
-        <div ref={heroRef} className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center mb-20">
+        <div ref={heroRef} className="relative grid grid-cols-1 md:grid-cols-2 gap-10 items-center mb-20" style={{ position: 'relative' }}>
           <motion.div variants={itemUp}>
             <div className="inline-block px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-xs font-black tracking-widest mb-6">
               FOUNDATION OVERVIEW

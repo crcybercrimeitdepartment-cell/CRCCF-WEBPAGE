@@ -78,9 +78,9 @@ const ActivityHeroOverlay = () => {
 
       <g transform="translate(150, 150)">
         <motion.rect
-          x="-70" y="-70" width="140" height="140" rx="20"
+          x="-70" y="-70" width={140} height={140} rx={20}
           fill="url(#actGrad)"
-          opacity="0.9"
+          opacity={0.9}
           initial={{ rotate: -15, scale: 0 }}
           animate={{ rotate: 0, scale: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
@@ -435,7 +435,7 @@ const OurActivity = () => {
       >
         
 
-        <div ref={heroRef} className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-24">
+        <div ref={heroRef} className="relative grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-24" style={{ position: 'relative' }}>
           <motion.div variants={itemUp}>
             <div className="inline-block px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black tracking-[0.2em] mb-6">
               OUR OPERATIONS IN ACTION

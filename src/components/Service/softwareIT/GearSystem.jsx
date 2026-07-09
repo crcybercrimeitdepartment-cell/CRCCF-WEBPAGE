@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, useTime, useTransform } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
   Wrench, Globe, Smartphone, MonitorCog,
@@ -10,7 +10,7 @@ import {
 const GridGear = ({
   radius = 115,
   teeth = 20,
-  currentRotation = 0,
+  speedMultiplier = 1.5,
   direction = 1,
   number = "01",
   children,
@@ -40,6 +40,9 @@ const GridGear = ({
   }
   const pathData = `M ${points.join(" L ")} Z`;
 
+  const time = useTime();
+  const rotate = useTransform(time, t => (t / 1000) * 27 * speedMultiplier * direction);
+
   return (
     <div className={`relative flex items-center justify-center select-none ${className}`} style={{ width: radius * 2.2, height: radius * 2.2 }}>
       {/* Dynamic Rotation Layer */}
@@ -48,8 +51,7 @@ const GridGear = ({
         height={radius * 2.4}
         viewBox={`-${radius * 1.2} -${radius * 1.2} ${radius * 2.4} ${radius * 2.4}`}
         className="absolute inset-0 overflow-visible"
-        animate={{ rotate: currentRotation * direction }}
-        transition={{ type: "tween", ease: "linear", duration: 0 }}
+        style={{ rotate }}
       >
         <path
           d={pathData}
@@ -82,17 +84,6 @@ const Connector = ({ className = "" }) => (
 
 const GearSystem = () => {
   const navigate = useNavigate();
-  const [rotation, setRotation] = useState(0);
-
-  useEffect(() => {
-    let frame;
-    const animate = () => {
-      setRotation(prev => prev + 0.45);
-      frame = requestAnimationFrame(animate);
-    };
-    frame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frame);
-  }, []);
 
   const services = [
     { id: '01', title: "Software Services Introduction", desc: "Innovative software solutions tailored to your business needs.", icon: Code2, path: "/services/software-it/software-services-introduction" },
@@ -144,7 +135,7 @@ const GearSystem = () => {
                 >
                   <GridGear
                     number={item.id}
-                    currentRotation={rotation * 1.5}
+                    speedMultiplier={1.5}
                     direction={direction}
                   >
                     <div className="flex flex-col items-center justify-center h-full">
@@ -188,7 +179,7 @@ const GearSystem = () => {
                 className="flex flex-col items-center"
                 onClick={() => navigate(item.path)}
               >
-                <GridGear number={item.id} currentRotation={rotation * 2} direction={i % 2 === 0 ? 1 : -1}>
+                <GridGear number={item.id} speedMultiplier={2} direction={i % 2 === 0 ? 1 : -1}>
                   <div className="flex flex-col items-center justify-center h-full text-center px-4">
                     <Icon className="w-10 h-10 text-blue-600 mb-2" />
                     <h3 className="text-[#0F172A] font-black text-[10px] leading-tight uppercase mb-1">{item.title}</h3>

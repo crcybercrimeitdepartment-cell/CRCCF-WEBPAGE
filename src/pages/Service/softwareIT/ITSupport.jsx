@@ -98,19 +98,19 @@ const ITOpsOverlay = () => {
         {/* Blinking Lights */}
         {!shouldReduce && (
           <>
-             <motion.circle cx="20" cy="20" r="4" fill={color.emerald400} animate={{ opacity: [0.2, 1, 0.2] }} transition={{ duration: 1.5, repeat: Infinity }} />
-             <motion.circle cx="40" cy="20" r="4" fill={color.cyan400} animate={{ opacity: [0.2, 1, 0.2] }} transition={{ duration: 1.2, repeat: Infinity, delay: 0.3 }} />
-             <motion.circle cx="60" cy="20" r="4" fill={color.emerald400} animate={{ opacity: [0.2, 1, 0.2] }} transition={{ duration: 1.8, repeat: Infinity, delay: 0.6 }} />
+             <motion.circle cx={20} cy={20} r={4} fill={color.emerald400} animate={{ opacity: [0.2, 1, 0.2] }} transition={{ duration: 1.5, repeat: Infinity }} />
+             <motion.circle cx={40} cy={20} r={4} fill={color.cyan400} animate={{ opacity: [0.2, 1, 0.2] }} transition={{ duration: 1.2, repeat: Infinity, delay: 0.3 }} />
+             <motion.circle cx={60} cy={20} r={4} fill={color.emerald400} animate={{ opacity: [0.2, 1, 0.2] }} transition={{ duration: 1.8, repeat: Infinity, delay: 0.6 }} />
           </>
         )}
         
         {/* Screen Activity */}
-        <motion.rect 
-          x="25" y="-45" width="50" height="2" fill={color.cyan400}
+        <motion.rect initial={{ width: 0 }} 
+          x={25} y="-45" width={50} height={2} fill={color.cyan400}
           animate={{ width: [0, 50] }} transition={{ duration: 2, repeat: Infinity }}
         />
-        <motion.rect 
-          x="25" y="-40" width="30" height="2" fill={color.cyan400}
+        <motion.rect initial={{ width: 0 }} 
+          x={25} y="-40" width={30} height={2} fill={color.cyan400}
           animate={{ width: [0, 30] }} transition={{ duration: 2, delay: 0.5, repeat: Infinity }}
         />
       </g>
@@ -239,8 +239,8 @@ export default function ITSupport() {
         {/* Hero */}
         <div
           ref={heroRef}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center mb-16"
-        >
+          className="relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center mb-16"
+         style={{ position: 'relative' }}>
           <motion.div variants={itemUp}>
             <div className="inline-block px-4 py-1.5 bg-emerald-50 text-emerald-700 rounded-full text-xs font-black tracking-widest mb-6">
               RELIABLE INFRASTRUCTURE

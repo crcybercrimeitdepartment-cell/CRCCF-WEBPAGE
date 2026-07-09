@@ -40,7 +40,6 @@ import {
   Box,
   Pen,
   Megaphone,
-  Search,
   Share2,
   ClipboardList,
   Handshake,
@@ -557,7 +556,7 @@ const styles = `
   z-index: 25;
   pointer-events: none;
   will-change: transform, opacity;
-  transition: opacity 0.3s ease, filter 0.2s ease, transform 0.08s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: opacity 0.3s ease, filter 0.2s ease;
   transform-origin: 0px 30px;
   /* Pivot exactly on the tip */
   filter: drop-shadow(4px 6px 8px rgba(0, 0, 0, 0.25));

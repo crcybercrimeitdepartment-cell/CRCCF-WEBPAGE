@@ -149,7 +149,6 @@ const Mouse = () => {
   );
 };
 
-// --- ProgramCard Component ---
 const ProgramCard = ({ program }) => {
   const Icon = program.icon;
   const navigate = useNavigate();
@@ -158,13 +157,13 @@ const ProgramCard = ({ program }) => {
   return (
     <div 
       onClick={() => navigate(`/skill-development/${slug}`)}
-      className={`border border-transparent hover:border-gray-300 flex flex-col items-center justify-start p-2 md:p-2 rounded-xl cursor-pointer ${program.color} bg-transparent hover:bg-black/5 transition-all duration-200 group`}
+      className={`border border-transparent hover:border-gray-300 flex flex-col items-center justify-start p-1.5 md:p-2 rounded-xl cursor-pointer ${program.color} bg-transparent hover:bg-black/5 transition-all duration-200 group`}
     >
-      <div className="flex-shrink-0 flex items-center justify-center w-12 h-12 md:w-16 md:h-16 mb-1 border-2 border-current bg-white/60 rounded-xl shadow-sm group-hover:shadow-md group-hover:bg-white group-hover:scale-110 transition-all">
-        <Icon className="text-2xl md:text-3xl drop-shadow-sm" />
+      <div className="flex-shrink-0 flex items-center justify-center w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 mb-1 border-2 border-current bg-white/60 rounded-xl shadow-sm group-hover:shadow-md group-hover:bg-white group-hover:scale-110 transition-all">
+        <Icon className="text-lg sm:text-2xl md:text-3xl drop-shadow-sm" />
       </div>
-      <div className="flex flex-col items-center justify-start w-full text-center mt-1">
-        <span className="text-[10px] md:text-xs text-gray-800 uppercase font-bold leading-tight px-1 break-words">
+      <div className="flex flex-col items-center justify-start w-full text-center mt-0.5 sm:mt-1">
+        <span className="text-[8px] sm:text-[10px] md:text-xs text-gray-800 uppercase font-bold leading-tight px-0.5 sm:px-1 break-words">
           {program.name}
         </span>
       </div>
@@ -200,30 +199,30 @@ const ScreenContent = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-row p-3 md:p-5 pb-0 min-h-0 font-['VT323']">
+    <div className="flex-1 flex flex-row p-2 sm:p-3 md:p-5 pb-0 min-h-0 font-['VT323']">
       
       {/* Left Side: Main Content area */}
-      <div className="flex-1 flex flex-col h-full mr-2 md:mr-4 relative">
+      <div className="flex-1 flex flex-col h-full mr-1 sm:mr-2 md:mr-4 relative">
         
         {/* Header */}
-        <header className="flex justify-between items-center mb-3 pb-2 border-b border-[#2d2d2d]/30 shrink-0">
-          <div className="border border-[#2d2d2d]/30 px-2 py-0.5 rounded-sm text-[#2d2d2d] text-[8px] md:text-xs font-bold tracking-widest hidden sm:block">
+        <header className="flex justify-between items-center mb-2 sm:mb-3 pb-1 sm:pb-2 border-b border-[#2d2d2d]/30 shrink-0">
+          <div className="border border-[#2d2d2d]/30 px-1 sm:px-2 py-0.5 rounded-sm text-[#2d2d2d] text-[6px] sm:text-[8px] md:text-xs font-bold tracking-widest hidden sm:block">
             {labels.systemVersion}
           </div>
           
-          <h1 className="text-sm sm:text-base md:text-lg font-bold tracking-[0.1em] text-[#2d2d2d] text-center drop-shadow-sm flex-1 mx-2">
+          <h1 className="text-[10px] sm:text-sm md:text-lg font-bold tracking-[0.1em] text-[#2d2d2d] text-center drop-shadow-sm flex-1 mx-1 sm:mx-2 leading-tight">
             {labels.mainTitle}
           </h1>
           
           <div className="flex items-center space-x-1 sm:space-x-2">
             <div className="relative flex items-center">
-              <FaSearch className="absolute left-1 sm:left-2 text-[#2d2d2d]/50 text-[10px] sm:text-xs" />
+              <FaSearch className="absolute left-1 sm:left-2 text-[#2d2d2d]/50 text-[8px] sm:text-[10px] md:text-xs" />
               <input 
                 type="text" 
                 placeholder={labels.searchPlaceholder} 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-white/50 border border-[#2d2d2d]/30 text-[#2d2d2d] placeholder-[#2d2d2d]/50 text-[10px] sm:text-xs px-1 sm:px-2 py-1 pl-4 sm:pl-6 rounded-sm outline-none focus:border-[#2d2d2d] focus:shadow-[0_0_10px_rgba(0,0,0,0.1)] w-20 sm:w-28 md:w-32 font-mono tracking-widest uppercase transition-all min-w-0"
+                className="bg-white/50 border border-[#2d2d2d]/30 text-[#2d2d2d] placeholder-[#2d2d2d]/50 text-[8px] sm:text-[10px] md:text-xs px-1 sm:px-2 py-0.5 sm:py-1 pl-3 sm:pl-4 md:pl-6 rounded-sm outline-none focus:border-[#2d2d2d] focus:shadow-[0_0_10px_rgba(0,0,0,0.1)] w-16 sm:w-20 md:w-32 font-mono tracking-widest uppercase transition-all min-w-0"
               />
             </div>
           </div>
@@ -235,7 +234,7 @@ const ScreenContent = () => {
           onScroll={handleScroll}
           className="flex-1 overflow-y-auto custom-scrollbar relative z-20 pr-1 sm:pr-2"
         >
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-2 sm:gap-x-4 gap-y-2 sm:gap-y-4 auto-rows-max pb-8 pt-2 px-1 sm:px-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-1 sm:gap-x-2 md:gap-x-4 gap-y-1 sm:gap-y-2 md:gap-y-4 auto-rows-max pb-4 sm:pb-8 pt-1 sm:pt-2 px-1 sm:px-4">
             {trainingProgramData.filter(program => program.name.toLowerCase().includes(searchQuery.toLowerCase())).map((program) => (
               <ProgramCard key={program.id} program={program} />
             ))}
@@ -244,18 +243,18 @@ const ScreenContent = () => {
       </div>
 
       {/* Right Side: Scrollbar Area */}
-      <div className="w-8 md:w-12 flex flex-col justify-between items-center border-l border-[#2d2d2d]/20 pl-2 md:pl-4 py-2 shrink-0 select-none">
+      <div className="w-6 sm:w-8 md:w-12 flex flex-col justify-between items-center border-l border-[#2d2d2d]/20 pl-1 sm:pl-2 md:pl-4 py-1 sm:py-2 shrink-0 select-none">
         <div onClick={scrollUp} className="text-[#2d2d2d]/50 hover:text-[#2d2d2d] cursor-pointer hover:scale-110 transition-transform active:scale-95">
-          <FaChevronUp className="text-sm md:text-lg" />
+          <FaChevronUp className="text-[10px] sm:text-sm md:text-lg" />
         </div>
-        <div className="flex-1 w-2 md:w-3 border border-[#2d2d2d]/30 rounded-full my-2 flex flex-col items-center py-1 overflow-hidden">
+        <div className="flex-1 w-1.5 sm:w-2 md:w-3 border border-[#2d2d2d]/30 rounded-full my-1 sm:my-2 flex flex-col items-center py-1 overflow-hidden">
           <div 
             className="w-full h-1/3 bg-[#888] rounded-full transition-transform duration-75 ease-out"
             style={{ transform: `translateY(${scrollProgress * 200}%)` }}
           ></div>
         </div>
         <div onClick={scrollDown} className="text-[#2d2d2d]/50 hover:text-[#2d2d2d] cursor-pointer hover:scale-110 transition-transform active:scale-95">
-          <FaChevronDown className="text-sm md:text-lg" />
+          <FaChevronDown className="text-[10px] sm:text-sm md:text-lg" />
         </div>
       </div>
 
@@ -368,7 +367,7 @@ export default function TrainingProgramPage() {
         <div className="monitor-bezel-3d bg-[#e6e2d3] rounded-[1.5rem] p-4 md:p-6 shadow-[inset_0_15px_30px_rgba(0,0,0,0.2),0_2px_5px_rgba(255,255,255,0.5)] relative border-b-2 border-white/50">
           
           {/* CRT Screen */}
-          <div className="crt-container w-full aspect-[4/3] sm:aspect-[4/3] rounded-2xl overflow-hidden relative border-[12px] border-[#b8b3a3] transition-colors duration-500" style={{ backgroundColor: isScreenOn ? '#f0ece1' : '#080808' }}>
+          <div className="crt-container w-full aspect-square sm:aspect-[4/3] rounded-2xl overflow-hidden relative border-[12px] border-[#b8b3a3] transition-colors duration-500" style={{ backgroundColor: isScreenOn ? '#f0ece1' : '#080808' }}>
             <div className={`w-full h-full flex flex-col bg-[#f0ece1] relative z-10 overflow-hidden font-sans transition-opacity duration-300 ${isScreenOn ? 'screen-flicker opacity-100' : 'opacity-0 pointer-events-none'}`}>
               
               <ScreenContent />

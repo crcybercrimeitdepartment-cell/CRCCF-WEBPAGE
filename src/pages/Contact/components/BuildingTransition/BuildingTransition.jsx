@@ -365,9 +365,9 @@ const BuildingTransition = ({ branch, onProfileReady, onComplete }) => {
     });
   };
 
-  const bellSoundUrl = `${import.meta.env.BASE_URL}sounds/${BELL_SOUND_FILE}`;
+  const bellSoundUrl = BELL_SOUND_FILE;
 
-  const doorSoundUrl = `${import.meta.env.BASE_URL}sounds/${DOOR_SOUND_FILE}`;
+  const doorSoundUrl = DOOR_SOUND_FILE;
 
   const branchBuildingTheme = getBranchBuildingTheme(branch);
 

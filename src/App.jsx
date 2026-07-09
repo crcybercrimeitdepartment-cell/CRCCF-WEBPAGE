@@ -103,7 +103,7 @@ const CyberVictimReliefEmergencyResponsePage = lazy(() => import("./pages/report
 const ReportACyberCrimeVictimRightandSupportPage = lazy(() => import('./pages/report/ReportACyberCrimeVictimRightandSupportPage'))
 const CyberSecurityTipsPage = lazy(() => import('./pages/report/CyberSecurityTipsPage'))
 const AwarenessAndPreventionTipsPage = lazy(() => import('./pages/report/Awareness&PreventionTipsPage'))
-const CyberSafetyAndSupportForGirlsAndWomenPage = lazy(() => import('./pages/report/CyberSafetyAndSupportForGirlsAndWomenPage'))
+const CyberSafetyAndSupportForGirlsAndWomenPage = lazy(() => import('./pages/report/CyberSafetyAndSupportForGirlsAndWomenPage.jsx'))
 const LegalGuidanceAndAwarenessPage = lazy(() => import('./pages/report/LegalGuidance&AwarenessPage'))
 const CyberLawsAndRightsPage = lazy(() => import('./pages/report/CyberLawsAndRightsPage'))
 // ─── LAZY: Skill Development ─────────────────────────────────────────────────

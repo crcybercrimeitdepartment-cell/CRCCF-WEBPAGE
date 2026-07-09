@@ -102,8 +102,8 @@ const AiHeroOverlay = () => {
         {/* Synapse Firing Animation */}
         {!shouldReduce && (
           <>
-            <motion.circle r="4" fill={color.white} animate={{ cx: [-40, 0, 40], cy: [-20, -50, -20], opacity: [0, 1, 0] }} transition={{ duration: 2, repeat: Infinity }} />
-            <motion.circle r="4" fill={color.white} animate={{ cx: [40, 0, -40], cy: [20, 50, 20], opacity: [0, 1, 0] }} transition={{ duration: 2.5, repeat: Infinity, delay: 1 }} />
+            <motion.circle initial={{ cx: 0, cy: 0 }} r={4} fill={color.white} animate={{ cx: [-40, 0, 40], cy: [-20, -50, -20], opacity: [0, 1, 0] }} transition={{ duration: 2, repeat: Infinity }} />
+            <motion.circle initial={{ cx: 0, cy: 0 }} r={4} fill={color.white} animate={{ cx: [40, 0, -40], cy: [20, 50, 20], opacity: [0, 1, 0] }} transition={{ duration: 2.5, repeat: Infinity, delay: 1 }} />
           </>
         )}
       </g>
@@ -111,7 +111,7 @@ const AiHeroOverlay = () => {
       {/* Orbiting Data Ring */}
       <g transform="translate(150, 150)">
          <motion.ellipse 
-           rx="120" ry="40" 
+           rx={120} ry={40} 
            fill="none" 
            stroke={color.violet500} 
            strokeWidth="1" 
@@ -227,8 +227,8 @@ export default function ArtificialIntelligenceSolutions() {
         {/* Hero */}
         <div
           ref={heroRef}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center mb-16"
-        >
+          className="relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center mb-16"
+         style={{ position: 'relative' }}>
           <motion.div variants={itemUp}>
             <div className="inline-block px-4 py-1.5 bg-violet-50 text-violet-700 rounded-full text-xs font-black tracking-widest mb-6">
               AI INNOVATION

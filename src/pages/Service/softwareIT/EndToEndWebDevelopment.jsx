@@ -87,13 +87,13 @@ const WebDevHeroOverlay = () => {
         <g clipPath="url(#codeWindowClip)">
           {!shouldReduce && (
             <>
-              <motion.rect x="20" y="70" width="0" height="4" rx="2" fill="#c084fc" animate={{ width: 40 }} transition={{ duration: 0.5, delay: 0.5, repeat: Infinity, repeatDelay: 5 }} />
-              <motion.rect x="65" y="70" width="0" height="4" rx="2" fill="#94a3b8" animate={{ width: 30 }} transition={{ duration: 0.5, delay: 0.7, repeat: Infinity, repeatDelay: 5 }} />
-              <motion.rect x="30" y="80" width="0" height="4" rx="2" fill="#60a5fa" animate={{ width: 25 }} transition={{ duration: 0.5, delay: 1.0, repeat: Infinity, repeatDelay: 5 }} />
-              <motion.rect x="60" y="80" width="0" height="4" rx="2" fill="#e2e8f0" animate={{ width: 40 }} transition={{ duration: 0.5, delay: 1.2, repeat: Infinity, repeatDelay: 5 }} />
-              <motion.rect x="30" y="90" width="0" height="4" rx="2" fill="#fbbf24" animate={{ width: 60 }} transition={{ duration: 0.6, delay: 1.5, repeat: Infinity, repeatDelay: 5 }} />
-              <motion.rect x="30" y="105" width="0" height="4" rx="2" fill="#34d399" animate={{ width: 35 }} transition={{ duration: 0.5, delay: 1.8, repeat: Infinity, repeatDelay: 5 }} />
-              <motion.rect x="20" y="120" width="2" height="10" fill="#ffffff" animate={{ opacity: [1, 0, 1] }} transition={{ duration: 0.8, repeat: Infinity }} />
+              <motion.rect x={20} y={70} initial={{ width: 0 }} height={4} rx={2} fill="#c084fc" animate={{ width: 40 }} transition={{ duration: 0.5, delay: 0.5, repeat: Infinity, repeatDelay: 5 }} />
+              <motion.rect x={65} y={70} initial={{ width: 0 }} height={4} rx={2} fill="#94a3b8" animate={{ width: 30 }} transition={{ duration: 0.5, delay: 0.7, repeat: Infinity, repeatDelay: 5 }} />
+              <motion.rect x={30} y={80} initial={{ width: 0 }} height={4} rx={2} fill="#60a5fa" animate={{ width: 25 }} transition={{ duration: 0.5, delay: 1.0, repeat: Infinity, repeatDelay: 5 }} />
+              <motion.rect x={60} y={80} initial={{ width: 0 }} height={4} rx={2} fill="#e2e8f0" animate={{ width: 40 }} transition={{ duration: 0.5, delay: 1.2, repeat: Infinity, repeatDelay: 5 }} />
+              <motion.rect x={30} y={90} initial={{ width: 0 }} height={4} rx={2} fill="#fbbf24" animate={{ width: 60 }} transition={{ duration: 0.6, delay: 1.5, repeat: Infinity, repeatDelay: 5 }} />
+              <motion.rect x={30} y={105} initial={{ width: 0 }} height={4} rx={2} fill="#34d399" animate={{ width: 35 }} transition={{ duration: 0.5, delay: 1.8, repeat: Infinity, repeatDelay: 5 }} />
+              <motion.rect x={20} y={120} width={2} height={10} fill="#ffffff" animate={{ opacity: [1, 0, 1] }} transition={{ duration: 0.8, repeat: Infinity }} />
             </>
           )}
         </g>
@@ -109,19 +109,19 @@ const WebDevHeroOverlay = () => {
         <g clipPath="url(#browserWindowClip)">
           {!shouldReduce && (
             <>
-              <motion.rect x="140" y="40" width="170" height="15" fill="#f8fafc" borderBottom="1px solid #e2e8f0" initial={{ y: -20 }} animate={{ y: 40 }} transition={{ delay: 2.0, duration: 0.5, repeat: Infinity, repeatDelay: 5 }} />
-              <motion.rect x="150" y="65" width="150" height="40" rx="4" fill="#ede9fe" initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 2.5, duration: 0.5, repeat: Infinity, repeatDelay: 5 }} />
-              <motion.rect x="160" y="75" width="0" height="4" rx="2" fill="#7c3aed" animate={{ width: 80 }} transition={{ delay: 2.8, duration: 0.5, repeat: Infinity, repeatDelay: 5 }} />
-              <motion.rect x="150" y="115" width="45" height="25" rx="3" fill="#f1f5f9" initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 3.2, repeat: Infinity, repeatDelay: 5 }} />
-              <motion.rect x="202" y="115" width="45" height="25" rx="3" fill="#f1f5f9" initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 3.3, repeat: Infinity, repeatDelay: 5 }} />
-              <motion.rect x="254" y="115" width="45" height="25" rx="3" fill="#f1f5f9" initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 3.4, repeat: Infinity, repeatDelay: 5 }} />
+              <motion.rect x={140} y={40} width={170} height={15} fill="#f8fafc" initial={{ y: -20 }} animate={{ y: 40 }} transition={{ delay: 2.0, duration: 0.5, repeat: Infinity, repeatDelay: 5 }} />
+              <motion.rect x={150} y={65} width={150} height={40} rx={4} fill="#ede9fe" initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 2.5, duration: 0.5, repeat: Infinity, repeatDelay: 5 }} />
+              <motion.rect x={160} y={75} initial={{ width: 0 }} height={4} rx={2} fill="#7c3aed" animate={{ width: 80 }} transition={{ delay: 2.8, duration: 0.5, repeat: Infinity, repeatDelay: 5 }} />
+              <motion.rect x={150} y={115} width={45} height={25} rx={3} fill="#f1f5f9" initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 3.2, repeat: Infinity, repeatDelay: 5 }} />
+              <motion.rect x={202} y={115} width={45} height={25} rx={3} fill="#f1f5f9" initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 3.3, repeat: Infinity, repeatDelay: 5 }} />
+              <motion.rect x={254} y={115} width={45} height={25} rx={3} fill="#f1f5f9" initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 3.4, repeat: Infinity, repeatDelay: 5 }} />
             </>
           )}
         </g>
         {!shouldReduce && (
           <>
             <motion.path d="M 0 0 L 0 11 L 3 8 L 6 14 L 8 13 L 5 7 L 9 7 Z" fill="#0f172a" stroke="white" strokeWidth="1" initial={{ x: 80, y: 120, opacity: 0 }} animate={{ x: [80, 290, 290], y: [120, 48, 48], opacity: [1, 1, 0] }} transition={{ duration: 3, times: [0, 0.8, 1], delay: 2.5, repeat: Infinity, repeatDelay: 5 }} />
-            <motion.circle cx="290" cy="48" r="5" stroke="#7c3aed" strokeWidth="2" fill="none" initial={{ scale: 0, opacity: 0 }} animate={{ scale: 2.5, opacity: 0 }} transition={{ delay: 3.3, duration: 0.6, repeat: Infinity, repeatDelay: 7.7 }} />
+            <motion.circle cx={290} cy={48} r={5} stroke="#7c3aed" strokeWidth="2" fill="none" initial={{ scale: 0, opacity: 0 }} animate={{ scale: 2.5, opacity: 0 }} transition={{ delay: 3.3, duration: 0.6, repeat: Infinity, repeatDelay: 7.7 }} />
           </>
         )}
       </motion.g>
@@ -232,8 +232,8 @@ export default function EndToEndWebDevelopment() {
         {/* Hero */}
         <div
           ref={heroRef}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center mb-16"
-        >
+          className="relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center mb-16"
+         style={{ position: 'relative' }}>
           <motion.div variants={itemUp}>
             <div className="inline-block px-4 py-1.5 bg-violet-50 text-violet-700 rounded-full text-xs font-black tracking-widest mb-6">
               WEB SOLUTIONS

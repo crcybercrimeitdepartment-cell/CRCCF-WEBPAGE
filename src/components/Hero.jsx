@@ -95,11 +95,11 @@ export default function Hero() {
             srcSet={i === 0 || loadOthers ? getSrcSet(slide.image) : undefined}
             sizes="100vw"
             alt={slide.badge}
-            width="1920"
-            height="1080"
+            width={1920}
+            height={1080}
             loading={i === 0 ? 'eager' : 'lazy'}
             decoding={i === 0 ? 'sync' : 'async'}
-            fetchpriority={i === 0 ? 'high' : 'auto'}
+            fetchPriority={i === 0 ? 'high' : 'auto'}
             initial={false}
             animate={{
               opacity: index === i ? 0.35 : 0,

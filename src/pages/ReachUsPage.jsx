@@ -286,7 +286,7 @@ export default function ReachUsPage() {
                         d={d}
                         stroke={socialLinks[i].color}
                         strokeWidth="2"
-                        strokeDasharray="0"
+                        strokeDasharray={0}
                         initial={{ pathLength: 0, opacity: 0 }}
                         whileInView={{ pathLength: 1, opacity: 0.4 }}
                         animate={{ 

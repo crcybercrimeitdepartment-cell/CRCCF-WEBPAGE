@@ -80,15 +80,15 @@ const ObjectivesHeroOverlay = () => {
         <motion.path
           d="M0 -80 L 60 -60 V 20 C 60 60, 0 90, 0 90 C 0 90, -60 60, -60 20 V -60 L 0 -80 Z"
           fill="url(#shieldGrad)"
-          opacity="0.9"
+          opacity={0.9}
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
         />
         <motion.circle
-          r="30"
+          r={30}
           fill={color.white}
-          opacity="0.2"
+          opacity={0.2}
           animate={{ scale: [1, 1.5], opacity: [0.2, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
         />
@@ -442,7 +442,7 @@ export default function Objective() {
       >
         
 
-        <div ref={heroRef} className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-24">
+        <div ref={heroRef} className="relative grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-24" style={{ position: 'relative' }}>
           <motion.div variants={itemUp}>
             <div className="inline-block px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black tracking-[0.2em] mb-6">
               THE COMPLETE ROADMAP

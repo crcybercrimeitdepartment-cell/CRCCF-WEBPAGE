@@ -83,7 +83,7 @@ const TechAssistHeroOverlay = () => {
         
         {/* Scanning Line */}
         <motion.rect 
-          x="50" y="30" width="140" height="2" fill="#38bdf8" opacity="0.8"
+          x={50} y={30} width={140} height={2} fill="#38bdf8" opacity={0.8}
           animate={{ y: [0, 90, 0] }}
           transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
         />
@@ -163,8 +163,8 @@ export default function TechnicalAssistance() {
         {/* Hero */}
         <div
           ref={heroRef}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center mb-16"
-        >
+          className="relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center mb-16"
+         style={{ position: 'relative' }}>
           <motion.div variants={itemUp}>
             <div className="inline-block px-4 py-1.5 bg-indigo-50 text-indigo-700 rounded-full text-xs font-black tracking-widest mb-6 uppercase">
               Support & Solutions

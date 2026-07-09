@@ -84,9 +84,9 @@ const DesktopHeroOverlay = () => {
           stroke="#4f46e5" strokeWidth="3" fill="none"
           initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 2, delay: 0.8 }}
         />
-        <motion.rect x="45" y="70" width="15" height="40" rx="3" fill="#a5b4fc" initial={{ height: 0, y: 110 }} animate={{ height: 40, y: 70 }} transition={{ duration: 1, delay: 1 }} />
-        <motion.rect x="70" y="50" width="15" height="60" rx="3" fill="#a5b4fc" initial={{ height: 0, y: 110 }} animate={{ height: 60, y: 50 }} transition={{ duration: 1, delay: 1.2 }} />
-        <motion.rect x="95" y="80" width="15" height="30" rx="3" fill="#a5b4fc" initial={{ height: 0, y: 110 }} animate={{ height: 30, y: 80 }} transition={{ duration: 1, delay: 1.4 }} />
+        <motion.rect x={45} y={70} width={15} height={40} rx={3} fill="#a5b4fc" initial={{ height: 0, y: 110 }} animate={{ height: 40, y: 70 }} transition={{ duration: 1, delay: 1 }} />
+        <motion.rect x={70} y={50} width={15} height={60} rx={3} fill="#a5b4fc" initial={{ height: 0, y: 110 }} animate={{ height: 60, y: 50 }} transition={{ duration: 1, delay: 1.2 }} />
+        <motion.rect x={95} y={80} width={15} height={30} rx={3} fill="#a5b4fc" initial={{ height: 0, y: 110 }} animate={{ height: 30, y: 80 }} transition={{ duration: 1, delay: 1.4 }} />
       </g>
 
       <g clipPath="url(#laptopScreen)">
@@ -143,8 +143,8 @@ export default function DesktopLaptopSoftwareSolutions() {
         {/* Hero */}
         <div
           ref={heroRef}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center mb-16"
-        >
+          className="relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center mb-16"
+         style={{ position: 'relative' }}>
           <motion.div variants={itemUp}>
             <div className="inline-block px-4 py-1.5 bg-indigo-50 text-indigo-700 rounded-full text-xs font-black tracking-widest mb-6">
               DESKTOP POWERHOUSE

@@ -1,4 +1,5 @@
 import { playPageTurnSound } from "../../../utils/pageTurnSound";
+import Cloudinary from "../../../constants/Cloudinary";
 
 ﻿import React, { useState, useRef, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -46,18 +47,18 @@ const SVG_Shield = ({ className }) => (
 
 const SVG_Network = ({ className }) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <motion.circle cx="12" cy="12" r="3" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }} />
-    <motion.circle cx="5" cy="5" r="2" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5, delay: 0.2 }} />
-    <motion.circle cx="19" cy="5" r="2" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5, delay: 0.4 }} />
-    <motion.circle cx="5" cy="19" r="2" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5, delay: 0.6 }} />
-    <motion.circle cx="19" cy="19" r="2" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5, delay: 0.8 }} />
+    <motion.circle cx={12} cy={12} r={3} initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }} />
+    <motion.circle cx={5} cy={5} r={2} initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5, delay: 0.2 }} />
+    <motion.circle cx={19} cy={5} r={2} initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5, delay: 0.4 }} />
+    <motion.circle cx={5} cy={19} r={2} initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5, delay: 0.6 }} />
+    <motion.circle cx={19} cy={19} r={2} initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5, delay: 0.8 }} />
     <motion.path d="M6.5 6.5l4 4M17.5 6.5l-4 4M6.5 17.5l4-4M17.5 17.5l-4-4" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1, delay: 1 }} />
   </svg>
 );
 
 const SVG_Data = ({ className }) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <motion.ellipse cx="12" cy="5" rx="9" ry="3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} />
+    <motion.ellipse cx={12} cy={5} rx={9} ry={3} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} />
     <motion.path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.8, delay: 0.3 }} />
     <motion.path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.2, delay: 0.6 }} />
   </svg>
@@ -66,13 +67,13 @@ const SVG_Data = ({ className }) => (
 const SVG_Eye = ({ className }) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
     <motion.path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1 }} />
-    <motion.circle cx="12" cy="12" r="3" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5, delay: 0.8 }} />
+    <motion.circle cx={12} cy={12} r={3} initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5, delay: 0.8 }} />
   </svg>
 );
 
 const SVG_Device = ({ className }) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <motion.rect x="5" y="2" width="14" height="20" rx="2" ry="2" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.2 }} />
+    <motion.rect x={5} y={2} width={14} height={20} rx={2} ry={2} initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.2 }} />
     <motion.line x1="12" y1="18" x2="12.01" y2="18" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }} />
   </svg>
 );
@@ -360,13 +361,13 @@ const CyberHeroOverlay = () => {
         <motion.path
           d="M0 -80 L 70 0 L 0 80 L -70 0 Z"
           fill="url(#cyberGrad)"
-          opacity="0.9"
+          opacity={0.9}
           initial={{ scale: 0, rotate: 45 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
         />
         <motion.circle
-          r="25"
+          r={25}
           fill="#FFFFFF"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -444,7 +445,7 @@ export default function CyberAwareness() {
       <motion.section id="top" variants={container} initial="hidden" animate="show" className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-10 sm:py-16">
         
 
-        <div ref={heroRef} className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-24">
+        <div ref={heroRef} className="relative grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-24" style={{ position: 'relative' }}>
           <motion.div variants={itemUp}>
             <div className="inline-block px-4 py-1.5 bg-indigo-50 text-indigo-600 rounded-full text-[10px] font-black tracking-[0.2em] mb-6 uppercase">
               Digital Safety

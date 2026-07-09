@@ -60,59 +60,57 @@ export function useStampAnimation() {
       gsap.set(stamp.scale, { x: 1, y: 1, z: 1 });
 
       const tl = gsap.timeline({ onComplete: () => {
-        setTimeout(() => {
-          onComplete?.();
           gsap.set(stamp.position, { x: inkPadPos.x, y: inkPadPos.y, z: STRIKE_Z });
           gsap.set(stamp.rotation, { x: 0, y: 0, z: 0 });
-        }, 400);
       }});
       animationRef.current = tl;
 
       tl.to(stamp.position, {
         z: CRUISE_Z,
-        duration: 0.2,
+        duration: 0.1,
         ease: "power2.out",
       })
       .to(stamp.position, {
         x: cardPos.x,
         y: cardPos.y + 30,
         z: CRUISE_Z,
-        duration: 0.3,
+        duration: 0.2,
         ease: "power2.inOut",
-      }, "+=0.05")
+      }, "+=0.02")
       .to(stamp.rotation, {
         x: IMPACT_ROT_X,
         z: 0,
-        duration: 0.3,
+        duration: 0.2,
         ease: "power2.inOut",
       }, "<")
       .to(stamp.position, {
         y: cardPos.y,
         z: STRIKE_Z,
-        duration: 0.12,
+        duration: 0.08,
         ease: "expo.in",
       })
-      .to(stamp.scale, { y: 0.8, duration: 0.12, ease: "expo.in" }, "<")
+      .to(stamp.scale, { y: 0.8, duration: 0.08, ease: "expo.in" }, "<")
       .call(() => onStamped?.())
       .to(
         card,
         {
           scale: 0.88,
           boxShadow: "0 0px 1px rgba(0,0,0,0.18)",
-          duration: 0.1,
+          duration: 0.08,
           yoyo: true,
           repeat: 1,
         },
         "<"
       )
-      .to(stamp.scale, { y: 1, duration: 0.15 })
+      .to(stamp.scale, { y: 1, duration: 0.1 })
       .to(stamp.position, {
         z: CRUISE_Z - 50,
         y: cardPos.y + 80,
-        duration: 0.35,
+        duration: 0.2,
         ease: "back.out(1.2)",
       }, "<")
-      .to(stamp.rotation, { x: 0, z: 0.1, duration: 0.35 }, "<");
+      .to(stamp.rotation, { x: 0, z: 0.1, duration: 0.2 }, "<")
+      .call(() => onComplete?.());
     },
     [],
   );

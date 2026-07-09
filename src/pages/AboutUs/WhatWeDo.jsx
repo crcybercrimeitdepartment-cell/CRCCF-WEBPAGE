@@ -70,7 +70,7 @@ const ActionHeroOverlay = () => {
         {/* Animated Radar */}
         <circle r="80" fill="url(#actionGrad)" opacity="0.1" />
         <motion.circle
-          r="80" stroke={color.blue500} strokeWidth="1" fill="none"
+          r={80} stroke={color.blue500} strokeWidth="1" fill="none"
           animate={{ scale: [1, 1.2], opacity: [0.5, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
         />

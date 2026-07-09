@@ -32,8 +32,10 @@ const inlineStyles = `
 `;
 
 
+import Cloudinary from '../../constants/Cloudinary';
+
 // Preload audio globally so there is zero delay when playing
-const typingAudio = new Audio('/keyboard_soundeffect.mp3');
+const typingAudio = new Audio(Cloudinary.clickSound);
 typingAudio.preload = 'auto';
 typingAudio.loop = true;
 

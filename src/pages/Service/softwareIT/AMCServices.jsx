@@ -78,7 +78,7 @@ const AmcHeroOverlay = () => {
           <g key={i} transform={`translate(10, ${20 + i * 30})`}>
             <rect x="0" y="0" width="80" height="20" rx="2" fill={color.slate900} />
             <motion.circle 
-              cx="10" cy="10" r="3" fill={color.emerald400}
+              cx={10} cy={10} r={3} fill={color.emerald400}
               animate={{ opacity: [0.4, 1, 0.4] }}
               transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }}
             />
@@ -96,7 +96,7 @@ const AmcHeroOverlay = () => {
         <circle cx="30" cy="30" r="25" fill={color.white} stroke={color.slate200} />
         <circle cx="30" cy="30" r="15" fill={color.indigo100} />
         <motion.circle 
-          cx="30" cy="30" r="8" fill={color.indigo600}
+          cx={30} cy={30} r={8} fill={color.indigo600}
           animate={{ scale: [1, 1.2, 1] }}
           transition={{ duration: 2, repeat: Infinity }}
         />
@@ -225,8 +225,8 @@ export default function AMCServices() {
         {/* Hero */}
         <div
           ref={heroRef}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center mb-16"
-        >
+          className="relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center mb-16"
+         style={{ position: 'relative' }}>
           <motion.div variants={itemUp}>
             <div className="inline-block px-4 py-1.5 bg-emerald-50 text-emerald-700 rounded-full text-xs font-black tracking-widest mb-6">
               SYSTEM MAINTENANCE

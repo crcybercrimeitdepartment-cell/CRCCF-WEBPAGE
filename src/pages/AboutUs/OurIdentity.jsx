@@ -73,9 +73,9 @@ const IdentityHeroOverlay = () => {
 
       <g transform="translate(150, 150)">
         <motion.circle
-          r="80"
+          r={80}
           fill="url(#idGrad)"
-          opacity="0.9"
+          opacity={0.9}
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
@@ -383,7 +383,7 @@ export default function OurIdentity() {
       >
         
 
-        <div ref={heroRef} className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-24">
+        <div ref={heroRef} className="relative grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-24" style={{ position: 'relative' }}>
           <motion.div variants={itemUp}>
             <div className="inline-block px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black tracking-[0.2em] mb-6">
               THE HEART OF CRCCF

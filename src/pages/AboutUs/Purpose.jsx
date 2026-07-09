@@ -74,13 +74,13 @@ const PurposeHeroOverlay = () => {
         <motion.path
           d="M0 -80 L 70 0 L 0 80 L -70 0 Z"
           fill="url(#purpGrad)"
-          opacity="0.9"
+          opacity={0.9}
           initial={{ scale: 0, rotate: 45 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
         />
         <motion.circle
-          r="25"
+          r={25}
           fill={color.white}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -372,7 +372,7 @@ export default function Purpose() {
       >
         
 
-        <div ref={heroRef} className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-24">
+        <div ref={heroRef} className="relative grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-24" style={{ position: 'relative' }}>
           <motion.div variants={itemUp}>
             <div className="inline-block px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black tracking-[0.2em] mb-6">
               THE SOUL OF OUR MISSION

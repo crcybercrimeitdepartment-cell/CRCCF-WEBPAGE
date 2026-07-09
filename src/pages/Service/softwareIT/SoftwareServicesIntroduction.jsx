@@ -94,7 +94,7 @@ const SoftwareHeroOverlay = () => {
         {!shouldReduce && [1, 2, 3, 4].map((i) => (
           <motion.rect 
             key={i}
-            x="15" y={15 + i * 12} width="0" height="4" rx="2" fill={i % 2 === 0 ? color.cyan400 : color.indigo400}
+            x={15} y={15 + i * 12} initial={{ width: 0 }} height={4} rx={2} fill={i % 2 === 0 ? color.cyan400 : color.indigo400}
             animate={{ width: [0, 80, 80] }}
             transition={{ duration: 2, repeat: Infinity, delay: i * 0.3, repeatDelay: 1 }}
           />
@@ -117,7 +117,7 @@ const SoftwareHeroOverlay = () => {
         <rect x="20" y="70" width="60" height="8" rx="4" fill={color.slate200} />
         <rect x="20" y="90" width="40" height="8" rx="4" fill={color.slate200} />
         <motion.circle 
-          cx="80" cy="110" r="15" fill={color.emerald400} 
+          cx={80} cy={110} r={15} fill={color.emerald400} 
           initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1, type: "spring" }}
         />
         <path d="M75 110 L 80 115 L 85 105" stroke={color.white} strokeWidth="2" fill="none" />
@@ -233,8 +233,8 @@ export default function SoftwareServicesIntroduction() {
         {/* Hero */}
         <div
           ref={heroRef}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center mb-16"
-        >
+          className="relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center mb-16"
+         style={{ position: 'relative' }}>
           <motion.div variants={itemUp}>
             <div className="inline-block px-4 py-1.5 bg-cyan-50 text-cyan-700 rounded-full text-xs font-black tracking-widest mb-6">
               SOFTWARE INNOVATION

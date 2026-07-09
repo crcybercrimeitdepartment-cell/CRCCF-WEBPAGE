@@ -238,8 +238,8 @@ export default function MobileApplicationDevelopment() {
         {/* Hero */}
         <div
           ref={heroRef}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center mb-16"
-        >
+          className="relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center mb-16"
+         style={{ position: 'relative' }}>
           <motion.div variants={itemUp}>
             <div className="inline-block px-4 py-1.5 bg-rose-50 text-rose-700 rounded-full text-xs font-black tracking-widest mb-6">
               MOBILE SOLUTIONS
