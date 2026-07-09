@@ -6,7 +6,58 @@ import {
 } from 'lucide-react';
 import { heroData, sectionsData, constants, contentData, mentorshipProgramsData } from '../../data/skillDevelopment/MentorshipProgramsPageData';
 import ComingSoonPage from '../common/ComingSoonPage';
-import * as LucideIcons from 'lucide-react';
+import {
+  GraduationCap,
+  ShieldCheck,
+  Terminal,
+  Crosshair,
+  Monitor,
+  Wifi,
+  Cloud,
+  Eye,
+  ScanLine,
+  Fingerprint,
+  Gavel,
+  BarChart3,
+  Database,
+  Cpu,
+  Binary,
+  Sparkles,
+  MessageSquareCode,
+  LineChart,
+  Layers,
+  Code2,
+  Blocks,
+  AppWindow,
+  Smartphone,
+  Layout,
+  Infinity,
+  CheckSquare,
+  Server,
+  Link,
+  Palette,
+  Image,
+  Box,
+  Pen,
+  Megaphone,
+  Search,
+  Share2,
+  ClipboardList,
+  Handshake,
+  Rocket,
+  TrendingUp,
+  Award,
+  Calculator,
+  PieChart,
+  Landmark,
+  UserCheck,
+  Newspaper,
+  Mic,
+  ScrollText,
+  Scale
+} from 'lucide-react';
+
+const LucideIcons = { GraduationCap, ShieldCheck, Terminal, Crosshair, Monitor, Wifi, Cloud, Eye, ScanLine, Fingerprint, Gavel, BarChart3, Database, Cpu, Binary, Sparkles, MessageSquareCode, LineChart, Layers, Code2, Blocks, AppWindow, Smartphone, Layout, Infinity, CheckSquare, Server, Link, Palette, Image, Box, Pen, Megaphone, Search, Share2, ClipboardList, Handshake, Rocket, TrendingUp, Award, Calculator, PieChart, Landmark, UserCheck, Newspaper, Mic, ScrollText, Scale, InfinityIcon: Infinity };
 // ==========================================
 // 0. INJECTED STYLES
 // ==========================================

@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, lazy, Suspense } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { eventGalleryData } from '../data/gallery/eventGalleryData'
-import ImaxCamera from './gallery/ImaxCamera'
 
+const ImaxCamera = lazy(() => import('./gallery/ImaxCamera'))
 /* ─── Marquee text ─────────────────────────────────────────── */
 const NOTICE =
   'Welcome to CR Cyber Crime Foundation — a leading IT, software, and cybersecurity organization in India. With 24/7 dedication, CRCCF delivers innovative software products, scalable web and mobile applications, and end-to-end IT solutions.       '
@@ -140,7 +140,9 @@ function GalleryPopup({ navigate }) {
         {/* IMAX Camera Scaled Container */}
         <div className="relative w-full h-[170px] rounded-[12px] overflow-hidden bg-[#1f2022] mb-4 flex justify-center items-center shadow-[inset_0_0_0_1px_rgba(0,0,0,0.2)] transition-transform duration-500 ease-out group-hover:scale-[1.02]">
           <div style={{ transform: 'scale(0.28)', transformOrigin: 'center' }} className="pointer-events-none">
-            <ImaxCamera galleryData={[]} />
+            <Suspense fallback={null}>
+              <ImaxCamera galleryData={[]} />
+            </Suspense>
           </div>
           
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-90 pointer-events-none" />

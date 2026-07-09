@@ -154,7 +154,7 @@ export default function InsightBook({
                 ease-[cubic-bezier(0.645,0.045,0.355,1)]
                 [transform-origin:left_center] [backface-visibility:hidden]
                 will-change-transform will-change-opacity
-                ${pageIdx % 2 === 0 ? 'bg-[#FFFDF9]' : 'bg-[#FFFEFB]'}
+                ${pageIdx % 2 === 0 ? 'bg-[#F8FAFC]' : 'bg-[#F1F5F9]'}
                 ${isFlipped
                   ? '[transform:rotateY(-130deg)_scale(0.9)_translateX(-20px)] opacity-100 pointer-events-none shadow-[-15px_0_40px_rgba(0,0,0,0.1)]'
                   : pageIdx === activePageIndex
@@ -164,11 +164,11 @@ export default function InsightBook({
               `}
             >
               <div className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-amber-50">
-                  <PageSVG className="w-7 h-7 text-amber-600" />
+                <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-blue-50">
+                  <PageSVG className="w-7 h-7 text-blue-600" />
                 </div>
                 <div className="flex flex-col">
-                  <h4 className="text-[14px] font-black uppercase tracking-[0.1em] leading-tight text-amber-600">
+                  <h4 className="text-[14px] font-black uppercase tracking-[0.1em] leading-tight text-blue-600">
                     {page.heading}
                   </h4>
                   <span className="text-[11px] font-bold text-slate-400 mt-1">{pageLabel} {pageIdx + 1} of {allPages.length}</span>
@@ -187,7 +187,7 @@ export default function InsightBook({
                     {pageIdx > 0 && (
                       <button
                         onClick={(e) => { e.stopPropagation(); playPageTurnSound(); setActivePageIndex(pageIdx - 1); keepScrubberVisible(); }}
-                        className="text-[12px] font-black text-amber-600 flex items-center gap-2 hover:gap-3 transition-all bg-transparent border-none cursor-pointer p-0"
+                        className="text-[12px] font-black text-blue-600 flex items-center gap-2 hover:gap-3 transition-all bg-transparent border-none cursor-pointer p-0"
                       >
                         <ArrowLeft size={16} /> Back
                       </button>
@@ -197,12 +197,12 @@ export default function InsightBook({
                     {pageIdx < allPages.length - 1 && (
                       <button
                         onClick={(e) => { e.stopPropagation(); playPageTurnSound(); setActivePageIndex(pageIdx + 1); keepScrubberVisible(); }}
-                        className="text-[12px] font-black text-amber-600 flex items-center gap-2 hover:gap-3 transition-all bg-transparent border-none cursor-pointer p-0"
+                        className="text-[12px] font-black text-blue-600 flex items-center gap-2 hover:gap-3 transition-all bg-transparent border-none cursor-pointer p-0"
                       >
                         Next <ArrowRight size={16} />
                       </button>
                     )}
-                    <div className="w-2.5 h-2.5 rounded-full bg-amber-600 shadow-[0_0_10px_rgba(217,119,6,0.4)]" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-blue-600 shadow-[0_0_10px_rgba(217,119,6,0.4)]" />
                   </div>
                 </div>
               </div>
@@ -221,8 +221,8 @@ export default function InsightBook({
             ${isOpen ? '[transform:rotateY(-145deg)_scale(0.95)_translateX(-30px)] opacity-0 pointer-events-none' : ''}
           `}
           style={{
-            background: `linear-gradient(135deg, #ffffff, #FFFBEB)`,
-            borderLeft: `8px solid #D97706`
+            background: `linear-gradient(135deg, #ffffff, #EFF6FF)`,
+            borderLeft: `8px solid #2563EB`
           }}
           onClick={handleOpen}
         >
@@ -238,7 +238,7 @@ export default function InsightBook({
           
           <p className="text-slate-500 font-bold uppercase tracking-[0.2em] text-[10px] mb-8">{bookSubtitle}</p>
 
-          <div className="flex items-center gap-3 text-[13px] font-black uppercase tracking-[0.15em] mt-auto text-amber-600">
+          <div className="flex items-center gap-3 text-[13px] font-black uppercase tracking-[0.15em] mt-auto text-blue-600">
             <span>{coverLabel}</span>
             <ArrowRight size={18} className="animate-pulse" />
           </div>
@@ -252,7 +252,7 @@ export default function InsightBook({
             <div className="flex flex-col">
               <span className="text-[11px] sm:text-[12px] font-bold text-slate-700 mt-1 truncate max-w-[180px] sm:max-w-[300px]">{allPages[activePageIndex].heading}</span>
             </div>
-            <span className="flex-shrink-0 px-2 sm:px-4 py-1 sm:py-1.5 rounded-full bg-amber-600 text-white text-[9px] sm:text-[11px] font-black tabular-nums shadow-lg shadow-amber-200">
+            <span className="flex-shrink-0 px-2 sm:px-4 py-1 sm:py-1.5 rounded-full bg-blue-600 text-white text-[9px] sm:text-[11px] font-black tabular-nums shadow-lg shadow-blue-200">
               {activePageIndex + 1} / {allPages.length}
             </span>
           </div>
@@ -280,7 +280,7 @@ export default function InsightBook({
                 setPreviewPageIndex(Math.round(percent * (allPages.length - 1)));
               }}
               onMouseLeave={() => setPreviewPageIndex(null)}
-              className="w-full h-2 bg-slate-200 rounded-full appearance-none cursor-pointer accent-amber-600 hover:accent-amber-700 transition-all shadow-inner"
+              className="w-full h-2 bg-slate-200 rounded-full appearance-none cursor-pointer accent-blue-600 hover:accent-blue-700 transition-all shadow-inner"
             />
           </div>
         </div>

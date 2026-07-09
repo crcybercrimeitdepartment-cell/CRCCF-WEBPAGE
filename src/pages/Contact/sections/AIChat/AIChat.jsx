@@ -12,11 +12,17 @@ const AIChat = () => {
   ]);
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const chatEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
 
   // Auto-scroll to bottom when a new message is added
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const container = messagesContainerRef.current;
+    if (!container) return;
+
+    container.scrollTo({
+      top: container.scrollHeight,
+      behavior: "smooth",
+    });
   }, [messages, isTyping]);
 
   const handleSendMessage = (e) => {
@@ -70,7 +76,10 @@ const AIChat = () => {
       </div>
 
       {/* --- CHAT HISTORY AREA --- */}
-      <div className="flex-1 p-6 overflow-y-auto bg-slate-50/50 space-y-6">
+      <div 
+        ref={messagesContainerRef}
+        className="flex-1 p-6 overflow-y-auto bg-slate-50/50 space-y-6"
+      >
         {messages.map((msg) => (
           <div
             key={msg.id}
@@ -122,7 +131,6 @@ const AIChat = () => {
             </div>
           </div>
         )}
-        <div ref={chatEndRef} />
       </div>
 
       {/* --- INPUT AREA --- */}

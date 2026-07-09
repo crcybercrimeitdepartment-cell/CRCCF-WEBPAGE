@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { iconMap } from '../../data/global/searchData';
 import { Search } from 'lucide-react';
 
-export default function SearchDropdown({ results, selectedIndex, onSelect, query }) {
+export default function SearchDropdown({ results, selectedIndex, onSelect, query, onClear }) {
   const highlightMatch = (text, query, isHeading = false) => {
     if (!query) return text;
     const parts = text.split(new RegExp(`(${query})`, 'gi'));
@@ -75,10 +75,34 @@ export default function SearchDropdown({ results, selectedIndex, onSelect, query
             );
           })
         ) : (
-          <div className="py-12 flex flex-col items-center justify-center text-center opacity-60">
-            <Search size={32} className="mb-3 text-[rgba(255,255,255,0.3)]" />
-            <p className="text-[14px] font-bold text-white">No matching results found</p>
-            <p className="text-[12px] text-[rgba(255,255,255,0.5)]">Try searching for different keywords</p>
+          <div className="p-6 flex flex-col items-center justify-center text-center">
+            <div className="w-16 h-16 bg-[rgba(255,255,255,0.05)] rounded-full flex items-center justify-center mb-4 border border-[rgba(255,255,255,0.1)]">
+              <Search size={32} className="text-[rgba(255,255,255,0.4)]" />
+            </div>
+            <p className="text-[16px] font-bold text-white mb-1">No results found for "{query}"</p>
+            <p className="text-[13px] text-[rgba(255,255,255,0.5)] mb-6">We couldn't find anything matching your search.</p>
+            
+            <div className="w-full text-left bg-[rgba(255,255,255,0.03)] p-4 rounded-xl border border-[rgba(255,255,255,0.05)] mb-4">
+              <h5 className="text-[11px] uppercase tracking-wider font-bold text-[rgba(255,255,255,0.4)] mb-3">Popular Pages</h5>
+              <div className="flex flex-wrap gap-2">
+                {['Report Crime', 'Internships', 'Cyber Security Tips', 'Reach Us'].map((suggest) => (
+                  <button 
+                    key={suggest}
+                    onClick={() => onSelect({ title: suggest, link: suggest === 'Report Crime' ? '/report-crime' : suggest === 'Internships' ? '/skill-development/internships' : suggest === 'Reach Us' ? '/reachus' : '/report-crime/cyber-security-tips' })}
+                    className="px-3 py-1.5 bg-[rgba(255,255,255,0.08)] hover:bg-[rgba(59,130,246,0.2)] hover:text-blue-400 text-[12px] text-[rgba(255,255,255,0.7)] rounded-full transition-colors cursor-pointer border-none"
+                  >
+                    {suggest}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <button 
+              onClick={onClear}
+              className="px-5 py-2 bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.15)] text-white text-[13px] font-bold rounded-lg transition-colors cursor-pointer border border-[rgba(255,255,255,0.1)]"
+            >
+              Clear Search
+            </button>
           </div>
         )}
       </div>

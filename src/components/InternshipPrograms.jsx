@@ -287,7 +287,10 @@ export default function InternshipPrograms() {
   const [tappedBenefits, setTappedBenefits] = useState([])
 
   const toggleCard = (card) => {
-    setExpandedCards(prev => ({ ...prev, [card]: !prev[card] }))
+    setExpandedCards(prev => ({
+      mentorship: card === 'mentorship' ? !prev.mentorship : false,
+      certification: card === 'certification' ? !prev.certification : false
+    }))
   }
 
   const handleBenefitTap = (e, id) => {
@@ -478,41 +481,67 @@ export default function InternshipPrograms() {
         </motion.div>
 
         {/* Support & Certification Cards */}
-        <div className="mt-[60px] grid grid-cols-[repeat(2,1fr)] gap-[30px] max-[900px]:grid-cols-1 max-[900px]:max-w-[500px] max-[900px]:mx-auto max-[900px]:mt-[60px]">
+        <div className="mt-[60px] grid grid-cols-[repeat(2,1fr)] gap-[30px] items-start max-[900px]:grid-cols-1 max-[900px]:max-w-[500px] max-[900px]:mx-auto max-[900px]:mt-[60px]">
           <motion.div
-            className="bg-[#ffffff] rounded-[12px] overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] border-[1px] border-solid border-[#E5E7EB] flex flex-col transition-[transform,box-shadow] duration-[0.3s] ease-[ease] relative hover:translate-y-[-12px] hover:shadow-[0_30px_70px_rgba(0,102,255,0.15)] hover:border-[#3B82F6] group"
+            className="bg-white/80 backdrop-blur-xl rounded-[20px] overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-blue-100/50 flex flex-col transition-all duration-[400ms] ease-in-out relative hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(37,99,235,0.1)] hover:border-blue-300/50 group"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            <div className="bg-[linear-gradient(180deg,#00A3FF_0%,#0066FF_100%)] py-[40px] px-[30px] pb-[60px] text-center text-[#ffffff] relative transition-[filter] duration-[0.3s] ease-[ease] group-hover:brightness-[1.1] max-[600px]:py-[30px] max-[600px]:px-[20px] max-[600px]:pb-[50px]">
-              <h4 className="text-[13px] font-[500] opacity-[0.9] mb-[8px] capitalize">Mentorship</h4>
-              <h3 className="text-[20px] font-[700] m-0 tracking-[0.5px]">Training, Mentorship & Placement Support</h3>
-              <div className="absolute bottom-0 left-0 w-full h-[40px] bg-[#ffffff] rounded-[100%_100%_0_0/100%_100%_0_0] translate-y-[1px]"></div>
-            </div>
-            <div className="w-[100px] h-[100px] bg-[#ffffff] rounded-[50%] mx-auto mt-[-50px] p-[8px] relative z-[2] shadow-[0_4px_10px_rgba(0,0,0,0.1)] max-[600px]:w-[80px] max-[600px]:h-[80px] max-[600px]:mt-[-40px]">
-              <div className="w-full h-full bg-[#f8fafc] rounded-[50%] flex items-center justify-center text-[36px] border-[1px] border-solid border-[#E5E7EB] transition-all duration-[0.4s] ease-[ease] group-hover:scale-[1.1] group-hover:rotate-[5deg] group-hover:border-[#3B82F6] group-hover:text-[#3B82F6] max-[600px]:text-[28px]"><Target size={36} color="currentColor" /></div>
-            </div>
-            <div className="py-[24px] px-[30px] pb-[40px] text-center flex-1">
-              <p className="text-[14.5px] text-[#4B5563] leading-[1.7] mb-[16px] last:mb-0">We are committed to delivering quality education through our team of experienced professionals.</p>
+            {/* Soft background gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-transparent to-blue-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-400 ease-in-out pointer-events-none" />
+            
+            {/* Glowing top border */}
+            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none" />
 
-              <AnimatePresence>
-                {expandedCards.mentorship && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                    style={{ overflow: 'hidden' }}
-                  >
-                    <p className="text-[14.5px] text-[#4B5563] leading-[1.7] mb-[16px] last:mb-0">Our mentors ensure that students receive proper guidance, industry insights, and continuous support throughout the program.</p>
-                    <p className="text-[14.5px] text-[#4B5563] leading-[1.7] mb-[16px] last:mb-0">We also provide the Talent Placement Program to eligible candidates <Rocket size={14} className="vertical-middle mx-[4px] inline-block text-[#1A56DB]" />, helping them transition into real-world career opportunities based on their performance, skills, and evaluation.</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+            <div className="p-5 sm:p-6 relative z-10 flex flex-col flex-1">
+              {/* Header */}
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-[10px] font-bold tracking-wide uppercase mb-2.5">
+                    Mentorship
+                  </div>
+                  <h3 className="text-[17px] sm:text-[19px] font-extrabold text-slate-900 leading-snug">
+                    Training, Mentorship &<br/>Placement Support
+                  </h3>
+                </div>
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-[12px] bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white shadow-[0_6px_12px_rgba(37,99,235,0.2)] transition-transform duration-400 group-hover:scale-110 group-hover:rotate-[5deg] shrink-0">
+                  <Target size={22} className="w-[20px] sm:w-[22px]" />
+                </div>
+              </div>
 
-              <button className="flex items-center justify-center gap-[8px] mx-auto mt-[16px] bg-[rgba(37,99,235,0.05)] text-[#1A56DB] border-[1px] border-solid border-[rgba(37,99,235,0.2)] py-[8px] px-[20px] rounded-[999px] text-[14px] font-[700] cursor-pointer transition-all duration-[0.3s] ease-[ease] w-fit hover:bg-[#1A56DB] hover:text-[#ffffff] hover:translate-y-[-2px] hover:shadow-[0_4px_12px_rgba(26,86,219,0.2)] [&_svg]:transition-transform [&_svg]:duration-[0.3s] [&_svg]:ease-[ease] hover:[&_svg]:translate-y-[2px]" onClick={() => toggleCard('mentorship')}>
+              <div className="flex flex-col flex-1 text-center items-center">
+                <p className="text-[14.5px] text-slate-700 font-medium leading-relaxed mb-4 text-left w-full">
+                  We are committed to delivering quality education through our team of experienced professionals.
+                </p>
+
+                <AnimatePresence>
+                  {expandedCards.mentorship && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.4 }}
+                      style={{ overflow: 'hidden' }}
+                      className="w-full text-left mb-4"
+                    >
+                      <p className="text-[14.5px] text-slate-700 font-medium leading-relaxed mb-4">
+                        Our mentors ensure that students receive proper guidance, industry insights, and continuous support throughout the program.
+                      </p>
+                      <p className="text-[14.5px] text-slate-700 font-medium leading-relaxed">
+                        We also provide the Talent Placement Program to eligible candidates <Rocket size={14} className="inline-block text-blue-600 -mt-0.5 mx-1" />, helping them transition into real-world career opportunities based on their performance, skills, and evaluation.
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Button */}
+              <button 
+                className="mt-auto flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-[13px] shadow-[0_6px_12px_rgba(37,99,235,0.2)] transition-all duration-300 hover:shadow-[0_8px_16px_rgba(37,99,235,0.3)] hover:-translate-y-0.5 active:translate-y-0"
+                onClick={() => toggleCard('mentorship')}
+              >
                 {expandedCards.mentorship ? 'Show Less' : 'Read More'}
                 {expandedCards.mentorship ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
               </button>
@@ -520,43 +549,73 @@ export default function InternshipPrograms() {
           </motion.div>
 
           <motion.div
-            className="bg-[#ffffff] rounded-[12px] overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] border-[1px] border-solid border-[#E5E7EB] flex flex-col transition-[transform,box-shadow] duration-[0.3s] ease-[ease] relative hover:translate-y-[-12px] hover:shadow-[0_30px_70px_rgba(0,102,255,0.15)] hover:border-[#3B82F6] group"
+            className="bg-white/80 backdrop-blur-xl rounded-[20px] overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-blue-100/50 flex flex-col transition-all duration-[400ms] ease-in-out relative hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(37,99,235,0.1)] hover:border-blue-300/50 group"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.7 }}
           >
-            <div className="bg-[linear-gradient(180deg,#00A3FF_0%,#0066FF_100%)] py-[40px] px-[30px] pb-[60px] text-center text-[#ffffff] relative transition-[filter] duration-[0.3s] ease-[ease] group-hover:brightness-[1.1] max-[600px]:py-[30px] max-[600px]:px-[20px] max-[600px]:pb-[50px]">
-              <h4 className="text-[13px] font-[500] opacity-[0.9] mb-[8px] capitalize">Certification</h4>
-              <h3 className="text-[20px] font-[700] m-0 tracking-[0.5px]">Certification & Verification</h3>
-              <div className="absolute bottom-0 left-0 w-full h-[40px] bg-[#ffffff] rounded-[100%_100%_0_0/100%_100%_0_0] translate-y-[1px]"></div>
-            </div>
-            <div className="w-[100px] h-[100px] bg-[#ffffff] rounded-[50%] mx-auto mt-[-50px] p-[8px] relative z-[2] shadow-[0_4px_10px_rgba(0,0,0,0.1)] max-[600px]:w-[80px] max-[600px]:h-[80px] max-[600px]:mt-[-40px]">
-              <div className="w-full h-full bg-[#f8fafc] rounded-[50%] flex items-center justify-center text-[36px] border-[1px] border-solid border-[#E5E7EB] transition-all duration-[0.4s] ease-[ease] group-hover:scale-[1.1] group-hover:rotate-[5deg] group-hover:border-[#3B82F6] group-hover:text-[#3B82F6] max-[600px]:text-[28px]"><Award size={36} color="currentColor" /></div>
-            </div>
-            <div className="py-[24px] px-[30px] pb-[40px] text-center flex-1">
-              <p className="text-[14.5px] text-[#4B5563] leading-[1.7] mb-[16px] last:mb-0">Upon successful completion of the internship program, participants will be awarded:</p>
+            {/* Soft background gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-transparent to-blue-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-400 ease-in-out pointer-events-none" />
+            
+            {/* Glowing top border */}
+            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none" />
 
-              <AnimatePresence>
-                {expandedCards.certification && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                    style={{ overflow: 'hidden' }}
-                  >
-                    <ul className="list-none p-0 my-[16px] mx-0 inline-block text-left">
-                      <li className="relative pl-[24px] mb-[8px] text-[14.5px] text-[#1F2937] font-[600] before:content-['•'] before:absolute before:left-0 before:text-[#3B82F6] before:font-bold">Digital (Virtual) Certificate <Globe size={14} className="vertical-middle mx-[4px] inline-block text-[#1A56DB]" /></li>
-                      <li className="relative pl-[24px] mb-[8px] text-[14.5px] text-[#1F2937] font-[600] before:content-['•'] before:absolute before:left-0 before:text-[#3B82F6] before:font-bold">Physical Hard Copy Certificate <FileText size={14} className="vertical-middle mx-[4px] inline-block text-[#1A56DB]" /></li>
-                    </ul>
-                    <p className="text-[14.5px] text-[#4B5563] leading-[1.7] mb-[16px] last:mb-0">These certifications are officially issued by CR Cyber Crime Foundation (CRCCF) and hold professional value in recognizing the candidate’s training and practical experience.</p>
-                    <p className="text-[14.5px] text-[#4B5563] leading-[1.7] mb-[16px] last:mb-0">To ensure authenticity, each student’s certification details, profile, and photograph will be securely published on the official Student Verification Portal <Search size={14} className="vertical-middle mx-[4px] inline-block text-[#1A56DB]" />.</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+            <div className="p-5 sm:p-6 relative z-10 flex flex-col flex-1">
+              {/* Header */}
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-[10px] font-bold tracking-wide uppercase mb-2.5">
+                    Certification
+                  </div>
+                  <h3 className="text-[17px] sm:text-[19px] font-extrabold text-slate-900 leading-snug">
+                    Certification &<br/>Verification
+                  </h3>
+                </div>
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-[12px] bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white shadow-[0_6px_12px_rgba(6,182,212,0.2)] transition-transform duration-400 group-hover:scale-110 group-hover:rotate-[5deg] shrink-0">
+                  <Award size={22} className="w-[20px] sm:w-[22px]" />
+                </div>
+              </div>
 
-              <button className="flex items-center justify-center gap-[8px] mx-auto mt-[16px] bg-[rgba(37,99,235,0.05)] text-[#1A56DB] border-[1px] border-solid border-[rgba(37,99,235,0.2)] py-[8px] px-[20px] rounded-[999px] text-[14px] font-[700] cursor-pointer transition-all duration-[0.3s] ease-[ease] w-fit hover:bg-[#1A56DB] hover:text-[#ffffff] hover:translate-y-[-2px] hover:shadow-[0_4px_12px_rgba(26,86,219,0.2)] [&_svg]:transition-transform [&_svg]:duration-[0.3s] [&_svg]:ease-[ease] hover:[&_svg]:translate-y-[2px]" onClick={() => toggleCard('certification')}>
+              <div className="flex flex-col flex-1 text-center items-center">
+                <p className="text-[14.5px] text-slate-700 font-medium leading-relaxed mb-4 text-left w-full">
+                  Upon successful completion of the internship program, participants will be awarded:
+                </p>
+
+                <AnimatePresence>
+                  {expandedCards.certification && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.4 }}
+                      style={{ overflow: 'hidden' }}
+                      className="w-full text-left mb-4"
+                    >
+                      <ul className="list-none p-0 mb-4 mx-0 inline-block text-left">
+                        <li className="relative pl-[24px] mb-[8px] text-[14.5px] text-slate-800 font-semibold before:content-['•'] before:absolute before:left-0 before:text-blue-500 before:font-bold">
+                          Digital (Virtual) Certificate <Globe size={14} className="inline-block text-blue-600 -mt-0.5 mx-1" />
+                        </li>
+                        <li className="relative pl-[24px] mb-[8px] text-[14.5px] text-slate-800 font-semibold before:content-['•'] before:absolute before:left-0 before:text-blue-500 before:font-bold">
+                          Physical Hard Copy Certificate <FileText size={14} className="inline-block text-blue-600 -mt-0.5 mx-1" />
+                        </li>
+                      </ul>
+                      <p className="text-[14.5px] text-slate-700 font-medium leading-relaxed mb-4">
+                        These certifications are officially issued by CR Cyber Crime Foundation (CRCCF) and hold professional value in recognizing the candidate’s training and practical experience.
+                      </p>
+                      <p className="text-[14.5px] text-slate-700 font-medium leading-relaxed">
+                        To ensure authenticity, each student’s certification details, profile, and photograph will be securely published on the official Student Verification Portal <Search size={14} className="inline-block text-blue-600 -mt-0.5 mx-1" />.
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Button */}
+              <button 
+                className="mt-auto flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-[13px] shadow-[0_6px_12px_rgba(37,99,235,0.2)] transition-all duration-300 hover:shadow-[0_8px_16px_rgba(37,99,235,0.3)] hover:-translate-y-0.5 active:translate-y-0"
+                onClick={() => toggleCard('certification')}
+              >
                 {expandedCards.certification ? 'Show Less' : 'Read More'}
                 {expandedCards.certification ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
               </button>

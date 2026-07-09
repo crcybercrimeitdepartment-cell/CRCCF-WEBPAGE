@@ -259,7 +259,7 @@ export default function ReportCrimePage() {
                   className={`side-card ${getColorClass(item.color)} ${selected?.id === item.id ? "active" : ""}`}
                 >
                   <span className="card-icon">{getMenuIcon(item.icon)}</span>
-                  <span className="card-title">{item.title}</span>
+                  <span className="card-title font-sans antialiased">{item.title}</span>
                   <span className="card-arrow">&rsaquo;</span>
                 </button>
               ))}
@@ -702,7 +702,7 @@ export default function ReportCrimePage() {
                   className={`side-card ${getColorClass(item.color)} ${selected?.id === item.id ? "active" : ""}`}
                 >
                   <span className="card-icon">{getMenuIcon(item.icon)}</span>
-                  <span className="card-title">{item.title}</span>
+                  <span className="card-title font-sans antialiased">{item.title}</span>
                   <span className="card-arrow">&rsaquo;</span>
                 </button>
               ))}

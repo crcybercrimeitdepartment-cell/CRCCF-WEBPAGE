@@ -29,12 +29,12 @@ const useAnims = () => {
 
 /* -------------------------- HERO: SVG Overlays -------------------------- */
 const color = {
-  amber50: "#FFFBEB",
+  amber50: "#EFF6FF",
   amber100: "#FEF3C7",
   amber500: "#F59E0B",
   amber600: "#D97706",
   amber900: "#78350F",
-  orange50: "#FFF7ED",
+  orange50: "#EFF6FF",
   orange500: "#F97316",
   slate50: "#F8FAFC",
   slate100: "#F1F5F9",
@@ -56,8 +56,8 @@ const CyberInvestigationHeroOverlay = () => {
           <path d="M 30 0 L 0 0 0 30" fill="none" stroke={color.slate700} strokeWidth="0.5" opacity="0.3" />
         </pattern>
         <linearGradient id="ciGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor={color.amber500} />
-          <stop offset="100%" stopColor={color.orange500} />
+          <stop offset="0%" stopColor={color.cyan500} />
+          <stop offset="100%" stopColor={color.cyan500} />
         </linearGradient>
       </defs>
       <rect width="300" height="300" fill="url(#ciGrid)" />
@@ -80,7 +80,7 @@ const CyberInvestigationHeroOverlay = () => {
         />
         <motion.path
           d="M-10 0 H 10 M 0 -10 V 10"
-          stroke={color.amber600}
+          stroke={color.blue600}
           strokeWidth="4"
           strokeLinecap="round"
           initial={{ pathLength: 0 }}
@@ -143,7 +143,7 @@ export default function CyberInvestigationServices() {
 
         <div ref={heroRef} className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-24">
           <motion.div variants={itemUp}>
-            <div className="inline-block px-4 py-1.5 bg-amber-50 text-amber-600 rounded-full text-[10px] font-black tracking-[0.2em] mb-6 uppercase">
+            <div className="inline-block px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black tracking-[0.2em] mb-6 uppercase">
               Cyber Investigation
             </div>
             <h1 className="text-5xl md:text-6xl font-black text-slate-900 leading-[1.05] mb-8 tracking-tight">
@@ -155,7 +155,7 @@ export default function CyberInvestigationServices() {
           </motion.div>
 
           <motion.div style={{ y: heroY }} className="relative">
-            <div className="absolute -inset-6 rounded-[40px] bg-gradient-to-tr from-amber-100 via-white to-orange-100 blur-3xl opacity-60" />
+            <div className="absolute -inset-6 rounded-[40px] bg-gradient-to-tr from-blue-100 via-white to-cyan-100 blur-3xl opacity-60" />
             <div className="relative rounded-[40px] border border-gray-200 bg-white p-5 shadow-2xl overflow-hidden">
                <VideoHeroCyberInvestigation src="https://cdn.coverr.co/videos/coverr-a-man-writing-in-his-notebook-4541/1080p.mp4" />
             </div>
@@ -164,7 +164,7 @@ export default function CyberInvestigationServices() {
 
         <div className="mt-10 pt-10 border-t border-slate-100">
           <div className="mb-16 text-center">
-            <h2 className="text-4xl font-black text-slate-900 mb-4 tracking-tight">Cyber Investigation <span className="text-amber-600">Services</span></h2>
+            <h2 className="text-4xl font-black text-slate-900 mb-4 tracking-tight">Cyber Investigation <span className="text-blue-600">Services</span></h2>
             <p className="text-slate-500 text-lg font-medium">Flip the cover to explore our 30 strategic investigation and support solutions.</p>
           </div>
 

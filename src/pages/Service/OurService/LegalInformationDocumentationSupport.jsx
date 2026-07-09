@@ -51,12 +51,12 @@ const useAnims = () => {
 
 /* -------------------------- HERO: SVG Overlays -------------------------- */
 const color = {
-  amber50: '#FFFBEB',
+  amber50: '#EFF6FF',
   amber100: '#FEF3C7',
   amber500: '#F59E0B',
   amber600: '#D97706',
   amber900: '#78350F',
-  orange50: '#FFF7ED',
+  orange50: '#EFF6FF',
   orange500: '#F97316',
   slate50: '#F8FAFC',
   slate100: '#F1F5F9',
@@ -78,8 +78,8 @@ const LegalInfoHeroOverlay = () => {
           <path d="M 30 0 L 0 0 0 30" fill="none" stroke={color.slate700} strokeWidth="0.5" opacity="0.3" />
         </pattern>
         <linearGradient id="lgiGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor={color.amber500} />
-          <stop offset="100%" stopColor={color.orange500} />
+          <stop offset="0%" stopColor={color.cyan500} />
+          <stop offset="100%" stopColor={color.cyan500} />
         </linearGradient>
       </defs>
       <rect width="300" height="300" fill="url(#lgiGrid)" />
@@ -102,7 +102,7 @@ const LegalInfoHeroOverlay = () => {
         />
         <motion.path
           d="M-10 0 H 10 M 0 -10 V 10"
-          stroke={color.amber600}
+          stroke={color.blue600}
           strokeWidth="4"
           strokeLinecap="round"
           initial={{ pathLength: 0 }}
@@ -165,7 +165,7 @@ export default function LegalInformationDocumentationSupport() {
 
         <div ref={heroRef} className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-24">
           <motion.div variants={itemUp}>
-            <div className="inline-block px-4 py-1.5 bg-amber-50 text-amber-600 rounded-full text-[10px] font-black tracking-[0.2em] mb-6 uppercase">
+            <div className="inline-block px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black tracking-[0.2em] mb-6 uppercase">
               Legal Information
             </div>
             <h1 className="text-5xl md:text-6xl font-black text-slate-900 leading-[1.05] mb-8 tracking-tight">
@@ -177,7 +177,7 @@ export default function LegalInformationDocumentationSupport() {
           </motion.div>
 
           <motion.div style={{ y: heroY }} className="relative">
-            <div className="absolute -inset-6 rounded-[40px] bg-gradient-to-tr from-amber-100 via-white to-orange-100 blur-3xl opacity-60" />
+            <div className="absolute -inset-6 rounded-[40px] bg-gradient-to-tr from-blue-100 via-white to-cyan-100 blur-3xl opacity-60" />
             <div className="relative rounded-[40px] border border-gray-200 bg-white p-5 shadow-2xl overflow-hidden">
               <VideoHeroLegalInfo src="https://cdn.coverr.co/videos/coverr-signing-a-document-2692/1080p.mp4" />
             </div>
@@ -186,7 +186,7 @@ export default function LegalInformationDocumentationSupport() {
 
         <div className="mt-10 pt-10 border-t border-slate-100">
           <div className="mb-16 text-center">
-            <h2 className="text-4xl font-black text-slate-900 mb-4 tracking-tight">Legal <span className="text-amber-600">Information</span></h2>
+            <h2 className="text-4xl font-black text-slate-900 mb-4 tracking-tight">Legal <span className="text-blue-600">Information</span></h2>
             <p className="text-slate-500 text-lg font-medium">Flip the cover to explore our 20 strategic documentation pillars.</p>
           </div>
 
@@ -203,7 +203,7 @@ export default function LegalInformationDocumentationSupport() {
         {/* Conclusion Section */}
         <motion.div variants={itemUp} className="mt-20 max-w-4xl mx-auto">
           <div className="bg-white rounded-3xl p-8 sm:p-12 shadow-sm border border-slate-100 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-amber-50 rounded-full -mr-16 -mt-16 opacity-50"></div>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-full -mr-16 -mt-16 opacity-50"></div>
             <h3 className="text-2xl font-bold text-slate-900 mb-4 relative z-10">Conclusion</h3>
             <p className="text-slate-600 leading-relaxed font-medium relative z-10">
               {mainDescription || 'Our comprehensive legal information support framework is designed to empower businesses and individuals with the confidence to navigate legal processes in a simple, organized and responsible way.'}

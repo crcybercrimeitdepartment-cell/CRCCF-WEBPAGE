@@ -21,7 +21,6 @@ import {
 } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
-// Removed incorrect logo import
 
 export default function Footer() {
   const footerRef = useRef();
@@ -79,7 +78,7 @@ export default function Footer() {
               animationDuration: `${6 + Math.random() * 6}s`,
               animationDelay: `${Math.random() * 5}s`,
               fontSize: `${14 + Math.random() * 14}px`,
-              opacity: 0.5,
+              opacity: 0.08,
             }}
           >
             {
@@ -96,7 +95,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-12 gap-12 border-b border-white/10 pb-12">
           {/* BRANDING (Spans 3 cols) */}
           <div className="space-y-6 md:col-span-3">
-            <img loading="lazy" decoding="async" src={Cloudinary.logoIile24} alt="CRCCF" className="w-24 drop-shadow-lg" />
+            <img loading="lazy" decoding="async" src={Cloudinary.logoIile24} alt="CRCCF" width="96" height="96" className="w-24 drop-shadow-lg" />
             <p className="text-gray-300 text-sm leading-relaxed text-justify pr-4 lg:pr-6">
               CRCCF empowers society through AI-driven software innovation, cyber security, and awareness initiatives, building a safer, smarter, and socially responsible digital future.
             </p>

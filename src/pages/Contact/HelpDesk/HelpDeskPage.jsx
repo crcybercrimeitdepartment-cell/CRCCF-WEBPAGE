@@ -364,19 +364,19 @@ export default function HelpDeskPage() {
             src={Cloudinary.girl} 
             alt="Character Illustration Desktop" 
             className="relative z-20 object-contain object-bottom w-auto h-[90vh] max-w-[100vw] drop-shadow-[0_-15px_40px_rgba(0,0,0,0.1)] block align-bottom pointer-events-none hidden lg:block device-girl-desktop"
-          />
+          loading="lazy" decoding="async" />
           {/* Pad Image */}
           <img 
             src={Cloudinary.girl3} 
             alt="Character Illustration Pad" 
             className="relative z-20 object-contain object-bottom w-auto h-[90vh] max-w-[100vw] drop-shadow-[0_-15px_40px_rgba(0,0,0,0.1)] align-bottom pointer-events-none hidden md:max-lg:block device-girl-pad"
-          />
+          loading="lazy" decoding="async" />
           {/* Mobile Image */}
           <img 
             src={Cloudinary.girl2} 
             alt="Character Illustration Mobile" 
             className="relative z-20 object-contain object-bottom w-auto h-[90vh] max-w-[100vw] drop-shadow-[0_-15px_40px_rgba(0,0,0,0.1)] align-bottom pointer-events-none max-md:block hidden"
-          />
+          loading="lazy" decoding="async" />
 
           {/* EXACT MATCH CSS LAPTOP OVERLAY */}
           <div 

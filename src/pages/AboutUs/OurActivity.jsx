@@ -70,8 +70,8 @@ const ActivityHeroOverlay = () => {
           <path d="M 30 0 L 0 0 0 30" fill="none" stroke={color.slate700} strokeWidth="0.5" opacity="0.3" />
         </pattern>
         <linearGradient id="actGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor={color.emerald500} />
-          <stop offset="100%" stopColor={color.blue600} />
+          <stop offset="0%" stopColor={color.cyan500} />
+          <stop offset="100%" stopColor={color.cyan500} />
         </linearGradient>
       </defs>
       <rect width="300" height="300" fill="url(#actGrid)" />
@@ -286,7 +286,7 @@ const InsightCard = ({ allPages }) => {
                 ease-[cubic-bezier(0.645,0.045,0.355,1)]
                 [transform-origin:left_center] [backface-visibility:hidden]
                 will-change-transform will-change-opacity
-                ${pageIdx % 2 === 0 ? 'bg-[#FDFDFF]' : 'bg-[#F8FAFF]'}
+                ${pageIdx % 2 === 0 ? 'bg-[#F8FAFC]' : 'bg-[#F1F5F9]'}
                 ${isFlipped
                   ? '[transform:rotateY(-130deg)_scale(0.9)_translateX(-20px)] opacity-100 pointer-events-none shadow-[-15px_0_40px_rgba(0,0,0,0.1)]'
                   : pageIdx === activePageIndex
@@ -296,11 +296,11 @@ const InsightCard = ({ allPages }) => {
               `}
             >
               <div className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-emerald-50">
-                  <PageSVG className="w-7 h-7 text-emerald-600" />
+                <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-blue-50">
+                  <PageSVG className="w-7 h-7 text-blue-600" />
                 </div>
                 <div className="flex flex-col">
-                  <h4 className="text-[14px] font-black uppercase tracking-[0.1em] leading-tight text-emerald-600">
+                  <h4 className="text-[14px] font-black uppercase tracking-[0.1em] leading-tight text-blue-600">
                     {page.heading}
                   </h4>
                   <span className="text-[11px] font-bold text-slate-400 mt-1">Activity Section {pageIdx + 1} of {allPages.length}</span>
@@ -317,7 +317,7 @@ const InsightCard = ({ allPages }) => {
                     {pageIdx > 0 && (
                       <button
                         onClick={(e) => { e.stopPropagation(); playPageTurnSound(); setActivePageIndex(pageIdx - 1); keepScrubberVisible(); }}
-                        className="text-[12px] font-black text-emerald-600 flex items-center gap-2 hover:gap-3 transition-all bg-transparent border-none cursor-pointer p-0"
+                        className="text-[12px] font-black text-blue-600 flex items-center gap-2 hover:gap-3 transition-all bg-transparent border-none cursor-pointer p-0"
                       >
                         <ArrowLeft size={16} /> Back
                       </button>
@@ -327,12 +327,12 @@ const InsightCard = ({ allPages }) => {
                     {pageIdx < allPages.length - 1 && (
                       <button
                         onClick={(e) => { e.stopPropagation(); playPageTurnSound(); setActivePageIndex(pageIdx + 1); keepScrubberVisible(); }}
-                        className="text-[12px] font-black text-emerald-600 flex items-center gap-2 hover:gap-3 transition-all bg-transparent border-none cursor-pointer p-0"
+                        className="text-[12px] font-black text-blue-600 flex items-center gap-2 hover:gap-3 transition-all bg-transparent border-none cursor-pointer p-0"
                       >
                         Next <ArrowRight size={16} />
                       </button>
                     )}
-                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-600 shadow-[0_0_10px_rgba(16,185,129,0.4)]" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-blue-600 shadow-[0_0_10px_rgba(16,185,129,0.4)]" />
                   </div>
                 </div>
               </div>
@@ -351,8 +351,8 @@ const InsightCard = ({ allPages }) => {
             ${isOpen ? '[transform:rotateY(-145deg)_scale(0.95)_translateX(-30px)] opacity-0 pointer-events-none' : ''}
           `}
           style={{
-            background: `linear-gradient(135deg, #ffffff, #F0FFF9)`,
-            borderLeft: `8px solid #10B981`
+            background: `linear-gradient(135deg, #ffffff, #EFF6FF)`,
+            borderLeft: `8px solid #2563EB`
           }}
           onClick={handleOpen}
         >
@@ -368,7 +368,7 @@ const InsightCard = ({ allPages }) => {
           
           <p className="text-slate-500 font-bold uppercase tracking-[0.2em] text-[10px] mb-8">Tracking 80 Strategic Initiatives in Action</p>
 
-          <div className="flex items-center gap-3 text-[13px] font-black uppercase tracking-[0.15em] mt-auto text-emerald-600">
+          <div className="flex items-center gap-3 text-[13px] font-black uppercase tracking-[0.15em] mt-auto text-blue-600">
             <span>Explore Our Journey</span>
             <ArrowRight size={18} className="animate-pulse" />
           </div>
@@ -382,7 +382,7 @@ const InsightCard = ({ allPages }) => {
             <div className="flex flex-col">
               <span className="text-[11px] sm:text-[12px] font-bold text-slate-700 mt-1 truncate max-w-[180px] sm:max-w-[300px]">{allPages[activePageIndex].heading}</span>
             </div>
-            <span className="flex-shrink-0 px-2 sm:px-4 py-1 sm:py-1.5 rounded-full bg-emerald-600 text-white text-[9px] sm:text-[11px] font-black tabular-nums shadow-lg shadow-emerald-200">
+            <span className="flex-shrink-0 px-2 sm:px-4 py-1 sm:py-1.5 rounded-full bg-blue-600 text-white text-[9px] sm:text-[11px] font-black tabular-nums shadow-lg shadow-blue-200">
               {activePageIndex + 1} / {allPages.length}
             </span>
           </div>
@@ -410,7 +410,7 @@ const InsightCard = ({ allPages }) => {
                 setPreviewPageIndex(Math.round(percent * (allPages.length - 1)));
               }}
               onMouseLeave={() => setPreviewPageIndex(null)}
-              className="w-full h-2 bg-slate-200 rounded-full appearance-none cursor-pointer accent-emerald-600 hover:accent-emerald-700 transition-all shadow-inner"
+              className="w-full h-2 bg-slate-200 rounded-full appearance-none cursor-pointer accent-blue-600 hover:accent-blue-700 transition-all shadow-inner"
             />
           </div>
         </div>
@@ -437,11 +437,11 @@ const OurActivity = () => {
 
         <div ref={heroRef} className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-24">
           <motion.div variants={itemUp}>
-            <div className="inline-block px-4 py-1.5 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-black tracking-[0.2em] mb-6">
+            <div className="inline-block px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black tracking-[0.2em] mb-6">
               OUR OPERATIONS IN ACTION
             </div>
             <h1 className="text-5xl md:text-6xl font-black text-slate-900 leading-[1.05] mb-8 tracking-tight">
-              Impact Through <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-600">Actionable Safety</span>
+              Impact Through <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Actionable Safety</span>
             </h1>
             <p className="text-xl text-slate-600 leading-relaxed max-w-xl">
               From grassroots workshops to high-tech forensics, explore how CRCCF is making a difference across 80 unique operational activities.
@@ -449,7 +449,7 @@ const OurActivity = () => {
           </motion.div>
 
           <motion.div style={{ y: heroY }} className="relative">
-            <div className="absolute -inset-6 rounded-[40px] bg-gradient-to-tr from-emerald-100 via-white to-blue-100 blur-3xl opacity-60" />
+            <div className="absolute -inset-6 rounded-[40px] bg-gradient-to-tr from-blue-100 via-white to-blue-100 blur-3xl opacity-60" />
             <div className="relative rounded-[40px] border border-gray-200 bg-white p-5 shadow-2xl overflow-hidden">
               <VideoHeroActivity src="https://cdn.coverr.co/videos/coverr-group-of-people-working-together-4621/1080p.mp4" />
             </div>
@@ -458,7 +458,7 @@ const OurActivity = () => {
 
         <div className="mt-10 pt-10 border-t border-slate-100">
           <div className="mb-16 text-center">
-            <h2 className="text-4xl font-black text-slate-900 mb-4 tracking-tight">The Activity <span className="text-emerald-600">Chronicles</span></h2>
+            <h2 className="text-4xl font-black text-slate-900 mb-4 tracking-tight">The Activity <span className="text-blue-600">Chronicles</span></h2>
             <p className="text-slate-500 text-lg font-medium">Flip the cover to track 80 ongoing initiatives driving digital security in India.</p>
           </div>
 

@@ -216,7 +216,7 @@ const DirectorySection = ({ title, Icon, data = [] }) => {
                   }}
                   className={`relative w-full aspect-[4/5] cursor-pointer group will-change-transform animate-[fadeInUp_0.5s_ease-out] ${rotationClass} hover:rotate-0 hover:scale-[1.04] hover:-translate-y-2 transition-all duration-300 ease-out`}
                 >
-                  <img
+                  <img 
                     src={stickyNoteBg}
                     alt="Sticky Note Background"
                     aria-hidden="true"
@@ -226,7 +226,7 @@ const DirectorySection = ({ title, Icon, data = [] }) => {
                       group-hover:drop-shadow-[0_12px_24px_rgba(0,0,0,0.12)]
                       group-hover:brightness-[1.02]
                       transition-all duration-300 ease-out"
-                  />
+                  loading="lazy" decoding="async" />
 
                   {/*
                     LAYER 2 — Content Container.
@@ -258,12 +258,12 @@ const DirectorySection = ({ title, Icon, data = [] }) => {
                         transform: "translateY(18px)"
                       }}
                     >
-                      <img
+                      <img 
                         src={item.image}
                         alt={item.name}
                         className="w-full object-cover object-top filter contrast-[1.02] rounded-[2px]"
                         style={{ aspectRatio: "1 / 1", display: "block" }}
-                      />
+                      loading="lazy" decoding="async" />
                     </div>
 
                     {/* ── Unified Text Block ── */}
@@ -349,7 +349,7 @@ const ProfileDetail = ({ person, onBack, title }) => {
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
         <div className="w-full lg:w-1/3 flex flex-col gap-4">
           <div className="w-full aspect-square rounded-3xl overflow-hidden shadow-md border-4 border-slate-50 relative">
-            <img src={person.image} alt={person.name} className="w-full h-full object-cover" />
+            <img src={person.image} alt={person.name} className="w-full h-full object-cover" loading="lazy" decoding="async" />
           </div>
         </div>
 

@@ -225,6 +225,19 @@ export default function RecruitmentRulesPolicies() {
     return 1;
   });
 
+  const [is3DReady, setIs3DReady] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (window.requestIdleCallback) {
+        window.requestIdleCallback(() => setIs3DReady(true));
+      } else {
+        setIs3DReady(true);
+      }
+    }, 600);
+    return () => clearTimeout(timer);
+  }, []);
+
   const cardsPerPage = 8;
   const totalPages = Math.ceil(RecruitmentPoliciesData.length / cardsPerPage);
 
@@ -608,11 +621,13 @@ export default function RecruitmentRulesPolicies() {
         </div>
       </div>
       <div className="stamp-wrapper fixed inset-0 pointer-events-none z-[9999]" style={{ opacity: 0 }}>
-        <Canvas orthographic camera={{ zoom: 1, position: [0, 0, 1000] }} style={{ pointerEvents: 'none' }}>
-          <ambientLight intensity={0.6} />
-          <directionalLight position={[200, 500, 300]} intensity={1.5} castShadow />
-          <Stamp3D ref={stamp3DRef} />
-        </Canvas>
+        {is3DReady && (
+          <Canvas orthographic camera={{ zoom: 1, position: [0, 0, 1000] }} style={{ pointerEvents: 'none' }}>
+            <ambientLight intensity={0.6} />
+            <directionalLight position={[200, 500, 300]} intensity={1.5} castShadow />
+            <Stamp3D ref={stamp3DRef} />
+          </Canvas>
+        )}
       </div>
       {toast && (
         <div

@@ -37,11 +37,11 @@ export default function EventBanner() {
 
                 {/* CENTER SECTION */}
                 <div className="flex-1 flex flex-row items-center justify-center gap-[8px] max-[900px]:order-3 max-[900px]:flex-[100%] max-[900px]:pl-[32px] max-[640px]:pl-0 max-[640px]:order-2">
-                  <h3 className="text-[13px] font-[800] text-[#111827] m-0 leading-[1]">Company Inauguration</h3>
+                  <p className="text-[13px] font-[800] text-[#111827] m-0 leading-[1]">Company Inauguration</p>
                   <span className="text-[#D1D5DB] text-[11px]">&bull;</span>
                   <div className="flex items-center gap-[4px] text-[11.5px] text-[#6B7280] font-[500] [&_svg]:text-[#9CA3AF]">
                     <MapPin size={12} />
-                    <span>May 25th, 2026 &bull; Bubaneshwar, Odisha</span>
+                    <span>May 25th, 2026 &bull; Bhubaneswar, Odisha</span>
                   </div>
                 </div>
 

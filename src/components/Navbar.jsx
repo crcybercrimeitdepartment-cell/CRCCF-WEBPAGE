@@ -13,9 +13,78 @@ import {
   FiPieChart, 
   FiPhone 
 } from 'react-icons/fi';
-import Fuse from 'fuse.js'
-import { searchableData } from '../data/global/searchData'
+// dynamic imports below
 import SearchDropdown from './Search/SearchDropdown'
+
+function MobileNavItem({ item, index, Icon, color, go, location, depth }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const hasChildren = item.children && item.children.length > 0;
+  
+  const active = item.href.startsWith('/#') 
+    ? (location.pathname === '/' && (location.hash === item.href.replace('/', '') || (item.href === '/#home' && !location.hash)))
+    : location.pathname.startsWith(item.href);
+
+  const handleClick = (e) => {
+    if (hasChildren) {
+      e.preventDefault();
+      setIsOpen(!isOpen);
+    } else {
+      go(item.href);
+    }
+  };
+
+  return (
+    <div className="flex flex-col w-full">
+      <div 
+        className={`group flex justify-between items-center py-[10px] px-3 cursor-pointer transition-all duration-300 rounded-xl hover:bg-white/15 hover:-translate-y-[1px] hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] ${active ? 'bg-white/10 text-white' : 'text-white/85'} ${depth === 0 ? 'opacity-0 animate-staggered-entry' : ''}`} 
+        style={depth === 0 ? { 
+          '--animation-order': index, 
+          '--icon-color': color || '#fff',
+          animationDelay: `calc(${index} * 0.1s + 0.3s)`
+        } : { paddingLeft: `${depth * 16 + 12}px` }}
+        onClick={handleClick}
+        tabIndex={0}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleClick(e); }}
+        role="button"
+        aria-expanded={hasChildren ? isOpen : undefined}
+      >
+        <div className="flex items-center">
+          {Icon && <Icon className="text-xl mr-4 opacity-90 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-hover:drop-shadow-[0_0_8px_var(--icon-color)]" style={{ color: 'var(--icon-color, #fff)' }} />}
+          <span className={`font-medium text-base tracking-wide ${active ? 'text-cyan-400' : ''}`}>{item.label || item.text}</span>
+        </div>
+        {hasChildren && (
+          <ChevronDown 
+            size={18} 
+            className={`transition-transform duration-300 ${isOpen ? 'rotate-180 text-cyan-400' : 'opacity-70'}`} 
+          />
+        )}
+      </div>
+
+      <AnimatePresence>
+        {hasChildren && isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="overflow-hidden flex flex-col gap-1 mt-1"
+          >
+            {item.children.map((child, childIdx) => (
+              <MobileNavItem 
+                key={child.label || child.text} 
+                item={child} 
+                index={childIdx} 
+                go={go} 
+                location={location}
+                depth={depth + 1}
+              />
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 const navLinks = [
   { label: 'Home', href: '/#home' },
@@ -43,34 +112,33 @@ export default function Navbar() {
   const searchTimeoutRef = useRef(null)
   const fuseInstanceRef = useRef(null)
 
-  // Lazy-load and precompute the search index only when the search is opened
+  // Search Worker Ref
+  const searchWorkerRef = useRef(null)
+
+  // Lazy-load and precompute the search index via Web Worker only when the search is opened
   useEffect(() => {
-    if (searchOpen && !fuseInstanceRef.current) {
-      // Precompute search string for O(1) string joining during search
-      const processedData = searchableData.map(item => ({
-        ...item,
-        precomputedStr: [
-          item.title || "",
-          (item.aliases || []).join(" "),
-          (item.tags || []).join(" "),
-          (item.relatedTerms || []).join(" "),
-          item.description || ""
-        ].join(" ").toLowerCase()
-      }));
+    if (searchOpen && !searchWorkerRef.current) {
+      // Initialize Web Worker
+      const worker = new Worker(new URL('../workers/searchWorker.js', import.meta.url), { type: 'module' });
+      searchWorkerRef.current = worker;
 
-      // Initialize Intelligent Ranking with weights
-      fuseInstanceRef.current = new Fuse(processedData, {
-        keys: [
-          { name: 'title', weight: 2.0 },
-          { name: 'precomputedStr', weight: 1.0 }
-        ],
-        threshold: 0.35,
-        distance: 100,
-        includeMatches: true
-      });
+      worker.onmessage = (e) => {
+        const { type, payload } = e.data;
+        if (type === 'SEARCH_RESULTS') {
+          setSearchResults(payload.results);
+          setSelectedIndex(0);
+        }
+      };
+
+      // Tell worker to init
+      worker.postMessage({ type: 'INIT' });
     }
+    
+    // Cleanup worker on unmount if it exists, though typically navbar stays mounted
+    return () => {
+      // We don't terminate immediately to avoid re-init costs, but we could
+    };
   }, [searchOpen]);
-
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -116,11 +184,14 @@ export default function Navbar() {
   useEffect(() => {
     if (mobileOpen) {
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     }
     return () => {
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     };
   }, [mobileOpen]);
   const go = (href) => {
@@ -186,11 +257,8 @@ export default function Navbar() {
 
     if (q.trim()) {
       searchTimeoutRef.current = setTimeout(() => {
-        if (fuseInstanceRef.current) {
-          // Limit results to top 15 for massive rendering speedup
-          const results = fuseInstanceRef.current.search(q, { limit: 15 });
-          setSearchResults(results);
-          setSelectedIndex(0);
+        if (searchWorkerRef.current) {
+          searchWorkerRef.current.postMessage({ type: 'SEARCH', payload: { query: q, limit: 15 } });
         }
       }, 250); // 250ms debounce
     } else {
@@ -233,7 +301,7 @@ export default function Navbar() {
 
           {/* ── LOGO ── */}
           <a className="group flex shrink-0 cursor-pointer items-center gap-[10px] no-underline" href="#home" onClick={e => { e.preventDefault(); go('#home') }}>
-            <img src={Cloudinary.logoIile24} alt="CRCCF Logo" className="h-[46px] w-[46px] object-contain" />
+            <img src={Cloudinary.logoIile24} alt="CRCCF Logo" className="h-[46px] w-[46px] object-contain" width="46" height="46" loading="lazy" decoding="async" />
             <div className="flex flex-col">
               <span className="font-['Outfit',sans-serif] text-[17px] font-[900] text-[#fff] tracking-[-0.01em] leading-[1]">CRCCF</span>
               <span className="mt-[3px] text-[8px] font-[600] text-[rgba(255,255,255,0.40)] uppercase tracking-[0.06em]">CR CYBER CRIME FOUNDATION</span>
@@ -269,7 +337,7 @@ export default function Navbar() {
                         className={`transition-transform duration-200 opacity-[0.65] ${openDd === link.label ? 'rotate-180' : ''}`}
                       />
                     )}
-                    <span className={`absolute left-[10px] 2xl:left-[14px] bottom-[4px] h-[2px] bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.6)] transition-all duration-300 ${active ? 'w-[calc(100%-20px)] 2xl:w-[calc(100%-28px)]' : 'w-0 group-hover:w-[calc(100%-20px)] 2xl:group-hover:w-[calc(100%-28px)]'}`}></span>
+                    <span className={`absolute left-[10px] 2xl:left-[14px] bottom-[4px] h-[2px] bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.6)] transition-transform duration-300 origin-left w-[calc(100%-20px)] 2xl:w-[calc(100%-28px)] ${active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
                   </a>
 
                   {link.children && (
@@ -323,15 +391,20 @@ export default function Navbar() {
                     
                     <div className="relative flex items-center bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.1)] rounded-[8px] overflow-hidden">
                       <input
+                        id="global-search-input"
+                        name="search"
                         autoFocus
                         className="flex-1 bg-transparent border-none outline-none text-[#fff] text-[13px] font-['Inter',sans-serif] p-[10px_12px] min-w-0 h-[38px] placeholder:text-[rgba(255,255,255,0.3)]"
-                        type="text"
+                        type="search"
                         placeholder="Type to search..."
                         value={searchQuery}
                         onChange={handleSearchChange}
                         onKeyDown={handleKeyDown}
+                        aria-label="Search"
+                        autoComplete="off"
+                        aria-autocomplete="list"
                       />
-                      <button type="submit" className="bg-[#1A56DB] text-white border-none p-[0_12px] h-[38px] cursor-pointer transition-colors hover:bg-[#1e40af]">
+                      <button type="submit" aria-label="Submit search" className="bg-[#1A56DB] text-white border-none p-[0_12px] h-[38px] cursor-pointer transition-colors hover:bg-[#1e40af]">
                         <Search size={16} />
                       </button>
                     </div>
@@ -342,6 +415,7 @@ export default function Navbar() {
                         selectedIndex={selectedIndex}
                         query={searchQuery}
                         onSelect={handleSelect}
+                        onClear={closeSearch}
                       />
                     )}
                   </motion.form>
@@ -352,6 +426,7 @@ export default function Navbar() {
             <div className="nav-notif-zone relative">
               <button className="relative bg-transparent border-none p-0 text-[rgba(255,255,255,0.75)] cursor-pointer flex items-center transition-all duration-180 hover:text-[#fff]"
                 onClick={() => setNotifOpen(v => !v)}
+                aria-label="Toggle notifications"
               >
                 <Bell size={20} strokeWidth={2} />
                 <span className="absolute top-[-2px] right-[-4px] w-[14px] h-[14px] bg-[#E02424] text-[#fff] text-[8px] font-[900] rounded-full flex items-center justify-center border-[1.5px] border-[#0C1A3A]">0</span>
@@ -414,46 +489,34 @@ export default function Navbar() {
               {/* Header */}
               <div className="flex justify-between items-center mb-3 pb-3 border-b border-white/15 opacity-0 animate-fade-up-sidebar [animation-delay:200ms] relative z-10">
                 <div className="flex items-center justify-center drop-shadow-[0_0_8px_rgba(212,175,55,0.3)] animate-logo-glow">
-                  <img src={Cloudinary.logoIile24} alt="CRCCF" className="h-[46px] w-[46px] object-contain rounded-full" />
+                  <img src={Cloudinary.logoIile24} alt="CRCCF" className="h-[46px] w-[46px] object-contain rounded-full" width="46" height="46" loading="lazy" decoding="async" />
                 </div>
                 <button 
+                  aria-label="Close mobile menu"
                   className="bg-white/10 border border-white/15 text-white w-9 h-9 rounded-lg flex justify-center items-center cursor-pointer transition-all duration-200 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:bg-white/20 hover:scale-105 hover:rotate-90"
                   onClick={() => setMobileOpen(false)}
                 >
-                  <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                  </svg>
+                  <X size={20} aria-hidden="true" />
                 </button>
               </div>
 
               {/* Menu List */}
               <div className="flex flex-col gap-[2px] flex-1 relative z-10">
-                {[
-                  { text: 'Home', href: '/#home', icon: FiHome, color: '#00eaff' },
-                  { text: 'About Us', href: '/about', icon: FiInfo, color: '#ffd700' },
-                  { text: 'Our Services', href: '/services', icon: FiLayers, color: '#ff7eb3' },
-                  { text: 'Software Products', href: '/software-products', icon: FiMonitor, color: '#7afcff' },
-                  { text: 'Skill Development', href: '/skill-development', icon: FiBookOpen, color: '#00ffcc' },
-                  { text: 'Careers', href: '/careers', icon: FiUsers, color: '#ffb347' },
-                  { text: 'Insights', href: '/insights', icon: FiPieChart, color: '#b57aff' },
-                  { text: 'Contact', href: '/contact', icon: FiPhone, color: '#ff6b6b' }
-                ].map((item, index) => {
-                  const Icon = item.icon;
+                {navLinks.map((link, index) => {
+                  const Icon = [FiHome, FiInfo, FiLayers, FiMonitor, FiBookOpen, FiUsers, FiPieChart, FiPhone][index % 8];
+                  const color = ['#00eaff', '#ffd700', '#ff7eb3', '#7afcff', '#00ffcc', '#ffb347', '#b57aff', '#ff6b6b'][index % 8];
+                  
                   return (
-                    <div 
-                      className="group flex items-center py-[10px] px-3 text-white/85 cursor-pointer transition-all duration-300 rounded-xl opacity-0 animate-staggered-entry hover:bg-white/15 hover:text-white hover:translate-x-2 hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)]" 
-                      key={item.text}
-                      style={{ 
-                        '--animation-order': index, 
-                        '--icon-color': item.color,
-                        animationDelay: `calc(${index} * 0.1s + 0.3s)` 
-                      }}
-                      onClick={() => go(item.href)}
-                    >
-                      <Icon className="text-xl mr-4 opacity-90 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-hover:drop-shadow-[0_0_8px_var(--icon-color)]" style={{ color: 'var(--icon-color, #fff)' }} />
-                      <span className="font-medium text-base tracking-wide">{item.text}</span>
-                    </div>
+                    <MobileNavItem 
+                      key={link.label} 
+                      item={link} 
+                      index={index} 
+                      Icon={Icon} 
+                      color={color} 
+                      go={go} 
+                      location={location}
+                      depth={0}
+                    />
                   );
                 })}
               </div>

@@ -77,7 +77,7 @@ export function ImageCard({ id, index, imageUrl, title, onShutterPress }) {
       className="absolute top-0 left-0 w-[90px] h-[90px] -mt-[45px] -ml-[45px] pointer-events-auto z-30 group"
     >
       <div className="w-full h-full bg-white/5 backdrop-blur-md border border-white/20 p-[4px] shadow-lg rounded-lg transition-transform duration-300 ease-out cursor-pointer group-hover:scale-[1.3] relative">
-        <img src={imageUrl} alt="Gallery item" className="w-full h-full object-cover rounded-md opacity-80 group-hover:opacity-100 transition-opacity" />
+        <img src={imageUrl} alt="Gallery item" className="w-full h-full object-cover rounded-md opacity-80 group-hover:opacity-100 transition-opacity" loading="lazy" decoding="async" />
         <div className="absolute top-[4px] right-[4px] bottom-[4px] left-[4px] bg-gradient-to-t from-black/90 via-black/40 to-transparent rounded-md flex items-end justify-center pb-[6px]">
           <span className={`${titleColorClass} text-[11px] font-bold tracking-wider text-center drop-shadow-md`}>{title}</span>
         </div>

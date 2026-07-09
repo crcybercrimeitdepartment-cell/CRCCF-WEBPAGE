@@ -17,7 +17,7 @@ export default function LogoSlider({ logos }) {
           <div key={i} className="flex items-center justify-center mx-10">
             <img loading="lazy" decoding="async"
               src={logo}
-              alt="logo"
+              alt="Partner organization logo"
               className="
                 h-10 object-contain
                 grayscale opacity-70

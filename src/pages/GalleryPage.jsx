@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import GalleryAnimatedBg from '../components/gallery/GalleryAnimatedBg';
 import EventSlideshowSection from '../components/gallery/EventSlideshowSection';
 import { eventGalleryData } from '../data/gallery/eventGalleryData';
+import LazySection from '../components/common/LazySection';
 
 export default function GalleryPage() {
   const location = useLocation();
@@ -61,7 +62,9 @@ export default function GalleryPage() {
         {/* Render each event section independently */}
         <div className="flex flex-col gap-12">
           {eventGalleryData.map((event) => (
-            <EventSlideshowSection key={event.id} event={event} />
+            <LazySection key={event.id} threshold={0.1} fallback={<div className="h-[400px] w-full animate-pulse bg-slate-200 rounded-3xl" />}>
+              <EventSlideshowSection event={event} />
+            </LazySection>
           ))}
         </div>
 

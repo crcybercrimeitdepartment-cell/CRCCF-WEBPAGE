@@ -182,7 +182,7 @@ export default function ReachUsPage() {
 
       {/* Hero Section */}
       <section className="relative h-[45vh] min-h-[350px] flex items-center justify-center text-center overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://res.cloudinary.com/dlhmkbijh/image/upload/v1782475374/contact_lbu4o9_mfhdel.jpg')] bg-cover bg-center brightness-[0.6] z-[1]"></div>
+        <div className="absolute inset-0 bg-[url('https://res.cloudinary.com/dlhmkbijh/image/upload/f_auto,q_auto//contact_lbu4o9_mfhdel.jpg')] bg-cover bg-center brightness-[0.6] z-[1]"></div>
         <div className="relative z-[2] max-w-[800px] px-[20px] text-[#ffffff]">
           <motion.h1 
             className="text-[clamp(36px,5vw,64px)] font-[800] mb-[16px] tracking-[-0.02em]"
@@ -445,6 +445,10 @@ export default function ReachUsPage() {
                   <input id="name" value={formData.name} onChange={handleChange}
                     className={`w-full bg-[#F8FAFC] border border-solid text-[#0F172A] text-[14px] outline-none transition-all duration-[0.3s] rounded-[100px] p-[18px_60px_18px_24px] max-[640px]:p-[14px_50px_14px_20px] max-[640px]:text-[13px] ${errors.name ? "border-[#EF4444]" : "border-[#E2E8F0] hover:border-[#3B82F6] focus:border-[#3B82F6]"}`}
                     placeholder="Full Name"
+                    aria-label="Full Name"
+                    autoComplete="name"
+                    aria-required="true"
+                    aria-invalid={!!errors.name}
                   />
                   <div className="absolute right-[8px] top-[50%] translate-y-[-50%] w-[38px] h-[38px] rounded-[50%] flex items-center justify-center transition-all duration-[0.3s] z-[5] text-[#10B981] border border-solid border-[rgba(16,185,129,0.2)] bg-[rgba(16,185,129,0.05)] max-[640px]:w-[32px] max-[640px]:h-[32px] max-[640px]:right-[6px]"><User size={18} /></div>
                 </div>
@@ -456,6 +460,10 @@ export default function ReachUsPage() {
                   <input id="email" value={formData.email} onChange={handleChange}
                     className={`w-full bg-[#F8FAFC] border border-solid text-[#0F172A] text-[14px] outline-none transition-all duration-[0.3s] rounded-[100px] p-[18px_60px_18px_24px] max-[640px]:p-[14px_50px_14px_20px] max-[640px]:text-[13px] ${errors.email ? "border-[#EF4444]" : "border-[#E2E8F0] hover:border-[#3B82F6] focus:border-[#3B82F6]"}`}
                     placeholder="Email Address"
+                    aria-label="Email Address"
+                    autoComplete="email"
+                    aria-required="true"
+                    aria-invalid={!!errors.email}
                   />
                   <div className="absolute right-[8px] top-[50%] translate-y-[-50%] w-[38px] h-[38px] rounded-[50%] flex items-center justify-center transition-all duration-[0.3s] z-[5] text-[#F59E0B] border border-solid border-[rgba(245,158,11,0.2)] bg-[rgba(245,158,11,0.05)] max-[640px]:w-[32px] max-[640px]:h-[32px] max-[640px]:right-[6px]"><Mail size={18} /></div>
                 </div>
@@ -467,6 +475,10 @@ export default function ReachUsPage() {
                   <input id="subject" value={formData.subject} onChange={handleChange}
                     className={`w-full bg-[#F8FAFC] border border-solid text-[#0F172A] text-[14px] outline-none transition-all duration-[0.3s] rounded-[100px] p-[18px_60px_18px_24px] max-[640px]:p-[14px_50px_14px_20px] max-[640px]:text-[13px] ${errors.subject ? "border-[#EF4444]" : "border-[#E2E8F0] hover:border-[#3B82F6] focus:border-[#3B82F6]"}`}
                     placeholder="Subject"
+                    aria-label="Subject"
+                    autoComplete="off"
+                    aria-required="true"
+                    aria-invalid={!!errors.subject}
                   />
                   <div className="absolute right-[8px] top-[50%] translate-y-[-50%] w-[38px] h-[38px] rounded-[50%] flex items-center justify-center transition-all duration-[0.3s] z-[5] text-[#3B82F6] border border-solid border-[rgba(59,130,246,0.2)] bg-[rgba(59,130,246,0.05)] max-[640px]:w-[32px] max-[640px]:h-[32px] max-[640px]:right-[6px]"><Edit3 size={18} /></div>
                 </div>
@@ -478,6 +490,10 @@ export default function ReachUsPage() {
                   <textarea id="message" value={formData.message} onChange={handleChange}
                     className={`w-full bg-[#F8FAFC] border border-solid text-[#0F172A] text-[14px] outline-none transition-all duration-[0.3s] rounded-[24px] p-[22px_60px_22px_24px] min-h-[160px] resize-none max-[640px]:p-[18px_50px_18px_20px] max-[640px]:min-h-[120px] max-[640px]:text-[13px] ${errors.message ? "border-[#EF4444]" : "border-[#E2E8F0] hover:border-[#3B82F6] focus:border-[#3B82F6]"}`}
                     placeholder="Message"
+                    aria-label="Message"
+                    autoComplete="off"
+                    aria-required="true"
+                    aria-invalid={!!errors.message}
                   />
                   <div className="absolute right-[8px] top-[24px] w-[38px] h-[38px] rounded-[50%] flex items-center justify-center transition-all duration-[0.3s] z-[5] text-[#EF4444] border border-solid border-[rgba(239,68,68,0.2)] bg-[rgba(239,68,68,0.05)] max-[640px]:w-[32px] max-[640px]:h-[32px] max-[640px]:right-[6px]"><MessageSquare size={18} /></div>
                 </div>

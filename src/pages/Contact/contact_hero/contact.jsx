@@ -145,7 +145,7 @@ export function Contact() {
         {/* ---------------------------------------------------- */}
         <div className="hidden md:flex w-full items-center justify-center p-8 mt-4">
           {/* Outer Phone Structure (shadow and base) */}
-          <div className="relative w-[650px] h-[600px]">
+          <div className="relative w-[650px] h-[600px] z-0">
 
             {/* Shadow of the whole phone */}
             <div className="absolute top-4 left-4 w-[630px] h-[570px] bg-black/60 rounded-[3rem] blur-2xl z-0"></div>
@@ -270,7 +270,7 @@ export function Contact() {
         {/* ---------------------------------------------------- */}
         <div className="flex md:hidden w-full flex-col items-center justify-center p-2 mb-12">
 
-          <div className={`relative w-[340px] h-[660px] scale-[0.85] sm:scale-100 origin-center mt-8 transition-transform duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${isHandsetPickedUp ? 'sm:scale-105 scale-90 translate-y-[-40px] rotate-[-2deg]' : ''
+          <div className={`relative z-0 w-[340px] h-[660px] scale-[0.85] sm:scale-100 origin-center mt-32 transition-transform duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${isHandsetPickedUp ? 'sm:scale-105 scale-90 translate-y-[-40px] rotate-[-2deg]' : ''
             }`}>
 
             {/* Realistic Antenna */}

@@ -53,31 +53,50 @@ const slides = [
   },
 ];
 
+const getSrcSet = (url) => {
+  if (!url || !url.includes('w_1920')) return undefined;
+  const w640 = url.replace('w_1920', 'w_640');
+  const w1024 = url.replace('w_1920', 'w_1024');
+  return `${w640} 640w, ${w1024} 1024w, ${url} 1920w`;
+};
+
 const SLIDE_DURATION = 4000;
 
 export default function Hero() {
   const [index, setIndex] = useState(0);
   const navigate = useNavigate();
+  const [loadOthers, setLoadOthers] = useState(false);
 
-  // Auto-play timer
+  // Auto-play timer & Deferred image loading
   useEffect(() => {
+    // Delay loading subsequent images to prioritize LCP
+    const loadTimer = setTimeout(() => setLoadOthers(true), 800);
+    
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % slides.length);
     }, SLIDE_DURATION);
-    return () => clearInterval(interval);
+    
+    return () => {
+      clearTimeout(loadTimer);
+      clearInterval(interval);
+    };
   }, [index]);
 
   return (
     <section className="relative w-full h-[85vh] min-h-[600px] overflow-hidden bg-[#020617]">
       
       {/* 🔥 PERFECTLY SYNCED BACKGROUND IMAGES */}
-      {/* All images are rendered at once. We just change opacity for a flawless crossfade. */}
+      {/* Only load the first image initially. Load the rest after delay. */}
       <div className="absolute inset-0 z-0 bg-[#020617]">
         {slides.map((slide, i) => (
           <motion.img
             key={i}
-            src={slide.image}
+            src={i === 0 || loadOthers ? slide.image : undefined}
+            srcSet={i === 0 || loadOthers ? getSrcSet(slide.image) : undefined}
+            sizes="100vw"
             alt={slide.badge}
+            width="1920"
+            height="1080"
             loading={i === 0 ? 'eager' : 'lazy'}
             decoding={i === 0 ? 'sync' : 'async'}
             fetchpriority={i === 0 ? 'high' : 'auto'}
@@ -173,6 +192,7 @@ export default function Hero() {
           {slides.map((_, i) => (
             <button 
               key={i} 
+              aria-label={`Go to slide ${i + 1}`}
               onClick={() => setIndex(i)}
               className="relative w-12 h-1.5 bg-gray-700/50 rounded-full overflow-hidden hover:bg-gray-600 transition-colors cursor-pointer"
             >

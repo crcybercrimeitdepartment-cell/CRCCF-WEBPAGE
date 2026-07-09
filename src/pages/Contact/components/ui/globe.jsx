@@ -15,6 +15,19 @@ export function Globe({
   const globeRef = useRef();
   const containerRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 300, height: 300 });
+  const [isReady, setIsReady] = useState(false);
+
+  // Defer Heavy WebGL Initialization
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (window.requestIdleCallback) {
+        window.requestIdleCallback(() => setIsReady(true));
+      } else {
+        setIsReady(true);
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Handle Resize
   useEffect(() => {
@@ -53,7 +66,7 @@ export function Globe({
       controls.autoRotateSpeed = rotationSpeed * 200; // 0.005 * 200 = 1.0 (smooth, slow orbit)
       controls.enableZoom = false; // Disable zoom to keep it fixed in the card
     }
-  }, [autoRotate, isPaused, rotationSpeed]);
+  }, [autoRotate, isPaused, rotationSpeed, isReady]);
 
   // Handle Focus
   useEffect(() => {
@@ -64,7 +77,7 @@ export function Globe({
       { lat: focusLocation[0], lng: focusLocation[1], altitude: 2.2 },
       2500 // 2500ms (2.5 seconds) for a majestic, smooth sweep
     );
-  }, [focusLocation, focusRequest]);
+  }, [focusLocation, focusRequest, isReady]);
 
   // Helper to ensure color is a string
   const getMarkerColor = () => {
@@ -91,22 +104,29 @@ export function Globe({
         className,
       )}
     >
-      <GlobeGl
-        ref={globeRef}
-        width={dimensions.width}
-        height={dimensions.height}
-        backgroundColor="rgba(0,0,0,0)"
-        globeImageUrl="https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
-        bumpImageUrl="https://unpkg.com/three-globe/example/img/earth-topology.png"
-        pointsData={pointsData}
-        pointAltitude={0.05}
-        pointColor="color"
-        pointRadius="size"
-        pointsMerge={false}
-        showAtmosphere={true}
-        atmosphereColor="#009EF7"
-        atmosphereAltitude={0.15}
-      />
+      {isReady ? (
+        <GlobeGl
+          ref={globeRef}
+          width={dimensions.width}
+          height={dimensions.height}
+          backgroundColor="rgba(0,0,0,0)"
+          globeImageUrl="https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
+          bumpImageUrl="https://unpkg.com/three-globe/example/img/earth-topology.png"
+          pointsData={pointsData}
+          pointAltitude={0.05}
+          pointColor="color"
+          pointRadius="size"
+          pointsMerge={false}
+          showAtmosphere={true}
+          atmosphereColor="#009EF7"
+          atmosphereAltitude={0.15}
+        />
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-sky-400 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
     </div>
   );
 }
+

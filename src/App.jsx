@@ -17,8 +17,7 @@ import AboutLayout from './layouts/AboutLayout'
 import { reportCards } from './data/report/reportCards'
 import { softwareCards } from './data/software/softwareCards'
 
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa"
-
+// Removed unused icons
 // ─── LAZY: Homepage sections (below the fold) ────────────────────────────────
 const WhoWeAre           = lazy(() => import('./components/WhoWeAre'))
 const Introduction       = lazy(() => import('./components/Introduction'))
@@ -201,6 +200,7 @@ function HomePageContent() {
       <AnimatePresence>
         {showTop && (
           <motion.button
+            aria-label="Scroll to top"
             className="fixed bottom-[28px] right-[28px] z-[500] w-[44px] h-[44px] bg-[#1A56DB] text-[#fff] border-none rounded-[50%] flex items-center justify-center cursor-pointer shadow-[0_6px_20px_rgba(26,86,219,0.40)]"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             initial={{ opacity: 0, scale: .5 }}

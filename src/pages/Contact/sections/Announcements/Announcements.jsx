@@ -110,12 +110,12 @@ const Announcements = ({
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
               {images.map((img, index) => (
-                <img
+                <img 
                   key={index}
                   src={img}
                   alt={`Slide ${index + 1}`}
                   className="w-full h-full object-cover object-top shrink-0"
-                />
+                loading="lazy" decoding="async" />
               ))}
             </div>
 

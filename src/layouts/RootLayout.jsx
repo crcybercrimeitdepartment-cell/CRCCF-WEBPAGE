@@ -1,9 +1,10 @@
-
 import { Outlet } from 'react-router-dom'
+import { Suspense, lazy } from 'react'
 import TopBar from '../components/TopBar'
 import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
 import GlobalNavigation from '../components/common/GlobalNavigation'
+
+const Footer = lazy(() => import('../components/Footer'))
 
 const RootLayout = () => {
   return (
@@ -14,7 +15,9 @@ const RootLayout = () => {
         <GlobalNavigation />
         <Outlet />
       </main>
-      <Footer />
+      <Suspense fallback={<div className="h-40" />}>
+        <Footer />
+      </Suspense>
     </div>
   )
 }

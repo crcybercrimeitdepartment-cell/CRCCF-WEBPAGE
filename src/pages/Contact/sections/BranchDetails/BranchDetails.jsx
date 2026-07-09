@@ -584,11 +584,11 @@ const SelectedBranchDetailCard = ({ branch, onOpenProfile, isOpening }) => {
       className="branch-detail-card-enter flex min-w-0 h-full w-full self-stretch overflow-hidden rounded-[1.75rem] border border-white bg-white/95 shadow-[0_20px_55px_rgba(15,23,42,0.09)] backdrop-blur-xl flex-col"
     >
       <div className="relative min-h-[180px] overflow-hidden bg-slate-950 sm:min-h-[220px] xl:min-h-[285px]">
-          <img
+          <img 
             src={branch.image}
             alt={branch.displayCity + " branch building"}
             className="absolute inset-0 h-full w-full object-cover opacity-80 transition-transform duration-700 hover:scale-105"
-          />
+          loading="lazy" decoding="async" />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-slate-950/5" />
           <div className="absolute left-4 right-4 top-4 flex items-center justify-between gap-2">
             <span className="rounded-full border border-white/15 bg-slate-950/60 px-3 py-1.5 text-[8px] font-black uppercase tracking-[0.16em] text-cyan-100 backdrop-blur-md">
@@ -767,11 +767,11 @@ const BranchProfileDetail = ({ branch, onBack }) => {
         </div>
 
         <div className="relative min-h-[260px] overflow-hidden bg-slate-950 sm:min-h-[340px] lg:min-h-full">
-          <img
+          <img 
             src={branch.image}
             alt={city + " branch office"}
             className="absolute inset-0 h-full w-full object-cover opacity-85"
-          />
+          loading="lazy" decoding="async" />
           <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(16,24,40,0.72)_0%,rgba(11,59,122,0.42)_52%,rgba(0,158,235,0.18)_100%)]" />
           <div className="absolute bottom-4 left-4 right-4 rounded-[1.35rem] border border-white/15 bg-slate-950/55 p-4 backdrop-blur-md sm:bottom-5 sm:left-5 sm:right-5">
             <p className="text-[8px] font-black uppercase tracking-[0.18em] text-cyan-100">

@@ -362,7 +362,7 @@ export default function Testimonials() {
                             : "bg-transparent grayscale-[60%] opacity-80 hover:grayscale-0 z-10"
                         }`}
                       >
-                        <img
+                        <img 
                           src={item.avatar}
                           className="w-full h-full rounded-full object-cover"
                           alt={item.name}

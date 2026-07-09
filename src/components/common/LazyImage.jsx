@@ -45,8 +45,7 @@ export default function LazyImage({
         />
       )}
 
-      <img
-        src={src}
+      <img         src={src}
         alt={alt}
         loading={eager ? 'eager' : 'lazy'}
         decoding="async"

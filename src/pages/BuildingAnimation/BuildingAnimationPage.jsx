@@ -15,6 +15,18 @@ export default function BuildingAnimationPage() {
   const [isWebsiteVisible, setIsWebsiteVisible] = useState(false);
   const [dressColor, setDressColor] = useState(DRESS_COLORS[0]);
   const [timeTheme, setTimeTheme] = useState('day');
+  const [isBuildingReady, setIsBuildingReady] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (window.requestIdleCallback) {
+        window.requestIdleCallback(() => setIsBuildingReady(true));
+      } else {
+        setIsBuildingReady(true);
+      }
+    }, 300);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const updateTheme = () => {
@@ -325,40 +337,46 @@ export default function BuildingAnimationPage() {
             <div className="flex-[6] w-full border-l-[4px] border-t-[4px] border-r-[2px] border-[#1e1e1e] flex flex-col relative overflow-hidden bg-gradient-to-br from-[#1e3a8a]/40 to-[#0284c7]/30">
               
               {/* Internal Floors Visible Through Glass */}
-              <div className="absolute inset-0 flex flex-col justify-evenly opacity-30">
-                <div className="flex sm:hidden flex-col w-full h-full justify-evenly">
-                  {[...Array(36)].map((_, i) => <div key={`int-ltop-m-${i}`} className="w-full h-4 bg-black/50 border-t border-white/10 shadow-[0_5px_15px_rgba(255,255,255,0.1)]"></div>)}
+              {isBuildingReady && (
+                <div className="absolute inset-0 flex flex-col justify-evenly opacity-30">
+                  <div className="flex sm:hidden flex-col w-full h-full justify-evenly">
+                    {[...Array(36)].map((_, i) => <div key={`int-ltop-m-${i}`} className="w-full h-4 bg-black/50 border-t border-white/10 shadow-[0_5px_15px_rgba(255,255,255,0.1)]"></div>)}
+                  </div>
+                  <div className="hidden sm:flex flex-col w-full h-full justify-evenly">
+                    {[...Array(9)].map((_, i) => <div key={`int-ltop-${i}`} className="w-full h-4 bg-black/50 border-t border-white/10 shadow-[0_5px_15px_rgba(255,255,255,0.1)]"></div>)}
+                  </div>
                 </div>
-                <div className="hidden sm:flex flex-col w-full h-full justify-evenly">
-                  {[...Array(9)].map((_, i) => <div key={`int-ltop-${i}`} className="w-full h-4 bg-black/50 border-t border-white/10 shadow-[0_5px_15px_rgba(255,255,255,0.1)]"></div>)}
-                </div>
-              </div>
+              )}
 
               {/* Glass Grid / Mullions */}
-              <div className="flex sm:hidden flex-col w-full flex-1 z-10 relative">
-                {[...Array(36)].map((_, r) => (
-                  <div key={`ltop-row-m-${r}`} className="flex w-full flex-1 border-b-[2px] border-[#111]/90 relative z-10">
-                    <div className="absolute bottom-0 w-full h-[1px] bg-white/10"></div> {/* Frame highlight */}
-                    {[...Array(4)].map((_, c) => (
-                      <div key={`ltop-col-m-${c}`} className="flex-1 border-r-[2px] border-[#111]/90 relative">
-                         <div className="absolute right-0 w-[1px] h-full bg-white/10"></div>
+              {isBuildingReady && (
+                <>
+                  <div className="flex sm:hidden flex-col w-full flex-1 z-10 relative">
+                    {[...Array(36)].map((_, r) => (
+                      <div key={`ltop-row-m-${r}`} className="flex w-full flex-1 border-b-[2px] border-[#111]/90 relative z-10">
+                        <div className="absolute bottom-0 w-full h-[1px] bg-white/10"></div> {/* Frame highlight */}
+                        {[...Array(4)].map((_, c) => (
+                          <div key={`ltop-col-m-${c}`} className="flex-1 border-r-[2px] border-[#111]/90 relative">
+                             <div className="absolute right-0 w-[1px] h-full bg-white/10"></div>
+                          </div>
+                        ))}
                       </div>
                     ))}
                   </div>
-                ))}
-              </div>
-              <div className="hidden sm:flex flex-col w-full flex-1 z-10 relative">
-                {[...Array(9)].map((_, r) => (
-                  <div key={`ltop-row-${r}`} className="flex w-full flex-1 border-b-[2px] border-[#111]/90 relative z-10">
-                    <div className="absolute bottom-0 w-full h-[1px] bg-white/10"></div> {/* Frame highlight */}
-                    {[...Array(4)].map((_, c) => (
-                      <div key={`ltop-col-${c}`} className="flex-1 border-r-[2px] border-[#111]/90 relative">
-                         <div className="absolute right-0 w-[1px] h-full bg-white/10"></div>
+                  <div className="hidden sm:flex flex-col w-full flex-1 z-10 relative">
+                    {[...Array(9)].map((_, r) => (
+                      <div key={`ltop-row-${r}`} className="flex w-full flex-1 border-b-[2px] border-[#111]/90 relative z-10">
+                        <div className="absolute bottom-0 w-full h-[1px] bg-white/10"></div> {/* Frame highlight */}
+                        {[...Array(4)].map((_, c) => (
+                          <div key={`ltop-col-${c}`} className="flex-1 border-r-[2px] border-[#111]/90 relative">
+                             <div className="absolute right-0 w-[1px] h-full bg-white/10"></div>
+                          </div>
+                        ))}
                       </div>
                     ))}
                   </div>
-                ))}
-              </div>
+                </>
+              )}
             </div>
 
             {/* The Gap / Recessed Terrace */}
@@ -376,40 +394,46 @@ export default function BuildingAnimationPage() {
             <div className="flex-[4.5] w-full border-l-[4px] border-b-[4px] border-r-[2px] border-[#1e1e1e] flex flex-col relative overflow-hidden bg-gradient-to-tr from-[#0f172a]/80 to-[#1e3a8a]/40">
               
               {/* Internal Floors */}
-              <div className="absolute inset-0 flex flex-col justify-evenly opacity-30">
-                <div className="flex sm:hidden flex-col w-full h-full justify-evenly">
-                  {[...Array(24)].map((_, i) => <div key={`int-lbot-m-${i}`} className="w-full h-4 bg-black/50 border-t border-white/10"></div>)}
+              {isBuildingReady && (
+                <div className="absolute inset-0 flex flex-col justify-evenly opacity-30">
+                  <div className="flex sm:hidden flex-col w-full h-full justify-evenly">
+                    {[...Array(24)].map((_, i) => <div key={`int-lbot-m-${i}`} className="w-full h-4 bg-black/50 border-t border-white/10"></div>)}
+                  </div>
+                  <div className="hidden sm:flex flex-col w-full h-full justify-evenly">
+                    {[...Array(6)].map((_, i) => <div key={`int-lbot-${i}`} className="w-full h-4 bg-black/50 border-t border-white/10"></div>)}
+                  </div>
                 </div>
-                <div className="hidden sm:flex flex-col w-full h-full justify-evenly">
-                  {[...Array(6)].map((_, i) => <div key={`int-lbot-${i}`} className="w-full h-4 bg-black/50 border-t border-white/10"></div>)}
-                </div>
-              </div>
+              )}
 
               {/* Glass Grid */}
-              <div className="flex sm:hidden flex-col w-full flex-1 z-10 relative">
-                {[...Array(24)].map((_, r) => (
-                  <div key={`lbot-row-m-${r}`} className="flex w-full flex-1 border-b-[2px] border-[#111]/90 relative z-10">
-                    <div className="absolute bottom-0 w-full h-[1px] bg-white/10"></div>
-                    {[...Array(4)].map((_, c) => (
-                      <div key={`lbot-col-m-${c}`} className="flex-1 border-r-[2px] border-[#111]/90 relative">
-                         <div className="absolute right-0 w-[1px] h-full bg-white/10"></div>
+              {isBuildingReady && (
+                <>
+                  <div className="flex sm:hidden flex-col w-full flex-1 z-10 relative">
+                    {[...Array(24)].map((_, r) => (
+                      <div key={`lbot-row-m-${r}`} className="flex w-full flex-1 border-b-[2px] border-[#111]/90 relative z-10">
+                        <div className="absolute bottom-0 w-full h-[1px] bg-white/10"></div>
+                        {[...Array(4)].map((_, c) => (
+                          <div key={`lbot-col-m-${c}`} className="flex-1 border-r-[2px] border-[#111]/90 relative">
+                             <div className="absolute right-0 w-[1px] h-full bg-white/10"></div>
+                          </div>
+                        ))}
                       </div>
                     ))}
                   </div>
-                ))}
-              </div>
-              <div className="hidden sm:flex flex-col w-full flex-1 z-10 relative">
-                {[...Array(6)].map((_, r) => (
-                  <div key={`lbot-row-${r}`} className="flex w-full flex-1 border-b-[2px] border-[#111]/90 relative z-10">
-                    <div className="absolute bottom-0 w-full h-[1px] bg-white/10"></div>
-                    {[...Array(4)].map((_, c) => (
-                      <div key={`lbot-col-${c}`} className="flex-1 border-r-[2px] border-[#111]/90 relative">
-                         <div className="absolute right-0 w-[1px] h-full bg-white/10"></div>
+                  <div className="hidden sm:flex flex-col w-full flex-1 z-10 relative">
+                    {[...Array(6)].map((_, r) => (
+                      <div key={`lbot-row-${r}`} className="flex w-full flex-1 border-b-[2px] border-[#111]/90 relative z-10">
+                        <div className="absolute bottom-0 w-full h-[1px] bg-white/10"></div>
+                        {[...Array(4)].map((_, c) => (
+                          <div key={`lbot-col-${c}`} className="flex-1 border-r-[2px] border-[#111]/90 relative">
+                             <div className="absolute right-0 w-[1px] h-full bg-white/10"></div>
+                          </div>
+                        ))}
                       </div>
                     ))}
                   </div>
-                ))}
-              </div>
+                </>
+              )}
             </div>
             
           </div>
@@ -448,40 +472,46 @@ export default function BuildingAnimationPage() {
           <div className="w-[42%] h-full border-r-[4px] border-y-[4px] border-l-[2px] border-[#1e1e1e] flex flex-col relative overflow-hidden bg-gradient-to-bl from-[#38bdf8]/30 via-[#1e3a8a]/40 to-[#0f172a]/60 z-10">
              
              {/* Internal Floors */}
-             <div className="absolute inset-0 flex flex-col justify-evenly opacity-30">
-                <div className="flex sm:hidden flex-col w-full h-full justify-evenly">
-                  {[...Array(64)].map((_, i) => <div key={`int-rtop-m-${i}`} className="w-full h-4 bg-black/50 border-t border-white/10"></div>)}
-                </div>
-                <div className="hidden sm:flex flex-col w-full h-full justify-evenly">
-                  {[...Array(16)].map((_, i) => <div key={`int-rtop-${i}`} className="w-full h-4 bg-black/50 border-t border-white/10"></div>)}
-                </div>
-             </div>
+             {isBuildingReady && (
+               <div className="absolute inset-0 flex flex-col justify-evenly opacity-30">
+                  <div className="flex sm:hidden flex-col w-full h-full justify-evenly">
+                    {[...Array(64)].map((_, i) => <div key={`int-rtop-m-${i}`} className="w-full h-4 bg-black/50 border-t border-white/10"></div>)}
+                  </div>
+                  <div className="hidden sm:flex flex-col w-full h-full justify-evenly">
+                    {[...Array(16)].map((_, i) => <div key={`int-rtop-${i}`} className="w-full h-4 bg-black/50 border-t border-white/10"></div>)}
+                  </div>
+               </div>
+             )}
              
              {/* Full Height Glass Grid */}
-             <div className="flex sm:hidden flex-col w-full flex-1 z-10 relative">
-               {[...Array(64)].map((_, r) => (
-                 <div key={`rtop-row-m-${r}`} className="flex w-full flex-1 border-b-[2px] border-[#111]/90 relative z-10">
-                   <div className="absolute bottom-0 w-full h-[1px] bg-white/10"></div>
-                   {[...Array(4)].map((_, c) => (
-                     <div key={`rtop-col-m-${c}`} className="flex-1 border-r-[2px] border-[#111]/90 relative">
-                       <div className="absolute right-0 w-[1px] h-full bg-white/10"></div>
+             {isBuildingReady && (
+               <>
+                 <div className="flex sm:hidden flex-col w-full flex-1 z-10 relative">
+                   {[...Array(64)].map((_, r) => (
+                     <div key={`rtop-row-m-${r}`} className="flex w-full flex-1 border-b-[2px] border-[#111]/90 relative z-10">
+                       <div className="absolute bottom-0 w-full h-[1px] bg-white/10"></div>
+                       {[...Array(4)].map((_, c) => (
+                         <div key={`rtop-col-m-${c}`} className="flex-1 border-r-[2px] border-[#111]/90 relative">
+                           <div className="absolute right-0 w-[1px] h-full bg-white/10"></div>
+                         </div>
+                       ))}
                      </div>
                    ))}
                  </div>
-               ))}
-             </div>
-             <div className="hidden sm:flex flex-col w-full flex-1 z-10 relative">
-               {[...Array(16)].map((_, r) => (
-                 <div key={`rtop-row-${r}`} className="flex w-full flex-1 border-b-[2px] border-[#111]/90 relative z-10">
-                   <div className="absolute bottom-0 w-full h-[1px] bg-white/10"></div>
-                   {[...Array(4)].map((_, c) => (
-                     <div key={`rtop-col-${c}`} className="flex-1 border-r-[2px] border-[#111]/90 relative">
-                       <div className="absolute right-0 w-[1px] h-full bg-white/10"></div>
+                 <div className="hidden sm:flex flex-col w-full flex-1 z-10 relative">
+                   {[...Array(16)].map((_, r) => (
+                     <div key={`rtop-row-${r}`} className="flex w-full flex-1 border-b-[2px] border-[#111]/90 relative z-10">
+                       <div className="absolute bottom-0 w-full h-[1px] bg-white/10"></div>
+                       {[...Array(4)].map((_, c) => (
+                         <div key={`rtop-col-${c}`} className="flex-1 border-r-[2px] border-[#111]/90 relative">
+                           <div className="absolute right-0 w-[1px] h-full bg-white/10"></div>
+                         </div>
+                       ))}
                      </div>
                    ))}
                  </div>
-               ))}
-             </div>
+               </>
+             )}
           </div>
 
         </div>

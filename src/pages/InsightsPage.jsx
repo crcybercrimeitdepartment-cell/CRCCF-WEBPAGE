@@ -220,7 +220,7 @@ function LatestNews() {
                   className={`rounded-full object-cover transition-all duration-300 shrink-0
                     ${isActive ? 'w-12 h-12 border-[2px] border-white shadow-sm' : 'w-10 h-10 border-[2px] border-transparent grayscale-[30%] opacity-90'}
                   `} 
-                />
+                loading="lazy" decoding="async" />
                 
                 <div className="flex-grow">
                   <h3 className={`transition-colors duration-300 leading-tight mb-1
@@ -342,7 +342,7 @@ function VideoInsights() {
                   src={vid.img} 
                   alt={vid.title} 
                   className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none" 
-                />
+                loading="lazy" decoding="async" />
                 
                 {/* Dark Overlay for inactive cards */}
                 <div className={`absolute inset-0 bg-black transition-opacity duration-700 ${isActive ? 'opacity-0' : 'opacity-[0.65] group-hover:opacity-40'}`}></div>
