@@ -258,11 +258,11 @@ function CyberBook({ allPages, bookTitle = "Cyber Security", bookSubtitle = "Our
             absolute inset-0 w-full h-full rounded-[24px] cursor-pointer 
             transition-all duration-[1.3s] ease-[cubic-bezier(0.645,0.045,0.355,1)] 
             [transform-origin:left_center] shadow-[6px_0_30px_rgba(0,0,0,0.12)] 
-            flex flex-col items-center justify-center z-[110] p-12 text-center 
+            flex flex-col items-center justify-center p-12 text-center 
             [backface-visibility:hidden] bg-white will-change-transform
             ${isOpen ? '[transform:rotateY(-145deg)_scale(0.95)_translateX(-30px)] opacity-0 pointer-events-none' : ''}
           `}
-          style={{ background: `linear-gradient(135deg, #ffffff, #FFFBEB)`, borderLeft: `8px solid #D97706` }}
+          style={{ background: `linear-gradient(135deg, #ffffff, #FFFBEB)`, borderLeft: `8px solid #D97706`, zIndex: allPages.length + 10 }}
           onClick={handleOpen}
         >
           <div className="w-[100px] h-[100px] rounded-[28px] flex items-center justify-center mb-10 shadow-sm bg-white/60 backdrop-blur-sm p-4">
