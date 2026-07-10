@@ -1,5 +1,5 @@
 import Cloudinary from '../../constants/Cloudinary';
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Globe,
@@ -46,7 +46,7 @@ import {
 } from 'lucide-react';
 
 const Icons = { Shield, Globe, EyeOff, AlertTriangle, Fish, Unlock, Users, Key, Compass, Smartphone, Cloud, Wifi, Cpu, Network, Sparkles, Scale, Database, BarChart2, Code, Terminal, Settings, CheckCircle, Link, Layout, PenTool, Video, FileText, TrendingUp, Search, Share2, Award, Rocket, Zap, DollarSign, PieChart, Briefcase, UserPlus, Target, MessageSquare, BookOpen, ShieldAlert, Gavel };
-import { Shield, Play, Info, ChevronRight, ChevronLeft } from 'lucide-react';
+import { Shield, Play, ChevronRight, ChevronLeft } from 'lucide-react';
 import { programsData } from '../../data/skillDevelopment/AwarenessPagedata';
 
 const TopShelf = () => {
