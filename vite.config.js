@@ -11,9 +11,7 @@ export default defineConfig({
     compression({ algorithm: 'gzip', ext: '.gz' }),
     compression({ algorithm: 'brotliCompress', ext: '.br' })
   ],
-  esbuild: {
-    drop: ['console', 'debugger'],
-  },
+
   build: {
     target: 'esnext',
     minify: 'esbuild',

@@ -211,7 +211,7 @@ function ServerBlade({ program, relativeIndex, onLearnMore }) {
                 </div>
 
                 <div className="flex items-center ml-2">
-                    <span className="font-['Outfit'] text-[0.65rem] font-bold text-[#3b82f6] mr-2 cursor-pointer uppercase tracking-[0.5px] opacity-75 transition-all duration-250 ease-[cubic-bezier(0.4,0,0.2,1)] whitespace-nowrap group-hover:text-[#60a5fa] group-hover:opacity-100 group-hover:drop-shadow-[0_0_8px_rgba(96,165,250,0.6)]">
+                    <span className="hidden sm:inline font-['Outfit'] text-[0.65rem] font-bold text-[#3b82f6] mr-2 cursor-pointer uppercase tracking-[0.5px] opacity-75 transition-all duration-250 ease-[cubic-bezier(0.4,0,0.2,1)] whitespace-nowrap group-hover:text-[#60a5fa] group-hover:opacity-100 group-hover:drop-shadow-[0_0_8px_rgba(96,165,250,0.6)]">
                         Know More &rarr;
                     </span>
                     <div className="flex flex-col gap-1 p-1 bg-[rgba(0,0,0,0.3)] rounded border border-[#1e293b]">
@@ -326,8 +326,8 @@ function WorkshopPageInner({ darkMode, setDarkMode }) {
                 }
             `}
             </style>
-            <main className="workshop-scope flex-grow w-full max-w-[1400px] mx-auto px-6 pb-[60px] animate-[pageScrollDown_0.5s_ease-out] py-2">
-                <header className="px-6 pt-3 pb-1 text-center max-w-[900px] mx-auto flex flex-col items-center">
+            <main className="workshop-scope flex-grow w-full max-w-[1400px] mx-auto px-3 sm:px-6 pb-[60px] animate-[pageScrollDown_0.5s_ease-out] py-2">
+                <header className="pt-3 pb-1 text-center max-w-[900px] mx-auto flex flex-col items-center">
                     <h1 className="text-[34px] font-black tracking-[-1px] mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Workshop</h1>
                     <p className="text-[14px] text-[var(--text-muted)] max-w-[680px] mb-4">
                         Develop leadership, communication, management, and workplace skills through expert-led corporate training workshops.
@@ -356,7 +356,7 @@ function WorkshopPageInner({ darkMode, setDarkMode }) {
                     <div className="border-none pt-0 mt-0 flex flex-col gap-7">
                         <div className="">
                             <div className="bg-white border-[8px] border-[#475569] rounded-xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.7),0_0_50px_rgba(59,130,246,0.1),inset_0_0_40px_rgba(0,0,0,0.75)] p-3 relative z-10 overflow-hidden">
-                                <div className="bg-gradient-to-b from-[#334155] to-[#1e293b] border-2 border-[#475569] rounded-[10px] py-2 px-4 mb-3 flex justify-between items-center border-l-4 border-l-[#3b82f6] shadow-[0_4px_15px_rgba(0,0,0,0.5)]">
+                                <div className="bg-gradient-to-b from-[#334155] to-[#1e293b] border-2 border-[#475569] rounded-[10px] py-2 px-2 sm:px-4 mb-3 flex flex-wrap sm:flex-nowrap justify-between items-center gap-2 sm:gap-0 border-l-4 border-l-[#3b82f6] shadow-[0_4px_15px_rgba(0,0,0,0.5)]">
                                     <div className="flex items-center gap-2 font-['Courier_New',Courier,monospace] text-xs text-[#94a3b8] tracking-[1px]">
                                         <span className="w-2 h-2 bg-[#3b82f6] rounded-full shadow-[0_0_8px_#3b82f6] animate-[led-blink-fast_0.8s_infinite]"></span>
                                         <span>RACK_SYS_01 // SECURE_NODE</span>
@@ -401,7 +401,7 @@ function WorkshopPageInner({ darkMode, setDarkMode }) {
                                     </AnimatePresence>
                                 </div>
 
-                                <div className="bg-gradient-to-b from-[#334155] to-[#1e293b] border-2 border-[#475569] rounded-[10px] py-2 px-4 flex justify-between items-center shadow-[inset_0_0_15px_rgba(0,0,0,0.5)]">
+                                <div className="bg-gradient-to-b from-[#334155] to-[#1e293b] border-2 border-[#475569] rounded-[10px] py-2 px-2 sm:px-4 flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-0 shadow-[inset_0_0_15px_rgba(0,0,0,0.5)]">
                                     <div className="flex items-center gap-5">
                                         <div className="flex gap-1.5">
                                             <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] shadow-[0_0_6px_#10b981]"></span>

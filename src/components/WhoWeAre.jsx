@@ -171,11 +171,11 @@ export default function WhoWeAre() {
         <SectionHeading subtitle="Who We Are" title="About CR Cyber Crime Foundation" highlightWord="CR Cyber Crime Foundation" description="A trusted partner in India's cybersecurity ecosystem — combining technology expertise, legal knowledge, and community outreach to create a safer digital India." />
 
         {/* ── FIXED GRID CONTAINER USING ITEMS-STRETCH ── */}
-        <div className="grid grid-cols-2 items-stretch gap-[24px] max-[640px]:gap-[14px] max-[380px]:gap-[10px]">
+        <div className="grid grid-cols-2 items-stretch gap-[14px] sm:gap-[24px]">
           {cards.map((c, i) => (
             <motion.div
               key={c.title}
-              className="[perspective:1000px] w-full relative z-[1] mt-[26px] flex flex-col group cursor-pointer max-[640px]:mt-[18px] max-[380px]:mt-[16px] max-[640px]:h-[200px] max-[380px]:h-[180px]"
+              className="[perspective:1000px] w-full relative z-[1] mt-[20px] sm:mt-[26px] flex flex-col group cursor-pointer"
               initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -184,7 +184,7 @@ export default function WhoWeAre() {
             >
               {/* ── FIXED WRAPPER TO FORCE FULL HEIGHT GRID ── */}
               <div 
-                className={`grid h-full min-h-[300px] laptop:min-h-[340px] transition-transform duration-[0.6s] ease-[cubic-bezier(0.4,0,0.2,1)] [transform-style:preserve-3d] w-full rounded-[14px] max-[640px]:h-[200px] max-[640px]:min-h-0 max-[380px]:h-[180px] ${
+                className={`grid flex-1 w-full sm:min-h-[300px] laptop:min-h-[340px] transition-transform duration-[0.6s] ease-[cubic-bezier(0.4,0,0.2,1)] [transform-style:preserve-3d] rounded-[14px] ${
                   flippedCards.includes(i) || isAutoFlipped 
                     ? '[transform:rotateY(180deg)]' 
                     : 'group-hover:[transform:rotateY(180deg)]'
@@ -192,39 +192,39 @@ export default function WhoWeAre() {
               >
                 {/* ── FRONT CARD ── */}
                 <div
-                  className="[grid-area:1/1] bg-[rgba(255,255,255,0.72)] backdrop-blur-[10px] [-webkit-backdrop-filter:blur(10px)] border-[1px] border-solid border-[rgba(255,255,255,0.35)] rounded-[14px] px-[24px] pb-[28px] pt-[48px] [backface-visibility:hidden] box-border flex flex-col justify-center items-center text-center bg-no-repeat relative transition-all duration-300 group-hover:shadow-[0_16px_40px_rgba(0,0,0,0.10)] group-hover:border-[rgba(26,86,219,0.20)] [transform:rotateY(0deg)] z-[2] max-[640px]:px-[12px] max-[640px]:pb-[16px] max-[640px]:pt-[34px]"
+                  className="[grid-area:1/1] bg-[rgba(255,255,255,0.72)] backdrop-blur-[10px] [-webkit-backdrop-filter:blur(10px)] border-[1px] border-solid border-[rgba(255,255,255,0.35)] rounded-[14px] px-[12px] sm:px-[24px] pb-[16px] sm:pb-[28px] pt-[34px] sm:pt-[48px] [backface-visibility:hidden] box-border flex flex-col justify-center items-center text-center bg-no-repeat relative transition-all duration-300 group-hover:shadow-[0_16px_40px_rgba(0,0,0,0.10)] group-hover:border-[rgba(26,86,219,0.20)] [transform:rotateY(0deg)] z-[2]"
                   style={{
                     backgroundImage: `linear-gradient(rgba(255,255,255,0.45), rgba(255,255,255,0.45)), url(${c.bg})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center'
                   }}
                 >
-                  <div className="absolute top-[-26px] left-[50%] translate-x-[-50%] bg-[#fff] rounded-[50%] p-[6px] max-[640px]:top-[-16px] max-[640px]:p-[3px]">
+                  <div className="absolute top-[-18px] sm:top-[-26px] left-[50%] translate-x-[-50%] bg-[#fff] rounded-[50%] p-[3px] sm:p-[6px]">
                     <div
-                      className="w-[52px] h-[52px] rounded-[50%] flex items-center justify-center shadow-[0_4px_10px_rgba(0,0,0,0.06)] max-[640px]:w-[32px] max-[640px]:h-[32px] [&>svg]:max-[640px]:w-[18px] [&>svg]:max-[640px]:h-[18px]"
+                      className="w-[36px] sm:w-[52px] h-[36px] sm:h-[52px] rounded-[50%] flex items-center justify-center shadow-[0_4px_10px_rgba(0,0,0,0.06)] [&>svg]:w-[20px] sm:[&>svg]:w-[auto] [&>svg]:h-[20px] sm:[&>svg]:h-[auto]"
                       style={{ background: `${c.color}14`, color: c.color }}
                     >
                       {c.icon}
                     </div>
                   </div>
-                  <h3 className="text-[clamp(16px,2vw,20px)] font-[800] text-[#0F172A] mb-[12px] [text-shadow:0_1px_2px_rgba(255,255,255,0.9)] max-[640px]:text-[13px] max-[640px]:mb-[6px]">
+                  <h3 className="text-[13px] sm:text-[clamp(16px,2vw,20px)] font-[800] text-[#0F172A] mb-[6px] sm:mb-[12px] [text-shadow:0_1px_2px_rgba(255,255,255,0.9)]">
                     {c.title}
                   </h3>
-                  <div className="w-[36px] h-[3px] rounded-[2px] max-[640px]:w-[24px] max-[640px]:h-[2px]" style={{ background: c.color }} />
+                  <div className="w-[24px] sm:w-[36px] h-[2px] sm:h-[3px] rounded-[2px]" style={{ background: c.color }} />
                 </div>
 
                 {/* ── BACK CARD (FIXES SPACING & ALIGNMENT COMPLETELY) ── */}
                 <div 
-                  className="[grid-area:1/1] bg-[rgba(255,255,255,0.85)] backdrop-blur-[10px] [-webkit-backdrop-filter:blur(10px)] border-[1px] border-solid border-[rgba(255,255,255,0.35)] rounded-[14px] px-[28px] py-[28px] [backface-visibility:hidden] box-border flex flex-col justify-center items-start text-left transition-all duration-300 [transform:rotateY(180deg)] group-hover:shadow-[0_16px_40px_rgba(0,0,0,0.10)] group-hover:border-[rgba(26,86,219,0.20)] max-[640px]:px-[14px] max-[640px]:py-[16px]"
+                  className="[grid-area:1/1] bg-[rgba(255,255,255,0.85)] backdrop-blur-[10px] [-webkit-backdrop-filter:blur(10px)] border-[1px] border-solid border-[rgba(255,255,255,0.35)] rounded-[14px] px-[14px] sm:px-[28px] py-[16px] sm:py-[28px] [backface-visibility:hidden] box-border flex flex-col justify-center items-start text-left transition-all duration-300 [transform:rotateY(180deg)] group-hover:shadow-[0_16px_40px_rgba(0,0,0,0.10)] group-hover:border-[rgba(26,86,219,0.20)]"
                 >
                   <h3 
-                    className="text-[clamp(16px,2vw,20px)] font-[800] mb-[14px] max-[640px]:text-[13px] max-[640px]:mb-[8px]" 
+                    className="text-[13px] sm:text-[clamp(16px,2vw,20px)] font-[800] mb-[8px] sm:mb-[14px]" 
                     style={{ color: c.color }}
                   >
                     {c.title}
                   </h3>
                   <p 
-                    className="text-[clamp(12.5px,1.4vw,14.5px)] text-[#4B5563] leading-[1.65] w-full max-[640px]:text-[10.5px] max-[640px]:leading-[1.35] overflow-y-auto max-[640px]:max-h-[120px]"
+                    className="text-[10px] sm:text-[clamp(12.5px,1.4vw,14.5px)] text-[#4B5563] leading-[1.35] sm:leading-[1.65] w-full overflow-y-auto max-h-[120px] sm:max-h-[none]"
                   >
                     {c.desc}
                   </p>
