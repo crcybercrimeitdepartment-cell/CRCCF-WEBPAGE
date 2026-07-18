@@ -139,7 +139,7 @@ const CareerGuidance = () => {
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800 selection:bg-indigo-500/30">
 
       {/* Hero Section */}
-      <div className="w-full bg-white border-b border-slate-200 relative overflow-hidden">
+      <div className="w-full bg-white border-b border-slate-200 relative overflow-hidden pt-16 sm:pt-24">
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+CjxwYXRoIGQ9Ik0zMCAwIEw2MCAxNSBMMzAgMzAgTDAgMTUgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZjFmNWY5IiBzdHJva2Utd2lkdGg9IjEiLz4KPC9zdmc+')] opacity-60"></div>
 
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-4 pb-8 relative z-10">

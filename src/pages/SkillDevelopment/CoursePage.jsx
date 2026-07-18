@@ -6049,7 +6049,7 @@ export default function CoursePage({ darkMode, setDarkMode }) {
     return (
         <Routes>
             <Route path="/" element={
-                <div className="course-page-wrapper">
+                <div className="course-page-wrapper pt-16 sm:pt-24">
                     <StyleInjector />
                     <ScrollToTop />
                     <Homepage darkMode={darkMode} setDarkMode={setDarkMode} />

@@ -674,14 +674,7 @@ const BranchProfileDetail = ({ branch, onBack }) => {
   return (
     <div className="mx-auto w-full max-w-[1180px] animate-[fadeInUp_0.4s_ease-out]">
       <header className="mb-4 flex items-center gap-3 sm:mb-5">
-        <button
-          type="button"
-          onClick={onBack}
-          className="group inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-cyan-100 bg-white text-slate-600 shadow-sm transition-all hover:-translate-x-0.5 hover:border-cyan-200 hover:text-slate-950 hover:shadow-md"
-          aria-label="Return to global branch directory"
-        >
-          <ArrowLeft size={19} aria-hidden="true" />
-        </button>
+
 
         <div className="min-w-0">
           <p className="text-[9px] font-black uppercase tracking-[0.18em] text-[#0B6FF4]">
