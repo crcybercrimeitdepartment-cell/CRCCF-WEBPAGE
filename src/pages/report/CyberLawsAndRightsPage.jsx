@@ -35,7 +35,7 @@ const inlineStyles = `
 import Cloudinary from '../../constants/Cloudinary';
 
 // Preload audio globally so there is zero delay when playing
-const typingAudio = new Audio(Cloudinary.clickSound);
+const typingAudio = new Audio("https://res.cloudinary.com/dlhmkbijh/video/upload/v1784352221/keyboard_soundeffect_vgpj8q.mp3");
 typingAudio.preload = 'auto';
 typingAudio.loop = true;
 
@@ -196,7 +196,7 @@ const MobileOpenedView = ({ isOpen, onClose, playSound = false }) => {
   const currentData = cyberLawsAndRightsData[currentPage];
 
   return (
-    <div className={`fixed inset-0 z-[200] bg-[#f9f6f0] md:hidden flex flex-col transition-opacity duration-[800ms] ${isOpen ? 'opacity-100 pointer-events-auto delay-[1200ms]' : 'opacity-0 pointer-events-none delay-0'}`}>
+    <div className={`absolute top-0 bottom-12 left-[4vw] right-[4vw] z-[40] bg-[#f9f6f0] md:hidden flex flex-col transition-all duration-[800ms] shadow-[0_10px_40px_rgba(0,0,0,0.15)] rounded-xl overflow-hidden border border-[#e07a93]/20 ${isOpen ? 'opacity-100 pointer-events-auto scale-100 delay-[1200ms]' : 'opacity-0 pointer-events-none scale-95 delay-0'}`}>
 
       {/* Pages Container */}
       <div className="flex-1 relative overflow-hidden perspective-[1000px] p-4 pb-4">

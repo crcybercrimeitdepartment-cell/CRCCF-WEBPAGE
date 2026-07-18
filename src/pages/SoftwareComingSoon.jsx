@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useRef } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import PageHeader from '../components/AboutUs/common/PageHeader'
 import SoftwareCard from '../components/SoftwareCard'
 import { softwareCards } from '../data/software/softwareCards'
@@ -11,15 +11,18 @@ const toSoftwareCardId = (title) =>
 
 const SoftwareComingSoon = () => {
   const navigate = useNavigate()
-  const [currentPage, setCurrentPage] = useState(1)
+  const [searchParams, setSearchParams] = useSearchParams()
   const gridRef = useRef(null)
+
+  const pageParam = parseInt(searchParams.get('page'), 10)
+  const currentPage = isNaN(pageParam) || pageParam < 1 ? 1 : pageParam
 
   const totalPages = Math.ceil(softwareCards.length / CARDS_PER_PAGE)
   const startIndex = (currentPage - 1) * CARDS_PER_PAGE
   const visibleCards = softwareCards.slice(startIndex, startIndex + CARDS_PER_PAGE)
 
   const goToPage = (page) => {
-    setCurrentPage(page)
+    setSearchParams({ page }, { replace: true })
     // Scroll the grid section into view smoothly
     if (gridRef.current) {
       gridRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })

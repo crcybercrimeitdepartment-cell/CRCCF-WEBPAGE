@@ -5866,15 +5866,21 @@ function ProgramModal({ program, onClose }) {
 }
 
 function Homepage({ darkMode, setDarkMode }) {
-    const [searchQuery, setSearchQuery] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
-    const [activeProgramId, setActiveProgramId] = useState(null);
     const navigate = useNavigate();
+    const location = useLocation();
+    const pageKey = location.key;
+    const [searchQuery, setSearchQuery] = useState('');
+    const [currentPage, setCurrentPage] = useState(() => {
+    const saved = sessionStorage.getItem(`pageState_${pageKey}`);
+    return saved ? parseInt(saved, 10) : 1;
+  });
+  useEffect(() => {
+    sessionStorage.setItem(`pageState_${pageKey}`, currentPage);
+  }, [currentPage, pageKey]);
+    const [activeProgramId, setActiveProgramId] = useState(null);
     const CARDS_PER_PAGE = 12;
 
-    useEffect(() => {
-        setCurrentPage(1);
-    }, [searchQuery]);
+    // Removed effect resetting page to 1 on initial render
 
     const filteredPrograms = useMemo(() => {
         if (!searchQuery.trim()) return mentorshipPrograms;
@@ -5931,11 +5937,14 @@ function Homepage({ darkMode, setDarkMode }) {
                             type="text"
                             placeholder={labels.searchPlaceholder}
                             value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onChange={(e) => {
+                                setSearchQuery(e.target.value);
+                                setCurrentPage(1);
+                            }}
                             aria-label="Search programs"
                         />
                         {searchQuery && (
-                            <button onClick={() => setSearchQuery('')} className="clear-search-btn" aria-label="Clear search">{labels.clear}</button>
+                            <button onClick={() => { setSearchQuery(''); setCurrentPage(1); }} className="clear-search-btn" aria-label="Clear search">{labels.clear}</button>
                         )}
                     </div>
                 </div>

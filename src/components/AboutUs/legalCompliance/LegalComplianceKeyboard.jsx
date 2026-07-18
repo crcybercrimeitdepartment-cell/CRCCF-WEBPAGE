@@ -31,7 +31,10 @@ const CARDS_PER_PAGE = 12
 
 const LegalComplianceKeyboard = () => {
   const navigate = useNavigate()
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(() => {
+    const saved = sessionStorage.getItem('legalCompliancePage')
+    return saved ? parseInt(saved, 10) : 1
+  })
   const gridRef = useRef(null)
 
   const complianceItems = [
@@ -67,6 +70,7 @@ const LegalComplianceKeyboard = () => {
 
   const goToPage = (page) => {
     setCurrentPage(page)
+    sessionStorage.setItem('legalCompliancePage', page)
     if (gridRef.current) {
       gridRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }

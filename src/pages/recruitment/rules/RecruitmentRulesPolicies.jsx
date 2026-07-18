@@ -3,7 +3,7 @@ import { gsap } from "gsap";
 import { Canvas } from "@react-three/fiber";
 import { Cylinder } from "@react-three/drei";
 import { Shield, Lock, ChevronLeft, ChevronRight, ArrowLeft, HeartHandshake, Scale, Users, Zap, BookOpen, Heart, Star, Server, Brain, Clock, FileText, Database, Search, GraduationCap, X } from "lucide-react";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { RecruitmentPoliciesData } from "./RecruitmentRulesPoliciesData";
 import { useStampAnimation } from "../../../hooks/useStampAnimation";
 
@@ -208,12 +208,27 @@ function FloatingWatermarks() {
 
 export default function RecruitmentRulesPolicies() {
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const pageKey = location.key;
+
+  const initialOpen = useRef(sessionStorage.getItem(`stampPadOpen_${pageKey}`) === 'true');
+  const [isOpen, setIsOpen] = useState(initialOpen.current);
+  
+  useEffect(() => {
+    sessionStorage.setItem(`stampPadOpen_${pageKey}`, isOpen);
+  }, [isOpen, pageKey]);
   const [isLidAnimating, setIsLidAnimating] = useState(false);
   const [stampedCards, setStampedCards] = useState(new Set());
   const [isStampAnimating, setIsStampAnimating] = useState(false);
   const [toast, setToast] = useState("");
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(() => {
+    const saved = sessionStorage.getItem(`pageState_${pageKey}`);
+    return saved ? parseInt(saved, 10) : 0;
+  });
+
+  useEffect(() => {
+    sessionStorage.setItem(`pageState_${pageKey}`, currentPage);
+  }, [currentPage, pageKey]);
   const [padScale, setPadScale] = useState(() => {
     if (typeof window !== 'undefined') {
       const availableWidth = window.innerWidth;
@@ -249,10 +264,13 @@ export default function RecruitmentRulesPolicies() {
   const { triggerStamp, resetStamp } = useStampAnimation();
 
   useEffect(() => {
-    if (isOpen && !isLidAnimating) {
-      resetStamp({ stamp3DRef, inkSurfaceRef });
+    if (isOpen && !isLidAnimating && is3DReady) {
+      const timer = setTimeout(() => {
+        resetStamp({ stamp3DRef, inkSurfaceRef });
+      }, 100);
+      return () => clearTimeout(timer);
     }
-  }, [isOpen, isLidAnimating, resetStamp]);
+  }, [isOpen, isLidAnimating, is3DReady, resetStamp]);
 
   useEffect(() => {
     const updateScale = () => {
@@ -412,19 +430,37 @@ export default function RecruitmentRulesPolicies() {
   };
 
   useEffect(() => {
-    gsap.fromTo(
-      ".stamp-device-container",
-      { opacity: 0, y: 100, scale: 0.9, rotateX: 10 },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        rotateX: 0,
-        duration: 1.2,
-        ease: "power3.out",
-        delay: 0.1,
-      },
-    );
+    if (initialOpen.current) {
+      gsap.set(".stamp-device-container", { y: 130, scale: 0.85 });
+      gsap.set(lidRef.current, { rotateX: 160 });
+      gsap.set(".stamp-wrapper", { opacity: 1 });
+      
+      gsap.fromTo(
+        ".stamp-device-container",
+        { opacity: 0, rotateX: 10 },
+        {
+          opacity: 1,
+          rotateX: 0,
+          duration: 1.2,
+          ease: "power3.out",
+          delay: 0.1,
+        }
+      );
+    } else {
+      gsap.fromTo(
+        ".stamp-device-container",
+        { opacity: 0, y: 100, scale: 0.9, rotateX: 10 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          rotateX: 0,
+          duration: 1.2,
+          ease: "power3.out",
+          delay: 0.1,
+        }
+      );
+    }
   }, []);
 
   return (

@@ -1493,13 +1493,22 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
 // 3. HOME PAGE COMPONENT
 // ==========================================
 function Home() {
-  const [activeCategory, setActiveCategory] = useState('All');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const pageKey = location.key;
+    const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(() => {
+    const saved = sessionStorage.getItem(`pageState_${pageKey}`);
+    return saved ? parseInt(saved, 10) : 1;
+  });
+  useEffect(() => {
+    sessionStorage.setItem(`pageState_${pageKey}`, currentPage);
+  }, [currentPage, pageKey]);
   const [isHoveringClickable, setIsHoveringClickable] = useState(false);
   const [isMouseDown, setIsMouseDown] = useState(false);
   const markerRef = useRef(null);
-  const navigate = useNavigate();
+  
 
   const handleMouseOver = useCallback((e) => {
     const target = e.target;
@@ -1669,7 +1678,7 @@ function ProgramDetail() {
 // ==========================================
 function Success() {
   const location = useLocation();
-  const navigate = useNavigate();
+  
   const state = location.state || {};
 
   return (

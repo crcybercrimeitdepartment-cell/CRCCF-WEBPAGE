@@ -241,7 +241,12 @@ function FloatingWatermarks() {
 
 export function StampPad() {
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(() => {
+    if (typeof window !== "undefined") {
+      return sessionStorage.getItem("victimSupportIsOpen") === "true";
+    }
+    return false;
+  });
   const [isLidAnimating, setIsLidAnimating] = useState(false);
   const [stampedCards, setStampedCards] = useState(new Set());
   const [isStampAnimating, setIsStampAnimating] = useState(false);
@@ -257,8 +262,9 @@ export function StampPad() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       sessionStorage.setItem("victimSupportCurrentPage", currentPage.toString());
+      sessionStorage.setItem("victimSupportIsOpen", isOpen.toString());
     }
-  }, [currentPage]);
+  }, [currentPage, isOpen]);
   const [padScale, setPadScale] = useState(() => {
     if (typeof window !== 'undefined') {
       const availableWidth = window.innerWidth;
@@ -283,6 +289,14 @@ export function StampPad() {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (isOpen) {
+      gsap.set(lidRef.current, { rotateX: 160 });
+      gsap.set(".stamp-device-container", { y: 130, scale: 0.85 });
+      gsap.set(".stamp-wrapper", { opacity: 1 });
+    }
+  }, []);
+
   const cardsPerPage = 10;
   const totalPages = Math.ceil(VICTIM_CARDS.length / cardsPerPage);
 
@@ -294,10 +308,12 @@ export function StampPad() {
   const { triggerStamp, resetStamp } = useStampAnimation();
 
   useEffect(() => {
-    if (isOpen && !isLidAnimating) {
-      resetStamp({ stamp3DRef, inkSurfaceRef });
+    if (isOpen && !isLidAnimating && is3DReady) {
+      setTimeout(() => {
+        resetStamp({ stamp3DRef, inkSurfaceRef });
+      }, 100);
     }
-  }, [isOpen, isLidAnimating, resetStamp]);
+  }, [isOpen, isLidAnimating, is3DReady, resetStamp]);
 
   useEffect(() => {
     const updateScale = () => {
@@ -461,19 +477,21 @@ export function StampPad() {
   };
 
   useEffect(() => {
-    gsap.fromTo(
-      ".stamp-device-container",
-      { opacity: 0, y: 100, scale: 0.9, rotateX: 10 },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        rotateX: 0,
-        duration: 1.2,
-        ease: "power3.out",
-        delay: 0.1,
-      },
-    );
+    if (!isOpen) {
+      gsap.fromTo(
+        ".stamp-device-container",
+        { opacity: 0, y: 100, scale: 0.9, rotateX: 10 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          rotateX: 0,
+          duration: 1.2,
+          ease: "power3.out",
+          delay: 0.1,
+        },
+      );
+    }
   }, []);
 
   return (

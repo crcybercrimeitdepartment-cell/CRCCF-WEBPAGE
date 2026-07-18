@@ -168,7 +168,7 @@ export default function Footer() {
 
           {/* SUPPORT TEXT (Spans 3 cols) */}
           <div className="md:col-span-3">
-            <h3 className="text-lg font-semibold border-b-2 border-red-500 inline-block pb-2 mb-6 text-red-100">
+            <h3 className="text-lg font-semibold border-b-2 border-cyan-400 inline-block pb-2 mb-6">
               Support
             </h3>
             <p className="text-gray-300 text-sm leading-relaxed text-justify pr-2 lg:pr-4">
@@ -219,7 +219,7 @@ export default function Footer() {
                 Icon: FaGlobe,
                 color: "hover:text-[#2563EB]",
                 label: "Website",
-                link: "https://crcybercrime.com/",
+                link: "https://crcybercrime.org/",
               },
               {
                 Icon: FaTelegramPlane,

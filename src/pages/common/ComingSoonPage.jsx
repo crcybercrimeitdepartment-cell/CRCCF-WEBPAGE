@@ -11,9 +11,6 @@ const ComingSoonPage = () => {
       <SEO title="Coming Soon" description="This section is currently under maintenance and will be available soon with updated content." />
       <div className="bg-[#F8FAFC] min-h-screen relative w-full overflow-x-hidden pt-8 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          
-
-
           {/* Coming Soon Card */}
           <div className="bg-white rounded-2xl sm:rounded-[24px] shadow-sm sm:shadow-[0_8px_30px_rgba(0,0,0,0.04)] p-8 sm:p-16 md:p-24 text-center border border-slate-100">
             <h1 className="text-3xl sm:text-4xl md:text-[42px] font-bold text-[#0F172A] tracking-tight leading-tight mb-8">

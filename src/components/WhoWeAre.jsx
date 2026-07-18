@@ -182,9 +182,12 @@ export default function WhoWeAre() {
               transition={{ duration: .5, delay: i * .10 }}
               onClick={(e) => handleTap(e, i)}
             >
+              {/* ── STABLE HIT AREA ON TOP TO PREVENT HOVER FLICKER ── */}
+              <div className="absolute inset-x-0 top-[-40px] bottom-[-20px] z-50 bg-[rgba(255,255,255,0.001)] rounded-[14px]" />
+
               {/* ── FIXED WRAPPER TO FORCE FULL HEIGHT GRID ── */}
               <div 
-                className={`grid flex-1 w-full sm:min-h-[300px] laptop:min-h-[340px] transition-transform duration-[0.6s] ease-[cubic-bezier(0.4,0,0.2,1)] [transform-style:preserve-3d] rounded-[14px] ${
+                className={`grid flex-1 w-full sm:min-h-[300px] laptop:min-h-[340px] transition-transform duration-[0.6s] ease-[cubic-bezier(0.4,0,0.2,1)] [transform-style:preserve-3d] rounded-[14px] relative z-[1] ${
                   flippedCards.includes(i) || isAutoFlipped 
                     ? '[transform:rotateY(180deg)]' 
                     : 'group-hover:[transform:rotateY(180deg)]'

@@ -945,59 +945,53 @@ const XIcon = () => (
 );
 
 const FileControls = ({ fileState, onOpen, onClose, onNext, onPrev, currentPage, totalPages, isTurningNext, isTurningPrev }) => {
-  const isOpen   = fileState === 'opened';
-  const isActive = isOpen || fileState === 'closing';
-  if (fileState === 'closed') {
+  const isOpen = fileState === 'opened' || fileState === 'closing' || fileState === 'untying';
+
+  if (!isOpen) {
     return (
-      <nav className="document-navigation document-navigation-hint" aria-label="Document controls">
-        <span>Tap file to open</span>
-      </nav>
+      <div className="flex items-center justify-center w-[380px] max-sm:w-[290px] mt-8 max-sm:mt-14 select-none opacity-50 relative z-50 pointer-events-none">
+        <span className="text-xs text-slate-800 font-bold tracking-widest uppercase font-courier">
+          Tap file to open
+        </span>
+      </div>
     );
   }
-  if (!isActive) {
-    return <nav className="document-navigation document-navigation-pending" aria-label="Document controls" />;
-  }
-  const prevDisabled = currentPage === 0;
-  const nextDisabled = currentPage === totalPages - 1;
-  const closeDisabled = false;
 
   return (
-    <nav className="document-navigation" aria-label="Document controls">
-      <div className="document-navigation-inner">
-        <div className="document-navigation-buttons">
-          <button
-            className="document-nav-button document-nav-button-secondary"
-            onClick={onPrev}
-            disabled={prevDisabled}
-            title="Previous page"
-            aria-label="Previous page"
-          >
-            <ChevronLeft /> Prev
-          </button>
-          <button
-            className="document-nav-button document-nav-button-close"
-            onClick={onClose}
-            disabled={closeDisabled}
-            title="Close file"
-            aria-label="Close file"
-          >
-            <XIcon /> Close
-          </button>
-          <button
-            className="document-nav-button document-nav-button-primary"
-            onClick={onNext}
-            disabled={nextDisabled}
-            title="Next page"
-            aria-label="Next page"
-          >
-            Next <ChevronRight />
-          </button>
-        </div>
-        <div className="document-page-counter">
-          {currentPage + 1}<span> / </span>{totalPages}
-        </div>
+    <div className="flex items-center justify-between w-[380px] max-sm:w-[290px] mt-8 max-sm:mt-14 select-none relative z-50">
+      <button
+        onClick={onPrev}
+        disabled={currentPage === 0}
+        className="retro-btn"
+      >
+        ◀ PREV
+      </button>
+      
+      <div className="flex flex-col items-center">
+        <span className="text-xs max-sm:text-[10px] text-slate-800 font-bold font-courier tracking-widest whitespace-nowrap mb-2">
+          REPORT {currentPage + 1} / {totalPages}
+        </span>
+        <button 
+          onClick={onClose} 
+          className="group flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-200/50 hover:bg-slate-300/80 active:scale-95 text-[9px] text-slate-600 hover:text-slate-900 uppercase tracking-[0.2em] font-bold transition-all duration-200"
+          title="Close this file"
+        >
+          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 group-hover:opacity-100 transition-opacity">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+          CLOSE
+        </button>
       </div>
-    </nav>
+
+      <button
+        onClick={onNext}
+        disabled={currentPage === totalPages - 1}
+        className="retro-btn"
+      >
+        NEXT ▶
+      </button>
+    </div>
   );
 };
 

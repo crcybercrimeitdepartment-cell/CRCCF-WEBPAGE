@@ -71,13 +71,21 @@ function DataPage({ darkMode, setDarkMode }) {
 }
 
 function ResearchPageInner({ darkMode, setDarkMode }) {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const pageKey = location.key;
     const [searchQuery, setSearchQuery] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(() => {
+    const saved = sessionStorage.getItem(`pageState_${pageKey}`);
+    return saved ? parseInt(saved, 10) : 1;
+  });
+  useEffect(() => {
+    sessionStorage.setItem(`pageState_${pageKey}`, currentPage);
+  }, [currentPage, pageKey]);
     const [isTransitioning, setIsTransitioning] = useState(false);
     const [transitionDirection, setTransitionDirection] = useState('next');
     const [transitionPrograms, setTransitionPrograms] = useState([]);
     const [transitionPage, setTransitionPage] = useState(1);
-    const navigate = useNavigate();
     const CARDS_PER_PAGE = 12;
 
     const [isMagnifierActive, setIsMagnifierActive] = useState(false);
@@ -193,7 +201,7 @@ function ResearchPageInner({ darkMode, setDarkMode }) {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [isMagnifierActive]);
 
-    useEffect(() => { setCurrentPage(1); }, [searchQuery]);
+    // Removed effect resetting page to 1 on initial render
 
     const filteredPrograms = useMemo(() => {
         if (!searchQuery.trim()) return mentorshipPrograms;
@@ -264,11 +272,11 @@ function ResearchPageInner({ darkMode, setDarkMode }) {
                                 type="text"
                                 placeholder="Search courses by name..."
                                 value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
                                 aria-label="Search programs"
                             />
                             {searchQuery && (
-                                <button onClick={() => setSearchQuery('')} className="clear-search-btn" aria-label="Clear search">Clear</button>
+                                <button onClick={() => { setSearchQuery(''); setCurrentPage(1); }} className="clear-search-btn" aria-label="Clear search">Clear</button>
                             )}
                         </div>
                     </div>
@@ -364,7 +372,7 @@ function ResearchPageInner({ darkMode, setDarkMode }) {
                         <div className="empty-state">
                             <h3>No Programs Found</h3>
                             <p>We couldn't find any training programs matching your search. Try a different keyword.</p>
-                            <button className="reset-filters-btn" onClick={() => setSearchQuery('')}>Clear Search</button>
+                            <button className="reset-filters-btn" onClick={() => { setSearchQuery(''); setCurrentPage(1); }}>Clear Search</button>
                         </div>
                     )}
                 </section>

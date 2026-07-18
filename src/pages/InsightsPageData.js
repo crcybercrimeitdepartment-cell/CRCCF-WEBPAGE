@@ -72,12 +72,12 @@ export const videos = [
 ];
 
 export const infographicsData = [
+  { id: '01', title: 'AWARENESS', desc: 'Employee training and security culture.', start: 180, end: 225, color: '#48c9b0' },
+  { id: '02', title: 'ANALYSIS', desc: 'Malware behavior and vulnerabilities.', start: 135, end: 180, color: '#3fa9f5' },
+  { id: '03', title: 'DETECTION', desc: 'Advanced anomaly detection systems.', start: 90, end: 135, color: '#0b537e' },
   { id: '04', title: 'RESPONSE', desc: 'Incident response and threat mitigation.', start: 45, end: 90, color: '#941b38' },
   { id: '05', title: 'PREVENTION', desc: 'Proactive measures to stop attacks.', start: 0, end: 45, color: '#e84e5b' },
-  { id: '06', title: 'COMPLIANCE', desc: 'Global regulatory and security audits.', start: -45, end: 0, color: '#f7941d' },
-  { id: '03', title: 'DETECTION', desc: 'Advanced anomaly detection systems.', start: 90, end: 135, color: '#0b537e' },
-  { id: '02', title: 'ANALYSIS', desc: 'Malware behavior and vulnerabilities.', start: 135, end: 180, color: '#3fa9f5' },
-  { id: '01', title: 'AWARENESS', desc: 'Employee training and security culture.', start: 180, end: 225, color: '#48c9b0' }
+  { id: '06', title: 'COMPLIANCE', desc: 'Global regulatory and security audits.', start: -45, end: 0, color: '#f7941d' }
 ];
 
 export const shapes = {

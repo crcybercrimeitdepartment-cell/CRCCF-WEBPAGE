@@ -25,7 +25,7 @@ const GlobalNavigation = () => {
   };
 
   return (
-    <div className="relative md:absolute top-0 left-0 w-full z-50 pointer-events-none">
+    <div className="absolute top-0 left-0 w-full z-50 pointer-events-none">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-2 md:pb-0 flex items-start justify-start gap-2">
       <motion.button
         whileHover={{ scale: 1.05 }}

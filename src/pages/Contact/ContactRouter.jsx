@@ -53,7 +53,7 @@ export default function ContactRouter() {
       <Route path="board-of-member" element={<PageWrapper bgIcons={[UserPlus, Users, Briefcase]} transparentBg={true}><DirectorySection title="Board of Member" Icon={UserPlus} data={members} /></PageWrapper>} />
 
       {/* OTHER SECTIONS */}
-      <Route path="ai-chat" element={<PageWrapper bgIcons={[Bot]}><AIChat /></PageWrapper>} />
+      <Route path="ai-chat" element={<PageWrapper bgIcons={[Bot]} transparentBg={true} noPaddingMobile={true}><AIChat /></PageWrapper>} />
       <Route path="review" element={<PageWrapper bgIcons={[Star, ThumbsUp]}><Review /></PageWrapper>} />
       <Route path="feedback" element={<PageWrapper bgIcons={[MessageCircle, MessageSquare]}><Feedback /></PageWrapper>} />
       <Route path="announcements" element={<PageWrapper bgIcons={[Megaphone, Sparkles]} iconCount={10} transparentBg={true}><Announcements /></PageWrapper>} />

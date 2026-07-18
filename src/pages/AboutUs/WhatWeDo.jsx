@@ -380,18 +380,6 @@ export default function WhatWeDo() {
           </div>
         </div>
 
-        {/* Global Impact Shield */}
-        <motion.div variants={itemUp} className="mt-16 text-center">
-          <div className="bg-slate-900 rounded-[40px] p-12 md:p-16 border border-slate-800 shadow-2xl relative overflow-hidden">
-             <div className="absolute -top-24 -right-24 w-64 h-64 bg-blue-500/20 blur-[100px] rounded-full" />
-             <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-cyan-500/20 blur-[100px] rounded-full" />
-             <Globe className="w-16 h-16 text-blue-400 mx-auto mb-8 animate-pulse" />
-             <h3 className="text-2xl md:text-3xl font-black text-white mb-6">Securing the Global Frontier</h3>
-             <p className="text-slate-400 text-lg mb-0 max-w-2xl mx-auto italic leading-relaxed">
-               "Our mission transcends borders. We integrate localized support with global standards to build a resilient, safe, and just digital ecosystem for every citizen."
-             </p>
-          </div>
-        </motion.div>
       </motion.section>
     </div>
   );

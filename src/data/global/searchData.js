@@ -879,7 +879,7 @@ export const searchableData = [
     title: "Official Website",
     description: "Visit our main web portal for comprehensive resources.",
     category: "Social",
-    link: "https://crcybercrime.com/",
+    link: "https://crcybercrime.org/",
     tags: ["website", "portal", "resources", "main"],
     iconName: "Globe"
   },

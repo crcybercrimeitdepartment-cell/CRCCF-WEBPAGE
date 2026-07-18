@@ -368,17 +368,6 @@ export default function LegalDisclaimer() {
           </div>
         </div>
 
-        {/* Accountability Shield */}
-        <motion.div variants={itemUp} className="mt-16 text-center">
-          <div className="bg-slate-50 rounded-[40px] p-12 md:p-16 border border-slate-200 shadow-sm relative overflow-hidden">
-             <div className="absolute -top-24 -right-24 w-64 h-64 bg-amber-500/10 blur-[100px] rounded-full" />
-             <Scale className="w-16 h-16 text-slate-900 mx-auto mb-8" />
-             <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-6">Transparency through Regulation</h3>
-             <p className="text-slate-600 text-lg mb-0 max-w-2xl mx-auto italic leading-relaxed">
-               "CR Cyber Crime Foundation operates as an autonomous welfare entity. We maintain no statutory enforcement powers and function exclusively as a public-support institution."
-             </p>
-          </div>
-        </motion.div>
       </motion.section>
     </div>
   );

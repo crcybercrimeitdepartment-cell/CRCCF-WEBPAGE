@@ -300,7 +300,7 @@ export default function Navbar() {
         <div className="container-custom flex h-[66px] items-center gap-[12px] xl:gap-[24px]">
 
           {/* ── LOGO ── */}
-          <a className="group flex shrink-0 cursor-pointer items-center gap-[10px] no-underline" href="#home" onClick={e => { e.preventDefault(); go('#home') }}>
+          <a className="group flex shrink-0 cursor-pointer items-center gap-[10px] no-underline" href="/#home" onClick={e => { e.preventDefault(); go('/#home') }}>
             <img src={Cloudinary.logoIile24} alt="CRCCF Logo" className="h-[46px] w-[46px] object-contain" width="46" height="46" loading="lazy" decoding="async" />
             <div className="flex flex-col">
               <span className="font-['Outfit',sans-serif] text-[17px] font-[900] text-[#fff] tracking-[-0.01em] leading-[1]">CRCCF</span>

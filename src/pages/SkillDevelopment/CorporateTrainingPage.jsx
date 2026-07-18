@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Routes, Route, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 // Icon imports from Lucide React
@@ -152,15 +152,21 @@ function ProjectorCard({ program, onClick, index, columnSide }) {
 // HOMEPAGE VIEW
 // ==========================================================================
 function Homepage({ darkMode, setDarkMode }) {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const pageKey = location.key;
     const [activeCategory, setActiveCategory] = useState('All');
     const [searchQuery, setSearchQuery] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
-    const navigate = useNavigate();
+    const [currentPage, setCurrentPage] = useState(() => {
+    const saved = sessionStorage.getItem(`pageState_${pageKey}`);
+    return saved ? parseInt(saved, 10) : 1;
+  });
+  useEffect(() => {
+    sessionStorage.setItem(`pageState_${pageKey}`, currentPage);
+  }, [currentPage, pageKey]);
     const CARDS_PER_PAGE = constants.CARDS_PER_PAGE;
 
-    useEffect(() => {
-        setCurrentPage(1);
-    }, [activeCategory, searchQuery]);
+    // Removed effect resetting page to 1 on initial render
 
     const filteredPrograms = useMemo(() => {
         return mentorshipPrograms.filter((program) => {
@@ -218,14 +224,19 @@ function Homepage({ darkMode, setDarkMode }) {
                                 type="text"
                                 placeholder={heroData.searchPlaceholder}
                                 value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onChange={(e) => {
+                                    setSearchQuery(e.target.value);
+                                    setCurrentPage(1);
+                                }}
                                 aria-label="Search programs"
                             />
                             {searchQuery && (
                                 <button
                                     className="clear-search-btn"
-                                    onClick={() => setSearchQuery('')}
-                                    aria-label="Clear search"
+                                    onClick={() => {
+                                        setSearchQuery('');
+                                        setCurrentPage(1);
+                                    }}
                                 >
                                     {labels.clear}
                                 </button>
@@ -315,7 +326,7 @@ function Homepage({ darkMode, setDarkMode }) {
                             <p>{emptyStateData.description}</p>
                             <button
                                 className="reset-filters-btn"
-                                onClick={() => { setActiveCategory('All'); setSearchQuery(''); }}
+                                onClick={() => { setActiveCategory('All'); setSearchQuery(''); setCurrentPage(1); }}
                             >
                                 {emptyStateData.resetBtn}
                             </button>
@@ -332,7 +343,7 @@ function Homepage({ darkMode, setDarkMode }) {
 // ==========================================================================
 function ProgramDetail({ darkMode, setDarkMode }) {
     const { id } = useParams();
-    const navigate = useNavigate();
+    
 
     const program = useMemo(() => mentorshipPrograms.find(p => p.id === id), [id]);
 

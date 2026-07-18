@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   FaFacebookF, 
@@ -28,6 +29,7 @@ import {
 } from 'lucide-react';
 
 export default function ReachUsPage() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -128,8 +130,8 @@ export default function ReachUsPage() {
     { 
       icon: <FaGlobe />, 
       label: 'Website', 
-      handle: 'crcybercrime.com', 
-      link: 'https://crcybercrime.com/', 
+      handle: 'crcybercrime.org', 
+      link: 'https://crcybercrime.org/', 
       color: '#2563EB',
       gradient: 'linear-gradient(45deg, #2563EB, #3B82F6)'
     },
@@ -406,6 +408,10 @@ export default function ReachUsPage() {
               <motion.a
                 key={i}
                 href={review.link}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate(review.link);
+                }}
                 className="group relative bg-white rounded-[20px] p-[24px] flex flex-col items-center justify-center text-center gap-[16px] shadow-[0_10px_30px_rgba(0,0,0,0.03)] border border-solid border-[#F1F5F9] transition-all duration-[0.3s] hover:shadow-[0_20px_40px_rgba(37,99,235,0.1)] hover:translate-y-[-5px] no-underline overflow-hidden"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}

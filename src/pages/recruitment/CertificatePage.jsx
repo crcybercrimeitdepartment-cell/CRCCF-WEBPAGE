@@ -1,6 +1,6 @@
 import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Award } from 'lucide-react';
 
 import { certificates } from './CertificatePageData.js';
@@ -171,7 +171,14 @@ const GoldSeal = () => (
 );
 
 export default function App() {
-  const [currentPage, setCurrentPage] = React.useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pageParam = parseInt(searchParams.get('page'), 10);
+  const currentPage = isNaN(pageParam) || pageParam < 1 ? 1 : pageParam;
+
+  const setCurrentPage = (updater) => {
+    const newPage = typeof updater === 'function' ? updater(currentPage) : updater;
+    setSearchParams({ page: newPage }, { replace: true });
+  };
   const itemsPerPage = 8;
   const totalPages = Math.ceil(certificates.length / itemsPerPage);
   

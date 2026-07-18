@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation, useParams } from 'react-router-dom';
 import {
     Search, GraduationCap, Sun, Moon, Heart,
@@ -45,7 +45,6 @@ export default function WorkshopPage({ darkMode, setDarkMode }) {
 // ==========================================
 function DataPage({ darkMode, setDarkMode }) {
     const { id } = useParams();
-    const navigate = useNavigate();
 
     const program = useMemo(() => {
         return mentorshipPrograms.find(p => p.id === id);
@@ -264,13 +263,22 @@ function BlankingPlate({ relativeIndex }) {
 }
 
 function WorkshopPageInner({ darkMode, setDarkMode }) {
-    const [searchQuery, setSearchQuery] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
-    const [isTransitioning, setIsTransitioning] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
+    const pageKey = location.key;
+    const [searchQuery, setSearchQuery] = useState('');
+    const [currentPage, setCurrentPage] = useState(() => {
+    const saved = sessionStorage.getItem(`pageState_${pageKey}`);
+    return saved ? parseInt(saved, 10) : 1;
+  });
+  useEffect(() => {
+    sessionStorage.setItem(`pageState_${pageKey}`, currentPage);
+  }, [currentPage, pageKey]);
+    const [isTransitioning, setIsTransitioning] = useState(false);
+    
     const CARDS_PER_PAGE = 12;
 
-    useEffect(() => { setCurrentPage(1); }, [searchQuery]);
+    // Removed effect resetting page to 1 on initial render
 
     const filteredPrograms = useMemo(() => {
         if (!searchQuery.trim()) return mentorshipPrograms;
@@ -339,12 +347,12 @@ function WorkshopPageInner({ darkMode, setDarkMode }) {
                                 type="text"
                                 placeholder="Search workshops by name..."
                                 value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
                                 aria-label="Search workshops"
                                 className="w-full py-3 pr-20 pl-[54px] font-[var(--font-body)] text-base bg-white border border-[var(--border-color)] rounded-2xl text-[#0f172a] shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-250 ease-[cubic-bezier(0.4,0,0.2,1)] focus:outline-none focus:border-[var(--accent-color)] focus:shadow-[0_0_0_4px_var(--accent-glow),0_8px_30px_rgba(0,0,0,0.05)]"
                             />
                             {searchQuery && (
-                                <button onClick={() => setSearchQuery('')} className="absolute right-[18px] bg-[var(--bg-tertiary)] border-none rounded-lg py-1.5 px-3 text-xs font-semibold text-[var(--text-main)] cursor-pointer transition-all duration-200 hover:bg-[var(--border-color)] hover:text-[var(--text-heading)]" aria-label="Clear search">Clear</button>
+                                <button onClick={() => { setSearchQuery(''); setCurrentPage(1); }} className="absolute right-[18px] bg-[var(--bg-tertiary)] border-none rounded-lg py-1.5 px-3 text-xs font-semibold text-[var(--text-main)] cursor-pointer transition-all duration-200 hover:bg-[var(--border-color)] hover:text-[var(--text-heading)]" aria-label="Clear search">Clear</button>
                             )}
                         </div>
                     </div>

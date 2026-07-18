@@ -57,7 +57,7 @@ export default function Activities() {
                   ease: "easeOut",
                 }}
                 viewport={{ once: true, amount: 0.2 }}
-                className="relative group pt-8" // pt-8 creates space for the overlapping icon
+                className="relative group pt-8 h-full flex flex-col" // pt-8 creates space for the overlapping icon
               >
                 {/* 1. The Colorful Backdrop 
                     Includes an automatic double-pulse animation on mount to show interactivity */}
@@ -70,11 +70,11 @@ export default function Activities() {
                     ease: "easeInOut",
                   }}
                   viewport={{ once: true, amount: 0.5 }}
-                  className="absolute inset-0 top-11 bottom-[-1.5rem] bg-gradient-to-br from-[#3B82F6] via-[#2563EB] to-cyan-400 rounded-[1.5rem] z-0 transition-all duration-500 group-hover:scale-[1.03] group-hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.4)]"
+                  className="absolute inset-x-[2px] top-11 bottom-[-1.5rem] bg-gradient-to-br from-[#3B82F6] via-[#2563EB] to-cyan-400 rounded-[1.5rem] z-0 transition-all duration-500 group-hover:scale-[1.03] group-hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.4)]"
                 ></motion.div>
 
                 {/* 2. The Foreground Glass Card */}
-                <div className="relative z-10 w-full h-full bg-white/95 backdrop-blur-xl border border-slate-100 rounded-[1.5rem] px-7 pb-8 pt-10 transition-all duration-500 shadow-sm group-hover:bg-white group-hover:-translate-y-2 group-hover:border-white flex flex-col">
+                <div className="relative z-10 w-full flex-1 bg-white border border-slate-100 rounded-[1.5rem] px-7 pb-8 pt-10 transition-all duration-500 shadow-sm group-hover:bg-white group-hover:-translate-y-2 group-hover:border-white flex flex-col">
                   
                   {/* 3. Pixel-Perfect Overlapping Icon 
                       Includes an automatic double-bounce animation on mount */}

@@ -5,8 +5,8 @@ import FloatingBackground from "../FloatingBackground/FloatingBackground";
 import { pageWrapperData } from "./PageWrapperData";
 
 // ✨ ADDED: iconCount right here
-const PageWrapper = ({ children, bgIcons, transparentBg, iconCount }) => (
-  <div className="min-h-screen bg-[#F8FAFC] p-6 sm:p-10 lg:p-16 relative overflow-hidden">
+const PageWrapper = ({ children, bgIcons, transparentBg, iconCount, noPaddingMobile }) => (
+  <div className={`min-h-screen bg-[#F8FAFC] ${noPaddingMobile ? 'p-2 sm:p-10 lg:p-16' : 'p-6 sm:p-10 lg:p-16'} relative overflow-hidden`}>
     {/* ✨ ADDED: Passing the count down to the background */}
     <FloatingBackground icons={bgIcons} count={iconCount} />
 

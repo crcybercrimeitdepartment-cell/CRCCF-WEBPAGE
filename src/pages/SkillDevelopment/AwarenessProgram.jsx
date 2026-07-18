@@ -80,7 +80,7 @@ const ProgramCard = ({ program }) => {
   return (
     <div 
       onClick={() => navigate(`/skill-development/${slug}`)}
-      className="w-full h-full bg-slate-50 border border-slate-200 rounded-xl flex flex-col justify-center items-center text-center p-3 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:bg-white relative overflow-hidden group"
+      className="w-full h-full bg-slate-50 border border-slate-200 rounded-xl flex flex-col justify-center items-center text-center p-4 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:bg-white relative overflow-hidden group gap-2 md:gap-3"
       style={{ boxShadow: `0 8px 20px -5px ${program.color}40` }}
     >
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-xl"
@@ -90,23 +90,23 @@ const ProgramCard = ({ program }) => {
            }}>
       </div>
 
-      <div className="flex-1 w-full relative z-10 flex flex-col justify-center items-center min-h-0">
+      <div className="flex-1 w-full relative z-10 flex flex-col justify-end items-center min-h-0 pb-1">
         {program.image ? (
           <img loading="lazy" decoding="async" 
             src={program.image} 
             alt={program.title} 
-            className="w-full h-full object-contain mix-blend-multiply"
+            className="w-full h-10 md:h-12 object-contain mix-blend-multiply"
             style={{ filter: `invert(1) hue-rotate(180deg) contrast(1.2)` }}
           />
         ) : (
           <IconComponent 
-            className="w-[28px] h-[28px] md:w-[36px] md:h-[36px] transition-transform duration-300 group-hover:scale-110" 
+            className="w-7 h-7 md:w-9 md:h-9 transition-transform duration-300 group-hover:scale-110" 
             style={{ color: program.color, filter: `drop-shadow(0 4px 8px ${program.color}60)` }} 
           />
         )}
       </div>
-      <div className="flex-none h-[35%] w-full flex items-start justify-center z-10 pt-2">
-        <h3 className="text-[9px] md:text-[10px] lg:text-xs font-extrabold uppercase text-slate-800 leading-[1.3] px-2 tracking-wider group-hover:text-black transition-colors">
+      <div className="flex-1 w-full flex items-start justify-center z-10 pt-1">
+        <h3 className="text-[10px] md:text-xs font-extrabold uppercase text-slate-800 leading-snug px-1 tracking-wider group-hover:text-black transition-colors break-words">
           {program.title}
         </h3>
       </div>

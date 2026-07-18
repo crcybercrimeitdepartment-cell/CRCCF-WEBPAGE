@@ -127,28 +127,6 @@ const SoftwareITServices = () => {
           <CompanyMarquee direction="left" />
         </div>
 
-        {/* Footer Technical CTA */}
-        <div className="max-w-4xl mx-auto px-6 text-center mt-12 mb-20">
-           <div className="p-10 rounded-[2.5rem] bg-[#0F172A] relative overflow-hidden group shadow-2xl shadow-blue-900/10 border border-slate-800">
-              {/* Decorative background for the CTA */}
-              <div className="absolute inset-0 opacity-10" style={{ 
-                backgroundImage: 'radial-gradient(circle at 2px 2px, #3B82F6 1px, transparent 0) ',
-                backgroundSize: '24px 24px'
-              }} />
-              
-              <div className="relative z-10 flex flex-col items-center">
-                <h3 className="text-2xl sm:text-3xl font-black text-white mb-3 uppercase tracking-tighter">
-                  Ready to optimize your <span className="text-blue-400">ecosystem?</span>
-                </h3>
-                <p className="text-slate-400 text-sm max-w-md mb-8 font-medium leading-relaxed">
-                  Integrate our high-performance solutions into your workflow and witness the power of mechanical precision in digital software.
-                </p>
-                <button className="px-8 py-3.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-black uppercase tracking-[0.2em] rounded-xl transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(37,99,235,0.2)]">
-                  Initialize Project
-                </button>
-              </div>
-           </div>
-        </div>
 
       </main>
     </div>

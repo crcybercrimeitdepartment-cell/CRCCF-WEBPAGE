@@ -44,7 +44,7 @@ const ScrollCard = memo(({ section, index, totalSections, scrollYProgress }) => 
         zIndex: totalSections - index,
         willChange: "transform, opacity"
       }}
-      className="absolute w-full max-h-[85vh] bg-white rounded-[2rem] border border-slate-200 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] p-8 md:p-12 overflow-y-auto origin-bottom flex flex-col"
+      className="absolute w-full h-auto bg-white rounded-[2rem] border border-slate-200 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] p-8 md:p-12 origin-bottom flex flex-col"
     >
       <div className="absolute top-0 right-0 p-8 opacity-[0.03] pointer-events-none">
         <IconComponent size={240} />

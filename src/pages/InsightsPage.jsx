@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronRight, ArrowRight, ArrowLeft, MousePointer2, Play, Pause, ChevronLeft, Home, ShieldCheck, Shield, Clock } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import { 
   latestNews, 
@@ -11,46 +11,16 @@ import {
   paperPieces, 
   insights 
 } from './InsightsPageData.js';
+import PageHeader from '../components/AboutUs/common/PageHeader';
 
 function HeroSection() {
-  const navigate = useNavigate();
-
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      {/* Gradient Card */}
-      <section className="relative mt-6 p-6 md:p-10 rounded-[40px] bg-gradient-to-r from-[#00b4ff] to-[#7b61ff] overflow-hidden flex flex-col items-center min-h-[300px] md:min-h-[400px]">
-        
-
-        
-        {/* Centered Content */}
-        <div className="flex flex-col items-center justify-center flex-grow text-center max-w-4xl mx-auto mt-12 md:mt-0">
-          <motion.div 
-            animate={{ y: [0, -8, 0] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-            className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center mb-6 shadow-lg border border-white/20"
-          >
-            <ShieldCheck className="w-8 h-8 text-white" />
-          </motion.div>
-          
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-4 drop-shadow-sm"
-          >
-             Insights & Resources
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="text-base lg:text-lg text-white/90 max-w-3xl mx-auto leading-relaxed"
-          >
-           Latest Cybersecurity Trends, Research, Awareness & Expert Guidance to keep you protected in the digital age. 
-          </motion.p>
-        </div>
-      </section>
-
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 pt-4 pb-0">
+        <PageHeader 
+          title="Insights & Resources" 
+          description="Latest Cybersecurity Trends, Research, Awareness & Expert Guidance to keep you protected in the digital age."
+          Icon={ShieldCheck}
+        />
     </div>
   );
 }
@@ -135,7 +105,7 @@ function LatestNews() {
                 Interactive Detail View
               </div>
               
-              <div className="relative min-h-[220px] mt-4">
+              <div className="relative min-h-[320px] mt-4">
                 
                 {/* Default Empty State */}
                 <div 
@@ -459,10 +429,20 @@ function Infographics() {
 
   return (
     <section className="py-6 lg:py-10 w-full mx-auto overflow-hidden">
+      {/* Centered Header */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8 lg:mb-12">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight leading-tight">
+          Visual <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Infographics</span>
+        </h2>
+        <p className="text-slate-600 text-base lg:text-lg leading-relaxed max-w-2xl mx-auto">
+          Explore our interactive roadmap highlighting the core pillars of a modern cybersecurity framework.
+        </p>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
         
         {/* Interactive Infographic Container (Left Side) */}
-        <div className="relative w-full lg:w-1/2 aspect-square max-w-[600px] shrink-0 mt-12 lg:mt-20">
+        <div className="relative w-full lg:w-1/2 aspect-square max-w-[600px] shrink-0">
           
           {/* Vector Graphic */}
           <svg viewBox="0 0 1000 1000" className="absolute inset-0 w-full h-full">
@@ -539,9 +519,9 @@ function Infographics() {
                   width: '24%',
                 }}
               >
-                <span className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-black mb-0.5 md:mb-1 leading-none">{info.id}</span>
-                <span className="text-[8px] sm:text-[9px] md:text-[11px] lg:text-sm font-bold border-b-2 border-white/40 pb-0.5 md:pb-1 mb-0.5 md:mb-2 tracking-widest uppercase">{info.title}</span>
-                <span className="text-[7px] md:text-[9px] lg:text-[11px] leading-tight font-medium opacity-95 hidden sm:block px-2">{info.desc}</span>
+                <span className="text-lg sm:text-xl md:text-3xl lg:text-4xl font-black mb-0.5 md:mb-1 leading-none">{info.id}</span>
+                <span className="text-[7px] sm:text-[8px] md:text-[10px] lg:text-xs font-bold border-b-2 border-white/40 pb-0.5 md:pb-1 mb-0.5 md:mb-1.5 tracking-widest uppercase">{info.title}</span>
+                <span className="text-[6px] md:text-[8px] lg:text-[10px] leading-tight font-medium opacity-95 hidden sm:block px-1 md:px-2">{info.desc}</span>
               </div>
             );
           })}
@@ -549,16 +529,9 @@ function Infographics() {
 
         {/* Text Content (Right Side) */}
         <div className="w-full lg:w-1/2 flex flex-col justify-center text-left">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight leading-tight">
-            Visual <br className="hidden lg:block"/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Infographics</span>
-          </h2>
-          <p className="text-slate-600 text-base lg:text-lg leading-relaxed mb-8 max-w-xl">
-            Explore our interactive roadmap highlighting the core pillars of a modern cybersecurity framework.
-          </p>
           
           {/* Legend / List */}
-          <ul className="space-y-4 max-w-xl">
+          <ul className="max-w-xl">
             {infographicsData.map((info) => {
               const isHovered = hoveredId === info.id;
               return (
@@ -567,7 +540,7 @@ function Infographics() {
                   onMouseEnter={() => setHoveredId(info.id)}
                   onMouseLeave={() => setHoveredId(null)}
                   style={{ '--hover-color': info.color, '--hover-color-light': info.color + '40' }}
-                  className={`flex items-center gap-4 p-3 rounded-xl transition-all duration-500 cursor-pointer relative overflow-hidden border border-transparent
+                  className={`flex items-center gap-3 py-1 px-3 rounded-xl transition-all duration-500 cursor-pointer relative overflow-hidden border border-transparent w-fit pr-6 md:pr-10
                     ${isHovered ? 'bg-white translate-x-3 shadow-[0_15px_35px_var(--hover-color-light)]' : 'bg-transparent'}
                   `}
                 >
@@ -575,7 +548,7 @@ function Infographics() {
                   <div className={`absolute inset-0 transition-opacity duration-500 ${isHovered ? 'opacity-[0.05]' : 'opacity-0'}`} style={{ backgroundColor: info.color }}></div>
 
                   <div 
-                    className={`relative z-10 w-12 h-12 rounded-full flex items-center justify-center text-white font-black text-lg shrink-0 shadow-sm transition-all duration-500 
+                    className={`relative z-10 w-10 h-10 rounded-full flex items-center justify-center text-white font-black text-base shrink-0 shadow-sm transition-all duration-500 
                       ${isHovered ? 'scale-110 rotate-12 shadow-[0_0_20px_var(--hover-color)]' : 'scale-100 rotate-0'}`} 
                     style={{ backgroundColor: info.color }}
                   >
@@ -647,7 +620,8 @@ function TrendingTopics() {
             top: auto !important;
             --md-translate-x: 0%;
             --md-translate-y: 0%;
-            margin: 0.5rem;
+            margin: 0.25rem 0.5rem;
+            --piece-scale: calc(var(--base-scale) * 0.55);
           }
         }
         @media (min-width: 768px) {
@@ -657,6 +631,7 @@ function TrendingTopics() {
             top: var(--piece-top) !important;
             --md-translate-x: -50%;
             --md-translate-y: -50%;
+            --piece-scale: var(--base-scale);
           }
         }
       `}</style>
@@ -676,8 +651,9 @@ function TrendingTopics() {
             style={{ 
               '--piece-left': piece.left,
               '--piece-top': piece.top,
+              '--base-scale': piece.scale,
               transform: isVisible 
-                ? `translate(var(--md-translate-x), var(--md-translate-y)) rotate(${piece.rot}) scale(${piece.scale})` 
+                ? `translate(var(--md-translate-x), var(--md-translate-y)) rotate(${piece.rot}) scale(var(--piece-scale))` 
                 : `translate(var(--md-translate-x), 150px) rotate(${parseFloat(piece.rot) * 2}deg) scale(0.3)`,
               opacity: isVisible ? 1 : 0,
               zIndex: piece.z,
@@ -913,9 +889,16 @@ function FeaturedInsights() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {visibleInsights.map((insight, idx) => {
-            const style = cardStyles[idx % 8];
+            const globalIdx = page * 4 + idx;
+            const style = cardStyles[globalIdx % cardStyles.length];
             return (
-              <div key={idx} className={`group relative rounded-3xl p-6 md:p-8 overflow-hidden h-[280px] md:h-[300px] flex flex-col ${style.bg} transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl cursor-pointer border border-transparent hover:border-white/40`}>
+              <motion.div 
+                key={insight.title} 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: idx * 0.1 }}
+                className={`group relative rounded-3xl p-6 md:p-8 overflow-hidden h-[280px] md:h-[300px] flex flex-col ${style.bg} transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl cursor-pointer border border-transparent hover:border-white/40`}
+              >
                 
                 {/* Abstract Background Shapes */}
                 <style.Svg 
@@ -939,13 +922,13 @@ function FeaturedInsights() {
                   </p>
                   
                   <div className="mt-auto">
-                    <a href="#" className="inline-flex items-center text-sm font-semibold text-slate-900 transition-opacity">
+                    <Link to="/coming-soon" className="inline-flex items-center text-sm font-semibold text-slate-900 transition-opacity">
                       <span className="border-b border-slate-900 pb-0.5 mr-1 group-hover:text-slate-600 group-hover:border-slate-600 transition-colors duration-300">Learn more</span>
                       <ArrowRight className="w-4 h-4 transform group-hover:translate-x-2 group-hover:text-slate-600 transition-all duration-300" />
-                    </a>
+                    </Link>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>

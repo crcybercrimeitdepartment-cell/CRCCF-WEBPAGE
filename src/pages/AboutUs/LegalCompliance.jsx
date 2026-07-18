@@ -1,16 +1,15 @@
 import LegalComplianceKeyboard from '../../components/AboutUs/legalCompliance/LegalComplianceKeyboard'
 import CompanyMarquee from '../../components/AboutUs/common/CompanyMarquee'
+import PageHeader from '../../components/AboutUs/common/PageHeader'
 
 const LegalCompliance = () => {
   return (
-    <div className="min-h-screen bg-slate-100 px-4 py-6 overflow-x-hidden">
-      <div className="max-w-7xl mx-auto">
-        <div className="bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] rounded-3xl shadow-xl mb-8 py-6 px-6 text-center">
-          <h1 className="text-white text-3xl sm:text-4xl font-bold">Legal Compliance</h1>
-          <p className="text-blue-100 text-lg mt-2">
-            Explore our legal compliance structure, authority, standards, and responsibilities
-          </p>
-        </div>
+    <div className="w-full overflow-x-hidden bg-slate-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 pt-4 pb-16">
+        <PageHeader 
+          title="Legal Compliance" 
+          description="Explore our legal compliance structure, authority, standards, and responsibilities"
+        />
 
         <CompanyMarquee direction="right"/>
           <div className="py-2">

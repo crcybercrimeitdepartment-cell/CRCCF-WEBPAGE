@@ -374,14 +374,19 @@ function LegalGuidanceAndAwarenessPage() {
               <div className="w-full h-full bg-[#cfb591] rounded-[2px] shadow-[inset_0_6px_12px_rgba(0,0,0,0.9),0_1px_0_rgba(255,255,255,0.25)] p-4 flex flex-col items-center justify-center relative overflow-hidden border border-[#2b200b]">
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22 opacity=%220.15%22/%3E%3C/svg%3E')] opacity-70 mix-blend-multiply"></div>
 
-                <h2 className="text-[#1a1c1a] font-serif font-black text-[18px] leading-[1.3] text-center tracking-wide z-10 drop-shadow-[0_0.5px_0_rgba(255,255,255,0.4)] mt-2">
-                  LEGAL GUIDANCE<br />& AWARENESS
-                </h2>
+                <div className="flex flex-col items-center justify-center z-10 drop-shadow-[0_0.5px_0_rgba(255,255,255,0.4)] w-full -mt-1">
+                  <h2 className="text-[#1a1c1a] font-serif font-black text-[20px] leading-none tracking-wide text-center m-0 p-0 mb-1.5">
+                    LEGAL GUIDANCE
+                  </h2>
+                  <h3 className="text-[#1a1c1a] font-serif font-extrabold text-[13px] leading-none tracking-[0.1em] text-center m-0 p-0">
+                    & AWARENESS
+                  </h3>
+                </div>
 
                 {/* Divider with scales */}
-                <div className="flex items-center gap-4 mt-5 w-[90%] justify-center z-10 opacity-85">
+                <div className="flex items-center gap-3 mt-3 w-[85%] justify-center z-10 opacity-85">
                   <div className="h-[1.5px] flex-1 bg-[#1a1c1a] shadow-[0_0.5px_0_rgba(255,255,255,0.5)]"></div>
-                  <svg className="w-9 h-9 text-[#1a1c1a] fill-current drop-shadow-[0_0.5px_0_rgba(255,255,255,0.5)]" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6 text-[#1a1c1a] fill-current drop-shadow-[0_0.5px_0_rgba(255,255,255,0.5)]" viewBox="0 0 24 24">
                     <path d="M12 2L11 4H4V6H5.5L2 14C1.5 15.5 2.5 17 4 17C5.5 17 6.5 15.5 6 14L2.5 6H10.5V20H8V22H16V20H13.5V6H21.5L18 14C17.5 15.5 18.5 17 20 17C21.5 17 22.5 15.5 22 14L18.5 6H20V4H13L12 2ZM4.25 15C3.7 15 3.5 14.5 3.75 14L6 8.5L8.25 14C8.5 14.5 8.3 15 7.75 15H4.25ZM16.25 15C15.7 15 15.5 14.5 15.75 14L18 8.5L20.25 14C20.5 14.5 20.3 15 19.75 15H16.25Z" />
                   </svg>
                   <div className="h-[1.5px] flex-1 bg-[#1a1c1a] shadow-[0_0.5px_0_rgba(255,255,255,0.5)]"></div>

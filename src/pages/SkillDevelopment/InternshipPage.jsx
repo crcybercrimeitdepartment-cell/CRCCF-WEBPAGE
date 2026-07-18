@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import {
   internshipData,
   iconConfig,
@@ -183,7 +183,13 @@ function SearchResults({ searchQuery }) {
 
 // ─── Dashboard Page ───
 export function InternshipDashboard() {
-  const [currentPage, setCurrentPage] = useState(1);
+  const location = useLocation();
+  const pageKey = location.key;
+
+  const [currentPage, setCurrentPage] = useState(() => {
+    const saved = sessionStorage.getItem(`skillDevelopmentPage_${pageKey}`);
+    return saved ? parseInt(saved, 10) : 1;
+  });
   const [searchQuery, setSearchQuery] = useState('');
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -191,6 +197,7 @@ export function InternshipDashboard() {
     if (isAnimating) return;
     setIsAnimating(true);
     setCurrentPage(pageNumber);
+    sessionStorage.setItem(`skillDevelopmentPage_${pageKey}`, pageNumber);
     setSearchQuery('');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [isAnimating]);

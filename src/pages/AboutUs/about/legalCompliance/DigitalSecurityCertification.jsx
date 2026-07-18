@@ -287,24 +287,6 @@ export default function DigitalSecurityCertification() {
           </div>
         </div>
 
-        {/* Certification Seals Grid */}
-        <motion.div variants={itemUp} className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-                { icon: ClipboardCheck, label: "ISO 9001:2015", sub: "Quality Management" },
-                { icon: Lock, label: "ISO 27001", sub: "Information Security" },
-                { icon: ShieldCheck, label: "ISO 27701", sub: "Privacy Management" },
-                { icon: Scale, label: "ISO 37001", sub: "Anti-Bribery" },
-            ].map((item, idx) => (
-                <div key={idx} className="group relative overflow-hidden p-8 bg-white rounded-[32px] border border-slate-100 shadow-sm text-center transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-lg sm:hover:shadow-xl hover:border-[#2563EB] cursor-pointer touch-manipulation">
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#2563EB] to-[#3B82F6] opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-                    <div className="relative z-10 w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4 transition-colors duration-300 group-hover:bg-[#2563EB]">
-                        <item.icon size={24} className="text-blue-600 transition-colors duration-300 group-hover:text-white" />
-                    </div>
-                    <h4 className="relative z-10 text-slate-800 font-bold mb-1 transition-colors duration-300 group-hover:text-[#0F172A]">{item.label}</h4>
-                    <p className="relative z-10 text-slate-400 text-xs font-bold uppercase tracking-wider transition-colors duration-300 group-hover:text-[#475569]">{item.sub}</p>
-                </div>
-            ))}
-        </motion.div>
       </motion.section>
     </div>
   );

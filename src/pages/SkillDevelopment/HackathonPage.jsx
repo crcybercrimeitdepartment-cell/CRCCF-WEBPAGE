@@ -110,14 +110,22 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
 
 
 function Homepage() {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const pageKey = location.key;
     const [searchQuery, setSearchQuery] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(() => {
+    const saved = sessionStorage.getItem(`pageState_${pageKey}`);
+    return saved ? parseInt(saved, 10) : 1;
+  });
+  useEffect(() => {
+    sessionStorage.setItem(`pageState_${pageKey}`, currentPage);
+  }, [currentPage, pageKey]);
     const mousepadRef = useRef(null);
     const mouseRef = useRef(null);
     const targetPos = useRef({ x: 0, y: 0 });
     const currentPos = useRef({ x: 0, y: 0 });
     const rafId = useRef(null);
-    const navigate = useNavigate();
     const CARDS_PER_PAGE = constants.CARDS_PER_PAGE;
 
     const filteredPrograms = useMemo(() => {

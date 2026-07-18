@@ -73,32 +73,59 @@ function FloatingIcons() {
 }
 
 export default function GalleryLandingPage() {
+  const [scale, setScale] = React.useState(1);
+  const containerRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      const screenWidth = window.innerWidth;
+      // Calculate scale based on container width (with padding)
+      const availableWidth = screenWidth - 32; 
+      let newScale = availableWidth / 960;
+      
+      if (newScale > 1) newScale = 1;
+      if (newScale < 0.3) newScale = 0.3;
+      
+      setScale(newScale);
+    };
+    
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-[#f4f6f9] flex flex-col items-center justify-start md:justify-center font-sans overflow-hidden pt-6 md:pt-32 pb-24 relative">
+    <div className="min-h-[100dvh] bg-[#f4f6f9] flex flex-col items-center justify-center font-sans pt-20 md:pt-32 pb-24 relative overflow-x-hidden">
       <FloatingIcons />
-      <style>{`
-        .responsive-scale {
-          transform-origin: top center;
-          transform: scale(max(0.65, min(calc((100vw - 32px) / 960), calc((100vh - 32px) / 662), 1.5)));
-          transition: transform 0.4s ease-out;
-        }
-      `}</style>
       
       {/* Header Section */}
-      <div className="text-center mb-12 md:mb-32 z-10 relative px-4 shrink-0 w-full">
-        <h1 className="text-2xl sm:text-4xl lg:text-[5rem] font-black mb-3 sm:mb-6 tracking-tight flex flex-wrap items-center justify-center gap-x-2 sm:gap-4">
+      <div className="text-center mb-8 md:mb-16 z-10 relative px-4 shrink-0 w-full mt-4">
+        <h1 className="text-3xl sm:text-4xl lg:text-[5rem] font-black mb-3 sm:mb-6 tracking-tight flex flex-wrap items-center justify-center gap-x-2 sm:gap-4">
           <span className="text-[#111827]">Gallery</span>
           <div className="relative">
              <span className="text-[#1d4ed8]">Collections</span>
           </div>
         </h1>
-        <p className="text-[#64748b] text-xs sm:text-base md:text-xl max-w-3xl mx-auto font-medium leading-relaxed px-2">
+        <p className="text-[#64748b] text-sm sm:text-base md:text-xl max-w-3xl mx-auto font-medium leading-relaxed px-2">
           Explore moments, achievements, celebrations and memories through our organized galleries.
         </p>
       </div>
 
-      <div className="camera-wrapper responsive-scale shrink-0 z-10">
-        <ImaxCamera galleryData={galleryData} />
+      <div 
+        ref={containerRef}
+        className="shrink-0 z-10 flex justify-center w-full mt-4 md:mt-8"
+      >
+        <div 
+          style={{ 
+            width: '960px',
+            height: '620px',
+            transform: `scale(${scale})`, 
+            transformOrigin: 'top center',
+            marginBottom: `-${620 * (1 - scale)}px`
+          }}
+        >
+          <ImaxCamera galleryData={galleryData} />
+        </div>
       </div>
     </div>
   );

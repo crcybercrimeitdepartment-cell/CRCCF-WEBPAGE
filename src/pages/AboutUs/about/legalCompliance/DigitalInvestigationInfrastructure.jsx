@@ -286,22 +286,6 @@ export default function DigitalInvestigationInfrastructure() {
           </div>
         </div>
 
-        {/* Infrastructure Stats/Highlights */}
-        <motion.div variants={itemUp} className="mt-24 grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-                { icon: Database, label: "Encrypted Data Centers", text: "Secure multi-region cloud backup." },
-                { icon: Lock, label: "Zero-Trust Access", sub: "Strict identity verification protocols." },
-                { icon: Globe, label: "Nationwide Grid", sub: "Distributed forensic reach across India." },
-            ].map((item, idx) => (
-                <div key={idx} className="p-10 bg-white rounded-[32px] border border-slate-100 shadow-sm group hover:border-blue-200 transition-all">
-                    <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <item.icon size={24} className="text-blue-600" />
-                    </div>
-                    <h4 className="text-xl font-bold text-slate-800 mb-2">{item.label}</h4>
-                    <p className="text-slate-500 font-medium leading-relaxed">{item.text || item.sub}</p>
-                </div>
-            ))}
-        </motion.div>
       </motion.section>
     </div>
   );

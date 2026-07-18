@@ -357,7 +357,7 @@ const BranchDetails = () => {
       {!selectedBranch ? (
         <main
           id="branch-details"
-          className="relative min-h-screen w-full overflow-x-hidden bg-[#f5f8fb] px-4 py-5 text-slate-950 sm:px-6 sm:py-7 lg:px-8 lg:py-8"
+          className="relative min-h-screen w-full overflow-x-hidden bg-[#f5f8fb] px-4 pt-16 pb-5 text-slate-950 sm:px-6 sm:pt-20 sm:pb-7 lg:px-8 lg:pb-8"
         >
           <div className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(circle_at_12%_0%,rgba(34,211,238,0.12),transparent_30%),radial-gradient(circle_at_88%_4%,rgba(99,102,241,0.10),transparent_32%)]" />
 

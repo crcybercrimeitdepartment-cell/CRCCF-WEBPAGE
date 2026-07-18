@@ -85,6 +85,14 @@ export default function ReportCrimePage() {
   const [timePhase, setTimePhase] = useState(getTimePhase());
 
   useEffect(() => {
+    // Clear briefcase state when returning to the main police station
+    if (typeof window !== 'undefined') {
+      sessionStorage.removeItem('victimSupportIsOpen');
+      sessionStorage.removeItem('victimSupportCurrentPage');
+    }
+  }, []);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       setTimePhase(getTimePhase());
     }, 60000);
@@ -191,7 +199,7 @@ export default function ReportCrimePage() {
 
   return (
     <div className="min-h-screen bg-[#ffffff] flex flex-col justify-between items-center w-full">
-      <div className={`cyber-police-station-app ${timePhase}`}>
+      <div className={`cyber-police-station-app ${timePhase}`} style={{ paddingTop: '2.5rem' }}>
         {/* Sky / Background Clouds */}
         <div className="sky-background">
           <div className="clouds">

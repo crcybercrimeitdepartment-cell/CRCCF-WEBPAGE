@@ -239,12 +239,48 @@ function CyberSecurityTipsPage() {
 
 
           {/* Front cover content: hidden via backface-visibility when folder is open */}
-          {/* Inside of front cover: wallet-style card slots */}
+          {/* Inside of front cover: wallet-style card slots and accessories */}
           <div className="front-cover-inside z-1">
-            <div className="wallet-slots">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="wallet-slot" />
-              ))}
+            <div className="wallet-slots relative z-10 pt-8 pl-4">
+              {/* Slot 1: Has a Business Card sticking out */}
+              <div className="wallet-slot relative">
+                <div className="absolute bottom-[2px] left-[10px] w-[85px] h-[55px] bg-gradient-to-br from-[#f8f9fa] to-[#e9ecef] rounded-[2px] shadow-[0_-2px_4px_rgba(0,0,0,0.15)] flex flex-col items-center justify-center -rotate-3 z-0 border border-black/10">
+                   <div className="w-5 h-5 bg-blue-900/10 rounded-full mb-1 flex items-center justify-center">
+                     <div className="w-3 h-3 bg-blue-900/40 rounded-full"></div>
+                   </div>
+                   <div className="w-[60%] h-[2px] bg-slate-400/50 mb-[2px]"></div>
+                   <div className="w-[40%] h-[2px] bg-slate-400/30"></div>
+                </div>
+              </div>
+              
+              {/* Slot 2: Empty */}
+              <div className="wallet-slot relative"></div>
+
+              {/* Slot 3: Has a sleek black ID card/Credit card */}
+              <div className="wallet-slot relative">
+                <div className="absolute bottom-[2px] left-[15px] w-[85px] h-[54px] bg-gradient-to-br from-[#1a1a1a] to-[#2d2d2d] rounded-[4px] shadow-[0_-2px_4px_rgba(0,0,0,0.3)] z-0 border border-white/10 rotate-2 overflow-hidden flex flex-col p-1.5">
+                   <div className="w-3 h-2.5 bg-gradient-to-br from-[#d4af37] to-[#aa7c11] rounded-[2px] mb-1 opacity-90"></div>
+                   <div className="w-[80%] h-[1.5px] bg-white/20 mb-[2px] mt-auto"></div>
+                   <div className="w-[50%] h-[1.5px] bg-white/20"></div>
+                </div>
+              </div>
+
+              {/* Slot 4: Empty */}
+              <div className="wallet-slot relative"></div>
+            </div>
+
+            {/* A realistic metallic pen clipped to the inner spine area */}
+            <div className="absolute right-[30px] top-[15%] w-[12px] h-[280px] z-20 shadow-xl drop-shadow-lg rotate-1">
+              {/* Pen Body */}
+              <div className="absolute inset-0 bg-gradient-to-r from-[#111] via-[#333] to-[#0a0a0a] rounded-full border border-white/10 shadow-[inset_1px_0_3px_rgba(255,255,255,0.3),inset_-2px_0_5px_rgba(0,0,0,0.8)]"></div>
+              {/* Silver Pen Tip */}
+              <div className="absolute -bottom-[15px] left-[1px] w-[10px] h-[18px] bg-gradient-to-b from-[#e0e0e0] to-[#777] shadow-[inset_2px_0_4px_rgba(255,255,255,0.7)]" style={{ clipPath: 'polygon(0 0, 100% 0, 60% 100%, 40% 100%)' }}></div>
+              {/* Silver Pen Cap / Top */}
+              <div className="absolute -top-[5px] left-0 w-[12px] h-[25px] bg-gradient-to-r from-[#ddd] via-[#fff] to-[#999] rounded-[4px_4px_0_0] shadow-[inset_1px_0_3px_rgba(255,255,255,0.8)]"></div>
+              {/* Pen Clip sticking out */}
+              <div className="absolute top-[5px] -left-[4px] w-[4px] h-[50px] bg-gradient-to-b from-[#eee] to-[#888] rounded-full shadow-[2px_2px_4px_rgba(0,0,0,0.5)]"></div>
+              {/* Leather Pen Loop holding it */}
+              <div className="absolute top-[120px] -left-[10px] w-[32px] h-[20px] bg-[#3e2723] rounded-[4px] shadow-[0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)] border-y border-black/50" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\\\'0 0 200 200\\\' xmlns=\\\'http://www.w3.org/2000/svg\\\'%3E%3Cfilter id=\\\'noise\\\'%3E%3CfeTurbulence type=\\\'fractalNoise\\\' baseFrequency=\\\'0.8\\\' numOctaves=\\\'4\\\' stitchTiles=\\\'stitch\\\'/%3E%3C/filter%3E%3Crect width=\\\'100%25\\\' height=\\\'100%25\\\' filter=\\\'url(%23noise)\\\' opacity=\\\'0.15\\\'/%3E%3C/svg%3E")' }}></div>
             </div>
           </div>
 
@@ -396,36 +432,68 @@ function CyberSecurityTipsPage() {
           inset: 0;
           backface-visibility: hidden;
           -webkit-backface-visibility: hidden;
+          transform: translateZ(1px);
+        }
+
+        .cyber-security-wrapper .folder-open .folder-front-cover-content {
+          opacity: 0;
+          transition: opacity 0s linear 0.4s;
+        }
+
+        .cyber-security-wrapper .folder-closed .folder-front-cover-content {
+          opacity: 1;
+          transition: opacity 0s linear 0.4s;
         }
 
         .cyber-security-wrapper .front-cover-inside {
           position: absolute;
           inset: 0;
           border-radius: 12px 4px 4px 12px;
-          transform: rotateY(180deg);
+          transform: rotateY(180deg) translateZ(1px);
           background: #2e1d16;
           box-shadow: inset 10px 0 20px rgba(0,0,0,0.6);
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
           display: flex;
           align-items: center;
           justify-content: flex-start;
           padding-left: 20px;
         }
 
+        .cyber-security-wrapper .folder-open .front-cover-inside {
+          opacity: 1;
+          transition: opacity 0s linear 0.4s;
+        }
+
+        .cyber-security-wrapper .folder-closed .front-cover-inside {
+          opacity: 0;
+          transition: opacity 0s linear 0.4s;
+        }
+
         .cyber-security-wrapper .wallet-slots {
-          width: 120px;
+          width: 140px;
           display: flex;
           flex-direction: column;
-          gap: 12px;
+          gap: 14px;
         }
 
         .cyber-security-wrapper .wallet-slot {
           height: 60px;
-          background: #3e2723;
+          background: #3a221d;
           border-radius: 4px;
-          box-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+          box-shadow: 0 3px 5px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
           border-top: 1px solid rgba(0,0,0,0.8);
+          position: relative;
+        }
+        
+        .cyber-security-wrapper .wallet-slot::after {
+          content: '';
+          position: absolute;
+          bottom: -4px;
+          left: 5px;
+          right: 5px;
+          height: 1px;
+          background: rgba(255,255,255,0.03);
+          border-radius: 50%;
+          box-shadow: 0 4px 6px rgba(0,0,0,0.2);
         }
 
         /* Leather Straps */

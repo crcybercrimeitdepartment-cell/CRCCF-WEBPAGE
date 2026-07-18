@@ -297,7 +297,7 @@ export default function HelpDeskPage() {
       </div>
 
       {/* 4. Large 3D Headphones (Bottom Left) */}
-      <div className="absolute bottom-[20%] left-[8%] w-40 h-40 max-md:top-[45%] max-md:bottom-auto max-md:-left-[5%] max-md:w-20 max-md:h-20 max-md:opacity-60 md:max-lg:bottom-[45%] md:max-lg:left-[5%] md:max-lg:w-28 md:max-lg:h-28 md:max-lg:opacity-70 animate-float-slow pointer-events-none z-30 transform -rotate-[15deg] device-headphones">
+      <div className="absolute bottom-[20%] left-[8%] w-40 h-40 max-md:top-[45%] max-md:bottom-auto max-md:-left-[5%] max-md:w-20 max-md:h-20 max-md:opacity-60 md:max-lg:bottom-[45%] md:max-lg:left-[5%] md:max-lg:w-28 md:max-lg:h-28 md:max-lg:opacity-70 animate-float-slow pointer-events-none z-20 transform -rotate-[15deg] device-headphones">
          <svg className="w-full h-full drop-shadow-[0_20px_20px_rgba(139,92,246,0.4)]" viewBox="0 0 100 100" fill="none">
             <defs>
                <linearGradient id="hp-main" x1="0" y1="0" x2="1" y2="1">
