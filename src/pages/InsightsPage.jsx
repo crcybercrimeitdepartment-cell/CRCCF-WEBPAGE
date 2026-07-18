@@ -1035,9 +1035,9 @@ function Newsletter() {
           </h2>
           
           <p className="text-[#a8a8a8] text-sm lg:text-base leading-relaxed mb-10 max-w-[95%]">
-            Lorem ipsum dolor sit amet, consectetur adipiscing<br className="hidden lg:block"/>
-            elit, sed do eiusmod tempor incididunt ut labore et<br className="hidden lg:block"/>
-            dolore magna aliqua
+            Stay informed with the latest cybersecurity trends, threat alerts, and expert insights.<br className="hidden lg:block"/>
+            Subscribe to our newsletter to receive weekly updates directly to your inbox and<br className="hidden lg:block"/>
+            keep your digital world safe.
           </p>
 
           <form className="w-full max-w-[400px] flex flex-col items-center" onSubmit={(e) => e.preventDefault()}>
