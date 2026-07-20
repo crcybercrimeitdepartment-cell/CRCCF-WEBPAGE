@@ -184,9 +184,9 @@ const CardGrid = forwardRef(function CardGrid(
   const currentCards = VICTIM_CARDS.slice(startIndex, startIndex + cardsPerPage);
 
   return (
-    <div ref={ref} className="w-full h-full p-4 sm:p-5 flex flex-col justify-center">
+    <div ref={ref} className="w-full h-full p-4 flex flex-col items-center justify-center">
       <div
-        className="grid w-full gap-3 px-2 pb-2 flex-1"
+        className="grid w-full h-full gap-3"
         style={{ gridTemplateColumns: 'repeat(5, 1fr)', gridTemplateRows: 'repeat(2, 1fr)' }}
       >
         {currentCards.map(card => (
