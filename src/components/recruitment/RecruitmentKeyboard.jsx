@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Briefcase,
@@ -14,44 +15,109 @@ import {
 
 const RecruitmentKeyboard = () => {
   const navigate = useNavigate()
+  const [hoveredCardId, setHoveredCardId] = useState(null)
 
   const items = [
-    { label: 'Job Vacancy', path: '/recruitment/job-vacancy', icon: Briefcase },
-    { label: 'Recruitment Rules/Policies', path: '/recruitment/rules-policies', icon: FileText },
-    { label: 'Post Vacancy - Members Only', path: '/recruitment/post-vacancy-members-only', icon: Users },
-    { label: 'Online Application Portal', path: '/recruitment/online-application-portal', icon: ClipboardList },
-    { label: 'Recruitment Advertisements', path: '/recruitment/advertisements', icon: Megaphone },
-    { label: 'Press Release and Notices', path: '/recruitment/press-release-notices', icon: Newspaper },
-    { label: 'Check Application Status', path: '/recruitment/application-status', icon: SearchCheck },
-    { label: 'Submit Resume', path: '/recruitment/submit-resume', icon: Upload },
-    { label: 'Certificate Verification', path: '/recruitment/certificate-verification', icon: BadgeCheck },
-    { label: 'ID Card Verification', path: '/recruitment/id-card-verification', icon: IdCard },
+    { label: 'Job Vacancy', path: '/recruitment/job-vacancy', icon: Briefcase, color: '#3f3d99', desc: 'Browse current openings and join our mission.' },
+    { label: 'Recruitment Rules/Policies', path: '/recruitment/rules-policies', icon: FileText, color: '#1f6f88', desc: 'Understand our hiring policies and guidelines.' },
+    { label: 'Post Vacancy - Members Only', path: '/recruitment/post-vacancy-members-only', icon: Users, color: '#156a9a', desc: 'Exclusive portal for members to post new jobs.' },
+    { label: 'Online Application Portal', path: '/recruitment/online-application-portal', icon: ClipboardList, color: '#13795b', desc: 'Apply online through our dedicated portal.' },
+    { label: 'Recruitment Advertisements', path: '/recruitment/advertisements', icon: Megaphone, color: '#6b33c7', desc: 'View official recruitment announcements and ads.' },
+    { label: 'Press Release and Notices', path: '/recruitment/press-release-notices', icon: Newspaper, color: '#9a4f1d', desc: 'Stay updated with official press and notices.' },
+    { label: 'Check Application Status', path: '/recruitment/application-status', icon: SearchCheck, color: '#b11d63', desc: 'Track the progress of your submitted applications.' },
+    { label: 'Submit Resume', path: '/recruitment/submit-resume', icon: Upload, color: '#1e766f', desc: 'Upload your CV for future career opportunities.' },
+    { label: 'Certificate Verification', path: '/recruitment/certificate-verification', icon: BadgeCheck, color: '#2f56b8', desc: 'Verify the authenticity of issued certificates.' },
+    { label: 'ID Card Verification', path: '/recruitment/id-card-verification', icon: IdCard, color: '#1f7a45', desc: 'Check and validate official ID cards securely.' },
   ]
 
   return (
-    <div className="bg-white rounded-lg sm:rounded-2xl shadow-lg sm:shadow-xl p-4 sm:p-5 md:p-6">
+    <div className="bg-white rounded-lg sm:rounded-2xl shadow-lg sm:shadow-xl p-4 sm:p-5 md:p-6 font-sans">
       <div className="text-center mb-4 sm:mb-6">
-        <h2 className="text-xl sm:text-2xl font-bold text-[#0F172A]">   </h2>
-        <p className="text-[#64748B] mt-1 text-sm sm:text-base">   </p>
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#0C1A3A] tracking-tight mb-2 font-serif">
+          Recruitment Portal
+        </h2>
+        <p className="text-[#64748B] mt-1 text-sm sm:text-base font-medium max-w-2xl mx-auto">
+          Click any button to explore
+        </p>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-3">
         {items.map((item, index) => {
           const Icon = item.icon
+          const isHovered = hoveredCardId === index
+          const itemAccent = item.color
 
           return (
             <button
               key={index}
               onClick={() => navigate(item.path)}
-              className="group relative overflow-hidden rounded-lg sm:rounded-xl p-3 sm:p-4 text-center transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-lg bg-gradient-to-br from-[#F8FAFC] to-[#F1F5F9] border border-[#DBEAFE] hover:border-[#2563EB] min-h-[120px]"
+              onMouseEnter={() => setHoveredCardId(index)}
+              onMouseLeave={() => setHoveredCardId(null)}
+              className="group relative flex h-[82px] sm:h-[108px] w-full items-center overflow-hidden rounded-[14px] sm:rounded-[22px] border-r border-t border-r-slate-200/40 border-t-slate-200/40 bg-white/95 px-1.5 py-1.5 sm:px-3.5 sm:py-3 text-left shadow-[0_3px_12px_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] active:scale-[0.985] touch-manipulation cursor-pointer"
+              style={{
+                borderLeftColor: itemAccent,
+                borderBottomColor: itemAccent,
+                borderTopColor: itemAccent,
+                borderLeftWidth: '3.5px',
+                borderBottomWidth: isHovered ? '0px' : '3.5px',
+                borderTopWidth: isHovered ? '3.5px' : '0px',
+                transition: 'border-width 0.2s ease-in-out, border-color 0.2s ease-in-out, box-shadow 0.3s, transform 0.3s'
+              }}
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-[#2563EB] to-[#3B82F6] opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+              <div
+                className="absolute left-0 top-0 z-20 flex h-5 w-5 sm:h-8 sm:w-8 items-center justify-center rounded-br-[10px] rounded-tl-[14px] sm:rounded-tl-[22px] sm:rounded-br-[18px] text-white shadow-xs"
+                style={{ backgroundColor: itemAccent }}
+              >
+                <span className="text-[8px] font-black tracking-wider sm:text-[11px]">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+              </div>
+              
+              <div className="absolute right-1.5 top-1.5 opacity-[0.15] pointer-events-none z-0">
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24">
+                  <pattern id={`dot-grid-${index}`} x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">
+                    <circle cx="1.5" cy="1.5" r="0.75" fill={itemAccent} />
+                  </pattern>
+                  <rect width="14" height="14" fill={`url(#dot-grid-${index})`} />
+                </svg>
+              </div>
 
-              <Icon className="w-6 h-6 sm:w-7 sm:h-7 mx-auto mb-2 text-[#2563EB]" />
+              <div className="relative z-10 flex w-full items-center gap-1.5 pl-1 pt-1 sm:gap-3 sm:pl-2.5 sm:pt-1">
+                <div
+                  className="relative z-10 flex h-7 w-7 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full border border-slate-100 transition-all duration-300 group-hover:scale-105"
+                  style={{
+                    background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+                    boxShadow: `0 4px 12px -2px rgba(0,0,0,0.05), inset 0 1px 3px rgba(255,255,255,0.9), 0 0 0 1px ${itemAccent}15`
+                  }}
+                >
+                  <div
+                    className="absolute inset-0.5 rounded-full pointer-events-none"
+                    style={{ backgroundColor: `${itemAccent}05` }}
+                  />
+                  <Icon
+                    className="relative z-10 h-3.5 w-3.5 sm:h-6 sm:w-6 transition-transform duration-300 group-hover:scale-110"
+                    style={{ color: itemAccent }}
+                  />
+                </div>
 
-              <span className="text-xs sm:text-sm font-medium text-[#475569] group-hover:text-[#0F172A] line-clamp-3">
-                {item.label}
-              </span>
+                <div className="min-w-0 flex-1 pr-0.5">
+                  <span
+                    className="block text-[9px] font-extrabold leading-[1.15] tracking-tight transition-colors duration-300 sm:text-[12.5px] line-clamp-2"
+                    style={{ color: isHovered ? itemAccent : '#0f172a' }}
+                  >
+                    {item.label}
+                  </span>
+                  <span className="block text-[7px] font-normal leading-tight text-slate-400 line-clamp-1 truncate sm:text-[9.5px]">
+                    {item.desc}
+                  </span>
+                  <span
+                    className="mt-0.5 flex w-fit items-center gap-0.5 text-[7.5px] font-extrabold transition-transform duration-300 group-hover:translate-x-0.5 sm:text-[9.5px]"
+                    style={{ color: itemAccent }}
+                  >
+                    View More <span className="text-[8px] sm:text-[10px]">→</span>
+                  </span>
+                </div>
+              </div>
             </button>
           )
         })}
@@ -61,3 +127,4 @@ const RecruitmentKeyboard = () => {
 }
 
 export default RecruitmentKeyboard
+
