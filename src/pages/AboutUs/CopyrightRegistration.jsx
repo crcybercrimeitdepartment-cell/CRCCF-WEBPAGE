@@ -1,57 +1,24 @@
-import ComingSoonPage from '../common/ComingSoonPage';
-
-/*
-=========================================
-TEMPORARILY DISABLED
-Reason:
-This page is currently using the global
-ComingSoonPage component.
-
-Do not remove this content because it
-will be re-enabled in future updates.
-=========================================
-*/
-
-/*
-// Template for any page (e.g., OurIntroduction.jsx)
-import { useNavigate } from 'react-router-dom'
-import { ArrowLeft } from 'lucide-react'
-import { contentData } from '../../data/aboutUs/contentData'
+import Copyright from '../../components/AboutUs/CopyRight/Copyright'
+import CompanyMarquee from '../../components/AboutUs/common/CompanyMarquee'
+import PageHeader from '../../components/AboutUs/common/PageHeader'
 
 const CopyrightRegistration = () => {
-  const navigate = useNavigate()
-  const data = contentData.copyright // e.g., contentData.introduction
-
   return (
-    <div className="max-w-4xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8 w-full">
-      
+    <div className="w-full overflow-x-hidden bg-slate-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 pt-4 pb-16">
+        <PageHeader
+          title="Copyright & Intellectual Property"
+          description="Access the official guidelines, policy declarations, content protection frameworks, and intellectual property enforcement standards of the CR Cyber Crime Foundation."
+        />
 
-      <div className="bg-white rounded-lg sm:rounded-2xl shadow-lg sm:shadow-xl overflow-hidden">
-        <div className="bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] p-4 sm:p-6 md:p-8 text-center">
-          <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-white/20 rounded-full mb-3 sm:mb-4 flex-shrink-0">
-            <span className="text-3xl sm:text-4xl md:text-5xl">{data.icon}</span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">{data.title}</h1>
-          <p className="text-white/90 text-sm sm:text-base">{data.description}</p>
+        <CompanyMarquee direction="right" />
+        <div className="py-2">
+          <Copyright />
         </div>
-        
-        <div className="p-4 sm:p-6 md:p-8">
-          <div className="prose max-w-none">
-            <p className="text-[#475569] leading-relaxed text-sm sm:text-base md:text-lg whitespace-pre-line">
-              {data.content}
-            </p>
-          </div>
-        </div>
+        <CompanyMarquee direction="left" />
       </div>
     </div>
   )
 }
 
 export default CopyrightRegistration
-*/
-
-const CopyrightRegistration = () => {
-  return <ComingSoonPage />;
-};
-
-export default CopyrightRegistration;
