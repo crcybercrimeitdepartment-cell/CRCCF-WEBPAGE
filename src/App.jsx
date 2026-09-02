@@ -45,6 +45,33 @@ const SoftwareComingSoon = lazy(() => import('./pages/SoftwareComingSoon'))
 const SoftwareProductDetailComingSoon = lazy(() => import('./pages/SoftwareProductDetailComingSoon'))
 const ComingSoonPage     = lazy(() => import('./pages/common/ComingSoonPage'))
 
+// ─── LAZY: Software Products ──────────────────────────────────────────────────
+const DemoIconPage = lazy(() => import('./pages/Software products/demoicon'))
+const DevelopedSoftwareProductsPage = lazy(() => import('./pages/Software products/Developed Software Products/DevelopedSoftwareProductsPage'))
+const ProductsUnderDevelopmentPage = lazy(() => import('./pages/Software products/Products Under Development/ProductsUnderDevelopmentPage'))
+const UpcomingSoftwareInnovationsPage = lazy(() => import('./pages/Software products/Upcoming Software Innovations/UpcomingSoftwareInnovationsPage'))
+const CyberSecuritySoftwareSolutionsPage = lazy(() => import('./pages/Software products/Cyber Security Software Solutions/CyberSecuritySoftwareSolutionsPage'))
+const AIAutomationProductsPage = lazy(() => import('./pages/Software products/AI & Automation Products/AIAutomationProductsPage'))
+const MobileApplicationProductsPage = lazy(() => import('./pages/Software products/Mobile Application Products/MobileApplicationProductsPage'))
+const WebBasedDigitalPlatformsPage = lazy(() => import('./pages/Software products/Web-Based Digital Platforms/WebBasedDigitalPlatformsPage'))
+const EnterpriseSoftwareSolutionsPage = lazy(() => import('./pages/Software products/Enterprise Software Solutions/EnterpriseSoftwareSolutionsPage'))
+const EducationalTechnologyProductsPage = lazy(() => import('./pages/Software products/Educational Technology Products/EducationalTechnologyProductsPage'))
+const DataAnalyticsAndReportingToolsPage = lazy(() => import('./pages/Software products/Data Analytics & Reporting Tools/DataAnalyticsAndReportingToolsPage'))
+const CloudBasedSoftwareSolutionsPage = lazy(() => import('./pages/Software products/Cloud-Based Software Solutions/CloudBasedSoftwareSolutionsPage'))
+const ResearchAndDevelopmentProductsPage = lazy(() => import('./pages/Software products/Research & Development Products/ResearchAndDevelopmentProductsPage'))
+const CyberCrimeInvestigationSoftwarePage = lazy(() => import('./pages/Software products/Cyber Crime Investigation Software/CyberCrimeInvestigationSoftwarePage'))
+const CyberSecuritySoftwarePage = lazy(() => import('./pages/Software products/Cyber Security Software/CyberSecuritySoftwarePage'))
+const CyberCrimeAwarenessSoftwarePage = lazy(() => import('./pages/Software products/Cyber Crime Awareness Software/CyberCrimeAwarenessSoftwarePage'))
+const CyberCrimeVictimSupportSoftwarePage = lazy(() => import('./pages/Software products/Cyber Crime Victim Support Software/CyberCrimeVictimSupportSoftwarePage'))
+const CaseTrackingSoftwarePage = lazy(() => import('./pages/Software products/Case Tracking Software/CaseTrackingSoftwarePage'))
+const CyberIntelligenceSoftwarePage = lazy(() => import('./pages/Software products/Cyber Intelligence Software/CyberIntelligenceSoftwarePage'))
+const DigitalForensicSupportToolsPage = lazy(() => import('./pages/Software products/Digital Forensic Support Tools/DigitalForensicSupportToolsPage'))
+const TrainingAndInternshipManagementSoftwarePage = lazy(() => import('./pages/Software products/Training & Internship Management Software/TrainingAndInternshipManagementSoftwarePage'))
+const UserSupportAndHelpdeskSoftwarePage = lazy(() => import('./pages/Software products/User Support & Helpdesk Software/UserSupportAndHelpdeskSoftwarePage'))
+const HRRecruitmentManagementSoftwarePage = lazy(() => import('./pages/Software products/HR & Recruitment Management Software/HRRecruitmentManagementSoftwarePage'))
+const PoliceInvestigationToolsAndSoftwarePage = lazy(() => import('./pages/Software products/Police Investigation Tools and Software/PoliceInvestigationToolsAndSoftwarePage'))
+const SoftwareProductOverviewPage = lazy(() => import('./pages/Software products/Software Product Overview/SoftwareProductOverviewPage'))
+
 // ─── LAZY: Contact Hub ───────────────────────────────────────────────────────
 const ContactRouter      = lazy(() => import('./pages/Contact/ContactRouter'))
 
@@ -280,14 +307,31 @@ function AppRoutes() {
               />
             ))}
 
-            {/* Dynamic software product pages */}
-            {softwareCards.map((card) => (
-              <Route
-                key={card.slug}
-                path={`/software-products/${card.slug}`}
-                element={<SoftwareProductDetailComingSoon title={card.title} />}
-              />
-            ))}
+            {/* Software Product Pages */}
+            <Route path="/software-products/developed-software-products" element={<><SEO title="Developed Software Products" description="Developed Software Products details." /><DevelopedSoftwareProductsPage /></>} />
+            <Route path="/software-products/products-under-development" element={<><SEO title="Products Under Development" description="Products Under Development details." /><DemoIconPage /></>} />
+            <Route path="/software-products/upcoming-software-innovations" element={<><SEO title="Upcoming Software Innovations" description="Upcoming Software Innovations details." /><DemoIconPage /></>} />
+            <Route path="/software-products/cyber-security-software-solutions" element={<><SEO title="Cyber Security Software Solutions" description="Cyber Security Software Solutions details." /><CyberSecuritySoftwareSolutionsPage /></>} />
+            <Route path="/software-products/ai-automation-products" element={<><SEO title="AI & Automation Products" description="AI & Automation Products details." /><DemoIconPage /></>} />
+            <Route path="/software-products/mobile-application-products" element={<><SEO title="Mobile Application Products" description="Mobile Application Products details." /><DemoIconPage /></>} />
+            <Route path="/software-products/web-based-digital-platforms" element={<><SEO title="Web-Based Digital Platforms" description="Web-Based Digital Platforms details." /><DemoIconPage /></>} />
+            <Route path="/software-products/enterprise-software-solutions" element={<><SEO title="Enterprise Software Solutions" description="Enterprise Software Solutions details." /><EnterpriseSoftwareSolutionsPage /></>} />
+            <Route path="/software-products/educational-technology-products" element={<><SEO title="Educational Technology Products" description="Educational Technology Products details." /><DemoIconPage /></>} />
+            <Route path="/software-products/data-analytics-reporting-tools" element={<><SEO title="Data Analytics & Reporting Tools" description="Data Analytics & Reporting Tools details." /><DemoIconPage /></>} />
+            <Route path="/software-products/cloud-based-software-solutions" element={<><SEO title="Cloud-Based Software Solutions" description="Cloud-Based Software Solutions details." /><CloudBasedSoftwareSolutionsPage /></>} />
+            <Route path="/software-products/research-development-products" element={<><SEO title="Research & Development Products" description="Research & Development Products details." /><DemoIconPage /></>} />
+            <Route path="/software-products/cyber-crime-investigation-software" element={<><SEO title="Cyber Crime Investigation Software" description="Cyber Crime Investigation Software details." /><DemoIconPage /></>} />
+            <Route path="/software-products/cyber-security-software" element={<><SEO title="Cyber Security Software" description="Cyber Security Software details." /><DemoIconPage /></>} />
+            <Route path="/software-products/cyber-crime-awareness-software" element={<><SEO title="Cyber Crime Awareness Software" description="Cyber Crime Awareness Software details." /><DemoIconPage /></>} />
+            <Route path="/software-products/cyber-crime-victim-support-software" element={<><SEO title="Cyber Crime Victim Support Software" description="Cyber Crime Victim Support Software details." /><DemoIconPage /></>} />
+            <Route path="/software-products/case-tracking-software" element={<><SEO title="Case Tracking Software" description="Case Tracking Software details." /><DemoIconPage /></>} />
+            <Route path="/software-products/cyber-intelligence-software" element={<><SEO title="Cyber Intelligence Software" description="Cyber Intelligence Software details." /><DemoIconPage /></>} />
+            <Route path="/software-products/digital-forensic-support-tools" element={<><SEO title="Digital Forensic Support Tools" description="Digital Forensic Support Tools details." /><DemoIconPage /></>} />
+            <Route path="/software-products/training-internship-management-software" element={<><SEO title="Training & Internship Management Software" description="Training & Internship Management Software details." /><DemoIconPage /></>} />
+            <Route path="/software-products/user-support-helpdesk-software" element={<><SEO title="User Support & Helpdesk Software" description="User Support & Helpdesk Software details." /><DemoIconPage /></>} />
+            <Route path="/software-products/hr-recruitment-management-software" element={<><SEO title="HR & Recruitment Management Software" description="HR & Recruitment Management Software details." /><DemoIconPage /></>} />
+            <Route path="/software-products/report-generation-software" element={<><SEO title="Police Investigation Tools & Software" description="Police Investigation Tools & Software details." /><DemoIconPage /></>} />
+            <Route path="/software-products/software-product-overview" element={<><SEO title="Software Product Overview" description="Software Product Overview details." /><SoftwareProductOverviewPage /></>} />
 
             {/* Skill Development */}
             <Route path="/skill-development" element={<><SEO title="Skill Development" description="Enhance your cyber security skills with our training programs, internships, courses, and workshops." /><SkillDevelopmentPage /></>} />

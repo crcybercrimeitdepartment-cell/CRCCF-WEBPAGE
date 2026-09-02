@@ -1,5 +1,5 @@
 import { useState } from "react";
-import CrimeCardLock from "./CrimeCardLock";
+import { Laptop } from "lucide-react";
 
 // Helper to assign a consistent color to each card based on its title length/chars
 const getConsistentColor = (title) => {
@@ -15,7 +15,7 @@ const getConsistentColor = (title) => {
   return colors[sum % colors.length];
 };
 
-export default function SoftwareCard({ id, title, onClick, index = 0 }) {
+export default function SoftwareCard({ id, title, onClick, index = 0, icon: Icon = Laptop }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isUnlocking, setIsUnlocking] = useState(false);
   const itemAccent = getConsistentColor(title);
@@ -93,10 +93,10 @@ export default function SoftwareCard({ id, title, onClick, index = 0 }) {
             className="absolute inset-0.5 rounded-full pointer-events-none"
             style={{ backgroundColor: `${itemAccent}05` }}
           />
-          {/* Using CrimeCardLock instead of standard Lucide Icon */}
-          <div className="relative z-10 h-3.5 w-3.5 sm:h-6 sm:w-6 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-            <CrimeCardLock isUnlocking={isUnlocking} />
-          </div>
+          <Icon
+            className="relative z-10 h-3.5 w-3.5 sm:h-6 sm:w-6 transition-transform duration-300 group-hover:scale-110"
+            style={{ color: itemAccent }}
+          />
         </div>
 
         <div className="min-w-0 flex-1 pr-0.5">
@@ -113,7 +113,7 @@ export default function SoftwareCard({ id, title, onClick, index = 0 }) {
             className="mt-0.5 flex w-fit items-center gap-0.5 text-[7.5px] font-extrabold transition-transform duration-300 group-hover:translate-x-0.5 sm:text-[9.5px]"
             style={{ color: itemAccent }}
           >
-            Unlock <span className="text-[8px] sm:text-[10px]">→</span>
+            Explore <span className="text-[8px] sm:text-[10px]">→</span>
           </span>
         </div>
       </div>

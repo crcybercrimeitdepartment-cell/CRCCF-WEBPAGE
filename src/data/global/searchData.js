@@ -25276,14 +25276,14 @@ const softwareCardsExtracted = [
     iconName: "Monitor"
   },
   {
-    title: "Report Generation Software",
-    description: "Explore our Report Generation Software in the Software Products portfolio.",
+    title: "Police Investigation Tools & Software",
+    description: "Explore our Police Investigation Tools & Software in the Software Products portfolio.",
     category: "Software Products",
     link: "/software-products/report-generation-software",
     targetId: "",
     pageNumber: 1,
-    tags: ["software", "product", "Report Generation Software"],
-    aliases: ["Report Generation Software Software"],
+    tags: ["software", "product", "Police Investigation Tools & Software"],
+    aliases: ["Police Investigation Tools & Software"],
     relatedTerms: [],
     iconName: "Monitor"
   },

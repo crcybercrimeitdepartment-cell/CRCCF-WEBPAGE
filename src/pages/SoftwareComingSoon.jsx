@@ -58,6 +58,7 @@ const SoftwareComingSoon = () => {
                   index={startIndex + index}
                   id={toSoftwareCardId(card.title)}
                   title={card.title}
+                  icon={card.icon}
                   onClick={() => navigate(`/software-products/${card.slug}`)}
                 />
               ))}
