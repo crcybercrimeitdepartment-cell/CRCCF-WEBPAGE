@@ -18,9 +18,9 @@ const RecruitmentKeyboard = () => {
   const [hoveredCardId, setHoveredCardId] = useState(null)
 
   const items = [
-    { label: 'Job Vacancy', path: '/recruitment/job-vacancy', icon: Briefcase, color: '#3f3d99', desc: 'Browse current openings and join our mission.' },
+    { label: 'Current Vacancy', path: '/recruitment/current-vacancy', icon: Briefcase, color: '#3f3d99', desc: 'Browse current openings and join our mission.' },
     { label: 'Recruitment Rules/Policies', path: '/recruitment/rules-policies', icon: FileText, color: '#1f6f88', desc: 'Understand our hiring policies and guidelines.' },
-    { label: 'Post Vacancy - Members Only', path: '/recruitment/post-vacancy-members-only', icon: Users, color: '#156a9a', desc: 'Exclusive portal for members to post new jobs.' },
+    { label: 'Document Verification Department', path: '/recruitment/post-vacancy-members-only', icon: Users, color: '#156a9a', desc: 'Exclusive portal for members to post new jobs.' },
     { label: 'Online Application Portal', path: '/recruitment/online-application-portal', icon: ClipboardList, color: '#13795b', desc: 'Apply online through our dedicated portal.' },
     { label: 'Recruitment Advertisements', path: '/recruitment/advertisements', icon: Megaphone, color: '#6b33c7', desc: 'View official recruitment announcements and ads.' },
     { label: 'Press Release and Notices', path: '/recruitment/press-release-notices', icon: Newspaper, color: '#9a4f1d', desc: 'Stay updated with official press and notices.' },

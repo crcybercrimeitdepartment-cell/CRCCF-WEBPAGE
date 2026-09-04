@@ -156,8 +156,17 @@ const LearningEnvironment    = lazy(() => import('./pages/Resources/LearningEnvi
 
 // ─── LAZY: Recruitment ───────────────────────────────────────────────────────
 const RecruitmentPortal         = lazy(() => import('./pages/recruitment/RecruitmentPortal'))
+const CurrentVacancyPage        = lazy(() => import('./pages/recruitment/Current Vacancy/CurrentVacancyPage'))
+const JobVacancyNewPage         = lazy(() => import('./pages/recruitment/Current Vacancy/Job Vacancy/JobVacancyPage'))
+const PostVacancyPage           = lazy(() => import('./pages/recruitment/Current Vacancy/Post Vacancy/PostVacancyPage'))
+const InternshipVacancyPage     = lazy(() => import('./pages/recruitment/Current Vacancy/Internship Vacancy/InternshipVacancyPage'))
+const VacancyCard1Page          = lazy(() => import('./pages/recruitment/Current Vacancy/Vacancy Card 1/VacancyCard1Page'))
+const VacancyCard2Page          = lazy(() => import('./pages/recruitment/Current Vacancy/Vacancy Card 2/VacancyCard2Page'))
+const VacancyCard3Page          = lazy(() => import('./pages/recruitment/Current Vacancy/Vacancy Card 3/VacancyCard3Page'))
+const VacancyCard4Page          = lazy(() => import('./pages/recruitment/Current Vacancy/Vacancy Card 4/VacancyCard4Page'))
+const VacancyCard5Page          = lazy(() => import('./pages/recruitment/Current Vacancy/Vacancy Card 5/VacancyCard5Page'))
 const JobVacancy                = lazy(() => import('./pages/recruitment/JobVacancy'))
-const JobVacancyPage            = lazy(() => import('./pages/recruitment/JobVacancyPortal/JobVacancyPage').then(m => ({ default: m.JobVacancyPage })))
+const JobVacancyPage            = lazy(() => import('./pages/recruitment/Current Vacancy/Job Vacancy/JobDetailPage'))
 const PostVacancyMembersOnly    = lazy(() => import('./pages/recruitment/PostVacancyMembersOnly'))
 const OnlineApplicationPortal   = lazy(() => import('./pages/recruitment/OnlineApplicationPortal'))
 const RecruitmentAdvertisements = lazy(() => import('./pages/recruitment/RecruitmentAdvertisements'))
@@ -386,6 +395,15 @@ function AppRoutes() {
             <Route path="/recruitment" element={<><SEO title="Recruitment Portal" description="Access our recruitment portal for job applications and career opportunities." /><RecruitmentPortal /></>} />
             <Route path="/recruitment/job-vacancy" element={<><SEO title="Job Vacancies" description="View current job vacancies and openings at CRCCF." /><JobVacancy /></>} />
             <Route path="/recruitment/job-vacancy-details" element={<><SEO title="Job Vacancy Details" description="Detailed information about specific job vacancies at CRCCF." /><JobVacancyPage /></>} />
+            <Route path="/recruitment/current-vacancy" element={<><SEO title="Current Vacancies" description="View current job vacancies." /><CurrentVacancyPage /></>} />
+            <Route path="/recruitment/current-vacancy/job-vacancy" element={<><SEO title="Job Vacancy" description="Job Vacancy details." /><JobVacancyNewPage /></>} />
+            <Route path="/recruitment/current-vacancy/post-vacancy" element={<><SEO title="Post Vacancy" description="Post Vacancy details." /><PostVacancyPage /></>} />
+            <Route path="/recruitment/current-vacancy/internship-vacancy" element={<><SEO title="Internship Vacancy" description="Internship Vacancy details." /><InternshipVacancyPage /></>} />
+            <Route path="/recruitment/current-vacancy/vacancy-card-1" element={<><SEO title="Vacancy Card 1" description="Vacancy Card 1 details." /><VacancyCard1Page /></>} />
+            <Route path="/recruitment/current-vacancy/vacancy-card-2" element={<><SEO title="Vacancy Card 2" description="Vacancy Card 2 details." /><VacancyCard2Page /></>} />
+            <Route path="/recruitment/current-vacancy/vacancy-card-3" element={<><SEO title="Vacancy Card 3" description="Vacancy Card 3 details." /><VacancyCard3Page /></>} />
+            <Route path="/recruitment/current-vacancy/vacancy-card-4" element={<><SEO title="Vacancy Card 4" description="Vacancy Card 4 details." /><VacancyCard4Page /></>} />
+            <Route path="/recruitment/current-vacancy/vacancy-card-5" element={<><SEO title="Vacancy Card 5" description="Vacancy Card 5 details." /><VacancyCard5Page /></>} />
             <Route path="/recruitment/post-vacancy-members-only" element={<><SEO title="Post Vacancy (Members Only)" description="Exclusive portal for members to post job vacancies." /><PostVacancyMembersOnly /></>} />
             <Route path="/recruitment/online-application-portal" element={<><SEO title="Online Application Portal" description="Submit your job applications online through our dedicated portal." /><OnlineApplicationPortal /></>} />
             <Route path="/recruitment/advertisements" element={<><SEO title="Recruitment Advertisements" description="View our latest recruitment advertisements and notices." /><RecruitmentAdvertisements /></>} />
