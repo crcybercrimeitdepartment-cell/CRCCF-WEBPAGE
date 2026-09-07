@@ -10,6 +10,15 @@ import { portalConfig, jobListings, filterOptions } from '../../../../data/recru
 import { hrAdminData } from './job details/HRAdminData';
 import { hrExecutiveData } from './job details/HRExecutiveData';
 import { hrAssistantManagerData } from './job details/HRAssistantManagerData';
+import { juniorPythonFullStackDeveloperData } from './job details/JuniorPythonFullStackDeveloperData';
+import { qaEngineerData } from './job details/QAEngineerData';
+import { mobileApplicationDeveloperData } from './job details/MobileApplicationDeveloperData';
+import { graphicDesignerData } from './job details/GraphicDesignerData';
+import { juniorDevOpsEngineerData } from './job details/JuniorDevOpsEngineerData';
+import { cyberSecurityEngineerData } from './job details/CyberSecurityEngineerData';
+import { cyberCrimeInvestigationOfficerData } from './job details/CyberCrimeInvestigationOfficerData';
+import { aimlEngineerData } from './job details/AIMLEngineerData';
+import { dataAnalystData } from './job details/DataAnalystData';
 
 
 // --- FloatingDots.jsx ---
@@ -665,9 +674,32 @@ const Icons = {
 function JobVacancyPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const jobId = location.state?.jobId || 'CRCCF-HR-EXEC-2026-001';
-  const data = jobId === 'CRCCF-HR-EXEC-2026-002' ? hrAdminData : 
-               jobId === 'CRCCF-HR-ASSTMGR-2026-003' ? hrAssistantManagerData : hrExecutiveData;
+const jobId = location.state?.jobId || 'CRCCF-HR-EXEC-2026-001';
+
+const data =
+  jobId === 'CRCCF-IT-JDEVOPS-2026-001'
+    ? juniorDevOpsEngineerData
+    : jobId === 'CRCCF-IT-JSECURITY-2026-001'
+    ? cyberSecurityEngineerData
+    : jobId === 'CRCCF-IT-JCCIO-2026-001'
+    ? cyberCrimeInvestigationOfficerData
+    : jobId === 'CRCCF-IT-AIML-2026-001'
+    ? aimlEngineerData
+    : jobId === 'CRCCF-IT-DANALYST-2026-001'
+    ? dataAnalystData
+    : jobId === 'CRCCF-DES-GD-2026-001'
+    ? graphicDesignerData
+    : jobId === 'CRCCF-HR-EXEC-2026-002'
+    ? hrAdminData
+    : jobId === 'CRCCF-HR-ASSTMGR-2026-003'
+    ? hrAssistantManagerData
+    : jobId === 'CRCCF-IT-PYFS-2026-001' || jobId === 'IT-PYFS-001'
+    ? juniorPythonFullStackDeveloperData
+    : jobId === 'CRCCF-IT-QA-ENG-2026-001' || jobId === 'IT-QA-ENG-001'
+    ? qaEngineerData
+    : jobId === 'CRCCF-IT-MAD-2026-001' || jobId === 'IT-MAD-001'
+    ? mobileApplicationDeveloperData
+    : hrExecutiveData;
 
 const [viewMode,setViewMode]=useState("list");
   const [expandedNotice, setExpandedNotice] = useState({

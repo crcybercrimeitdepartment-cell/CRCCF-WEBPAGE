@@ -167,7 +167,7 @@ const VacancyCard4Page          = lazy(() => import('./pages/recruitment/Current
 const VacancyCard5Page          = lazy(() => import('./pages/recruitment/Current Vacancy/Vacancy Card 5/VacancyCard5Page'))
 const JobVacancy                = lazy(() => import('./pages/recruitment/JobVacancy'))
 const JobVacancyPage            = lazy(() => import('./pages/recruitment/Current Vacancy/Job Vacancy/JobDetailPage'))
-const PostVacancyMembersOnly    = lazy(() => import('./pages/recruitment/PostVacancyMembersOnly'))
+const DocumentVerificationDepartment = lazy(() => import('./pages/recruitment/Document Verification/DocumentVerificationDepartment'))
 const OnlineApplicationPortal   = lazy(() => import('./pages/recruitment/OnlineApplicationPortal'))
 const RecruitmentAdvertisements = lazy(() => import('./pages/recruitment/RecruitmentAdvertisements'))
 const PressReleaseNotices       = lazy(() => import('./pages/recruitment/PressReleaseNotices'))
@@ -175,7 +175,7 @@ const ApplicationStatus         = lazy(() => import('./pages/recruitment/Applica
 const SubmitResume              = lazy(() => import('./pages/recruitment/SubmitResume'))
 const CertificateVerification   = lazy(() => import('./pages/recruitment/CertificateVerification'))
 const CertificateComingSoon     = lazy(() => import('./pages/recruitment/CertificateComingSoon'))
-const IdCardVerificationComingSoon = lazy(() => import('./pages/recruitment/IdCardVerificationComingSoon'))
+const IdCardVerificationPage     = lazy(() => import('./pages/recruitment/ID Card Verification/IdCardVerificationPage'))
 
 // ─── LAZY: Recruitment Rules & Policies ──────────────────────────────────────
 const RecruitmentRulesPolicies             = lazy(() => import('./pages/recruitment/rules/RecruitmentRulesPolicies'))
@@ -404,7 +404,7 @@ function AppRoutes() {
             <Route path="/recruitment/current-vacancy/vacancy-card-3" element={<><SEO title="Vacancy Card 3" description="Vacancy Card 3 details." /><VacancyCard3Page /></>} />
             <Route path="/recruitment/current-vacancy/vacancy-card-4" element={<><SEO title="Vacancy Card 4" description="Vacancy Card 4 details." /><VacancyCard4Page /></>} />
             <Route path="/recruitment/current-vacancy/vacancy-card-5" element={<><SEO title="Vacancy Card 5" description="Vacancy Card 5 details." /><VacancyCard5Page /></>} />
-            <Route path="/recruitment/post-vacancy-members-only" element={<><SEO title="Post Vacancy (Members Only)" description="Exclusive portal for members to post job vacancies." /><PostVacancyMembersOnly /></>} />
+            <Route path="/recruitment/document-verification-department" element={<><SEO title="Document Verification Department" description="Exclusive portal for members to post job vacancies." /><DocumentVerificationDepartment /></>} />
             <Route path="/recruitment/online-application-portal" element={<><SEO title="Online Application Portal" description="Submit your job applications online through our dedicated portal." /><OnlineApplicationPortal /></>} />
             <Route path="/recruitment/advertisements" element={<><SEO title="Recruitment Advertisements" description="View our latest recruitment advertisements and notices." /><RecruitmentAdvertisements /></>} />
             <Route path="/recruitment/press-release-notices" element={<><SEO title="Press Releases & Notices" description="Read official press releases and notices related to recruitment." /><PressReleaseNotices /></>} />
@@ -412,7 +412,7 @@ function AppRoutes() {
             <Route path="/recruitment/submit-resume" element={<><SEO title="Submit Resume" description="Submit your resume for future career opportunities with CRCCF." /><SubmitResume /></>} />
             <Route path="/recruitment/certificate-verification" element={<><SEO title="Certificate Verification" description="Verify the authenticity of certificates issued by CR Cyber Crime Foundation." /><CertificateVerification /></>} />
             <Route path="/recruitment/certificate-verification/:slug" element={<><SEO title="Certificate Verification Details" description="Detailed certificate verification portal." /><CertificateComingSoon /></>} />
-            <Route path="/recruitment/id-card-verification" element={<><SEO title="ID Card Verification" description="Verify the authenticity of ID cards." /><IdCardVerificationComingSoon /></>} />
+            <Route path="/recruitment/id-card-verification" element={<><SEO title="ID Card Verification" description="Verify the authenticity of ID cards." /><IdCardVerificationPage /></>} />
 
             <Route path="/recruitment/rules-policies" element={<><SEO title="Recruitment Rules & Policies" description="Read the comprehensive rules and policies governing our recruitment process." /><RecruitmentRulesPolicies /></>} />
             <Route path="/coming-soon" element={<><SEO title="Coming Soon" description="This section is currently under development." /><ComingSoonPage /></>} />

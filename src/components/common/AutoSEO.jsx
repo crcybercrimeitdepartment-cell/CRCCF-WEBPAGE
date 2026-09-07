@@ -58,7 +58,7 @@ const seoData = {
   "/recruitment": { title: "Recruitment Portal", desc: "Access our recruitment portal for job applications and career opportunities." },
   "/recruitment/job-vacancy": { title: "Job Vacancies", desc: "View current job vacancies and openings at CRCCF." },
   "/recruitment/job-vacancy-details": { title: "Job Vacancy Details", desc: "Detailed information about specific job vacancies at CRCCF." },
-  "/recruitment/post-vacancy-members-only": { title: "Post Vacancy (Members Only)", desc: "Exclusive portal for members to post job vacancies." },
+  "/recruitment/document-verification-department": { title: "Document Verification Department", desc: "Exclusive portal for members to post job vacancies." },
   "/recruitment/online-application-portal": { title: "Online Application Portal", desc: "Submit your job applications online through our dedicated portal." },
   "/recruitment/advertisements": { title: "Recruitment Advertisements", desc: "View our latest recruitment advertisements and notices." },
   "/recruitment/press-release-notices": { title: "Press Releases & Notices", desc: "Read official press releases and notices related to recruitment." },
