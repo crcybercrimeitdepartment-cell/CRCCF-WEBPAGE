@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import gsap from 'gsap';
 import { getSpreadsForModule, COPYRIGHT_MODULES_DATA } from '../../../data/aboutUs/CopyrightIntellectualPropertyPageData';
 
@@ -73,19 +73,51 @@ export default function CopyrightBookReader({ cardId, onBack }) {
 
 
 
+  const getPageNumStr = (idx, side) => {
+    const pageNum = (idx * 2) + (side === 'left' ? 1 : 2);
+    return pageNum < 10 ? `Page 0${pageNum}` : `Page ${pageNum}`;
+  };
+
   const [pageIndex, setPageIndex] = useState(0);
   const [renderIndex, setRenderIndex] = useState(0);
   const [activeMobilePage, setActiveMobilePage] = useState('left');
-  const [mobileTransition, setMobileTransition] = useState('idle');
+  const [currentMobileIndex, setCurrentMobileIndex] = useState(0);
+  const [mobileAnimState, setMobileAnimState] = useState('idle'); // 'idle' | 'next' | 'prev'
+  const [isSwapping, setIsSwapping] = useState(false);
   const [flipState, setFlipState] = useState('idle');
   const [isAnimated, setIsAnimated] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+
+  const allPages = useMemo(() => {
+    if (!spreads || spreads.length === 0) return [];
+    const pages = [];
+    spreads.forEach((spread, sIdx) => {
+      if (spread.leftPage) {
+        pages.push({
+          pageData: spread.leftPage,
+          side: 'left',
+          pageNumStr: getPageNumStr(sIdx, 'left'),
+        });
+      }
+      if (spread.rightPage) {
+        pages.push({
+          pageData: spread.rightPage,
+          side: 'right',
+          pageNumStr: getPageNumStr(sIdx, 'right'),
+        });
+      }
+    });
+    return pages;
+  }, [spreads]);
 
   useEffect(() => {
     setPageIndex(0);
     setRenderIndex(0);
     setActiveMobilePage('left');
-    setMobileTransition('idle');
+    setCurrentMobileIndex(0);
+    setMobileAnimState('idle');
+    setIsSwapping(false);
+    setFlipState('idle');
   }, [cardId]);
 
   useEffect(() => {
@@ -114,42 +146,30 @@ export default function CopyrightBookReader({ cardId, onBack }) {
   }, [onBack]);
 
   const handleNextPage = () => {
-    let nextActivePage = activeMobilePage;
-    let nextPageIndex = pageIndex;
-
     if (isMobile) {
-      if (activeMobilePage === 'left') {
-        nextActivePage = 'right';
-      } else {
-        if (pageIndex < spreads.length - 1) {
-          nextPageIndex = pageIndex + 1;
-          nextActivePage = 'left';
-        } else {
-          return;
-        }
-      }
-    } else {
-      if (pageIndex < spreads.length - 1) {
-        nextPageIndex = pageIndex + 1;
-      } else {
-        return;
-      }
-    }
-
-    if (isMobile) {
-      if (flipState !== 'idle') return;
+      if (flipState !== 'idle' || currentMobileIndex >= allPages.length - 1) return;
       setFlipState('animating');
-      setMobileTransition('slide-out');
+      setMobileAnimState('next');
+      setIsSwapping(false);
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setIsSwapping(true);
+        });
+      });
 
       setTimeout(() => {
-        setActiveMobilePage(nextActivePage);
-        setPageIndex(nextPageIndex);
-        setRenderIndex(nextPageIndex);
-        setMobileTransition('idle');
+        const nextIdx = currentMobileIndex + 1;
+        setCurrentMobileIndex(nextIdx);
+        setPageIndex(Math.floor(nextIdx / 2));
+        setActiveMobilePage(nextIdx % 2 === 0 ? 'left' : 'right');
+        setMobileAnimState('idle');
+        setIsSwapping(false);
         setFlipState('idle');
-      }, 500);
+      }, 450);
     } else {
-      if (flipState !== 'idle') return;
+      if (flipState !== 'idle' || pageIndex >= spreads.length - 1) return;
+      const nextPageIndex = pageIndex + 1;
       setFlipState('next');
       setTimeout(() => {
         setIsAnimated(true);
@@ -157,6 +177,8 @@ export default function CopyrightBookReader({ cardId, onBack }) {
       setTimeout(() => {
         setPageIndex(nextPageIndex);
         setRenderIndex(nextPageIndex);
+        setCurrentMobileIndex(nextPageIndex * 2);
+        setActiveMobilePage('left');
         setFlipState('idle');
         setIsAnimated(false);
       }, 800);
@@ -164,46 +186,30 @@ export default function CopyrightBookReader({ cardId, onBack }) {
   };
 
   const handlePrevPage = () => {
-    let prevActivePage = activeMobilePage;
-    let prevPageIndex = pageIndex;
-
     if (isMobile) {
-      if (activeMobilePage === 'right') {
-        prevActivePage = 'left';
-      } else {
-        if (pageIndex > 0) {
-          prevPageIndex = pageIndex - 1;
-          prevActivePage = 'right';
-        } else {
-          return;
-        }
-      }
-    } else {
-      if (pageIndex > 0) {
-        prevPageIndex = pageIndex - 1;
-      } else {
-        return;
-      }
-    }
-
-    if (isMobile) {
-      if (flipState !== 'idle') return;
+      if (flipState !== 'idle' || currentMobileIndex <= 0) return;
       setFlipState('animating');
-      setMobileTransition('slide-in-start');
-      setActiveMobilePage(prevActivePage);
-      setPageIndex(prevPageIndex);
-      setRenderIndex(prevPageIndex);
+      setMobileAnimState('prev');
+      setIsSwapping(false);
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setIsSwapping(true);
+        });
+      });
 
       setTimeout(() => {
-        setMobileTransition('slide-in-active');
-      }, 20);
-
-      setTimeout(() => {
-        setMobileTransition('idle');
+        const prevIdx = currentMobileIndex - 1;
+        setCurrentMobileIndex(prevIdx);
+        setPageIndex(Math.floor(prevIdx / 2));
+        setActiveMobilePage(prevIdx % 2 === 0 ? 'left' : 'right');
+        setMobileAnimState('idle');
+        setIsSwapping(false);
         setFlipState('idle');
-      }, 520);
+      }, 450);
     } else {
-      if (flipState !== 'idle') return;
+      if (flipState !== 'idle' || pageIndex <= 0) return;
+      const prevPageIndex = pageIndex - 1;
       setFlipState('prev');
       setTimeout(() => {
         setIsAnimated(true);
@@ -211,6 +217,8 @@ export default function CopyrightBookReader({ cardId, onBack }) {
       setTimeout(() => {
         setPageIndex(prevPageIndex);
         setRenderIndex(prevPageIndex);
+        setCurrentMobileIndex(prevPageIndex * 2);
+        setActiveMobilePage('left');
         setFlipState('idle');
         setIsAnimated(false);
       }, 800);
@@ -421,11 +429,6 @@ export default function CopyrightBookReader({ cardId, onBack }) {
     return side === 'left' ? currentSpread?.leftPage : currentSpread?.rightPage;
   };
 
-  const getPageNumStr = (idx, side) => {
-    const pageNum = (idx * 2) + (side === 'left' ? 1 : 2);
-    return pageNum < 10 ? `Page 0${pageNum}` : `Page ${pageNum}`;
-  };
-
   return (
     <div className="book-reader-container w-full flex flex-col justify-between py-2 px-2 sm:px-4 font-sans relative overflow-x-hidden">
       <div className="fixed inset-0 z-0 pointer-events-none select-none">
@@ -449,82 +452,169 @@ export default function CopyrightBookReader({ cardId, onBack }) {
               </>
             )}
 
-            <div
-              className={`relative bg-gradient-to-r from-[#dbcaa4] via-[#f7ebd0] to-[#fcfaf4] ${isMobile ? 'border-b rounded-[18px]' : 'border-r border-[#caa17d]/40 rounded-l-[18px] rounded-r-none'} flex flex-col min-h-[440px] sm:min-h-[480px] md:min-h-[550px] lg:min-h-[580px]`}
-              style={isMobile ? getPageStyle('left') : {}}
-            >
-              {renderPageContent(
-                getBackgroundCard('left'),
-                'left',
-                getPageNumStr(flipState === 'next' ? renderIndex : flipState === 'prev' ? renderIndex - 1 : pageIndex, 'left')
-              )}
-            </div>
+            {isMobile ? (
+              <div className="relative w-full h-full min-h-[440px] sm:min-h-[480px] rounded-[18px] overflow-hidden">
+                {mobileAnimState === 'idle' && (
+                  <div className="relative w-full h-full min-h-[440px] sm:min-h-[480px] bg-gradient-to-r from-[#dbcaa4] via-[#f7ebd0] to-[#fcfaf4] rounded-[18px] flex flex-col overflow-hidden">
+                    {allPages[currentMobileIndex] &&
+                      renderPageContent(
+                        allPages[currentMobileIndex].pageData,
+                        allPages[currentMobileIndex].side,
+                        allPages[currentMobileIndex].pageNumStr
+                      )}
+                  </div>
+                )}
 
-            <div
-              className={`relative bg-gradient-to-r from-[#fcfaf4] via-[#f7ebd0] to-[#dbcaa4] ${isMobile ? 'rounded-[18px]' : 'rounded-r-[18px] rounded-l-none'} flex flex-col min-h-[440px] sm:min-h-[480px] md:min-h-[550px] lg:min-h-[580px]`}
-              style={isMobile ? getPageStyle('right') : {}}
-            >
-              {renderPageContent(
-                getBackgroundCard('right'),
-                'right',
-                getPageNumStr(flipState === 'next' ? renderIndex + 1 : flipState === 'prev' ? renderIndex : pageIndex, 'right')
-              )}
-            </div>
+                {mobileAnimState === 'next' && (
+                  <>
+                    {/* Next page rendered in the background with its new text already visible */}
+                    <div className="absolute inset-0 w-full h-full min-h-[440px] sm:min-h-[480px] bg-gradient-to-r from-[#dbcaa4] via-[#f7ebd0] to-[#fcfaf4] rounded-[18px] flex flex-col z-10 overflow-hidden">
+                      {allPages[currentMobileIndex + 1] &&
+                        renderPageContent(
+                          allPages[currentMobileIndex + 1].pageData,
+                          allPages[currentMobileIndex + 1].side,
+                          allPages[currentMobileIndex + 1].pageNumStr
+                        )}
+                    </div>
 
-            {!isMobile && flipState === 'next' && (
-              <div
-                className="absolute top-0 bottom-0 right-0 w-1/2 z-30 overflow-visible"
-                style={{
-                  transformOrigin: 'left center',
-                  transform: isAnimated ? 'rotateY(-180deg)' : 'rotateY(0deg)',
-                  transition: 'transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1)',
-                  transformStyle: 'preserve-3d',
-                }}
-              >
-                <div
-                  className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#fcfaf4] via-[#f7ebd0] to-[#dbcaa4] rounded-r-[18px] overflow-hidden shadow-[inset_0_0_20px_rgba(0,0,0,0.1)]"
-                  style={{ backfaceVisibility: 'hidden' }}
-                >
-                  {renderPageContent(spreads[renderIndex]?.rightPage, 'right', getPageNumStr(renderIndex, 'right'))}
-                </div>
-                <div
-                  className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#dbcaa4] via-[#f7ebd0] to-[#fcfaf4] rounded-l-[18px] overflow-hidden shadow-[inset_0_0_20px_rgba(0,0,0,0.1)]"
-                  style={{
-                    backfaceVisibility: 'hidden',
-                    transform: 'rotateY(180deg)'
-                  }}
-                >
-                  {renderPageContent(spreads[renderIndex + 1]?.leftPage || spreads[renderIndex]?.leftPage, 'left', getPageNumStr(renderIndex + 1, 'left'))}
-                </div>
+                    {/* Current page sliding out with its old text */}
+                    <div
+                      className="absolute inset-0 w-full h-full min-h-[440px] sm:min-h-[480px] bg-gradient-to-r from-[#dbcaa4] via-[#f7ebd0] to-[#fcfaf4] rounded-[18px] flex flex-col z-30 overflow-hidden pointer-events-none"
+                      style={{
+                        transition: isSwapping
+                          ? 'transform 0.45s cubic-bezier(0.4, 0.0, 0.2, 1), opacity 0.45s ease-out, box-shadow 0.45s ease-out'
+                          : 'none',
+                        transform: isSwapping
+                          ? 'translateX(-105%) rotate(-4deg)'
+                          : 'translateX(0) rotate(0deg)',
+                        opacity: isSwapping ? 0.92 : 1,
+                        boxShadow: isSwapping ? '-12px 0 30px rgba(0,0,0,0.45)' : 'none',
+                      }}
+                    >
+                      {allPages[currentMobileIndex] &&
+                        renderPageContent(
+                          allPages[currentMobileIndex].pageData,
+                          allPages[currentMobileIndex].side,
+                          allPages[currentMobileIndex].pageNumStr
+                        )}
+                    </div>
+                  </>
+                )}
+
+                {mobileAnimState === 'prev' && (
+                  <>
+                    {/* Current page resting in background */}
+                    <div className="absolute inset-0 w-full h-full min-h-[440px] sm:min-h-[480px] bg-gradient-to-r from-[#dbcaa4] via-[#f7ebd0] to-[#fcfaf4] rounded-[18px] flex flex-col z-10 overflow-hidden">
+                      {allPages[currentMobileIndex] &&
+                        renderPageContent(
+                          allPages[currentMobileIndex].pageData,
+                          allPages[currentMobileIndex].side,
+                          allPages[currentMobileIndex].pageNumStr
+                        )}
+                    </div>
+
+                    {/* Incoming previous page sliding in from left */}
+                    <div
+                      className="absolute inset-0 w-full h-full min-h-[440px] sm:min-h-[480px] bg-gradient-to-r from-[#dbcaa4] via-[#f7ebd0] to-[#fcfaf4] rounded-[18px] flex flex-col z-30 overflow-hidden pointer-events-none"
+                      style={{
+                        transition: isSwapping
+                          ? 'transform 0.45s cubic-bezier(0.4, 0.0, 0.2, 1), box-shadow 0.45s ease-out'
+                          : 'none',
+                        transform: isSwapping
+                          ? 'translateX(0) rotate(0deg)'
+                          : 'translateX(-105%) rotate(-4deg)',
+                        opacity: 1,
+                        boxShadow: '-12px 0 30px rgba(0,0,0,0.45)',
+                      }}
+                    >
+                      {allPages[currentMobileIndex - 1] &&
+                        renderPageContent(
+                          allPages[currentMobileIndex - 1].pageData,
+                          allPages[currentMobileIndex - 1].side,
+                          allPages[currentMobileIndex - 1].pageNumStr
+                        )}
+                    </div>
+                  </>
+                )}
               </div>
-            )}
+            ) : (
+              <>
+                <div
+                  className="relative bg-gradient-to-r from-[#dbcaa4] via-[#f7ebd0] to-[#fcfaf4] border-r border-[#caa17d]/40 rounded-l-[18px] rounded-r-none flex flex-col min-h-[440px] sm:min-h-[480px] md:min-h-[550px] lg:min-h-[580px]"
+                >
+                  {renderPageContent(
+                    getBackgroundCard('left'),
+                    'left',
+                    getPageNumStr(flipState === 'next' ? renderIndex : flipState === 'prev' ? renderIndex - 1 : pageIndex, 'left')
+                  )}
+                </div>
 
-            {!isMobile && flipState === 'prev' && (
-              <div
-                className="absolute top-0 bottom-0 left-0 w-1/2 z-30 overflow-visible"
-                style={{
-                  transformOrigin: 'right center',
-                  transform: isAnimated ? 'rotateY(180deg)' : 'rotateY(0deg)',
-                  transition: 'transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1)',
-                  transformStyle: 'preserve-3d',
-                }}
-              >
                 <div
-                  className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#dbcaa4] via-[#f7ebd0] to-[#fcfaf4] rounded-l-[18px] overflow-hidden shadow-[inset_0_0_20px_rgba(0,0,0,0.1)]"
-                  style={{ backfaceVisibility: 'hidden' }}
+                  className="relative bg-gradient-to-r from-[#fcfaf4] via-[#f7ebd0] to-[#dbcaa4] rounded-r-[18px] rounded-l-none flex flex-col min-h-[440px] sm:min-h-[480px] md:min-h-[550px] lg:min-h-[580px]"
                 >
-                  {renderPageContent(spreads[renderIndex]?.leftPage, 'left', getPageNumStr(renderIndex, 'left'))}
+                  {renderPageContent(
+                    getBackgroundCard('right'),
+                    'right',
+                    getPageNumStr(flipState === 'next' ? renderIndex + 1 : flipState === 'prev' ? renderIndex : pageIndex, 'right')
+                  )}
                 </div>
-                <div
-                  className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#fcfaf4] via-[#f7ebd0] to-[#dbcaa4] rounded-r-[18px] overflow-hidden shadow-[inset_0_0_20px_rgba(0,0,0,0.1)]"
-                  style={{
-                    backfaceVisibility: 'hidden',
-                    transform: 'rotateY(-180deg)'
-                  }}
-                >
-                  {renderPageContent(spreads[renderIndex - 1]?.rightPage || spreads[renderIndex]?.rightPage, 'right', getPageNumStr(renderIndex - 1, 'right'))}
-                </div>
-              </div>
+
+                {!isMobile && flipState === 'next' && (
+                  <div
+                    className="absolute top-0 bottom-0 right-0 w-1/2 z-30 overflow-visible"
+                    style={{
+                      transformOrigin: 'left center',
+                      transform: isAnimated ? 'rotateY(-180deg)' : 'rotateY(0deg)',
+                      transition: 'transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1)',
+                      transformStyle: 'preserve-3d',
+                    }}
+                  >
+                    <div
+                      className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#fcfaf4] via-[#f7ebd0] to-[#dbcaa4] rounded-r-[18px] overflow-hidden shadow-[inset_0_0_20px_rgba(0,0,0,0.1)]"
+                      style={{ backfaceVisibility: 'hidden' }}
+                    >
+                      {renderPageContent(spreads[renderIndex]?.rightPage, 'right', getPageNumStr(renderIndex, 'right'))}
+                    </div>
+                    <div
+                      className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#dbcaa4] via-[#f7ebd0] to-[#fcfaf4] rounded-l-[18px] overflow-hidden shadow-[inset_0_0_20px_rgba(0,0,0,0.1)]"
+                      style={{
+                        backfaceVisibility: 'hidden',
+                        transform: 'rotateY(180deg)'
+                      }}
+                    >
+                      {renderPageContent(spreads[renderIndex + 1]?.leftPage || spreads[renderIndex]?.leftPage, 'left', getPageNumStr(renderIndex + 1, 'left'))}
+                    </div>
+                  </div>
+                )}
+
+                {!isMobile && flipState === 'prev' && (
+                  <div
+                    className="absolute top-0 bottom-0 left-0 w-1/2 z-30 overflow-visible"
+                    style={{
+                      transformOrigin: 'right center',
+                      transform: isAnimated ? 'rotateY(180deg)' : 'rotateY(0deg)',
+                      transition: 'transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1)',
+                      transformStyle: 'preserve-3d',
+                    }}
+                  >
+                    <div
+                      className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#dbcaa4] via-[#f7ebd0] to-[#fcfaf4] rounded-l-[18px] overflow-hidden shadow-[inset_0_0_20px_rgba(0,0,0,0.1)]"
+                      style={{ backfaceVisibility: 'hidden' }}
+                    >
+                      {renderPageContent(spreads[renderIndex]?.leftPage, 'left', getPageNumStr(renderIndex, 'left'))}
+                    </div>
+                    <div
+                      className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#fcfaf4] via-[#f7ebd0] to-[#dbcaa4] rounded-r-[18px] overflow-hidden shadow-[inset_0_0_20px_rgba(0,0,0,0.1)]"
+                      style={{
+                        backfaceVisibility: 'hidden',
+                        transform: 'rotateY(-180deg)'
+                      }}
+                    >
+                      {renderPageContent(spreads[renderIndex - 1]?.rightPage || spreads[renderIndex]?.rightPage, 'right', getPageNumStr(renderIndex - 1, 'right'))}
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
@@ -533,8 +623,8 @@ export default function CopyrightBookReader({ cardId, onBack }) {
       <footer className="reader-footer-gsap relative z-20 max-w-6xl w-full mx-auto flex items-center justify-between gap-4 mt-4 pt-3 border-t border-slate-200">
         <button
           onClick={handlePrevPage}
-          disabled={(isMobile ? (pageIndex === 0 && activeMobilePage === 'left') : pageIndex === 0) || flipState !== 'idle'}
-          className={`group px-4 py-2 rounded-xl border text-slate-700 hover:text-slate-900 font-bold text-[11px] sm:text-xs transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-sm ${(isMobile ? (pageIndex === 0 && activeMobilePage === 'left') : pageIndex === 0)
+          disabled={(isMobile ? currentMobileIndex === 0 : pageIndex === 0) || flipState !== 'idle'}
+          className={`group px-4 py-2 rounded-xl border text-slate-700 hover:text-slate-900 font-bold text-[11px] sm:text-xs transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-sm ${(isMobile ? currentMobileIndex === 0 : pageIndex === 0)
             ? 'opacity-40 cursor-not-allowed border-slate-200 bg-transparent'
             : 'bg-white hover:bg-slate-50 border-slate-200 hover:border-slate-300'
             }`}
@@ -545,8 +635,8 @@ export default function CopyrightBookReader({ cardId, onBack }) {
 
         <button
           onClick={handleNextPage}
-          disabled={(isMobile ? (pageIndex === spreads.length - 1 && activeMobilePage === 'right') : pageIndex === spreads.length - 1) || flipState !== 'idle'}
-          className={`group px-4 py-2 rounded-xl border text-slate-700 hover:text-slate-900 font-bold text-[11px] sm:text-xs transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-sm ${(isMobile ? (pageIndex === spreads.length - 1 && activeMobilePage === 'right') : pageIndex === spreads.length - 1)
+          disabled={(isMobile ? currentMobileIndex === allPages.length - 1 : pageIndex === spreads.length - 1) || flipState !== 'idle'}
+          className={`group px-4 py-2 rounded-xl border text-slate-700 hover:text-slate-900 font-bold text-[11px] sm:text-xs transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-sm ${(isMobile ? currentMobileIndex === allPages.length - 1 : pageIndex === spreads.length - 1)
             ? 'opacity-40 cursor-not-allowed border-slate-200 bg-transparent'
             : 'bg-white hover:bg-slate-50 border-slate-200 hover:border-slate-300'
             }`}

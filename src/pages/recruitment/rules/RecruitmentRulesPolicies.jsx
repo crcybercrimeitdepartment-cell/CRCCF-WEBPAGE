@@ -2,8 +2,8 @@ import React, { useState, useRef, useCallback, useEffect, forwardRef } from 'rea
 import { gsap } from "gsap";
 import { Canvas } from "@react-three/fiber";
 import { Cylinder } from "@react-three/drei";
-import { Shield, Lock, ChevronLeft, ChevronRight, ArrowLeft, HeartHandshake, Scale, Users, Zap, BookOpen, Heart, Star, Server, Brain, Clock, FileText, Database, Search, GraduationCap, X } from "lucide-react";
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { Shield, Lock, ChevronLeft, ChevronRight, HeartHandshake, Scale, Users, Zap, BookOpen, Heart, Star, Server, Brain, Clock, FileText, Database, Search, GraduationCap, X } from "lucide-react";
+import { useNavigate, useLocation } from 'react-router-dom';
 import { RecruitmentPoliciesData } from "./RecruitmentRulesPoliciesData";
 import { useStampAnimation } from "../../../hooks/useStampAnimation";
 

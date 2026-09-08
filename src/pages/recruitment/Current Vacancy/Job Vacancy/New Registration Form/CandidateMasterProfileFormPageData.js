@@ -37,7 +37,7 @@ const applicationSections = [
       ['Date of Birth', 'dateOfBirth', 'Enter date of birth (DD/MM/YYYY)', 'Required'],
       ['Age as on Application Date', 'ageAsOnApplicationDate', 'Auto-calculated from Date of Birth', 'Auto-Calculated'],
       ['Place of Birth', 'placeOfBirth', 'Enter place of birth (optional)', 'Optional'],
-      ['Gender', 'gender', 'Select gender', 'Required', 'select', ['Male', 'Female', 'Transgender', 'Other']],
+      ['Gender', 'gender', 'Select gender', 'Required', 'select', ['Male', 'Female', 'Other']],
       ['Marital Status', 'maritalStatus', 'Select marital status', 'Required', 'select', ['Single', 'Married', 'Divorced', 'Widowed', 'Separated']],
       ['Nationality', 'nationality', 'Enter nationality (e.g., Indian)', 'Required'],
       ['Religion', 'religion', 'Select religion', 'Optional', 'select', ['Hinduism', 'Islam', 'Christianity', 'Sikhism', 'Buddhism', 'Jainism', 'Zoroastrianism', 'Other']],
@@ -199,7 +199,7 @@ const applicationSections = [
     subtitle: 'Kindly provide complete details of your 10th / Matriculation / Secondary Education.',
     fields: [
       ['Qualification Name (10th)', 'tenthQualificationName', 'Enter qualification name (e.g., 10th / Matriculation / SSC)', 'Required'],
-      ['Year of Passing (10th)', 'tenthYearOfPassing', 'Enter year of passing (e.g., 2018)', 'Required', 'number'],
+      ['Year of Passing (10th)', 'tenthYearOfPassing', 'Enter year of passing (e.g., 2018)', 'Required', 'text'],
       ['Name of the Board', 'tenthBoardName', 'Select 10th Class Board', 'Required', 'select', [
         'CBSE',
         'ICSE / CISCE',
@@ -267,8 +267,8 @@ const applicationSections = [
       ['School / College Address', 'twelfthSchoolCollegeAddress', 'Enter full address of school or college', 'Optional', 'textarea'],
       ['School / College Code (if available)', 'twelfthSchoolCollegeCode', 'Enter school or college code (optional)', 'Optional'],
       ['Medium of Instruction (English / Hindi / Odia / Others)', 'twelfthMediumOfInstruction', 'Select medium of instruction', 'Required', 'select', ['English', 'Hindi', 'Odia', 'Others']],
-      ['Year of Passing (12th / +2)', 'twelfthYearOfPassing', 'Enter year of passing (e.g., 2020)', 'Required', 'number'],
-      ['Examination Year', 'twelfthExaminationYear', 'Enter examination year (e.g., 2020)', 'Optional', 'number'],
+      ['Year of Passing (12th / +2)', 'twelfthYearOfPassing', 'Enter year of passing (e.g., 2020)', 'Required', 'text'],
+      ['Examination Year', 'twelfthExaminationYear', 'Enter examination year (e.g., 2020)', 'Optional', 'text'],
       ['Examination Type', 'twelfthExaminationType', 'Select examination type', 'Optional', 'select', ['Regular', 'Private', 'Ex-Regular', 'Compartmental', 'Supplementary', 'Other']],
       ['Name of the Board', 'twelfthBoardName', 'Select 12th Class Board / Council', 'Required', 'select', [
         'CHSE Odisha',
@@ -553,6 +553,7 @@ function normalizeField(field, index) {
     required: status?.startsWith('Required'),
     fullWidth: type === 'textarea',
     readOnly: status === 'Auto-Calculated',
+    inputMode: type === 'tel' || type === 'number' ? 'numeric' : undefined,
   }
 }
 

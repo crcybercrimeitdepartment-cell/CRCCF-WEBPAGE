@@ -6,7 +6,7 @@ import { Cpu, ShieldCheck, Zap } from "lucide-react";
 const SoftwareITServices = () => {
   return (
     <div className="min-h-screen bg-white">
-      <main className="relative pt-4">
+      <main className="relative pt-16 sm:pt-14 md:pt-10">
         {/* HERO SECTION */}
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-10">
           <motion.div 

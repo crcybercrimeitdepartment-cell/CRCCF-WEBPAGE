@@ -88,23 +88,6 @@ export default function CyberSecuritySoftwareSolutionsPage({ onBack }) {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  useEffect(() => {
-    if (!window.history.state?.cyberSecReaderOpen) {
-      window.history.pushState({ cyberSecReaderOpen: true }, '');
-    }
-
-    const handlePopState = (event) => {
-      const state = event.state;
-      if (!state || !state.cyberSecReaderOpen) {
-        if (onBack) onBack();
-      }
-    };
-
-    window.addEventListener('popstate', handlePopState);
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, [onBack]);
 
   const handleNextPage = () => {
     let nextActivePage = activeMobilePage;
@@ -375,16 +358,16 @@ export default function CyberSecuritySoftwareSolutionsPage({ onBack }) {
   };
 
   return (
-    <div className="book-reader-container min-h-screen w-full bg-gradient-to-b from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0] flex flex-col justify-between py-6 px-4 md:px-8 font-sans relative overflow-x-hidden">
+    <div className="book-reader-container min-h-screen w-full bg-gradient-to-b from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0] flex flex-col justify-between pt-16 sm:pt-16 md:pt-14 pb-6 px-3 sm:px-4 md:px-8 font-sans relative overflow-x-hidden">
 
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(99,102,241,0.04),transparent)] pointer-events-none" />
 
-      <header className="reader-header-gsap relative z-20 max-w-6xl w-full mx-auto flex flex-col items-center justify-center gap-4 mb-4 pb-4 border-b border-slate-200">
-        <div className="text-center flex flex-col gap-1">
-          <h2 className="text-slate-800 font-black text-sm sm:text-base md:text-xl lg:text-2xl tracking-wider whitespace-nowrap uppercase font-serif leading-tight">
+      <header className="reader-header-gsap relative z-20 max-w-6xl w-full mx-auto flex flex-col items-center justify-center gap-2 sm:gap-3 mb-4 pb-3 sm:pb-4 border-b border-slate-200">
+        <div className="text-center flex flex-col gap-1 max-w-3xl mx-auto px-2">
+          <h2 className="text-slate-800 font-black text-xs sm:text-base md:text-xl lg:text-2xl tracking-wider uppercase font-serif leading-tight whitespace-normal sm:whitespace-nowrap break-words">
             {title}
           </h2>
-          <p className="text-[10px] sm:text-xs text-slate-500 font-medium font-sans">
+          <p className="text-[10px] sm:text-xs text-slate-500 font-medium font-sans leading-relaxed">
             {subtitle}
           </p>
         </div>

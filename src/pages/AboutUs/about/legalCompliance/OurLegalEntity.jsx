@@ -285,7 +285,7 @@ export default function OurLegalEntity() {
     <div className="bg-[#FBFDFF] min-h-screen overflow-x-hidden">
       <motion.section
         variants={container} initial="hidden" animate="show"
-        className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-10 sm:py-16"
+        className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pt-20 pb-10 sm:pt-24 sm:pb-16"
       >
         
 

@@ -1084,7 +1084,7 @@ const [viewMode,setViewMode]=useState("list");
 
         {/* 2. Job Overview */}
         <StackedSection title="2. Job Overview" index={2}>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <InfoCard label="Employment Type" value={jobOverview.employmentType} icon={Icons.EmploymentType} />
             <InfoCard label="Work Mode" value={jobOverview.workMode} icon={Icons.WorkMode} />
             <InfoCard label="Job Location" value={jobOverview.jobLocation} icon={Icons.Location} />
@@ -1204,7 +1204,7 @@ const [viewMode,setViewMode]=useState("list");
               <span className="block text-xl font-bold text-emerald-900">{compensationAndBenefits.monthlySalary}</span>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4 my-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-4">
             <InfoCard label="PF Eligibility" value={compensationAndBenefits.pfEligibility} />
             <InfoCard label="ESI Eligibility" value={compensationAndBenefits.esiEligibility} />
           </div>

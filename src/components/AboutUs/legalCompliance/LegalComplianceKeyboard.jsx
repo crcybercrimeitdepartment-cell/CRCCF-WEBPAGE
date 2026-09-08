@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
   BadgeCheck,
   Building2,
@@ -36,6 +37,7 @@ const LegalComplianceKeyboard = () => {
     const saved = sessionStorage.getItem('legalCompliancePage')
     return saved ? parseInt(saved, 10) : 1
   })
+  const [direction, setDirection] = useState(1)
   const gridRef = useRef(null)
 
   const complianceItems = [
@@ -70,11 +72,64 @@ const LegalComplianceKeyboard = () => {
   const visibleItems = complianceItems.slice(startIndex, startIndex + CARDS_PER_PAGE)
 
   const goToPage = (page) => {
+    if (page === currentPage) return
+    setDirection(page > currentPage ? 1 : -1)
     setCurrentPage(page)
     sessionStorage.setItem('legalCompliancePage', page)
     if (gridRef.current) {
       gridRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
+  }
+
+  const gridContainerVariants = {
+    enter: (dir) => ({
+      x: dir > 0 ? 36 : -36,
+      opacity: 0,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+      transition: {
+        x: { type: 'spring', stiffness: 300, damping: 30 },
+        opacity: { duration: 0.28 },
+        staggerChildren: 0.025,
+        delayChildren: 0.02,
+      },
+    },
+    exit: (dir) => ({
+      x: dir > 0 ? -36 : 36,
+      opacity: 0,
+      transition: {
+        x: { type: 'spring', stiffness: 300, damping: 30 },
+        opacity: { duration: 0.18 },
+      },
+    }),
+  }
+
+  const cardVariants = {
+    enter: {
+      opacity: 0,
+      y: 14,
+      scale: 0.98,
+    },
+    center: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: 'spring',
+        stiffness: 380,
+        damping: 26,
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: -10,
+      scale: 0.98,
+      transition: {
+        duration: 0.15,
+      },
+    },
   }
 
   return (
@@ -84,116 +139,139 @@ const LegalComplianceKeyboard = () => {
         <p className="text-[#64748B] mt-1 text-sm sm:text-base">Click any button to explore</p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3">
-        {visibleItems.map((item, index) => {
-          const Icon = item.icon
-          const isHovered = hoveredCardId === item.id
-          return (
-            <button
-              key={item.id}
-              onClick={() => navigate(item.path)}
-              onMouseEnter={() => setHoveredCardId(item.id)}
-              onMouseLeave={() => setHoveredCardId(null)}
-              className="group relative flex min-h-[100px] w-full items-stretch overflow-hidden rounded-[20px] border-r border-t border-r-slate-200/40 border-t-slate-200/40 bg-white/95 px-2.5 py-2.5 text-left shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] active:scale-[0.985] touch-manipulation sm:min-h-[120px] sm:rounded-[24px] sm:px-3.5 sm:py-3.5"
-              style={{
-                borderLeftColor: item.accent,
-                borderBottomColor: item.accent,
-                borderTopColor: item.accent,
-                borderLeftWidth: '4px',
-                borderBottomWidth: isHovered ? '0px' : '4px',
-                borderTopWidth: isHovered ? '4px' : '0px',
-                transition: 'border-width 0.2s ease-in-out, border-color 0.2s ease-in-out, box-shadow 0.3s, transform 0.3s'
-              }}
-            >
-              <div
-                className="absolute left-0 top-0 z-20 flex h-8 w-8 items-center justify-center rounded-br-[18px] rounded-tl-[20px] text-white shadow-xs sm:h-9 sm:w-9 sm:rounded-tl-[24px] sm:rounded-br-[20px]"
-                style={{ backgroundColor: item.accent }}
-              >
-                <span className="text-[10px] font-black tracking-wider sm:text-[11px]">
-                  {String(startIndex + index + 1).padStart(2, '0')}
-                </span>
-              </div>
-
-              <div className="absolute right-3 top-3 opacity-[0.25] pointer-events-none z-0">
-                <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
-                  <pattern id={`dot-grid-${item.id}`} x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">
-                    <circle cx="1.5" cy="1.5" r="0.75" fill={item.accent} />
-                  </pattern>
-                  <rect width="20" height="20" fill={`url(#dot-grid-${item.id})`} />
-                </svg>
-              </div>
-
-              <div className="relative z-10 flex w-full items-center gap-2.5 pl-2 pt-3 sm:gap-3.5 sm:pl-3 sm:pt-2">
-                <div
-                  className="relative z-10 flex h-11 w-11 shrink-0 self-center items-center justify-center rounded-full border border-slate-100 transition-all duration-300 group-hover:scale-105 sm:h-[66px] sm:w-[66px]"
+      <div className="overflow-hidden relative min-h-[380px] sm:min-h-[420px]">
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.div
+            key={currentPage}
+            custom={direction}
+            variants={gridContainerVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3"
+          >
+            {visibleItems.map((item, index) => {
+              const Icon = item.icon
+              const isHovered = hoveredCardId === item.id
+              return (
+                <motion.button
+                  key={item.id}
+                  variants={cardVariants}
+                  onClick={() => navigate(item.path)}
+                  onMouseEnter={() => setHoveredCardId(item.id)}
+                  onMouseLeave={() => setHoveredCardId(null)}
+                  className="group relative flex min-h-[100px] w-full items-stretch overflow-hidden rounded-[20px] border-r border-t border-r-slate-200/40 border-t-slate-200/40 bg-white/95 px-2.5 py-2.5 text-left shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] active:scale-[0.985] touch-manipulation sm:min-h-[120px] sm:rounded-[24px] sm:px-3.5 sm:py-3.5 cursor-pointer"
                   style={{
-                    background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-                    boxShadow: `0 8px 20px -4px rgba(0,0,0,0.06), inset 0 2px 4px rgba(255,255,255,0.9), 0 0 0 1px ${item.accent}15`
+                    borderLeftColor: item.accent,
+                    borderBottomColor: item.accent,
+                    borderTopColor: item.accent,
+                    borderLeftWidth: '4px',
+                    borderBottomWidth: isHovered ? '0px' : '4px',
+                    borderTopWidth: isHovered ? '4px' : '0px',
+                    transition: 'border-width 0.2s ease-in-out, border-color 0.2s ease-in-out, box-shadow 0.3s, transform 0.3s'
                   }}
                 >
                   <div
-                    className="absolute inset-1 rounded-full pointer-events-none"
-                    style={{ backgroundColor: `${item.accent}05` }}
-                  />
-                  <Icon
-                    className="relative z-10 h-5 w-5 transition-transform duration-300 group-hover:scale-110 sm:h-8 sm:w-8"
-                    style={{ color: item.accent }}
-                  />
-                </div>
+                    className="absolute left-0 top-0 z-20 flex h-8 w-8 items-center justify-center rounded-br-[18px] rounded-tl-[20px] text-white shadow-xs sm:h-9 sm:w-9 sm:rounded-tl-[24px] sm:rounded-br-[20px]"
+                    style={{ backgroundColor: item.accent }}
+                  >
+                    <span className="text-[10px] font-black tracking-wider sm:text-[11px]">
+                      {String(startIndex + index + 1).padStart(2, '0')}
+                    </span>
+                  </div>
 
-                <div className="min-w-0 flex-1 pr-1 sm:pr-2">
-                  <span
-                    className="block text-[11px] font-extrabold leading-tight tracking-tight transition-colors duration-300 sm:text-[13px]"
-                    style={{ color: isHovered ? item.accent : '#0f172a' }}
-                  >
-                    {item.label}
-                  </span>
-                  <span className="mt-1 block text-[8px] font-normal leading-normal text-slate-500 line-clamp-3 sm:text-[10px]">
-                    {item.description}
-                  </span>
-                  <span
-                    className="mt-1 hidden w-fit items-center gap-1 text-[9px] font-bold transition-transform duration-300 group-hover:translate-x-1 sm:inline-flex"
-                    style={{ color: item.accent }}
-                  >
-                    View More <span className="text-[10px]">→</span>
-                  </span>
-                </div>
-              </div>
-            </button>
-          )
-        })}
+                  <div className="absolute right-3 top-3 opacity-[0.25] pointer-events-none z-0">
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                      <pattern id={`dot-grid-${item.id}`} x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">
+                        <circle cx="1.5" cy="1.5" r="0.75" fill={item.accent} />
+                      </pattern>
+                      <rect width="20" height="20" fill={`url(#dot-grid-${item.id})`} />
+                    </svg>
+                  </div>
+
+                  <div className="relative z-10 flex w-full items-center gap-2.5 pl-2 pt-3 sm:gap-3.5 sm:pl-3 sm:pt-2">
+                    <div
+                      className="relative z-10 flex h-11 w-11 shrink-0 self-center items-center justify-center rounded-full border border-slate-100 transition-all duration-300 group-hover:scale-105 sm:h-[66px] sm:w-[66px]"
+                      style={{
+                        background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+                        boxShadow: `0 8px 20px -4px rgba(0,0,0,0.06), inset 0 2px 4px rgba(255,255,255,0.9), 0 0 0 1px ${item.accent}15`
+                      }}
+                    >
+                      <div
+                        className="absolute inset-1 rounded-full pointer-events-none"
+                        style={{ backgroundColor: `${item.accent}05` }}
+                      />
+                      <Icon
+                        className="relative z-10 h-5 w-5 transition-transform duration-300 group-hover:scale-110 sm:h-8 sm:w-8"
+                        style={{ color: item.accent }}
+                      />
+                    </div>
+
+                    <div className="min-w-0 flex-1 pr-1 sm:pr-2">
+                      <span
+                        className="block text-[11px] font-extrabold leading-tight tracking-tight transition-colors duration-300 sm:text-[13px]"
+                        style={{ color: isHovered ? item.accent : '#0f172a' }}
+                      >
+                        {item.label}
+                      </span>
+                      <span className="mt-1 block text-[8px] font-normal leading-normal text-slate-500 line-clamp-3 sm:text-[10px]">
+                        {item.description}
+                      </span>
+                      <span
+                        className="mt-1 hidden w-fit items-center gap-1 text-[9px] font-bold transition-transform duration-300 group-hover:translate-x-1 sm:inline-flex"
+                        style={{ color: item.accent }}
+                      >
+                        View More <span className="text-[10px]">→</span>
+                      </span>
+                    </div>
+                  </div>
+                </motion.button>
+              )
+            })}
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       {/* PAGINATION CONTROLS */}
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-4 mt-6 pt-5 border-t border-[#E2E8F0]">
-          <button
+          <motion.button
+            whileHover={currentPage === 1 ? {} : { scale: 1.04 }}
+            whileTap={currentPage === 1 ? {} : { scale: 0.96 }}
             onClick={() => goToPage(currentPage - 1)}
             disabled={currentPage === 1}
             className="px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200
               bg-gradient-to-br from-[#F8FAFC] to-[#F1F5F9] border border-[#DBEAFE]
               text-[#475569] hover:border-[#2563EB] hover:text-[#0F172A] hover:shadow-md
               disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-[#DBEAFE]
-              disabled:hover:text-[#475569] disabled:hover:shadow-none"
+              disabled:hover:text-[#475569] disabled:hover:shadow-none cursor-pointer disabled:cursor-not-allowed"
           >
             ← Previous
-          </button>
+          </motion.button>
 
-          <span className="text-sm font-medium text-[#64748B]">
+          <motion.span
+            key={currentPage}
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+            className="text-sm font-medium text-[#64748B] tabular-nums"
+          >
             Page {currentPage} of {totalPages}
-          </span>
+          </motion.span>
 
-          <button
+          <motion.button
+            whileHover={currentPage === totalPages ? {} : { scale: 1.04 }}
+            whileTap={currentPage === totalPages ? {} : { scale: 0.96 }}
             onClick={() => goToPage(currentPage + 1)}
             disabled={currentPage === totalPages}
             className="px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200
               bg-gradient-to-br from-[#F8FAFC] to-[#F1F5F9] border border-[#DBEAFE]
               text-[#475569] hover:border-[#2563EB] hover:text-[#0F172A] hover:shadow-md
               disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-[#DBEAFE]
-              disabled:hover:text-[#475569] disabled:hover:shadow-none"
+              disabled:hover:text-[#475569] disabled:hover:shadow-none cursor-pointer disabled:cursor-not-allowed"
           >
             Next →
-          </button>
+          </motion.button>
         </div>
       )}
     </div>

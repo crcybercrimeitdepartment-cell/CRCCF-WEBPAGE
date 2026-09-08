@@ -34,6 +34,7 @@ import {
   Search,
   Send,
   CheckCircle2,
+  AlertCircle,
 } from 'lucide-react'
 import applicationSections, { FormContext, useFormContext } from './CandidateMasterProfileFormPageData'
 
@@ -237,8 +238,82 @@ function CustomSelect({ field, value, onChange, controlClassName }) {
 }
 
 // ============================================================================
-// AGE CALCULATION
+// AGE CALCULATION & DATE OF BIRTH VALIDATION
 // ============================================================================
+
+/**
+ * validateDateOfBirth() - Validates Date of Birth format, validity, future dates, and minimum age (>10).
+ *
+ * @param {string} dobStr - Date string "DD/MM/YYYY" or "YYYY-MM-DD"
+ * @returns {object} { isValid: boolean, age?: number, status: string, message: string }
+ */
+export function validateDateOfBirth(dobStr) {
+  if (!dobStr || typeof dobStr !== 'string') {
+    return { isValid: false, status: 'empty', message: 'Date of birth is required.' }
+  }
+
+  const clean = dobStr.trim()
+  let day, month, year
+
+  if (clean.includes('-')) {
+    const parts = clean.split('-').map(Number)
+    if (parts.length === 3) [year, month, day] = parts
+  } else if (clean.includes('/')) {
+    const parts = clean.split('/').map(Number)
+    if (parts.length === 3) [day, month, year] = parts
+  }
+
+  if (!day || !month || !year || String(year).length !== 4) {
+    return { isValid: false, status: 'incomplete', message: 'Please enter complete Date of Birth in DD/MM/YYYY format.' }
+  }
+
+  if (month < 1 || month > 12) {
+    return { isValid: false, status: 'invalid_month', message: 'Month must be between 01 and 12.' }
+  }
+
+  const daysInMonth = new Date(year, month, 0).getDate()
+  if (day < 1 || day > daysInMonth) {
+    return { isValid: false, status: 'invalid_day', message: `Day must be between 01 and ${daysInMonth} for the selected month.` }
+  }
+
+  if (year < 1920) {
+    return { isValid: false, status: 'invalid_year', message: 'Please enter a valid year of birth (after 1920).' }
+  }
+
+  const dobDate = new Date(year, month - 1, day)
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  dobDate.setHours(0, 0, 0, 0)
+
+  // Disallow future date of birth
+  if (dobDate > today) {
+    return { isValid: false, status: 'future_date', message: 'Date of birth cannot be in the future.' }
+  }
+
+  // Calculate age
+  let age = today.getFullYear() - dobDate.getFullYear()
+  const monthDiff = today.getMonth() - dobDate.getMonth()
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dobDate.getDate())) {
+    age -= 1
+  }
+
+  // Candidates aged 0 to 10 years are not allowed to fill the form
+  if (age <= 10) {
+    return {
+      isValid: false,
+      age,
+      status: 'underage',
+      message: `Age is ${age} year${age === 1 ? '' : 's'}. Candidates aged 0 to 10 years are not eligible to apply (minimum age must be above 10 years).`
+    }
+  }
+
+  return {
+    isValid: true,
+    age,
+    status: 'valid',
+    message: `Valid Date of Birth (Age: ${age} Years)`
+  }
+}
 
 /**
  * calculateAge() - Date of Birth se age calculate karta hai.
@@ -247,49 +322,189 @@ function CustomSelect({ field, value, onChange, controlClassName }) {
  * @returns {string} Age as string (e.g., "25"), ya empty string agar date invalid hai
  */
 function calculateAge(dateOfBirth) {
-  if (!dateOfBirth) return ''
+  const res = validateDateOfBirth(dateOfBirth)
+  if (res.isValid && res.age !== undefined) {
+    return String(res.age)
+  }
+  return ''
+}
+
+/**
+ * validateYearOfPassing() - Validates education passing year.
+ * Ensures 4 digits, 1950 <= year <= currentYear, and year >= birthYear + 10 (if candidate's DOB provided).
+ *
+ * @param {string|number} yearStr - Year string or number
+ * @param {string} dobStr - Candidate's DOB in "DD/MM/YYYY" format
+ * @returns {object} { isValid: boolean, status: string, message: string }
+ */
+export function validateYearOfPassing(yearStr, dobStr = '') {
+  if (!yearStr && yearStr !== 0) {
+    return { isValid: false, status: 'empty', message: 'Year of passing is required.' }
+  }
+
+  const str = String(yearStr).trim()
+  if (!/^\d{4}$/.test(str)) {
+    return { isValid: false, status: 'invalid_format', message: 'Please enter a valid 4-digit passing year (e.g., 2018).' }
+  }
+
+  const yearNum = parseInt(str, 10)
+  const currentYear = new Date().getFullYear()
+
+  if (yearNum < 1950) {
+    return { isValid: false, status: 'too_early', message: 'Year of passing cannot be earlier than 1950.' }
+  }
+
+  if (yearNum > currentYear) {
+    return { isValid: false, status: 'future', message: `Year of passing cannot be in the future (maximum ${currentYear}).` }
+  }
+
+  // Candidate must have completed 10th at reasonable age (at least 10 years after birth)
+  if (dobStr && typeof dobStr === 'string') {
+    let birthYear = null
+    if (dobStr.includes('/')) {
+      const parts = dobStr.split('/')
+      if (parts.length === 3 && parts[2]?.length === 4) birthYear = parseInt(parts[2], 10)
+    } else if (dobStr.includes('-')) {
+      const parts = dobStr.split('-')
+      if (parts.length === 3 && parts[0]?.length === 4) birthYear = parseInt(parts[0], 10)
+    }
+
+    if (birthYear && !isNaN(birthYear)) {
+      if (yearNum < birthYear + 10) {
+        return {
+          isValid: false,
+          status: 'before_minimum_age',
+          message: `Year of passing (${yearNum}) cannot be earlier than birth year + 10 years (${birthYear + 10}).`
+        }
+      }
+    }
+  }
+
+  return { isValid: true, status: 'valid', message: `Valid Passing Year (${yearNum})` }
+}
+
+/**
+ * validateMarks() - Validates obtained and maximum marks.
+ * Ensures maximum marks > 0, marks obtained >= 0, and marks obtained <= maximum marks.
+ *
+ * @param {string|number} obtainedVal - Total marks obtained
+ * @param {string|number} maxVal - Maximum marks
+ * @returns {object} { isValid: boolean, field?: string, message: string }
+ */
+export function validateMarks(obtainedVal, maxVal) {
+  const obtStr = String(obtainedVal ?? '').trim()
+  const maxStr = String(maxVal ?? '').trim()
+
+  if (!obtStr && !maxStr) {
+    return { isValid: true, status: 'empty', message: '' }
+  }
+
+  const obtNum = parseFloat(obtStr)
+  const maxNum = parseFloat(maxStr)
+
+  if (maxStr !== '') {
+    if (isNaN(maxNum) || maxNum <= 0) {
+      return { isValid: false, field: 'max', message: 'Maximum marks must be greater than 0.' }
+    }
+  }
+
+  if (obtStr !== '') {
+    if (isNaN(obtNum) || obtNum < 0) {
+      return { isValid: false, field: 'obtained', message: 'Marks obtained cannot be negative.' }
+    }
+  }
+
+  if (obtStr !== '' && maxStr !== '' && !isNaN(obtNum) && !isNaN(maxNum)) {
+    if (obtNum > maxNum) {
+      return {
+        isValid: false,
+        field: 'obtained',
+        message: `Total marks obtained (${obtNum}) cannot exceed maximum marks (${maxNum}).`
+      }
+    }
+  }
+
+  return { isValid: true, status: 'valid', message: 'Valid marks' }
+}
+
+/**
+ * validateCertificateIssueDate() - Validates certificate issue date.
+ * Format DD/MM/YYYY, not in the future, not earlier than passing year.
+ *
+ * @param {string} dateStr - Date string in DD/MM/YYYY
+ * @param {string|number} yearOfPassing - Year of passing
+ * @returns {object} { isValid: boolean, status: string, message: string }
+ */
+export function validateCertificateIssueDate(dateStr, yearOfPassing = '') {
+  if (!dateStr || typeof dateStr !== 'string') {
+    return { isValid: true, status: 'empty', message: '' }
+  }
+
+  const clean = dateStr.trim()
+  if (!clean) return { isValid: true, status: 'empty', message: '' }
 
   let day, month, year
-
-  if (dateOfBirth.includes('-')) {
-    const parts = dateOfBirth.split('-').map(Number)
-    if (parts.length === 3) {
-      [year, month, day] = parts
-    }
-  } else if (dateOfBirth.includes('/')) {
-    const parts = dateOfBirth.split('/').map(Number)
-    if (parts.length === 3) {
-      [day, month, year] = parts
-    }
+  if (clean.includes('/')) {
+    const parts = clean.split('/').map(Number)
+    if (parts.length === 3) [day, month, year] = parts
+  } else if (clean.includes('-')) {
+    const parts = clean.split('-').map(Number)
+    if (parts.length === 3) [year, month, day] = parts
   }
 
-  if (!day || !month || !year || year < 1900) return ''
+  if (!day || !month || !year || String(year).length !== 4) {
+    return { isValid: false, status: 'incomplete', message: 'Enter complete date in DD/MM/YYYY format.' }
+  }
 
-  const dob = new Date(year, month - 1, day)
-  const isValidDate =
-    dob.getFullYear() === year &&
-    dob.getMonth() === month - 1 &&
-    dob.getDate() === day
+  if (month < 1 || month > 12) {
+    return { isValid: false, status: 'invalid_month', message: 'Month must be between 01 and 12.' }
+  }
 
-  if (!isValidDate) return ''
+  const daysInMonth = new Date(year, month, 0).getDate()
+  if (day < 1 || day > daysInMonth) {
+    return { isValid: false, status: 'invalid_day', message: `Day must be between 01 and ${daysInMonth}.` }
+  }
 
+  if (year < 1950) {
+    return { isValid: false, status: 'too_early', message: 'Issue year cannot be before 1950.' }
+  }
+
+  const certDate = new Date(year, month - 1, day)
   const today = new Date()
-  let age = today.getFullYear() - dob.getFullYear()
-  const monthDifference = today.getMonth() - dob.getMonth()
+  today.setHours(0, 0, 0, 0)
+  certDate.setHours(0, 0, 0, 0)
 
-  if (
-    monthDifference < 0 ||
-    (monthDifference === 0 && today.getDate() < dob.getDate())
-  ) {
-    age -= 1
+  if (certDate > today) {
+    return { isValid: false, status: 'future_date', message: 'Certificate issue date cannot be in the future.' }
   }
 
-  return age >= 0 ? String(age) : ''
+  if (yearOfPassing) {
+    const passYearNum = parseInt(yearOfPassing, 10)
+    if (!isNaN(passYearNum) && year < passYearNum) {
+      return {
+        isValid: false,
+        status: 'before_passing_year',
+        message: `Issue date year (${year}) cannot be earlier than passing year (${passYearNum}).`
+      }
+    }
+  }
+
+  return { isValid: true, status: 'valid', message: 'Valid Certificate Issue Date' }
 }
 
 // ============================================================================
 // VALIDATION RULES (Form Input Validation)
 // ============================================================================
+
+export const CANDIDATE_MOBILE_FIELDS = [
+  'mobileNumber',
+  'whatsappNumber',
+  'alternateMobileNumber',
+  'personalMobileNumber',
+  'emergencyContactMobileNumber',
+  'preferredContactNumber',
+  'travelMobileNumber',
+]
 
 const validationRules = {
   alphabet: {
@@ -298,7 +513,7 @@ const validationRules = {
   },
   mobile: {
     pattern: "^[6-9]\\d{9}$",
-    title: "Must be a valid 10-digit number starting with 6-9."
+    title: "Must be a valid 10-digit mobile number starting with 6, 7, 8, or 9."
   },
   aadhaar: {
     pattern: "^\\d{12}$",
@@ -315,6 +530,10 @@ const validationRules = {
   percentage: {
     pattern: "^\\d{1,3}(\\.\\d{1,2})?%?$",
     title: "Must be a valid percentage (e.g., 95.5%) or CGPA (e.g., 9.8)."
+  },
+  yearOfPassing: {
+    pattern: "^[1-2][0-9]{3}$",
+    title: "Must be a valid 4-digit year (e.g., 2018)."
   }
 }
 
@@ -338,30 +557,32 @@ const getValidationRule = (fieldName) => {
     'tehsilBlock'
   ]
 
-  const mobileFields = [
-    'personalMobileNumber',
-    'alternateMobileNumber',
-    'whatsappNumber',
-    'emergencyContactMobileNumber',
-    'preferredContactNumber'
-  ]
-
   if (alphabetFields.includes(fieldName)) return validationRules.alphabet
-  if (mobileFields.includes(fieldName)) return validationRules.mobile
+  if (CANDIDATE_MOBILE_FIELDS.includes(fieldName)) return validationRules.mobile
   if (fieldName === 'aadhaarNumber') return validationRules.aadhaar
   if (fieldName === 'panNumber') return validationRules.pan
   if (fieldName === 'postalPinCode') return validationRules.pincode
   if (fieldName === 'percentageCgpa') return validationRules.percentage
+  if (fieldName.toLowerCase().includes('yearofpassing')) return validationRules.yearOfPassing
 
   return null
 }
 
 const getNumericLimits = (fieldName) => {
+  const currentYear = new Date().getFullYear()
+  const lower = fieldName.toLowerCase()
+
   if (fieldName === 'communicationSkillsSelfRating') {
     return { min: 1, max: 10 }
   }
-  if (['yearOfPassing', 'residingSinceYear'].includes(fieldName)) {
-    return { min: 1900, max: 2100 }
+  if (lower.includes('yearofpassing') || lower.includes('passingyear') || fieldName === 'residingSinceYear') {
+    return { min: 1950, max: currentYear }
+  }
+  if (lower.includes('maximummarks')) {
+    return { min: 1, max: 10000 }
+  }
+  if (lower.includes('marksobtained')) {
+    return { min: 0, max: 10000 }
   }
   if (fieldName === 'totalFamilyMembers') {
     return { min: 1 }
@@ -379,7 +600,73 @@ const getNumericLimits = (fieldName) => {
 // FIELD CONTROL COMPONENT
 // ============================================================================
 
-function FieldControl({ field, value, onChange }) {
+function FieldControl({ field, value, onChange, formData = {} }) {
+  const [isTouched, setIsTouched] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
+
+  const isCandidateMobileField = CANDIDATE_MOBILE_FIELDS.includes(field.name)
+  const valStr = String(value || '')
+  const isCompleteValid = isCandidateMobileField && /^[6-9]\d{9}$/.test(valStr)
+  const startsWrong = isCandidateMobileField && valStr.length > 0 && !/^[6-9]/.test(valStr)
+  const isTooShort = isCandidateMobileField && valStr.length > 0 && valStr.length < 10 && !startsWrong
+  const isInvalid = isCandidateMobileField && valStr.length > 0 && !isCompleteValid
+
+  const isDobField = field.name === 'dateOfBirth'
+  const dobValidation = isDobField && valStr.length > 0 ? validateDateOfBirth(valStr) : null
+  const isDobValid = isDobField && dobValidation?.isValid
+  const isDobIncomplete = isDobField && valStr.length > 0 && valStr.length < 10
+  const isDobInvalid = isDobField && valStr.length === 10 && !isDobValid
+
+  // Year of passing fields (e.g., tenthYearOfPassing)
+  const isYearField = field.name.toLowerCase().includes('yearofpassing')
+  const yearValidation = isYearField && valStr.length > 0 ? validateYearOfPassing(valStr, formData.dateOfBirth) : null
+  const isYearValid = isYearField && yearValidation?.isValid
+  const isYearIncomplete = isYearField && valStr.length > 0 && valStr.length < 4
+  const isYearInvalid = isYearField && ((valStr.length === 4 && !isYearValid) || valStr === '0')
+
+  // Marks fields (tenthTotalMarksObtained, tenthMaximumMarks)
+  const isTenthMarksObtained = field.name === 'tenthTotalMarksObtained'
+  const isTenthMaxMarks = field.name === 'tenthMaximumMarks'
+  const currentMarksObt = isTenthMarksObtained ? valStr : (formData.tenthTotalMarksObtained || '')
+  const currentMaxMarks = isTenthMaxMarks ? valStr : (formData.tenthMaximumMarks || '')
+  const marksValidation = (isTenthMarksObtained || isTenthMaxMarks) && (currentMarksObt || currentMaxMarks)
+    ? validateMarks(currentMarksObt, currentMaxMarks)
+    : null
+  const marksErrorForThisField = marksValidation && !marksValidation.isValid && (
+    (marksValidation.field === 'max' && isTenthMaxMarks) ||
+    (marksValidation.field === 'obtained' && isTenthMarksObtained)
+  )
+
+  // Certificate Issue Date (generic for 10th, 12th, ITI, Diploma, Other, Degree, Master)
+  const isCertDateField =
+    field.name.toLowerCase().endsWith('certificateissuedate') ||
+    field.name.toLowerCase().endsWith('certificatedate') ||
+    field.name.toLowerCase().endsWith('dateofissue')
+
+  let relatedYearOfPassing = ''
+  if (field.name.startsWith('twelfth')) {
+    relatedYearOfPassing = formData.twelfthYearOfPassing || formData.tenthYearOfPassing
+  } else if (field.name.startsWith('iti')) {
+    relatedYearOfPassing = formData.itiYearOfPassing || formData.tenthYearOfPassing
+  } else if (field.name.startsWith('diploma')) {
+    relatedYearOfPassing = formData.diplomaYearOfPassing || formData.tenthYearOfPassing
+  } else if (field.name.startsWith('otherQual')) {
+    relatedYearOfPassing = formData.otherQualYearOfPassing || formData.tenthYearOfPassing
+  } else if (field.name.startsWith('bachelor')) {
+    relatedYearOfPassing = formData.bachelorGraduationYear || formData.twelfthYearOfPassing
+  } else if (field.name.startsWith('master')) {
+    relatedYearOfPassing = formData.masterGraduationYear || formData.bachelorGraduationYear
+  } else if (field.name.startsWith('tenth')) {
+    relatedYearOfPassing = formData.tenthYearOfPassing
+  }
+
+  const certDateValidation = isCertDateField && valStr.length > 0
+    ? validateCertificateIssueDate(valStr, relatedYearOfPassing)
+    : null
+  const isCertDateValid = isCertDateField && certDateValidation?.isValid
+  const isCertDateIncomplete = isCertDateField && valStr.length > 0 && valStr.length < 10
+  const isCertDateInvalid = isCertDateField && valStr.length === 10 && !isCertDateValid
+
   const isNameField = [
     'candidateFirstName',
     'candidateMiddleName',
@@ -415,9 +702,43 @@ function FieldControl({ field, value, onChange }) {
       'travelEmailId',
     ].includes(field.name)
 
+  let fieldBorderClass = ''
+  if (isCandidateMobileField && valStr.length > 0) {
+    if (isCompleteValid) {
+      fieldBorderClass = 'border-emerald-500 focus:border-emerald-600 focus:ring-emerald-100 pr-10'
+    } else if (isTouched || !isFocused) {
+      fieldBorderClass = 'border-red-500 focus:border-red-500 focus:ring-red-100 pr-10'
+    }
+  } else if (isDobField && valStr.length > 0) {
+    if (isDobValid) {
+      fieldBorderClass = 'border-emerald-500 focus:border-emerald-600 focus:ring-emerald-100 pr-10'
+    } else if (valStr.length === 10 || (isTouched && !isFocused)) {
+      fieldBorderClass = 'border-red-500 focus:border-red-500 focus:ring-red-100 pr-10'
+    }
+  } else if (isYearField && valStr.length > 0) {
+    if (isYearValid) {
+      fieldBorderClass = 'border-emerald-500 focus:border-emerald-600 focus:ring-emerald-100 pr-10'
+    } else if (valStr.length === 4 || valStr === '0' || (isTouched && !isFocused)) {
+      fieldBorderClass = 'border-red-500 focus:border-red-500 focus:ring-red-100 pr-10'
+    }
+  } else if ((isTenthMarksObtained || isTenthMaxMarks) && valStr.length > 0) {
+    if (marksErrorForThisField) {
+      fieldBorderClass = 'border-red-500 focus:border-red-500 focus:ring-red-100 pr-10'
+    } else if (marksValidation?.isValid && currentMarksObt && currentMaxMarks) {
+      fieldBorderClass = 'border-emerald-500 focus:border-emerald-600 focus:ring-emerald-100 pr-10'
+    }
+  } else if (isCertDateField && valStr.length > 0) {
+    if (isCertDateValid) {
+      fieldBorderClass = 'border-emerald-500 focus:border-emerald-600 focus:ring-emerald-100 pr-10'
+    } else if (valStr.length === 10 || (isTouched && !isFocused)) {
+      fieldBorderClass = 'border-red-500 focus:border-red-500 focus:ring-red-100 pr-10'
+    }
+  }
+
   const controlClassName =
-    `h-12 w-full rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-500 focus:border-[#071733] focus:ring-4 focus:ring-amber-100 read-only:bg-slate-50 read-only:text-slate-500 sm:h-14 sm:px-4 lg:h-10 lg:text-xs ${isEmailField ? 'lowercase' : isNameField ? 'uppercase' : ''
-    }`
+    `h-12 w-full rounded-md border bg-white px-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-500 focus:border-[#071733] focus:ring-4 focus:ring-amber-100 read-only:bg-slate-50 read-only:text-slate-500 sm:h-14 sm:px-4 lg:h-10 lg:text-xs ${
+      isEmailField ? 'lowercase' : isNameField ? 'uppercase' : ''
+    } ${fieldBorderClass || 'border-slate-300'}`
 
   if (field.type === 'select') {
     return (
@@ -447,35 +768,348 @@ function FieldControl({ field, value, onChange }) {
   }
 
   const rule = getValidationRule(field.name)
-  const limits = field.type === 'number' ? getNumericLimits(field.name) : {}
+  const limits = (field.type === 'number' || isYearField) ? getNumericLimits(field.name) : {}
+
+  const handleKeyDown = (e) => {
+    if (isCandidateMobileField) {
+      // Allow navigation and shortcut keys
+      if (
+        [
+          'Backspace',
+          'Delete',
+          'Tab',
+          'Escape',
+          'Enter',
+          'ArrowLeft',
+          'ArrowRight',
+          'ArrowUp',
+          'ArrowDown',
+          'Home',
+          'End',
+        ].includes(e.key) ||
+        e.ctrlKey ||
+        e.metaKey
+      ) {
+        return
+      }
+      // Block non-digit characters
+      if (!/^[0-9]$/.test(e.key)) {
+        e.preventDefault()
+        return
+      }
+      // Block typing beyond 10 digits if text is not selected
+      const target = e.target
+      if (
+        target.value.length >= 10 &&
+        target.selectionStart === target.selectionEnd
+      ) {
+        e.preventDefault()
+      }
+    } else if (isYearField) {
+      if (
+        [
+          'Backspace',
+          'Delete',
+          'Tab',
+          'Escape',
+          'Enter',
+          'ArrowLeft',
+          'ArrowRight',
+          'ArrowUp',
+          'ArrowDown',
+          'Home',
+          'End',
+        ].includes(e.key) ||
+        e.ctrlKey ||
+        e.metaKey
+      ) {
+        return
+      }
+      // Block non-digit characters
+      if (!/^[0-9]$/.test(e.key)) {
+        e.preventDefault()
+        return
+      }
+      // Prevent entering 0 as first digit for year
+      if (e.target.value.length === 0 && e.key === '0') {
+        e.preventDefault()
+        return
+      }
+      // Block typing beyond 4 digits if text is not selected
+      const target = e.target
+      if (
+        target.value.length >= 4 &&
+        target.selectionStart === target.selectionEnd
+      ) {
+        e.preventDefault()
+      }
+    }
+  }
 
   return (
-    <div className="relative">
-      <input
-        id={field.name}
-        type={field.type || 'text'}
-        name={field.name}
-        value={value}
-        onChange={onChange}
-        placeholder={field.placeholder}
-        required={field.required}
-        readOnly={field.readOnly}
-        inputMode={field.inputMode}
-        pattern={rule?.pattern}
-        min={limits.min}
-        max={limits.max}
-        onInvalid={(e) => {
-          if (e.target.validity.patternMismatch && rule?.title) {
-            e.target.setCustomValidity(rule.title)
-          } else {
-            e.target.setCustomValidity('')
+    <div className="w-full">
+      <div className="relative">
+        <input
+          id={field.name}
+          type={isCandidateMobileField ? 'tel' : isYearField ? 'text' : (field.type || 'text')}
+          name={field.name}
+          value={value}
+          onChange={onChange}
+          onKeyDown={handleKeyDown}
+          onFocus={() => setIsFocused(true)}
+          onBlur={(e) => {
+            setIsFocused(false)
+            setIsTouched(true)
+            if (isCandidateMobileField) {
+              if (valStr.length > 0 && !isCompleteValid) {
+                if (startsWrong) {
+                  e.target.setCustomValidity('Must start with 6, 7, 8, or 9.')
+                } else if (isTooShort) {
+                  e.target.setCustomValidity(`Must be exactly 10 digits (currently ${valStr.length} digits).`)
+                } else {
+                  e.target.setCustomValidity('Must be a valid 10-digit mobile number starting with 6, 7, 8, or 9.')
+                }
+              } else {
+                e.target.setCustomValidity('')
+              }
+            } else if (isDobField) {
+              if (valStr.length > 0) {
+                if (valStr.length < 10) {
+                  e.target.setCustomValidity('Please enter complete Date of Birth in DD/MM/YYYY format.')
+                } else if (!dobValidation?.isValid) {
+                  e.target.setCustomValidity(dobValidation?.message || 'Invalid Date of Birth')
+                } else {
+                  e.target.setCustomValidity('')
+                }
+              } else {
+                e.target.setCustomValidity('')
+              }
+            } else if (isYearField) {
+              if (valStr.length > 0) {
+                if (!yearValidation?.isValid) {
+                  e.target.setCustomValidity(yearValidation?.message || 'Please enter a valid 4-digit passing year.')
+                } else {
+                  e.target.setCustomValidity('')
+                }
+              } else {
+                e.target.setCustomValidity('')
+              }
+            } else if (isTenthMarksObtained || isTenthMaxMarks) {
+              if (marksErrorForThisField) {
+                e.target.setCustomValidity(marksValidation?.message || 'Invalid marks entered.')
+              } else {
+                e.target.setCustomValidity('')
+              }
+            } else if (isCertDateField) {
+              if (valStr.length > 0) {
+                if (valStr.length < 10) {
+                  e.target.setCustomValidity('Please enter complete Certificate Issue Date in DD/MM/YYYY format.')
+                } else if (!certDateValidation?.isValid) {
+                  e.target.setCustomValidity(certDateValidation?.message || 'Invalid Certificate Issue Date.')
+                } else {
+                  e.target.setCustomValidity('')
+                }
+              } else {
+                e.target.setCustomValidity('')
+              }
+            }
+          }}
+          placeholder={field.placeholder}
+          required={field.required}
+          readOnly={field.readOnly}
+          step={field.type === 'number' ? 'any' : undefined}
+          inputMode={isCandidateMobileField || isDobField || isYearField ? 'numeric' : (field.type === 'number' ? 'decimal' : field.inputMode)}
+          pattern={isYearField ? '^[1-2][0-9]{3}$' : rule?.pattern}
+          minLength={isCandidateMobileField ? 10 : isYearField ? 4 : undefined}
+          maxLength={
+            isCandidateMobileField
+              ? 10
+              : isDobField || isCertDateField
+                ? 10
+                : isYearField
+                  ? 4
+                  : field.name === 'aadhaarNumber'
+                    ? 12
+                    : field.name === 'postalPinCode'
+                      ? 6
+                      : field.name === 'panNumber'
+                        ? 10
+                        : undefined
           }
-        }}
-        onInput={(e) => {
-          e.target.setCustomValidity('')
-        }}
-        className={controlClassName}
-      />
+          title={isYearField ? 'Must be a 4-digit valid year (e.g., 2018)' : rule?.title}
+          min={limits.min}
+          max={limits.max}
+          onInvalid={(e) => {
+            if (isCandidateMobileField) {
+              if (e.target.validity.valueMissing) {
+                e.target.setCustomValidity(`Please enter your active 10-digit ${field.label || 'mobile number'}`)
+              } else if (startsWrong) {
+                e.target.setCustomValidity('Must start with 6, 7, 8, or 9.')
+              } else if (isTooShort || e.target.validity.patternMismatch || e.target.validity.tooShort) {
+                e.target.setCustomValidity(`Must be exactly 10 digits starting with 6-9 (currently ${valStr.length} digits).`)
+              } else {
+                e.target.setCustomValidity('')
+              }
+            } else if (isDobField) {
+              if (e.target.validity.valueMissing) {
+                e.target.setCustomValidity('Date of Birth is required.')
+              } else if (!dobValidation?.isValid) {
+                e.target.setCustomValidity(dobValidation?.message || 'Please enter a valid Date of Birth.')
+              } else {
+                e.target.setCustomValidity('')
+              }
+            } else if (isYearField) {
+              if (e.target.validity.valueMissing) {
+                e.target.setCustomValidity(`${field.label || 'Year of Passing'} is required.`)
+              } else if (!yearValidation?.isValid) {
+                e.target.setCustomValidity(yearValidation?.message || 'Please enter a valid 4-digit year (e.g., 2018).')
+              } else {
+                e.target.setCustomValidity('')
+              }
+            } else if (isTenthMarksObtained || isTenthMaxMarks) {
+              if (e.target.validity.valueMissing) {
+                e.target.setCustomValidity(`${field.label || 'Marks'} is required.`)
+              } else if (marksErrorForThisField) {
+                e.target.setCustomValidity(marksValidation?.message || 'Invalid marks.')
+              } else {
+                e.target.setCustomValidity('')
+              }
+            } else if (isCertDateField) {
+              if (!certDateValidation?.isValid) {
+                e.target.setCustomValidity(certDateValidation?.message || 'Please enter a valid Certificate Issue Date.')
+              } else {
+                e.target.setCustomValidity('')
+              }
+            } else if (
+              (e.target.validity.patternMismatch || e.target.validity.tooShort) &&
+              rule?.title
+            ) {
+              e.target.setCustomValidity(rule.title)
+            } else {
+              e.target.setCustomValidity('')
+            }
+          }}
+          onInput={(e) => {
+            e.target.setCustomValidity('')
+          }}
+          className={controlClassName}
+        />
+
+        {/* Valid Checkmark Icon inside input on right */}
+        {(
+          (isCandidateMobileField && isCompleteValid) ||
+          (isDobField && isDobValid) ||
+          (isYearField && isYearValid) ||
+          ((isTenthMarksObtained || isTenthMaxMarks) && marksValidation?.isValid && currentMarksObt && currentMaxMarks) ||
+          (isCertDateField && isCertDateValid)
+        ) && (
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center pointer-events-none text-emerald-600">
+            <CheckCircle2 size={18} className="text-emerald-500" />
+          </div>
+        )}
+
+        {/* Invalid Alert Icon inside input on right for completed invalid inputs */}
+        {(
+          (isCandidateMobileField && (startsWrong || (!isFocused && isInvalid))) ||
+          (isDobField && isDobInvalid) ||
+          (isYearField && (valStr.length === 4 || valStr === '0' || (isTouched && !isFocused && !isYearValid)) && isYearInvalid) ||
+          ((isTenthMarksObtained || isTenthMaxMarks) && marksErrorForThisField) ||
+          (isCertDateField && isCertDateInvalid)
+        ) && (
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center pointer-events-none text-red-500">
+            <AlertCircle size={18} className="text-red-500" />
+          </div>
+        )}
+      </div>
+
+      {/* Live Helper / Validation Status Text below input for Mobile Fields */}
+      {isCandidateMobileField && valStr.length > 0 && (
+        <div className="mt-1 px-0.5">
+          {startsWrong ? (
+            <p className="text-xs font-semibold text-red-600 flex items-center gap-1">
+              <span>⚠️ Must start with 6, 7, 8, or 9</span>
+            </p>
+          ) : isTooShort ? (
+            <p className="text-xs font-medium text-amber-600 flex items-center justify-between">
+              <span>Enter 10 digits ({valStr.length}/10 entered)</span>
+              <span className="font-bold">{10 - valStr.length} more needed</span>
+            </p>
+          ) : isCompleteValid ? (
+            <p className="text-xs font-semibold text-emerald-600 flex items-center gap-1">
+              <Check size={12} className="stroke-[3]" /> Valid 10-digit number
+            </p>
+          ) : null}
+        </div>
+      )}
+
+      {/* Live Helper / Validation Status Text below input for Date of Birth */}
+      {isDobField && valStr.length > 0 && (
+        <div className="mt-1 px-0.5">
+          {isDobIncomplete ? (
+            <p className="text-xs font-medium text-amber-600 flex items-center justify-between">
+              <span>Enter complete date (DD/MM/YYYY)</span>
+              <span className="font-bold">{10 - valStr.length} chars needed</span>
+            </p>
+          ) : isDobValid ? (
+            <p className="text-xs font-semibold text-emerald-600 flex items-center gap-1">
+              <Check size={12} className="stroke-[3]" /> {dobValidation.message}
+            </p>
+          ) : isDobInvalid ? (
+            <p className="text-xs font-semibold text-red-600 flex items-center gap-1">
+              <span>⚠️ {dobValidation.message}</span>
+            </p>
+          ) : null}
+        </div>
+      )}
+
+      {/* Live Helper / Validation Status Text below input for Year of Passing */}
+      {isYearField && valStr.length > 0 && (
+        <div className="mt-1 px-0.5">
+          {valStr.length < 4 && valStr !== '0' ? (
+            <p className="text-xs font-medium text-amber-600 flex items-center justify-between">
+              <span>Enter 4-digit passing year (e.g., 2018)</span>
+              <span className="font-bold">{4 - valStr.length} digits needed</span>
+            </p>
+          ) : isYearValid ? (
+            <p className="text-xs font-semibold text-emerald-600 flex items-center gap-1">
+              <Check size={12} className="stroke-[3]" /> {yearValidation.message}
+            </p>
+          ) : isYearInvalid ? (
+            <p className="text-xs font-semibold text-red-600 flex items-center gap-1">
+              <span>⚠️ {yearValidation.message}</span>
+            </p>
+          ) : null}
+        </div>
+      )}
+
+      {/* Live Helper / Validation Status Text below input for Marks */}
+      {(isTenthMarksObtained || isTenthMaxMarks) && marksErrorForThisField && (
+        <div className="mt-1 px-0.5">
+          <p className="text-xs font-semibold text-red-600 flex items-center gap-1">
+            <span>⚠️ {marksValidation.message}</span>
+          </p>
+        </div>
+      )}
+
+      {/* Live Helper / Validation Status Text below input for Certificate Issue Date */}
+      {isCertDateField && valStr.length > 0 && (
+        <div className="mt-1 px-0.5">
+          {isCertDateIncomplete ? (
+            <p className="text-xs font-medium text-amber-600 flex items-center justify-between">
+              <span>Enter complete date (DD/MM/YYYY)</span>
+              <span className="font-bold">{10 - valStr.length} chars needed</span>
+            </p>
+          ) : isCertDateValid ? (
+            <p className="text-xs font-semibold text-emerald-600 flex items-center gap-1">
+              <Check size={12} className="stroke-[3]" /> {certDateValidation.message}
+            </p>
+          ) : isCertDateInvalid ? (
+            <p className="text-xs font-semibold text-red-600 flex items-center gap-1">
+              <span>⚠️ {certDateValidation.message}</span>
+            </p>
+          ) : null}
+        </div>
+      )}
     </div>
   )
 }
@@ -485,14 +1119,20 @@ function FieldControl({ field, value, onChange }) {
 // ============================================================================
 
 export function CandidateMasterProfileForm({ section, formData, onChange }) {
-  const age = useMemo(
-    () => calculateAge(formData.dateOfBirth),
+  const ageValidation = useMemo(
+    () => validateDateOfBirth(formData.dateOfBirth),
     [formData.dateOfBirth]
   )
 
   const getFieldValue = (field) => {
     if (field.name === 'age' || field.name === 'ageAsOnApplicationDate') {
-      return age !== null ? `${age} Years` : ''
+      if (ageValidation.isValid && ageValidation.age !== undefined) {
+        return `${ageValidation.age} Years`
+      }
+      if (ageValidation.age !== undefined && ageValidation.age <= 10 && ageValidation.age >= 0) {
+        return `${ageValidation.age} Years (Ineligible - Age must be above 10)`
+      }
+      return ''
     }
     return formData[field.name] || ''
   }
@@ -621,6 +1261,7 @@ export function CandidateMasterProfileForm({ section, formData, onChange }) {
                         field={f}
                         value={getFieldValue(f)}
                         onChange={f.readOnly ? undefined : onChange}
+                        formData={formData}
                       />
 
                       <div className="mt-1 flex justify-end">
@@ -645,18 +1286,35 @@ export function CandidateMasterProfileForm({ section, formData, onChange }) {
               key={field.name}
               className={`${field.fullWidth ? 'md:col-span-2' : ''} min-w-0`}
             >
-              <label
-                htmlFor={field.name}
-                className="mb-2 block text-sm font-black leading-5 text-slate-950 lg:mb-1 lg:text-xs lg:leading-4"
-              >
-                {currentFieldNumber}. {field.label}
-                {field.required && <span className="ml-1 text-red-600">*</span>}
-              </label>
+              <div className="mb-2 flex items-center justify-between lg:mb-1">
+                <label
+                  htmlFor={field.name}
+                  className="block text-sm font-black leading-5 text-slate-950 lg:text-xs lg:leading-4"
+                >
+                  {currentFieldNumber}. {field.label}
+                  {field.required && <span className="ml-1 text-red-600">*</span>}
+                </label>
+
+                {field.name === 'whatsappNumber' && formData.mobileNumber && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onChange({
+                        target: { name: 'whatsappNumber', value: formData.mobileNumber },
+                      })
+                    }}
+                    className="inline-flex items-center gap-1 rounded bg-amber-50 px-2 py-0.5 text-[11px] font-bold text-amber-800 hover:bg-amber-100 hover:text-amber-900 border border-amber-200 cursor-pointer transition"
+                  >
+                    Same as Mobile
+                  </button>
+                )}
+              </div>
 
               <FieldControl
                 field={field}
                 value={getFieldValue(field)}
                 onChange={field.readOnly ? undefined : onChange}
+                formData={formData}
               />
 
               <div className="mt-2 flex justify-end lg:mt-1">
@@ -788,7 +1446,13 @@ export function FormProvider({ children }) {
       value = value.replace(/[0-9]/g, '')
     }
 
-    if (name === 'dateOfBirth') {
+    const isDateField =
+      name === 'dateOfBirth' ||
+      name.toLowerCase().endsWith('certificatedate') ||
+      name.toLowerCase().endsWith('issuedate') ||
+      name.toLowerCase().endsWith('dateofissue')
+
+    if (isDateField) {
       const isDeleting = value.length < previousValue.length
 
       if (isDeleting) {
@@ -817,6 +1481,18 @@ export function FormProvider({ children }) {
       }
     }
 
+    if (name.toLowerCase().includes('yearofpassing')) {
+      value = value.replace(/[^0-9]/g, '').substring(0, 4)
+    }
+
+    if (name.toLowerCase().includes('marksobtained') || name.toLowerCase().includes('maximummarks')) {
+      value = value.replace(/[^0-9.]/g, '')
+      const dotParts = value.split('.')
+      if (dotParts.length > 2) {
+        value = dotParts[0] + '.' + dotParts.slice(1).join('')
+      }
+    }
+
     if (name === 'panNumber') {
       let clean = value.toUpperCase()
       let formatted = ''
@@ -841,14 +1517,14 @@ export function FormProvider({ children }) {
       value = value.replace(/[^0-9]/g, '').substring(0, 12)
     }
 
-    const mobileFields = [
-      'mobileNumber',
-      'alternateMobileNumber',
-      'whatsappNumber',
-      'travelMobileNumber',
-    ]
-    if (mobileFields.includes(name)) {
-      value = value.replace(/[^0-9]/g, '').substring(0, 10)
+    if (CANDIDATE_MOBILE_FIELDS.includes(name)) {
+      let clean = value.replace(/[^0-9]/g, '')
+      if (clean.length > 10 && clean.startsWith('91')) {
+        clean = clean.slice(2)
+      } else if (clean.length > 10 && clean.startsWith('0')) {
+        clean = clean.slice(1)
+      }
+      value = clean.substring(0, 10)
     }
 
     if (name === 'postalPinCode') {
@@ -880,9 +1556,13 @@ export function FormProvider({ children }) {
           const maxNum = parseFloat(maxStr)
 
           if (!isNaN(totalNum) && !isNaN(maxNum) && maxNum > 0 && totalNum >= 0) {
-            const calcPct = (totalNum / maxNum) * 100
-            const formatted = (calcPct % 1 === 0 ? calcPct.toFixed(0) : calcPct.toFixed(2)) + '%'
-            updated[targetField] = formatted
+            if (totalNum > maxNum) {
+              updated[targetField] = 'Invalid Marks'
+            } else {
+              const calcPct = (totalNum / maxNum) * 100
+              const formatted = (calcPct % 1 === 0 ? calcPct.toFixed(0) : calcPct.toFixed(2)) + '%'
+              updated[targetField] = formatted
+            }
           } else if (!totalStr || !maxStr) {
             updated[targetField] = ''
           }
@@ -1240,6 +1920,311 @@ export function CandidateMasterProfileFormPage({ onGoToPreview, appliedJob }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
+    // Programmatic validation for Section 1 (Personal Information - Date of Birth)
+    if (currentStep === 1) {
+      const dobCheck = validateDateOfBirth(formData.dateOfBirth || '')
+      if (!dobCheck.isValid) {
+        const dobEl = document.getElementById('dateOfBirth')
+        if (dobEl) {
+          dobEl.focus()
+          dobEl.setCustomValidity(dobCheck.message)
+          dobEl.reportValidity()
+        }
+        return
+      }
+    }
+
+    // Programmatic validation for Section 4 (Address & Contact Information)
+    if (currentStep === 4) {
+      const mobileRegex = /^[6-9]\d{9}$/
+
+      if (!mobileRegex.test(formData.mobileNumber || '')) {
+        const mobileEl = document.getElementById('mobileNumber')
+        if (mobileEl) {
+          mobileEl.focus()
+          mobileEl.setCustomValidity('Please enter a valid 10-digit mobile number starting with 6, 7, 8, or 9.')
+          mobileEl.reportValidity()
+        }
+        return
+      }
+
+      if (!mobileRegex.test(formData.whatsappNumber || '')) {
+        const whatsappEl = document.getElementById('whatsappNumber')
+        if (whatsappEl) {
+          whatsappEl.focus()
+          whatsappEl.setCustomValidity('Please enter a valid 10-digit WhatsApp number starting with 6, 7, 8, or 9.')
+          whatsappEl.reportValidity()
+        }
+        return
+      }
+
+      if (formData.alternateMobileNumber && !mobileRegex.test(formData.alternateMobileNumber)) {
+        const altEl = document.getElementById('alternateMobileNumber')
+        if (altEl) {
+          altEl.focus()
+          altEl.setCustomValidity('Alternate Mobile Number must be a valid 10-digit number starting with 6-9, or leave empty.')
+          altEl.reportValidity()
+        }
+        return
+      }
+    }
+
+    // Programmatic validation for Section 10 (10th Standard Qualification Details)
+    if (currentStep === 10) {
+      // 1. Qualification Name (10th)
+      const qualName = (formData.tenthQualificationName || '').trim()
+      if (!qualName) {
+        const el = document.getElementById('tenthQualificationName')
+        if (el) {
+          el.focus()
+          el.setCustomValidity('Qualification Name (10th) is required.')
+          el.reportValidity()
+        }
+        return
+      }
+
+      // 2. Year of Passing (10th)
+      const yearCheck = validateYearOfPassing(formData.tenthYearOfPassing, formData.dateOfBirth)
+      if (!yearCheck.isValid) {
+        const el = document.getElementById('tenthYearOfPassing')
+        if (el) {
+          el.focus()
+          el.setCustomValidity(yearCheck.message)
+          el.reportValidity()
+        }
+        return
+      }
+
+      // 3. Name of the Board
+      const boardName = (formData.tenthBoardName || '').trim()
+      if (!boardName) {
+        const el = document.getElementById('tenthBoardName') || document.querySelector('[name="tenthBoardName"]')
+        if (el) {
+          el.focus()
+          if (el.setCustomValidity) {
+            el.setCustomValidity('Please select 10th Class Board.')
+            el.reportValidity()
+          } else {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+          }
+        }
+        return
+      }
+
+      // 4. Type of Board
+      const boardType = (formData.tenthBoardType || '').trim()
+      if (!boardType) {
+        const el = document.getElementById('tenthBoardType') || document.querySelector('[name="tenthBoardType"]')
+        if (el) {
+          el.focus()
+          if (el.setCustomValidity) {
+            el.setCustomValidity('Please select Type of Board.')
+            el.reportValidity()
+          } else {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+          }
+        }
+        return
+      }
+
+      // 5. Student Roll Number
+      const rollNum = (formData.tenthRollNumber || '').trim()
+      if (!rollNum) {
+        const el = document.getElementById('tenthRollNumber')
+        if (el) {
+          el.focus()
+          el.setCustomValidity('Student Roll Number is required.')
+          el.reportValidity()
+        }
+        return
+      }
+
+      // 6. Certificate Issue Date (if provided)
+      if (formData.tenthCertificateIssueDate) {
+        const certCheck = validateCertificateIssueDate(formData.tenthCertificateIssueDate, formData.tenthYearOfPassing)
+        if (!certCheck.isValid) {
+          const el = document.getElementById('tenthCertificateIssueDate')
+          if (el) {
+            el.focus()
+            el.setCustomValidity(certCheck.message)
+            el.reportValidity()
+          }
+          return
+        }
+      }
+
+      // 7. Maximum Marks
+      const maxMarksNum = parseFloat(formData.tenthMaximumMarks)
+      if (isNaN(maxMarksNum) || maxMarksNum <= 0) {
+        const el = document.getElementById('tenthMaximumMarks')
+        if (el) {
+          el.focus()
+          el.setCustomValidity('Maximum Marks must be greater than 0.')
+          el.reportValidity()
+        }
+        return
+      }
+
+      // 8. Total Marks Obtained
+      const obtMarksNum = parseFloat(formData.tenthTotalMarksObtained)
+      if (isNaN(obtMarksNum) || obtMarksNum < 0) {
+        const el = document.getElementById('tenthTotalMarksObtained')
+        if (el) {
+          el.focus()
+          el.setCustomValidity('Total Marks Obtained cannot be negative.')
+          el.reportValidity()
+        }
+        return
+      }
+
+      if (obtMarksNum > maxMarksNum) {
+        const el = document.getElementById('tenthTotalMarksObtained')
+        if (el) {
+          el.focus()
+          el.setCustomValidity(`Total Marks Obtained (${obtMarksNum}) cannot exceed Maximum Marks (${maxMarksNum}).`)
+          el.reportValidity()
+        }
+        return
+      }
+
+      // 9. Subjects Studied
+      const subjects = (formData.tenthSubjectsStudied || '').trim()
+      if (!subjects) {
+        const el = document.getElementById('tenthSubjectsStudied')
+        if (el) {
+          el.focus()
+          el.setCustomValidity('Please enter main subjects studied.')
+          el.reportValidity()
+        }
+        return
+      }
+
+      // 10. School Name
+      const schoolName = (formData.tenthSchoolName || '').trim()
+      if (!schoolName) {
+        const el = document.getElementById('tenthSchoolName')
+        if (el) {
+          el.focus()
+          el.setCustomValidity('School Name is required.')
+          el.reportValidity()
+        }
+        return
+      }
+
+      // 11. Medium of Instruction
+      const medium = (formData.tenthMediumOfInstruction || '').trim()
+      if (!medium) {
+        const el = document.getElementById('tenthMediumOfInstruction') || document.querySelector('[name="tenthMediumOfInstruction"]')
+        if (el) {
+          el.focus()
+          if (el.setCustomValidity) {
+            el.setCustomValidity('Please select Medium of Instruction.')
+            el.reportValidity()
+          } else {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+          }
+        }
+        return
+      }
+    }
+
+    // Programmatic validation for Section 11 (Secondary / Higher Secondary / Technical Qualification Details)
+    if (currentStep === 11) {
+      const selectedQual = formData.twelfthQualificationName || '12th'
+
+      if (selectedQual === '12th' || !selectedQual) {
+        if (formData.twelfthYearOfPassing) {
+          const yearCheck = validateYearOfPassing(formData.twelfthYearOfPassing, formData.dateOfBirth)
+          if (!yearCheck.isValid) {
+            const el = document.getElementById('twelfthYearOfPassing')
+            if (el) {
+              el.focus()
+              el.setCustomValidity(yearCheck.message)
+              el.reportValidity()
+            }
+            return
+          }
+          if (formData.tenthYearOfPassing) {
+            const tenthY = parseInt(formData.tenthYearOfPassing, 10)
+            const twelY = parseInt(formData.twelfthYearOfPassing, 10)
+            if (!isNaN(tenthY) && !isNaN(twelY) && twelY < tenthY) {
+              const el = document.getElementById('twelfthYearOfPassing')
+              if (el) {
+                el.focus()
+                el.setCustomValidity(`12th passing year (${twelY}) cannot be earlier than 10th passing year (${tenthY}).`)
+                el.reportValidity()
+              }
+              return
+            }
+          }
+        }
+
+        if (formData.twelfthCertificateIssueDate) {
+          const certCheck = validateCertificateIssueDate(
+            formData.twelfthCertificateIssueDate,
+            formData.twelfthYearOfPassing || formData.tenthYearOfPassing
+          )
+          if (!certCheck.isValid) {
+            const el = document.getElementById('twelfthCertificateIssueDate')
+            if (el) {
+              el.focus()
+              el.setCustomValidity(certCheck.message)
+              el.reportValidity()
+            }
+            return
+          }
+        }
+      } else if (selectedQual === 'ITI') {
+        if (formData.itiCertificateIssueDate) {
+          const certCheck = validateCertificateIssueDate(
+            formData.itiCertificateIssueDate,
+            formData.itiYearOfPassing || formData.tenthYearOfPassing
+          )
+          if (!certCheck.isValid) {
+            const el = document.getElementById('itiCertificateIssueDate')
+            if (el) {
+              el.focus()
+              el.setCustomValidity(certCheck.message)
+              el.reportValidity()
+            }
+            return
+          }
+        }
+      } else if (selectedQual === 'Diploma') {
+        if (formData.diplomaCertificateIssueDate) {
+          const certCheck = validateCertificateIssueDate(
+            formData.diplomaCertificateIssueDate,
+            formData.diplomaYearOfPassing || formData.tenthYearOfPassing
+          )
+          if (!certCheck.isValid) {
+            const el = document.getElementById('diplomaCertificateIssueDate')
+            if (el) {
+              el.focus()
+              el.setCustomValidity(certCheck.message)
+              el.reportValidity()
+            }
+            return
+          }
+        }
+      } else if (selectedQual === 'Other') {
+        if (formData.otherQualCertificateIssueDate) {
+          const certCheck = validateCertificateIssueDate(
+            formData.otherQualCertificateIssueDate,
+            formData.otherQualYearOfPassing || formData.tenthYearOfPassing
+          )
+          if (!certCheck.isValid) {
+            const el = document.getElementById('otherQualCertificateIssueDate')
+            if (el) {
+              el.focus()
+              el.setCustomValidity(certCheck.message)
+              el.reportValidity()
+            }
+            return
+          }
+        }
+      }
+    }
 
     if (currentStep === applicationSections.length) {
       if (onGoToPreview) {

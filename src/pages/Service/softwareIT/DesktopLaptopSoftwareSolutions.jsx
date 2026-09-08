@@ -116,7 +116,7 @@ export default function DesktopLaptopSoftwareSolutions() {
         variants={container}
         initial="hidden"
         animate="show"
-        className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-10 md:py-12 lg:py-14"
+        className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pt-16 sm:pt-14 md:pt-12 lg:pt-14 pb-8 sm:pb-10 md:pb-12 lg:pb-14"
       >
         {/* Breadcrumb */}
         <motion.nav
