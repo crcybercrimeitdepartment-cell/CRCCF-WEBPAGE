@@ -4,6 +4,7 @@ import ComingSoonPage from '../../../common/ComingSoonPage';
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useScroll, useSpring, useTransform, AnimatePresence } from 'framer-motion';
+import { UserPlus, LogIn, CheckCircle2, X, Copy, Check, ArrowRight } from 'lucide-react';
 const heroImg = Cloudinary.heroimg;
 const heroBg = Cloudinary.jobVacancyBg;
 import { portalConfig, jobListings, filterOptions, jobVacancyData } from '../../../../data/recruitment/JobVacancyPageData';
@@ -239,8 +240,277 @@ const calD        = "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2
 const briefcaseD  = "M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z";
 const arrowD      = "M14 5l7 7m0 0l-7 7m7-7H3";
 
+// ─── APPLY DROPDOWN MENU ──────────────────────────────────────────────────────
+function ApplyDropdownMenu({ target, onClose, onSelectOption }) {
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    if (!target) return;
+    const handleDown = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        onClose();
+      }
+    };
+    const handleKey = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('mousedown', handleDown);
+    window.addEventListener('keydown', handleKey);
+    window.addEventListener('scroll', onClose, { passive: true });
+    return () => {
+      window.removeEventListener('mousedown', handleDown);
+      window.removeEventListener('keydown', handleKey);
+      window.removeEventListener('scroll', onClose);
+    };
+  }, [target, onClose]);
+
+  if (!target) return null;
+
+  const { job, rect } = target;
+  const menuHeight = 180;
+  const menuWidth = 270;
+  const spaceBelow = window.innerHeight - rect.bottom;
+  const placeAbove = spaceBelow < menuHeight && rect.top > menuHeight;
+
+  const top = placeAbove ? rect.top - menuHeight - 6 : rect.bottom + 6;
+  const left = Math.max(12, Math.min(rect.right - menuWidth, window.innerWidth - menuWidth - 16));
+
+  return (
+    <div className="fixed inset-0 z-50 pointer-events-none">
+      <motion.div
+        ref={menuRef}
+        initial={{ opacity: 0, scale: 0.95, y: placeAbove ? 6 : -6 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.15, ease: 'easeOut' }}
+        style={{ top, left, width: menuWidth }}
+        className="pointer-events-auto fixed bg-white/95 backdrop-blur-xl border border-indigo-100 rounded-2xl shadow-2xl shadow-indigo-950/20 p-2 overflow-hidden z-50"
+      >
+        <div className="px-3 py-2 border-b border-slate-100 mb-1">
+          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Select Option</p>
+          <p className="text-[12px] font-extrabold text-slate-800 truncate">{job.jobTitle}</p>
+          <p className="text-[10px] font-mono text-indigo-600 font-semibold">{job.jobCode}</p>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => onSelectOption(job, 'new')}
+          className="w-full text-left p-2.5 rounded-xl hover:bg-indigo-50/80 transition-all flex items-center gap-3 group active:scale-[0.98]"
+        >
+          <div className="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0 group-hover:bg-indigo-600 group-hover:text-white transition-colors shadow-sm">
+            <UserPlus className="w-4 h-4" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center justify-between">
+              <span className="text-[13px] font-bold text-slate-800 group-hover:text-indigo-600">New Registration</span>
+              <span className="text-[9px] font-extrabold bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded-full uppercase">New</span>
+            </div>
+            <p className="text-[11px] text-slate-500 font-normal leading-tight mt-0.5">First time applying? Register & apply</p>
+          </div>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => onSelectOption(job, 'login')}
+          className="w-full text-left p-2.5 rounded-xl hover:bg-emerald-50/80 transition-all flex items-center gap-3 group active:scale-[0.98]"
+        >
+          <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-colors shadow-sm">
+            <LogIn className="w-4 h-4" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center justify-between">
+              <span className="text-[13px] font-bold text-slate-800 group-hover:text-emerald-600">Already Registered</span>
+              <span className="text-[9px] font-extrabold bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-full uppercase">Login</span>
+            </div>
+            <p className="text-[11px] text-slate-500 font-normal leading-tight mt-0.5">Sign in with Registration ID</p>
+          </div>
+        </button>
+      </motion.div>
+    </div>
+  );
+}
+
+// ─── ALREADY REGISTERED / CANDIDATE LOGIN MODAL ──────────────────────────────
+function AlreadyRegisteredModal({ data, onClose, onNewRegistration }) {
+  const [loginResult, setLoginResult] = useState(null);
+  const [loginForm, setLoginForm] = useState({
+    regId: '',
+    dobOrPhone: '',
+  });
+
+  if (!data || !data.job) return null;
+  const { job } = data;
+
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    if (!loginForm.regId) return;
+    setLoginResult({
+      regId: loginForm.regId.trim().toUpperCase(),
+      candidateName: 'Verified Applicant',
+      jobTitle: job.jobTitle,
+      jobCode: job.jobCode,
+      status: 'Application Received & Screening Underway',
+      date: 'September 2026',
+    });
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 15 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 15 }}
+        transition={{ duration: 0.2 }}
+        className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden my-8"
+      >
+        {/* Modal Header */}
+        <div className="relative bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 p-6 text-white">
+          <button
+            onClick={onClose}
+            className="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
+            title="Close"
+          >
+            <X className="w-4 h-4" />
+          </button>
+          <div className="flex flex-wrap items-center gap-2 mb-2">
+            <span className="text-[10px] font-bold text-emerald-300 bg-emerald-500/20 border border-emerald-400/30 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+              {job.department}
+            </span>
+            <span className="text-[10px] font-mono text-slate-300 bg-white/10 px-2 py-0.5 rounded-full">
+              {job.jobCode}
+            </span>
+          </div>
+          <h3 className="text-xl font-extrabold text-white tracking-tight">{job.jobTitle}</h3>
+          <p className="text-[12px] text-slate-300 mt-1">
+            Already Registered Candidate • Sign In & Status Check
+          </p>
+        </div>
+
+        {/* Modal Body */}
+        <div className="p-6 max-h-[75vh] overflow-y-auto">
+          {loginResult ? (
+            <div className="space-y-4 py-2">
+              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl">
+                <div className="flex items-center gap-2 text-emerald-700 font-bold text-[13px] mb-2">
+                  <CheckCircle2 className="w-4 h-4" />
+                  Applicant Verified
+                </div>
+                <div className="space-y-1.5 text-[12px] text-slate-700">
+                  <div className="flex justify-between">
+                    <span className="text-slate-500">Registration ID:</span>
+                    <span className="font-mono font-bold text-slate-900">{loginResult.regId}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-500">Post Applied:</span>
+                    <span className="font-semibold text-slate-900">{loginResult.jobTitle}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-500">Application Status:</span>
+                    <span className="font-bold text-indigo-600">{loginResult.status}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-[12px] text-slate-600 space-y-1">
+                <p className="font-bold text-slate-800">Recruitment Cell Update:</p>
+                <p>Your application is active in our recruitment records. Assessment schedule and further updates are communicated via your registered email.</p>
+              </div>
+
+              <div className="flex gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setLoginResult(null)}
+                  className="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[12px] rounded-xl transition-all cursor-pointer"
+                >
+                  Check Another ID
+                </button>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[12px] rounded-xl transition-all shadow-md active:scale-95 cursor-pointer"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          ) : (
+            <form onSubmit={handleLoginSubmit} className="space-y-4">
+              <div className="bg-emerald-50/70 border border-emerald-100 rounded-2xl p-3.5 flex items-start gap-2.5">
+                <LogIn className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                <p className="text-[12px] text-emerald-900 leading-relaxed font-medium">
+                  Enter your existing Registration ID to view application status or verify credentials for <strong className="font-bold">{job.jobTitle}</strong>.
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">
+                    Registration / Application ID <span className="text-rose-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={loginForm.regId}
+                    onChange={(e) => setLoginForm({ ...loginForm, regId: e.target.value })}
+                    placeholder="e.g. CRCCF-REG-2026-10293"
+                    className="w-full px-3.5 py-2.5 text-[13px] font-mono font-bold text-slate-800 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400 placeholder-slate-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">
+                    Registered Mobile Number or Date of Birth
+                  </label>
+                  <input
+                    type="text"
+                    value={loginForm.dobOrPhone}
+                    onChange={(e) => setLoginForm({ ...loginForm, dobOrPhone: e.target.value })}
+                    placeholder="DD/MM/YYYY or 10-digit mobile number"
+                    className="w-full px-3.5 py-2.5 text-[13px] font-semibold text-slate-800 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400 placeholder-slate-400"
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="w-1/3 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[13px] rounded-xl transition-all cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[13px] rounded-xl transition-all shadow-md active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  Sign In & View Status
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="pt-2 border-t border-slate-100 text-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    onClose();
+                    if (onNewRegistration) onNewRegistration(job);
+                  }}
+                  className="text-[12px] font-bold text-indigo-600 hover:text-indigo-700 transition-colors inline-flex items-center gap-1 cursor-pointer"
+                >
+                  <span>First time applying? Open Candidate Master Profile Form</span>
+                  <ArrowRight className="w-3 h-3" />
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
 // ─── GRID CARD ───────────────────────────────────────────────────────────────
-function GridCard({ job, onViewDetails, saved, onSave }) {
+function GridCard({ job, onViewDetails, saved, onSave, onApplyClick }) {
   const status = statusConfig[job.status] || statusConfig['CLOSED'];
   const isApplyDisabled = job.status === 'CLOSED' || job.status === 'UPCOMING';
 
@@ -310,13 +580,17 @@ function GridCard({ job, onViewDetails, saved, onSave }) {
           <button
             id={`apply-${job.id}`}
             disabled={isApplyDisabled}
-            className={`px-3 py-2 text-[12px] font-bold rounded-xl border transition-all active:scale-95 ${
+            onClick={(e) => onApplyClick(job, e)}
+            className={`px-3 py-2 text-[12px] font-bold rounded-xl border transition-all active:scale-95 flex items-center justify-center gap-1 ${
               isApplyDisabled
                 ? 'bg-slate-50 text-slate-300 border-slate-100 cursor-not-allowed'
                 : 'bg-white text-indigo-600 border-indigo-200 hover:bg-indigo-50 hover:border-indigo-400'
             }`}
           >
-            Apply
+            <span>Apply Now</span>
+            <svg className="w-3 h-3 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+            </svg>
           </button>
           <button
             id={`save-${job.id}`}
@@ -337,7 +611,7 @@ function GridCard({ job, onViewDetails, saved, onSave }) {
 }
 
 // ─── LIST CARD ────────────────────────────────────────────────────────────────
-function ListCard({ job, onViewDetails, saved, onSave }) {
+function ListCard({ job, onViewDetails, saved, onSave, onApplyClick }) {
   const status = statusConfig[job.status] || statusConfig['CLOSED'];
   const isApplyDisabled = job.status === 'CLOSED' || job.status === 'UPCOMING';
 
@@ -387,13 +661,17 @@ function ListCard({ job, onViewDetails, saved, onSave }) {
           <button
             id={`apply-list-${job.id}`}
             disabled={isApplyDisabled}
-            className={`px-3.5 py-2 text-[12px] font-bold rounded-xl border transition-all active:scale-95 whitespace-nowrap ${
+            onClick={(e) => onApplyClick(job, e)}
+            className={`px-3.5 py-2 text-[12px] font-bold rounded-xl border transition-all active:scale-95 whitespace-nowrap flex items-center gap-1 ${
               isApplyDisabled
                 ? 'bg-slate-50 text-slate-300 border-slate-100 cursor-not-allowed'
                 : 'bg-white text-indigo-600 border-indigo-200 hover:bg-indigo-50 hover:border-indigo-400'
             }`}
           >
-            Apply
+            <span>Apply Now</span>
+            <svg className="w-3 h-3 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+            </svg>
           </button>
           <button
             id={`save-list-${job.id}`}
@@ -413,10 +691,10 @@ function ListCard({ job, onViewDetails, saved, onSave }) {
 }
 
 // ─── EXPORT ───────────────────────────────────────────────────────────────────
-function JobCard({ job, onViewDetails, viewMode = 'grid', index }) {
+function JobCard({ job, onViewDetails, viewMode = 'grid', index, onApplyClick }) {
   const [saved, setSaved] = useState(false);
 
-  const props = { job, onViewDetails, saved, onSave: () => setSaved((s) => !s) };
+  const props = { job, onViewDetails, saved, onSave: () => setSaved((s) => !s), onApplyClick };
 
   return viewMode === 'list'
     ? <ListCard {...props} />
@@ -428,19 +706,19 @@ function JobCard({ job, onViewDetails, viewMode = 'grid', index }) {
 
 
 
-function JobList({ jobs, onViewDetails, viewMode = 'grid' }) {
+function JobList({ jobs, onViewDetails, viewMode = 'grid', onApplyClick }) {
   if (jobs.length === 0) return <EmptyState />;
 
   return viewMode === 'list' ? (
     <div className="flex flex-col gap-2.5">
       {jobs.map((job, index) => (
-        <JobCard key={job.id} job={job} index={index} viewMode="list" onViewDetails={onViewDetails} />
+        <JobCard key={job.id} job={job} index={index} viewMode="list" onViewDetails={onViewDetails} onApplyClick={onApplyClick} />
       ))}
     </div>
   ) : (
     <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
       {jobs.map((job, index) => (
-        <JobCard key={job.id} job={job} index={index} viewMode="grid" onViewDetails={onViewDetails} />
+        <JobCard key={job.id} job={job} index={index} viewMode="grid" onViewDetails={onViewDetails} onApplyClick={onApplyClick} />
       ))}
     </div>
   );
@@ -617,11 +895,33 @@ function applyFilters(jobs, filters) {
     );
   }
 
-  if (filters.department !== 'All')    result = result.filter((j) => j.department    === filters.department);
-  if (filters.location !== 'All')      result = result.filter((j) => j.location      === filters.location);
-  if (filters.experience !== 'All')    result = result.filter((j) => j.positionLevel === filters.experience);
-  if (filters.employmentType !== 'All') result = result.filter((j) => j.employmentType === filters.employmentType);
-  if (filters.status !== 'All')        result = result.filter((j) => j.status        === filters.status);
+  if (filters.department !== 'All') {
+    result = result.filter(
+      (j) =>
+        j.department.toLowerCase() === filters.department.toLowerCase() ||
+        (filters.department === 'Human Resources' && j.department === 'HR Department') ||
+        (filters.department === 'HR Department' && j.department === 'Human Resources')
+    );
+  }
+  if (filters.location !== 'All') {
+    result = result.filter((j) => j.location.toLowerCase() === filters.location.toLowerCase());
+  }
+  if (filters.experience !== 'All') {
+    const filterExpNorm = filters.experience.toLowerCase().replace(/[^a-z0-9]/g, '');
+    result = result.filter(
+      (j) => (j.positionLevel || '').toLowerCase().replace(/[^a-z0-9]/g, '') === filterExpNorm
+    );
+  }
+  if (filters.employmentType !== 'All') {
+    result = result.filter(
+      (j) => (j.employmentType || '').toLowerCase() === filters.employmentType.toLowerCase()
+    );
+  }
+  if (filters.status !== 'All') {
+    result = result.filter(
+      (j) => (j.status || '').toUpperCase() === filters.status.toUpperCase()
+    );
+  }
 
   switch (filters.sort) {
     case 'Closing Soon':
@@ -678,7 +978,47 @@ function JobPortal() {
     if (key === 'search') setHeroSearch(value);
   };
 
+  const computedFilterOptions = useMemo(() => {
+    const jobDepartments = Array.from(new Set(jobListings.map((j) => j.department).filter(Boolean)));
+    const departments = [
+      'All',
+      ...filterOptions.departments.filter((d) => d !== 'All' && jobDepartments.includes(d)),
+      ...jobDepartments.filter((d) => !filterOptions.departments.includes(d)),
+    ];
+
+    const jobLocations = Array.from(new Set(jobListings.map((j) => j.location).filter(Boolean)));
+    const locations = [
+      'All',
+      ...filterOptions.locations.filter((l) => l !== 'All' && jobLocations.includes(l)),
+      ...jobLocations.filter((l) => !filterOptions.locations.includes(l)),
+    ];
+
+    return {
+      ...filterOptions,
+      departments: departments.length > 1 ? departments : filterOptions.departments,
+      locations: locations.length > 1 ? locations : filterOptions.locations,
+    };
+  }, []);
+
   const filteredJobs = useMemo(() => applyFilters(jobListings, filters), [filters]);
+
+  const [applyTarget, setApplyTarget] = useState(null);
+  const [applyModalData, setApplyModalData] = useState(null);
+
+  const handleApplyClick = (job, e) => {
+    e.stopPropagation();
+    const rect = e.currentTarget.getBoundingClientRect();
+    setApplyTarget((prev) => (prev?.job?.id === job.id ? null : { job, rect }));
+  };
+
+  const handleSelectApplyOption = (job, option) => {
+    setApplyTarget(null);
+    if (option === 'new') {
+      navigate('/recruitment/current-vacancy/job-vacancy/new-registration', { state: { job } });
+    } else {
+      setApplyModalData({ job });
+    }
+  };
 
   const handleViewDetails = (job) => {
     navigate('/recruitment/job-vacancy-details', { state: { jobId: job.id } });
@@ -700,7 +1040,7 @@ function JobPortal() {
         {/* ── SECTION 2: Sticky Filter Bar ── */}
         <FilterBar
           filters={filters}
-          options={filterOptions}
+          options={computedFilterOptions}
           onFilterChange={handleFilterChange}
           totalCount={jobListings.length}
           filteredCount={filteredJobs.length}
@@ -753,9 +1093,30 @@ function JobPortal() {
           <JobList
             jobs={filteredJobs}
             onViewDetails={handleViewDetails}
+            onApplyClick={handleApplyClick}
             viewMode={viewMode}
           />
         </main>
+
+        {/* Dropdown Menu attached to Apply Now button */}
+        <ApplyDropdownMenu
+          target={applyTarget}
+          onClose={() => setApplyTarget(null)}
+          onSelectOption={handleSelectApplyOption}
+        />
+
+        {/* Modal for Already Registered Candidate Login */}
+        <AnimatePresence>
+          {applyModalData && (
+            <AlreadyRegisteredModal
+              data={applyModalData}
+              onClose={() => setApplyModalData(null)}
+              onNewRegistration={(job) => {
+                navigate('/recruitment/current-vacancy/job-vacancy/new-registration', { state: { job } });
+              }}
+            />
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

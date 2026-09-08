@@ -1,0 +1,19 @@
+export const memberDetails = {
+    slNo: "101",
+    photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=800&q=80",
+    memberName: "Subrajit",
+    fatherName: "Sanjay Kumar",
+    dob: "15-Aug-1995",
+    gender: "Male",
+    position: "Senior Board Member",
+    department: "Executive Council",
+    workLocation: "Headquarters, Bhubaneswar",
+    memberCategory: "Premium",
+    typeOfMember: "Lifetime Member",
+    memberId: "009",
+    mobileNumber: "+91 9876543210",
+    mailId: "subrajit@example.com",
+    address: "123, Tech Park Avenue, Block C, Bhubaneswar, India",
+    memberStatus: "Active",
+    membershipValidity: "Lifetime"
+};

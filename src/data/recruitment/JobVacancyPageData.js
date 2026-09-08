@@ -225,21 +225,23 @@ export const jobListings = [
 
 export const filterOptions = {
   departments: [
-  "All",
-  "IT Department",
-  "Cyber Security Department",
-  "Cyber Crime Investigation Department",
-  "Design & Creative Department",
-  "Security Operations",
-  "Intelligence & Investigations",
-  "Human Resources",
-  "Legal & Compliance",
-  "Public Relations",
-  "Training & Education"
-],
-  locations: ["All", "New Delhi, India", "Mumbai, India", "Bengaluru, India", "Remote", "Pan India (Travel Required)"],
-  experience: ["All", "Entry Level", "Mid Level", "Senior Level"],
-  employmentTypes: ["All", "Full-time", "Part-time", "Contract", "Internship"],
+    "All",
+    "IT Department",
+    "Cyber Security Department",
+    "Cyber Crime Investigation Department",
+    "Design & Creative Department",
+    "HR Department",
+  ],
+  locations: [
+    "All",
+    "Multiple Locations",
+    "New Delhi, India",
+    "Mumbai, India",
+    "Bengaluru, India",
+    "Remote",
+  ],
+  experience: ["All", "Entry Level", "Mid-Level", "Senior Level"],
+  employmentTypes: ["All", "Permanent", "Full-time", "Part-time", "Contract", "Internship"],
   statuses: ["All", "OPEN", "CLOSING SOON", "UPCOMING"],
   sortOptions: ["Latest", "Closing Soon", "Newest", "A–Z"],
 };

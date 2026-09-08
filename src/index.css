@@ -44,6 +44,9 @@
 
   button {
     font-family: 'Inter', sans-serif;
+    border-style: solid;
+    border-width: 0;
+    background-color: transparent;
   }
 
   ul {

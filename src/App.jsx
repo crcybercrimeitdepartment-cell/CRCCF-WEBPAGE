@@ -167,6 +167,7 @@ const VacancyCard4Page          = lazy(() => import('./pages/recruitment/Current
 const VacancyCard5Page          = lazy(() => import('./pages/recruitment/Current Vacancy/Vacancy Card 5/VacancyCard5Page'))
 const JobVacancy                = lazy(() => import('./pages/recruitment/JobVacancy'))
 const JobVacancyPage            = lazy(() => import('./pages/recruitment/Current Vacancy/Job Vacancy/JobDetailPage'))
+const CandidateMasterProfileFormPage = lazy(() => import('./pages/recruitment/Current Vacancy/Job Vacancy/New Registration Form/CandidateMasterProfileFormPage'))
 const DocumentVerificationDepartment = lazy(() => import('./pages/recruitment/Document Verification/DocumentVerificationDepartment'))
 const OnlineApplicationPortal   = lazy(() => import('./pages/recruitment/OnlineApplicationPortal'))
 const RecruitmentAdvertisements = lazy(() => import('./pages/recruitment/RecruitmentAdvertisements'))
@@ -397,6 +398,8 @@ function AppRoutes() {
             <Route path="/recruitment/job-vacancy-details" element={<><SEO title="Job Vacancy Details" description="Detailed information about specific job vacancies at CRCCF." /><JobVacancyPage /></>} />
             <Route path="/recruitment/current-vacancy" element={<><SEO title="Current Vacancies" description="View current job vacancies." /><CurrentVacancyPage /></>} />
             <Route path="/recruitment/current-vacancy/job-vacancy" element={<><SEO title="Job Vacancy" description="Job Vacancy details." /><JobVacancyNewPage /></>} />
+            <Route path="/recruitment/current-vacancy/job-vacancy/new-registration" element={<><SEO title="Candidate Master Profile - New Registration" description="Register candidate master profile for CRCCF job vacancies." /><CandidateMasterProfileFormPage /></>} />
+            <Route path="/recruitment/job-vacancy/new-registration" element={<><SEO title="Candidate Master Profile - New Registration" description="Register candidate master profile for CRCCF job vacancies." /><CandidateMasterProfileFormPage /></>} />
             <Route path="/recruitment/current-vacancy/post-vacancy" element={<><SEO title="Post Vacancy" description="Post Vacancy details." /><PostVacancyPage /></>} />
             <Route path="/recruitment/current-vacancy/internship-vacancy" element={<><SEO title="Internship Vacancy" description="Internship Vacancy details." /><InternshipVacancyPage /></>} />
             <Route path="/recruitment/current-vacancy/vacancy-card-1" element={<><SEO title="Vacancy Card 1" description="Vacancy Card 1 details." /><VacancyCard1Page /></>} />

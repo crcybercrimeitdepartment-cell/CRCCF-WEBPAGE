@@ -4,6 +4,7 @@ import ComingSoonPage from '../../../common/ComingSoonPage';
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, useScroll, useSpring, useTransform, AnimatePresence } from 'framer-motion';
+import { UserPlus, LogIn, CheckCircle2, X, Copy, Check, ArrowRight } from 'lucide-react';
 const heroImg = Cloudinary.heroimg;
 const heroBg = Cloudinary.jobVacancyBg;
 import { portalConfig, jobListings, filterOptions } from '../../../../data/recruitment/JobVacancyPageData';
@@ -264,7 +265,8 @@ function HeroSection({
   numberOfVacancies = "3 Positions",
   applicationStatus = "Active / Accepting Applications",
   employmentType = "Full-time",
-  workMode = "Hybrid"
+  workMode = "Hybrid",
+  onApplyClick
 }) {
   const handleScrollToApply = () => {
     const element = document.getElementById('apply-section');
@@ -344,10 +346,13 @@ function HeroSection({
             className="pt-5 flex flex-wrap gap-5 items-center"
           >
             <button
-              onClick={handleScrollToApply}
-              className="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl transition-all shadow-xl shadow-indigo-600/20 active:scale-95"
+              onClick={onApplyClick || handleScrollToApply}
+              className="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl transition-all shadow-xl shadow-indigo-600/20 active:scale-95 flex items-center gap-2 cursor-pointer"
             >
-              Apply Now
+              <span>Apply Now</span>
+              <svg className="w-4 h-4 text-indigo-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+              </svg>
             </button>
             <div className="text-[13px] text-slate-500 font-medium max-w-[200px] leading-tight">
               Applications close on June 30, 2026. Secure your interview round.
@@ -671,6 +676,275 @@ const Icons = {
   )
 };
 
+// ─── APPLY DROPDOWN MENU ──────────────────────────────────────────────────────
+function ApplyDropdownMenu({ target, onClose, onSelectOption }) {
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    if (!target) return;
+    const handleDown = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        onClose();
+      }
+    };
+    const handleKey = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('mousedown', handleDown);
+    window.addEventListener('keydown', handleKey);
+    window.addEventListener('scroll', onClose, { passive: true });
+    return () => {
+      window.removeEventListener('mousedown', handleDown);
+      window.removeEventListener('keydown', handleKey);
+      window.removeEventListener('scroll', onClose);
+    };
+  }, [target, onClose]);
+
+  if (!target) return null;
+
+  const { job, rect } = target;
+  const menuHeight = 180;
+  const menuWidth = 270;
+  const spaceBelow = window.innerHeight - rect.bottom;
+  const placeAbove = spaceBelow < menuHeight && rect.top > menuHeight;
+
+  const top = placeAbove ? rect.top - menuHeight - 6 : rect.bottom + 6;
+  const left = Math.max(12, Math.min(rect.right - menuWidth, window.innerWidth - menuWidth - 16));
+
+  return (
+    <div className="fixed inset-0 z-50 pointer-events-none">
+      <motion.div
+        ref={menuRef}
+        initial={{ opacity: 0, scale: 0.95, y: placeAbove ? 6 : -6 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.15, ease: 'easeOut' }}
+        style={{ top, left, width: menuWidth }}
+        className="pointer-events-auto fixed bg-white/95 backdrop-blur-xl border border-indigo-100 rounded-2xl shadow-2xl shadow-indigo-950/20 p-2 overflow-hidden z-50"
+      >
+        <div className="px-3 py-2 border-b border-slate-100 mb-1">
+          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Select Option</p>
+          <p className="text-[12px] font-extrabold text-slate-800 truncate">{job.jobTitle}</p>
+          <p className="text-[10px] font-mono text-indigo-600 font-semibold">{job.jobCode}</p>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => onSelectOption(job, 'new')}
+          className="w-full text-left p-2.5 rounded-xl hover:bg-indigo-50/80 transition-all flex items-center gap-3 group active:scale-[0.98] cursor-pointer"
+        >
+          <div className="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0 group-hover:bg-indigo-600 group-hover:text-white transition-colors shadow-sm">
+            <UserPlus className="w-4 h-4" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center justify-between">
+              <span className="text-[13px] font-bold text-slate-800 group-hover:text-indigo-600">New Registration</span>
+              <span className="text-[9px] font-extrabold bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded-full uppercase">New</span>
+            </div>
+            <p className="text-[11px] text-slate-500 font-normal leading-tight mt-0.5">First time applying? Register & apply</p>
+          </div>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => onSelectOption(job, 'login')}
+          className="w-full text-left p-2.5 rounded-xl hover:bg-emerald-50/80 transition-all flex items-center gap-3 group active:scale-[0.98] cursor-pointer"
+        >
+          <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-colors shadow-sm">
+            <LogIn className="w-4 h-4" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center justify-between">
+              <span className="text-[13px] font-bold text-slate-800 group-hover:text-emerald-600">Already Registered</span>
+              <span className="text-[9px] font-extrabold bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-full uppercase">Login</span>
+            </div>
+            <p className="text-[11px] text-slate-500 font-normal leading-tight mt-0.5">Sign in with Registration ID</p>
+          </div>
+        </button>
+      </motion.div>
+    </div>
+  );
+}
+
+// ─── ALREADY REGISTERED / CANDIDATE LOGIN MODAL ──────────────────────────────
+function AlreadyRegisteredModal({ data, onClose, onNewRegistration }) {
+  const [loginResult, setLoginResult] = useState(null);
+  const [loginForm, setLoginForm] = useState({
+    regId: '',
+    dobOrPhone: '',
+  });
+
+  if (!data || !data.job) return null;
+  const { job } = data;
+
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    if (!loginForm.regId) return;
+    setLoginResult({
+      regId: loginForm.regId.trim().toUpperCase(),
+      candidateName: 'Verified Applicant',
+      jobTitle: job.jobTitle,
+      jobCode: job.jobCode,
+      status: 'Application Received & Screening Underway',
+      date: 'September 2026',
+    });
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 15 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 15 }}
+        transition={{ duration: 0.2 }}
+        className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden my-8"
+      >
+        {/* Modal Header */}
+        <div className="relative bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 p-6 text-white">
+          <button
+            onClick={onClose}
+            className="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
+            title="Close"
+          >
+            <X className="w-4 h-4" />
+          </button>
+          <div className="flex flex-wrap items-center gap-2 mb-2">
+            <span className="text-[10px] font-bold text-emerald-300 bg-emerald-500/20 border border-emerald-400/30 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+              {job.department}
+            </span>
+            <span className="text-[10px] font-mono text-slate-300 bg-white/10 px-2 py-0.5 rounded-full">
+              {job.jobCode}
+            </span>
+          </div>
+          <h3 className="text-xl font-extrabold text-white tracking-tight">{job.jobTitle}</h3>
+          <p className="text-[12px] text-slate-300 mt-1">
+            Already Registered Candidate • Sign In & Status Check
+          </p>
+        </div>
+
+        {/* Modal Body */}
+        <div className="p-6 max-h-[75vh] overflow-y-auto">
+          {loginResult ? (
+            <div className="space-y-4 py-2">
+              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl">
+                <div className="flex items-center gap-2 text-emerald-700 font-bold text-[13px] mb-2">
+                  <CheckCircle2 className="w-4 h-4" />
+                  Applicant Verified
+                </div>
+                <div className="space-y-1.5 text-[12px] text-slate-700">
+                  <div className="flex justify-between">
+                    <span className="text-slate-500">Registration ID:</span>
+                    <span className="font-mono font-bold text-slate-900">{loginResult.regId}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-500">Post Applied:</span>
+                    <span className="font-semibold text-slate-900">{loginResult.jobTitle}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-500">Application Status:</span>
+                    <span className="font-bold text-indigo-600">{loginResult.status}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-[12px] text-slate-600 space-y-1">
+                <p className="font-bold text-slate-800">Recruitment Cell Update:</p>
+                <p>Your application is active in our recruitment records. Assessment schedule and further updates are communicated via your registered email.</p>
+              </div>
+
+              <div className="flex gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setLoginResult(null)}
+                  className="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[12px] rounded-xl transition-all cursor-pointer"
+                >
+                  Check Another ID
+                </button>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[12px] rounded-xl transition-all shadow-md active:scale-95 cursor-pointer"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          ) : (
+            <form onSubmit={handleLoginSubmit} className="space-y-4">
+              <div className="bg-emerald-50/70 border border-emerald-100 rounded-2xl p-3.5 flex items-start gap-2.5">
+                <LogIn className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                <p className="text-[12px] text-emerald-900 leading-relaxed font-medium">
+                  Enter your existing Registration ID to view application status or verify credentials for <strong className="font-bold">{job.jobTitle}</strong>.
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">
+                    Registration / Application ID <span className="text-rose-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={loginForm.regId}
+                    onChange={(e) => setLoginForm({ ...loginForm, regId: e.target.value })}
+                    placeholder="e.g. CRCCF-REG-2026-10293"
+                    className="w-full px-3.5 py-2.5 text-[13px] font-mono font-bold text-slate-800 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400 placeholder-slate-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">
+                    Registered Mobile Number or Date of Birth
+                  </label>
+                  <input
+                    type="text"
+                    value={loginForm.dobOrPhone}
+                    onChange={(e) => setLoginForm({ ...loginForm, dobOrPhone: e.target.value })}
+                    placeholder="DD/MM/YYYY or 10-digit mobile number"
+                    className="w-full px-3.5 py-2.5 text-[13px] font-semibold text-slate-800 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400 placeholder-slate-400"
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="w-1/3 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[13px] rounded-xl transition-all cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[13px] rounded-xl transition-all shadow-md active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  Sign In & View Status
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="pt-2 border-t border-slate-100 text-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    onClose();
+                    if (onNewRegistration) onNewRegistration(job);
+                  }}
+                  className="text-[12px] font-bold text-indigo-600 hover:text-indigo-700 transition-colors inline-flex items-center gap-1 cursor-pointer"
+                >
+                  <span>First time applying? Open Candidate Master Profile Form</span>
+                  <ArrowRight className="w-3 h-3" />
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
 function JobVacancyPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -746,6 +1020,33 @@ const [viewMode,setViewMode]=useState("list");
     importantNotices = {}
   } = data;
 
+  const currentJob = useMemo(() => ({
+    id: jobId,
+    jobTitle: positionInformation.jobTitle || 'Job Position',
+    jobCode: positionInformation.jobCode || jobId,
+    department: positionInformation.department || 'CRCCF Department',
+    location: jobOverview.jobLocation || 'Multiple Locations',
+    employmentType: jobOverview.employmentType || 'Permanent',
+  }), [jobId, positionInformation, jobOverview]);
+
+  const [applyTarget, setApplyTarget] = useState(null);
+  const [applyModalData, setApplyModalData] = useState(null);
+
+  const handleApplyClick = (e) => {
+    e.stopPropagation();
+    const rect = e.currentTarget.getBoundingClientRect();
+    setApplyTarget((prev) => (prev ? null : { job: currentJob, rect }));
+  };
+
+  const handleSelectApplyOption = (job, option) => {
+    setApplyTarget(null);
+    if (option === 'new') {
+      navigate('/recruitment/current-vacancy/job-vacancy/new-registration', { state: { job } });
+    } else {
+      setApplyModalData({ job });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white py-10 px-4 sm:px-6 lg:px-8 font-sans antialiased text-slate-800 selection:bg-blue-100 relative">
       <PageAmbientBackground />
@@ -763,6 +1064,7 @@ const [viewMode,setViewMode]=useState("list");
           applicationStatus={positionInformation.applicationStatus}
           employmentType={jobOverview.employmentType}
           workMode={jobOverview.workMode}
+          onApplyClick={handleApplyClick}
         />
       </div>
 
@@ -1109,8 +1411,11 @@ const [viewMode,setViewMode]=useState("list");
         <div className="pt-10 pb-8 hidden lg:flex flex-col items-center justify-center text-center space-y-5 border-t border-slate-100 mt-10">
           <h3 className="text-2xl font-bold text-slate-800 tracking-tight">Ready to secure the future?</h3>
           <p className="text-slate-500 max-w-md">Take the next step in your career and join our defense operations team today.</p>
-          <button className="px-12 py-4 mt-2 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-bold rounded-2xl shadow-xl shadow-indigo-600/20 active:scale-95 transition-all text-lg flex items-center gap-3">
-            Apply Now
+          <button
+            onClick={handleApplyClick}
+            className="px-12 py-4 mt-2 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-bold rounded-2xl shadow-xl shadow-indigo-600/20 active:scale-95 transition-all text-lg flex items-center gap-3 cursor-pointer"
+          >
+            <span>Apply Now</span>
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
@@ -1123,12 +1428,38 @@ const [viewMode,setViewMode]=useState("list");
             <span className="block text-[10px] uppercase font-bold text-slate-400">Position Status</span>
             <span className="text-xs font-bold text-emerald-600">{positionInformation.applicationStatus}</span>
           </div>
-          <button className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow-sm hover:shadow active:scale-95 transition-all">
-            Apply Now
+          <button
+            onClick={handleApplyClick}
+            className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow-sm hover:shadow active:scale-95 transition-all cursor-pointer flex items-center gap-1.5"
+          >
+            <span>Apply Now</span>
+            <svg className="w-3.5 h-3.5 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
           </button>
         </div>
 
       </div>
+
+      {/* Dropdown Menu attached to Apply Now button */}
+      <ApplyDropdownMenu
+        target={applyTarget}
+        onClose={() => setApplyTarget(null)}
+        onSelectOption={handleSelectApplyOption}
+      />
+
+      {/* Modal for Already Registered Candidate Login */}
+      <AnimatePresence>
+        {applyModalData && (
+          <AlreadyRegisteredModal
+            data={applyModalData}
+            onClose={() => setApplyModalData(null)}
+            onNewRegistration={(job) => {
+              navigate('/recruitment/current-vacancy/job-vacancy/new-registration', { state: { job } });
+            }}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

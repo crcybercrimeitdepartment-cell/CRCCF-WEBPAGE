@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import {
     FileText, Award, Mail, AlertCircle, Calendar, FileSignature,
@@ -6,10 +6,39 @@ import {
     GraduationCap, BookOpen, UserCheck, School, CreditCard,
     HeartHandshake, Handshake, ShieldCheck, Fingerprint, QrCode,
     AtSign, Smartphone, Hash, Globe, Code, CheckSquare,
-    Package, Book, ClipboardList, BadgeCheck, FileSearch
+    Package, Book, ClipboardList, BadgeCheck, FileSearch, Building
 } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
+import StudentVerificationPage from './Student Verification/StudentVerificationPage';
+import EmployeeVerificationPage from './Employee Verification/EmployeeVerificationPage';
+import VisitorAppointmentPage from './Visitor Appointment Verification/VisitorAppointmentPage';
+import GatePassVerificationPage from './Gate Pass Verification/GatePassVerificationPage';
+import LicenseVerificationPage from './License Verification/LicenseVerificationPage';
+import AgreementVerificationPage from './Agreement Verification/AgreementVerificationPage';
+import WebDomainVerificationPage from './Web Domain Verification/WebDomainVerificationPage';
+import MembershipVerificationPage from './Membership Verification/MembershipVerificationPage';
+import MobileNumberVerificationPage from './Mobile Number Verification/MobileNumberVerificationPage';
+import EmailAddressVerificationPage from './Email Address Verification/EmailAddressVerificationPage';
 
-const StepCard = ({ icon: Icon, title, desc, color, delay }) => {
+// Newly Generated Modules
+import DocumentVerificationPage from './Document Verification/DocumentVerificationPage';
+import CertificateVerificationPage from './Certificate Verification/CertificateVerificationPage';
+import LetterVerificationPage from './Letter Verification/LetterVerificationPage';
+import NoticeVerificationPage from './Notice Verification/NoticeVerificationPage';
+import InvitationVerificationPage from './Invitation Verification/InvitationVerificationPage';
+import VolunteerVerificationPage from './Volunteer Verification/VolunteerVerificationPage';
+import PartnershipVerificationPage from './Partnership Verification/PartnershipVerificationPage';
+import AuthorizationVerificationPage from './Authorization Verification/AuthorizationVerificationPage';
+import DigitalSignatureVerificationPage from './Digital Signature Verification/DigitalSignatureVerificationPage';
+import SocialMediaVerificationPage from './Social Media Verification/SocialMediaVerificationPage';
+import SoftwareProductVerificationPage from './Software Product Verification/SoftwareProductVerificationPage';
+import MaterialVerificationPage from './Material Verification/MaterialVerificationPage';
+import BookVerificationPage from './Book Verification/BookVerificationPage';
+import ReportVerificationPage from './Report Verification/ReportVerificationPage';
+import IDCardVerificationPage from './ID Card Verification/IDCardVerificationPage';
+import OrganizationVerificationPage from './Organization Verification/OrganizationVerificationPage';
+
+const StepCard = ({ icon: Icon, title, desc, color, delay, onClick, inputs }) => {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
 
@@ -45,6 +74,7 @@ const StepCard = ({ icon: Icon, title, desc, color, delay }) => {
             transition={{ duration: 0.6, delay: delay % 0.4, type: 'spring', stiffness: 100, damping: 14 }}
             className="relative w-full max-w-[180px] sm:max-w-[300px] mx-auto group cursor-pointer"
             style={{ perspective: '1200px' }}
+            onClick={onClick}
         >
             <motion.div
                 onMouseMove={handleMouseMove}
@@ -114,6 +144,21 @@ const StepCard = ({ icon: Icon, title, desc, color, delay }) => {
                         <p className="text-[11px] sm:text-[13px] leading-[1.4] sm:leading-[1.6] text-slate-600 sm:text-slate-500 text-center font-medium relative z-10 antialiased" style={{ transform: 'translateZ(0)' }}>
                             {desc}
                         </p>
+
+                        {/* Render Input Fields Badges */}
+                        {inputs && inputs.length > 0 && (
+                            <div className="mt-4 sm:mt-5 flex flex-wrap justify-center gap-1.5 sm:gap-2 relative z-10" style={{ transform: 'translateZ(0)' }}>
+                                {inputs.map((input, idx) => (
+                                    <span 
+                                        key={idx}
+                                        className="text-[8px] sm:text-[10px] font-bold px-2 py-1 rounded-[6px] text-center shadow-sm"
+                                        style={{ backgroundColor: `${color}10`, color: color, border: `1px solid ${color}25` }}
+                                    >
+                                        {input}
+                                    </span>
+                                ))}
+                            </div>
+                        )}
                     </motion.div>
                 </div>
             </motion.div>
@@ -135,33 +180,126 @@ const themeColors = [
 ];
 
 const verificationServices = [
-    { title: 'Document Verification', icon: FileSearch, desc: 'Verify authenticity of official documents and secure records.' },
-    { title: 'Certificate Verification', icon: Award, desc: 'Validate educational and professional achievement certificates.' },
-    { title: 'Letter Verification', icon: Mail, desc: 'Authenticate official correspondence and issued letters.' },
-    { title: 'Notice Verification', icon: AlertCircle, desc: 'Check the validity of legal, public, and private notices.' },
-    { title: 'Invitation Verification', icon: Calendar, desc: 'Verify event and official digital or physical invitations.' },
-    { title: 'Agreement Verification', icon: FileSignature, desc: 'Validate contracts, NDAs, and business agreements.' },
-    { title: 'Licence Verification', icon: BadgeCheck, desc: 'Verify driving, business, and professional licenses.' },
-    { title: 'Gate Pass Verification', icon: Ticket, desc: 'Validate entry passes, facility permits, and security tags.' },
-    { title: 'Visitor Appointment Verification', icon: Users, desc: 'Confirm scheduled visits, meetings, and official appointments.' },
-    { title: 'Employee Verification', icon: UserCheck, desc: 'Conduct background checks on current or past employees.' },
-    { title: 'Student Verification', icon: School, desc: 'Verify enrollment and academic standing of university students.' },
-    { title: 'Membership Verification', icon: CreditCard, desc: 'Validate club, professional, or organizational memberships.' },
-    { title: 'Volunteer Verification', icon: HeartHandshake, desc: 'Verify volunteer hours and participation records.' },
-    { title: 'Partnership Verification', icon: Handshake, desc: 'Authenticate business partnerships, JVs, and MOUs.' },
-    { title: 'Authorization Verification', icon: ShieldCheck, desc: 'Validate letters of authorization and power of attorney.' },
-    { title: 'Digital Signature Verification', icon: Fingerprint, desc: 'Verify cryptographic signatures, e-signs, and digital stamps.' },
-    { title: 'Email Address Verification', icon: AtSign, desc: 'Validate corporate and personal email server identities.' },
-    { title: 'Mobile Number Verification', icon: Smartphone, desc: 'Verify ownership and active status of contact numbers.' },
-    { title: 'Social Media Verification', icon: Hash, desc: 'Authenticate official social media profiles and channels.' },
-    { title: 'Web Domain Verification', icon: Globe, desc: 'Check ownership, DNS, and legitimacy of web domains.' },
-    { title: 'Software Product Verification', icon: Code, desc: 'Verify software licenses, product keys, and digital assets.' },
-    { title: 'Material Verification', icon: Package, desc: 'Verify origin, supply chain, and authenticity of materials.' },
-    { title: 'Book Verification', icon: Book, desc: 'Authenticate publications, manuscripts, and ISBN records.' },
-    { title: 'Report Verification', icon: ClipboardList, desc: 'Validate audit, medical, technical, or financial reports.' }
+    { title: 'Student Verification', icon: School, desc: 'Verify enrollment and academic standing.', inputs: ['Enter Name', 'Student ID', 'Email Address'] },
+    { title: 'Employee Verification', icon: UserCheck, desc: 'Conduct background checks on employees.', inputs: ['Enter Name', 'Employee ID'] },
+    { title: 'Visitor Appointment Verification', icon: Users, desc: 'Confirm scheduled visits and appointments.', inputs: ['Enter Visitor Name', 'Visitor Appointment Registration Number'] },
+    { title: 'Gate Pass Verification', icon: Ticket, desc: 'Validate entry passes and facility permits.', inputs: ['Enter Name', 'Gate Pass Registration Number'] },
+    { title: 'License Verification', icon: BadgeCheck, desc: 'Verify driving and professional licenses.', inputs: ['License Holder Name', 'License Registration Number'] },
+    { title: 'Organization Verification', icon: Building, desc: 'Authenticate registered organizations and business entities.', inputs: ['Organization Name', 'Organization Registration Number'] },
+    { title: 'Agreement Verification', icon: FileSignature, desc: 'Validate contracts and business agreements.', inputs: ['Enter Name', 'Agreement Registration Number'] },
+    { title: 'Web Domain Verification', icon: Globe, desc: 'Check ownership and legitimacy of web domains.', inputs: ['Enter Domain Name'] },
+    { title: 'Membership Verification', icon: CreditCard, desc: 'Validate professional or club memberships.', inputs: ['Enter Name', 'Member ID / Membership Number'] },
+    { title: 'Notice Verification', icon: AlertCircle, desc: 'Check the validity of public and private notices.', inputs: ['Enter Name', 'Notice Registration Number'] },
+    { title: 'Invitation Verification', icon: Calendar, desc: 'Verify event and official invitations.', inputs: ['Enter Name', 'Invitation Registration Number'] },
+    { title: 'Certificate Verification', icon: Award, desc: 'Validate professional achievement certificates.', inputs: ['Enter Name', 'Certificate Registration ID'] },
+    { title: 'ID Card Verification', icon: IdCard, desc: 'Verify official identification cards.', inputs: ['Enter Name', 'ID Card Number'] },
+    { title: 'Authorization Verification', icon: ShieldCheck, desc: 'Validate letters of authorization.', inputs: ['Enter Name', 'Authorization Registration Number'] },
+    { title: 'Digital Signature Verification', icon: Fingerprint, desc: 'Verify cryptographic signatures and e-signs.', inputs: ['Enter Name', 'Digital Signature ID'] },
+    { title: 'Email Address Verification', icon: AtSign, desc: 'Validate corporate and personal email identities.', inputs: ['Enter Email ID'] },
+    { title: 'Mobile Number Verification', icon: Smartphone, desc: 'Verify ownership and active status of contact numbers.', inputs: ['Enter Mobile Number'] },
+    { title: 'Social Media Verification', icon: Hash, desc: 'Authenticate official social media channels.', inputs: ['Enter Social Media URL'] },
+    { title: 'Software Product Verification', icon: Code, desc: 'Verify software licenses and product keys.', inputs: ['Enter Software Product Name', 'Product Registration / ID Number'] },
+    { title: 'Material Verification', icon: Package, desc: 'Verify origin and authenticity of materials.', inputs: ['Enter Material Name', 'Material Registration Number'] },
+    { title: 'Book Verification', icon: Book, desc: 'Authenticate publications and ISBN records.', inputs: ['Enter Book Name / Title', 'ISBN Number'] },
+    { title: 'Report Verification', icon: ClipboardList, desc: 'Validate medical, technical, or financial reports.', inputs: ['Enter Report Name / Title', 'Report Registration Number'] },
+    { title: 'Letter Verification', icon: Mail, desc: 'Authenticate official correspondence.', inputs: ['Enter Name', 'Letter Registration Number'] },
+    { title: 'Volunteer Verification', icon: HeartHandshake, desc: 'Verify volunteer hours and records.', inputs: ['Enter Name', 'Volunteer ID'] }
 ];
 
 export default function DocumentVerificationDepartment() {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const serviceParam = searchParams.get('service');
+
+    const matchedServiceIndex = serviceParam ? verificationServices.findIndex(s => s.title === serviceParam) : -1;
+    const activeService = serviceParam ? {
+        title: serviceParam,
+        color: matchedServiceIndex !== -1 ? themeColors[matchedServiceIndex % themeColors.length] : '#0f4cd9'
+    } : null;
+
+    const handleBack = () => setSearchParams({});
+
+    // Existing 10 Modules
+    if (activeService?.title === 'Student Verification') {
+        return <StudentVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'Employee Verification') {
+        return <EmployeeVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'Visitor Appointment Verification') {
+        return <VisitorAppointmentPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'Gate Pass Verification') {
+        return <GatePassVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'License Verification') {
+        return <LicenseVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'Agreement Verification') {
+        return <AgreementVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'Web Domain Verification') {
+        return <WebDomainVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'Membership Verification') {
+        return <MembershipVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'Mobile Number Verification') {
+        return <MobileNumberVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'Email Address Verification') {
+        return <EmailAddressVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+
+    // Newly Added 14 Modules
+    if (activeService?.title === 'Document Verification') {
+        return <DocumentVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'Certificate Verification') {
+        return <CertificateVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'Letter Verification') {
+        return <LetterVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'Notice Verification') {
+        return <NoticeVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'Invitation Verification') {
+        return <InvitationVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'Volunteer Verification') {
+        return <VolunteerVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'Partnership Verification') {
+        return <PartnershipVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'Authorization Verification') {
+        return <AuthorizationVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'Digital Signature Verification') {
+        return <DigitalSignatureVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'Social Media Verification') {
+        return <SocialMediaVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'Software Product Verification') {
+        return <SoftwareProductVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'Material Verification') {
+        return <MaterialVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'Book Verification') {
+        return <BookVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'Report Verification') {
+        return <ReportVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'ID Card Verification') {
+        return <IDCardVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+    if (activeService?.title === 'Organization Verification') {
+        return <OrganizationVerificationPage onBack={handleBack} themeColor={activeService?.color} />;
+    }
+
     return (
         <div className="min-h-screen bg-[#f8fafc] flex flex-col items-center py-10 md:py-20 px-2 sm:px-8 md:px-12 overflow-hidden">
 
@@ -209,6 +347,7 @@ export default function DocumentVerificationDepartment() {
                             desc={service.desc}
                             color={color}
                             delay={index * 0.1}
+                            onClick={() => setSearchParams({ service: service.title })}
                         />
                     );
                 })}

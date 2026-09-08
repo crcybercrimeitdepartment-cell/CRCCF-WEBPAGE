@@ -1,0 +1,20 @@
+export const studentDetails = {
+    slNo: "001",
+    photo: "https://randomuser.me/api/portraits/men/32.jpg",
+    name: "Subrajit",
+    fName: "Sanjay Kumar",
+    dob: "15-Aug-2001",
+    gender: "Male",
+    courseName: "B.Tech Computer Science",
+    courseDuration: "4 Years",
+    courseMode: "Full Time",
+    courseType: "Internal",
+    admissionDate: "01-Sep-2020",
+    passingDate: "30-Jun-2024",
+    studentId: "009",
+    studentIdCardNumber: "IDC-9921-X",
+    mobileNumber: "+91 9876543210",
+    mailId: "subrajit@example.com",
+    address: "123, Tech Park Avenue, Block C, Bhubaneswar, India",
+    studentStatus: "Verified"
+};

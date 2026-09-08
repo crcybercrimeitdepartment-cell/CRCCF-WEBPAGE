@@ -1,0 +1,23 @@
+export const gatePassDetails = {
+    personName: "Subrajit",
+    fatherName: "Sanjay Kumar",
+    dob: "15-Aug-1995",
+    gender: "Male",
+    occupation: "Contractor",
+    organization: "Tech Solutions Pvt Ltd",
+    visitPurpose: "Maintenance Work",
+    entryLocation: "Gate 4, North Wing",
+    entryDate: "10-Oct-2023",
+    entryTime: "08:30 AM",
+    exitTime: "05:00 PM",
+    totalDuration: "8 Hours 30 Minutes",
+    registrationNumber: "GP-2023-9921",
+    issuedBy: "Security Desk A",
+    approvedBy: "Rakesh Sharma (Facility Manager)",
+    gatePassTitle: "Temporary Work Pass",
+    mobileNumber: "+91 9876543210",
+    mailId: "subrajit@example.com",
+    address: "123, Tech Park Avenue, Block C, Bhubaneswar, India",
+    status: "Active",
+    passValidity: "Valid till 15-Oct-2023"
+};
