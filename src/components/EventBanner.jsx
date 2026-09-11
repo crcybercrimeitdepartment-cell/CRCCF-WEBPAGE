@@ -1,9 +1,14 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Calendar, MapPin, ArrowRight, X } from 'lucide-react'
+import { Calendar, ArrowRight, X } from 'lucide-react'
+import { eventBannerData } from './EventBannerData'
 
 export default function EventBanner() {
   const [isVisible, setIsVisible] = useState(true)
+
+  const upcomingEvent = eventBannerData.find(event => event.endDate >= new Date())
+
+  if (!upcomingEvent) return null;
 
   return (
     <>
@@ -36,19 +41,18 @@ export default function EventBanner() {
 
 
                 <div className="flex-1 flex flex-row items-center justify-center gap-[8px] max-[900px]:order-3 max-[900px]:flex-[100%] max-[640px]:col-start-1 max-[640px]:col-end-3 max-[640px]:row-start-2 max-[640px]:justify-between max-[640px]:w-full max-[640px]:pl-[32px] max-[640px]:pt-[2px]">
-                  <p className="text-[13px] font-[800] text-[#111827] m-0 leading-[1.2] max-[640px]:text-[12px]">Independence Day</p>
+                  <p className="text-[13px] font-[800] text-[#111827] m-0 leading-[1.2] max-[640px]:text-[12px]">{upcomingEvent.eventName}</p>
                   <span className="text-[#D1D5DB] text-[11px] max-[640px]:hidden">&bull;</span>
                   <div className="flex items-center gap-[4px] text-[11.5px] text-[#6B7280] font-[500] [&_svg]:text-[#9CA3AF] max-[640px]:text-[10px]">
-                    <MapPin size={12} className="max-[640px]:hidden" />
-                    <span className="max-[640px]:hidden">August 15th, 2026 &bull; Bhubaneswar, Odisha</span>
-                    <span className="hidden max-[640px]:inline">August 15th, 2026</span>
+                    <span className="max-[640px]:hidden">{upcomingEvent.dateString}</span>
+                    <span className="hidden max-[640px]:inline">{upcomingEvent.dateString}</span>
                   </div>
                 </div>
 
                 {/* RIGHT SECTION */}
                 <div className="shrink-0 max-[640px]:col-start-2 max-[640px]:row-start-1 max-[640px]:flex max-[640px]:justify-end">
                   <button className="flex items-center gap-[4px] bg-[linear-gradient(135deg,#1A56DB,#4F46E5)] text-[#fff] text-[11.5px] font-[700] p-[6px_12px] border-none rounded-[6px] cursor-pointer shadow-[0_2px_8px_rgba(26,86,219,0.3)] transition-all duration-[0.3s] ease-[cubic-bezier(0.16,1,0.3,1)] tracking-[0.01em] hover:translate-y-[-1px] hover:scale-[1.02] hover:shadow-[0_4px_12px_rgba(26,86,219,0.4)] max-[640px]:p-[5px_10px] max-[640px]:text-[10.5px]">
-                    Reserve <span className="max-[640px]:hidden">Your Seat</span> <ArrowRight size={14} />
+                    Know <span className="max-[640px]:hidden">More</span> <ArrowRight size={14} />
                   </button>
                 </div>
               </div>

@@ -35,8 +35,36 @@ import {
   Send,
   CheckCircle2,
   AlertCircle,
+  User, Mail, Phone, Calendar, MapPin, Briefcase, GraduationCap, Award, FileText, Building, Hash, Languages, Globe, Activity, Link as LinkIcon
 } from 'lucide-react'
 import applicationSections, { FormContext, useFormContext } from './CandidateMasterProfileFormPageData'
+
+// ============================================================================
+// ICON MAPPING FUNCTION
+// ============================================================================
+const getFieldIcon = (fieldName, fieldType) => {
+  const lower = fieldName.toLowerCase()
+  if (lower.includes('name') || lower.includes('spouse') || lower.includes('father') || lower.includes('mother') || lower.includes('gender')) return User
+  if (lower.includes('email')) return Mail
+  if (lower.includes('mobile') || lower.includes('phone') || lower.includes('whatsapp') || lower.includes('contact')) return Phone
+  if (lower.includes('date') || lower.includes('year') || lower.includes('dob') || lower.includes('session') || lower.includes('period') || lower.includes('duration') || lower.includes('time')) return Calendar
+  if (lower.includes('address') || lower.includes('city') || lower.includes('state') || lower.includes('pin') || lower.includes('location') || lower.includes('place')) return MapPin
+  if (lower.includes('occupation') || lower.includes('company') || lower.includes('employment') || lower.includes('designation') || lower.includes('role') || lower.includes('internship') || lower.includes('work')) return Briefcase
+  if (lower.includes('school') || lower.includes('college') || lower.includes('university') || lower.includes('institute') || lower.includes('degree') || lower.includes('qualification') || lower.includes('diploma') || lower.includes('iti') || lower.includes('bachelor') || lower.includes('master') || lower.includes('stream') || lower.includes('board') || lower.includes('study')) return GraduationCap
+  if (lower.includes('certificate') || lower.includes('certification') || lower.includes('marks') || lower.includes('grade') || lower.includes('percentage') || lower.includes('cgpa') || lower.includes('result') || lower.includes('division')) return Award
+  if (lower.includes('skill') || lower.includes('language') || lower.includes('tongue')) return Languages
+  if (lower.includes('nationality') || lower.includes('country') || lower.includes('religion') || lower.includes('community') || lower.includes('caste')) return Globe
+  if (lower.includes('blood') || lower.includes('height') || lower.includes('weight') || lower.includes('disability') || lower.includes('mark') || lower.includes('age') || lower.includes('status')) return Activity
+  if (lower.includes('url') || lower.includes('link') || lower.includes('profile') || lower.includes('website')) return LinkIcon
+  if (lower.includes('number') || lower.includes('id') || lower.includes('roll') || lower.includes('code') || lower.includes('pan') || lower.includes('aadhaar')) return Hash
+  
+  if (fieldType === 'email') return Mail
+  if (fieldType === 'tel') return Phone
+  if (fieldType === 'number') return Hash
+  if (fieldType === 'url') return LinkIcon
+
+  return FileText
+}
 
 // ============================================================================
 // CUSTOM SELECT COMPONENT (Strictly Opens Downwards / Niche)
@@ -142,6 +170,14 @@ function CustomSelect({ field, value, onChange, controlClassName }) {
           }}
         />
 
+        {/* Field Icon */}
+        <div className="absolute left-1.5 top-1/2 -translate-y-1/2 flex h-9 w-9 sm:h-11 sm:w-11 lg:h-7 lg:w-7 items-center justify-center rounded-full bg-[#f1f5f9] text-[#071733] z-10 pointer-events-none transition-colors group-focus-within:bg-[#071733] group-focus-within:text-amber-400">
+          {(() => {
+            const FieldIcon = getFieldIcon(field.name, field.type)
+            return <FieldIcon className="h-4 w-4 sm:h-5 sm:w-5 lg:h-3.5 lg:w-3.5" />
+          })()}
+        </div>
+
         {/* Trigger Button */}
         <button
           type="button"
@@ -222,16 +258,24 @@ function CustomSelect({ field, value, onChange, controlClassName }) {
 
       {/* Text input shown when 'Other' is selected */}
       {isOtherMode && (
-        <input
-          type="text"
-          name={field.name}
-          value={value === 'Other' ? '' : value}
-          onChange={handleOtherTextChange}
-          placeholder="Please specify..."
-          required={field.required}
-          autoFocus
-          className={controlClassName}
-        />
+        <div className="relative mt-2">
+          <div className="absolute left-1.5 top-1/2 -translate-y-1/2 flex h-9 w-9 sm:h-11 sm:w-11 lg:h-7 lg:w-7 items-center justify-center rounded-full bg-[#f1f5f9] text-[#071733] z-10 pointer-events-none transition-colors">
+            {(() => {
+              const FieldIcon = getFieldIcon(field.name, field.type)
+              return <FieldIcon className="h-4 w-4 sm:h-5 sm:w-5 lg:h-3.5 lg:w-3.5" />
+            })()}
+          </div>
+          <input
+            type="text"
+            name={field.name}
+            value={value === 'Other' ? '' : value}
+            onChange={handleOtherTextChange}
+            placeholder="Please specify..."
+            required={field.required}
+            autoFocus
+            className={controlClassName}
+          />
+        </div>
       )}
     </div>
   )
@@ -736,7 +780,7 @@ function FieldControl({ field, value, onChange, formData = {} }) {
   }
 
   const controlClassName =
-    `h-12 w-full rounded-md border bg-white px-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-500 focus:border-[#071733] focus:ring-4 focus:ring-amber-100 read-only:bg-slate-50 read-only:text-slate-500 sm:h-14 sm:px-4 lg:h-10 lg:text-xs ${
+    `h-12 w-full rounded-md border bg-white pl-12 pr-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-500 focus:border-[#071733] focus:ring-4 focus:ring-amber-100 read-only:bg-slate-50 read-only:text-slate-500 sm:h-14 sm:pl-14 sm:pr-4 lg:h-10 lg:pl-10 lg:pr-3 lg:text-xs ${
       isEmailField ? 'lowercase' : isNameField ? 'uppercase' : ''
     } ${fieldBorderClass || 'border-slate-300'}`
 
@@ -752,23 +796,30 @@ function FieldControl({ field, value, onChange, formData = {} }) {
   }
 
   if (field.type === 'textarea') {
+    const FieldIcon = getFieldIcon(field.name, field.type)
     return (
-      <textarea
-        id={field.name}
-        name={field.name}
-        value={value}
-        onChange={onChange}
-        placeholder={field.placeholder}
-        required={field.required}
-        rows={3}
-        className={`min-h-24 w-full resize-y rounded-md border border-slate-300 bg-white px-3 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-500 focus:border-[#071733] focus:ring-4 focus:ring-amber-100 sm:px-4 lg:min-h-14 lg:py-2 lg:text-xs ${isNameField ? 'uppercase' : ''
-          }`}
-      />
+      <div className="relative group">
+        <div className="absolute left-1.5 top-1.5 flex h-9 w-9 sm:h-11 sm:w-11 lg:h-7 lg:w-7 items-center justify-center rounded-full bg-[#f1f5f9] text-[#071733] z-10 pointer-events-none transition-colors group-focus-within:bg-[#071733] group-focus-within:text-amber-400">
+          <FieldIcon className="h-4 w-4 sm:h-5 sm:w-5 lg:h-3.5 lg:w-3.5" />
+        </div>
+        <textarea
+          id={field.name}
+          name={field.name}
+          value={value}
+          onChange={onChange}
+          placeholder={field.placeholder}
+          required={field.required}
+          rows={3}
+          className={`min-h-24 w-full resize-y rounded-md border border-slate-300 bg-white pl-12 pr-3 py-3 sm:py-4 lg:py-2 text-sm text-slate-900 outline-none transition placeholder:text-slate-500 focus:border-[#071733] focus:ring-4 focus:ring-amber-100 sm:pl-14 sm:pr-4 lg:min-h-14 lg:pl-10 lg:text-xs ${isNameField ? 'uppercase' : ''
+            }`}
+        />
+      </div>
     )
   }
 
   const rule = getValidationRule(field.name)
   const limits = (field.type === 'number' || isYearField) ? getNumericLimits(field.name) : {}
+  const FieldIcon = getFieldIcon(field.name, field.type)
 
   const handleKeyDown = (e) => {
     if (isCandidateMobileField) {
@@ -848,7 +899,10 @@ function FieldControl({ field, value, onChange, formData = {} }) {
 
   return (
     <div className="w-full">
-      <div className="relative">
+      <div className="relative group">
+        <div className="absolute left-1.5 top-1/2 -translate-y-1/2 flex h-9 w-9 sm:h-11 sm:w-11 lg:h-7 lg:w-7 items-center justify-center rounded-full bg-[#f1f5f9] text-[#071733] z-10 pointer-events-none transition-colors group-focus-within:bg-[#071733] group-focus-within:text-amber-400">
+          <FieldIcon className="h-4 w-4 sm:h-5 sm:w-5 lg:h-3.5 lg:w-3.5" />
+        </div>
         <input
           id={field.name}
           type={isCandidateMobileField ? 'tel' : isYearField ? 'text' : (field.type || 'text')}

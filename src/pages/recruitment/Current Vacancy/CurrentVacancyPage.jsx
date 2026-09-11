@@ -31,9 +31,9 @@ const CurrentVacancyPage = () => {
       <div className="max-w-7xl mx-auto">
         <div className="bg-white rounded-lg sm:rounded-2xl shadow-lg sm:shadow-xl p-4 sm:p-5 md:p-6 font-sans">
           <div className="text-center mb-4 sm:mb-6">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#0C1A3A] tracking-tight mb-2 font-serif">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#0C1A3A] tracking-tight mb-2 font-serif">
               Current Vacancies
-            </h2>
+            </h1>
             <p className="text-[#64748B] mt-1 text-sm sm:text-base font-medium max-w-2xl mx-auto">
               Click any button to explore
             </p>

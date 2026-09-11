@@ -2,11 +2,10 @@ import { useState, useEffect, useLayoutEffect, Suspense, lazy } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowUp } from 'lucide-react'
 import { Routes, Route, Navigate } from 'react-router-dom'
-import SEO from './components/common/SEO'
 import LazySection from './components/common/LazySection'
-import AutoSEO from './components/common/AutoSEO'
 
 // --- ALWAYS EAGER (layouts, scroll util, above-the-fold home components) ---
+import RouteMetadata from './components/common/RouteMetadata'
 import ScrollToTop from './components/ScrollToTop'
 import EventBanner from './components/EventBanner'
 import Hero from './components/Hero'
@@ -258,55 +257,55 @@ function AppRoutes() {
   return (
     <>
       <ScrollToTop />
-      <AutoSEO />
+      <RouteMetadata />
       <Suspense fallback={<PageLoader />}>
         <Routes>
           <Route path="/" element={<AnimationWrapper />} />
           <Route element={<RootLayout />}>
-            <Route path="/homepage" element={<><SEO title="Home" description="CR Cyber Crime Foundation provides cyber security, cyber awareness, cyber investigation, digital safety services, training, consultancy, and digital empowerment." /><HomePageContent /></>} />
-            <Route path="/gallery-collections" element={<><SEO title="Gallery Collections" description="View our gallery collections of events, workshops, and cyber awareness programs conducted by CR Cyber Crime Foundation." /><GalleryLandingPage /></>} />
-            <Route path="/gallery" element={<><SEO title="Gallery" description="Explore our gallery featuring photos from various cyber security awareness campaigns and training programs." /><GalleryPage /></>} />
-            <Route path="/gallery/category/:id" element={<><SEO title="Gallery Category" description="Browse specific categories of our cyber security events and training gallery." /><CategoryPage /></>} />
-            <Route path="/reachus" element={<><SEO title="Reach Us" description="Contact CR Cyber Crime Foundation for cyber security consultancy, training, and cyber crime investigation services." /><ReachUsPage /></>} />
-            <Route path="/insights" element={<><SEO title="Insights" description="Read our latest insights, articles, and research on cyber security, digital safety, and cyber crime prevention." /><InsightsPage /></>} />
-            <Route path="/software-products" element={<><SEO title="Software Products" description="Explore our advanced software products and IT solutions designed for robust cyber security and digital infrastructure." /><SoftwareComingSoon /></>} />
-            <Route path="/services/*" element={<><SEO title="Our Services" description="Comprehensive cyber security, digital marketing, IT support, and legal services offered by CRCCF." /><ServiceRouter /></>} />
-            <Route path="/report-crime" element={<><SEO title="Report Cyber Crime" description="Report cyber crime incidents securely. Get assistance with FIR filing, digital evidence collection, and legal support." /><ReportCrimePage /></>} />
-            <Route path="/report-crime/victim-rights-support" element={<><SEO title="Victim Rights & Support" description="Learn about victim rights, emotional support, and legal assistance provided by CRCCF for victims of cyber crime." /><ReportACyberCrimeVictimRightandSupportPage /></>} />
-<Route path="/report-crime/victim-rights-support/right-of-cybercrime-victims" element={<><SEO title="Right of Cybercrime Victims" description="Right of Cybercrime Victims" /><RightsOfCybercrimeVictimsEmpoweringYouwithCRCCFPage /></>} />
-<Route path="/report-crime/victim-rights-support/victim-assistance-protection" element={<><SEO title="Victim Assistance & Protection" description="Victim Assistance & Protection" /><VictimAssistanceAndProtectionPage /></>} />
-<Route path="/report-crime/victim-rights-support/cybercrime-victim-rights-relief" element={<><SEO title="Cybercrime Victim Rights & Relief" description="Cybercrime Victim Rights & Relief" /><CybercrimeVictimRightsAndReliefPage /></>} />
-<Route path="/report-crime/victim-rights-support/digital-crime-victim-help-desk" element={<><SEO title="Digital Crime Victim Help Desk" description="Digital Crime Victim Help Desk" /><DigitalCrimeVictimHelpDeskPage /></>} />
-<Route path="/report-crime/victim-rights-support/support-services-for-victims" element={<><SEO title="Support Services for Victims" description="Support Services for Victims" /><SupportServicesforVictimsPage /></>} />
-<Route path="/report-crime/victim-rights-support/help-justice-for-victims" element={<><SEO title="Help & Justice for Victims" description="Help & Justice for Victims" /><HelpAndJusticeforVictimsPage /></>} />
-<Route path="/report-crime/victim-rights-support/empowering-cybercrime-victims" element={<><SEO title="Empowering Cybercrime Victims" description="Empowering Cybercrime Victims" /><EmpoweringCybercrimeVictimsPage /></>} />
-<Route path="/report-crime/victim-rights-support/digital-victim-support-protection" element={<><SEO title="Digital Victim Support & Protection" description="Digital Victim Support & Protection" /><DigitalVictimSupportAndProtectionPage /></>} />
-<Route path="/report-crime/victim-rights-support/victim-protection-legal-aid" element={<><SEO title="Victim Protection & Legal Aid" description="Victim Protection & Legal Aid" /><VictimProtectionAndLegalAidPage /></>} />
-<Route path="/report-crime/victim-rights-support/online-harassment-help-rights" element={<><SEO title="Online Harassment Help & Rights" description="Online Harassment Help & Rights" /><OnlineHarassmentHelpAndRightsPage /></>} />
-<Route path="/report-crime/victim-rights-support/cyber-justice-for-victims" element={<><SEO title="Cyber Justice for Victims" description="Cyber Justice for Victims" /><CyberJusticeforVictimsPage /></>} />
-<Route path="/report-crime/victim-rights-support/cybercrime-victim-advocacy" element={<><SEO title="Cybercrime Victim Advocacy" description="Cybercrime Victim Advocacy" /><CybercrimeVictimAdvocacyPage /></>} />
-<Route path="/report-crime/victim-rights-support/online-safety-victim-help" element={<><SEO title="Online Safety & Victim Help" description="Online Safety & Victim Help" /><OnlineSafetyAndVictimHelpPage /></>} />
-<Route path="/report-crime/victim-rights-support/justice-healing-for-victims" element={<><SEO title="Justice & Healing for Victims" description="Justice & Healing for Victims" /><JusticeAndHealingforVictimsPage /></>} />
-<Route path="/report-crime/victim-rights-support/restoring-dignity-to-cyber-victims" element={<><SEO title="Restoring Dignity to Cyber Victims" description="Restoring Dignity to Cyber Victims" /><RestoringDignitytoCyberVictimsPage /></>} />
-<Route path="/report-crime/victim-rights-support/digital-justice-support-services" element={<><SEO title="Digital Justice Support Services" description="Digital Justice Support Services" /><DigitalJusticeSupportServicesPage /></>} />
-<Route path="/report-crime/victim-rights-support/victim-outreach-legal-support" element={<><SEO title="Victim Outreach & Legal Support" description="Victim Outreach & Legal Support" /><VictimOutreachAndLegalSupportPage /></>} />
-<Route path="/report-crime/victim-rights-support/psychological-counselling-for-cyber-victims" element={<><SEO title="Psychological Counselling for Cyber Victims" description="Psychological Counselling for Cyber Victims" /><PsychologicalCounsellingforCyberVictimsPage /></>} />
-<Route path="/report-crime/victim-rights-support/victim-helpline-chat-support" element={<><SEO title="24/7 Victim Helpline & Chat Support" description="24/7 Victim Helpline & Chat Support" /><VictimHelplineAndChatSupportPage /></>} />
-<Route path="/report-crime/victim-rights-support/women-child-cyber-safety-support" element={<><SEO title="Women & Child Cyber Safety Support" description="Women & Child Cyber Safety Support" /><WomenAndChildCyberSafetySupportPage /></>} />
-<Route path="/report-crime/victim-rights-support/legal-guidance-for-digital-crime-victims" element={<><SEO title="Legal Guidance for Digital Crime Victims" description="Legal Guidance for Digital Crime Victims" /><LegalGuidanceforDigitalCrimeVictimsPage /></>} />
-<Route path="/report-crime/victim-rights-support/data-privacy-protection-support" element={<><SEO title="Data Privacy & Protection Support" description="Data Privacy & Protection Support" /><DataPrivacyAndProtectionSupportPage /></>} />
-<Route path="/report-crime/victim-rights-support/social-media-misuse-victim-aid" element={<><SEO title="Social Media Misuse Victim Aid" description="Social Media Misuse Victim Aid" /><SocialMediaMisuseVictimAidPage /></>} />
-<Route path="/report-crime/victim-rights-support/phishing-online-scam-victim-support" element={<><SEO title="Phishing & Online Scam Victim Support" description="Phishing & Online Scam Victim Support" /><PhishingAndOnlineScamVictimSupportPage /></>} />
-<Route path="/report-crime/victim-rights-support/cyber-extortion-blackmail-response-team" element={<><SEO title="Cyber Extortion & Blackmail Response Team" description="Cyber Extortion & Blackmail Response Team" /><CyberExtortionAndBlackmailResponseTeamPage /></>} />
-<Route path="/report-crime/victim-rights-support/digital-forensics-assistance-for-victims" element={<><SEO title="Digital Forensics Assistance for Victims" description="Digital Forensics Assistance for Victims" /><DigitalForensicsAssistanceforVictimsPage /></>} />
-<Route path="/report-crime/victim-rights-support/educational-resources-for-victim-rights" element={<><SEO title="Educational Resources for Victim Rights" description="Educational Resources for Victim Rights" /><EducationalResourcesforVictimRightsPage /></>} />
-<Route path="/report-crime/victim-rights-support/cyber-victim-relief-emergency-response" element={<><SEO title="Cyber Victim Relief & Emergency Response" description="Cyber Victim Relief & Emergency Response" /><CyberVictimReliefEmergencyResponsePage /></>} />
+            <Route path="/homepage" element={<HomePageContent />} />
+            <Route path="/gallery-collections" element={<GalleryLandingPage />} />
+            <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/gallery/category/:id" element={<CategoryPage />} />
+            <Route path="/reachus" element={<ReachUsPage />} />
+            <Route path="/insights" element={<InsightsPage />} />
+            <Route path="/software-products" element={<SoftwareComingSoon />} />
+            <Route path="/services/*" element={<ServiceRouter />} />
+            <Route path="/report-crime" element={<ReportCrimePage />} />
+            <Route path="/report-crime/victim-rights-support" element={<ReportACyberCrimeVictimRightandSupportPage />} />
+<Route path="/report-crime/victim-rights-support/right-of-cybercrime-victims" element={<RightsOfCybercrimeVictimsEmpoweringYouwithCRCCFPage />} />
+<Route path="/report-crime/victim-rights-support/victim-assistance-protection" element={<VictimAssistanceAndProtectionPage />} />
+<Route path="/report-crime/victim-rights-support/cybercrime-victim-rights-relief" element={<CybercrimeVictimRightsAndReliefPage />} />
+<Route path="/report-crime/victim-rights-support/digital-crime-victim-help-desk" element={<DigitalCrimeVictimHelpDeskPage />} />
+<Route path="/report-crime/victim-rights-support/support-services-for-victims" element={<SupportServicesforVictimsPage />} />
+<Route path="/report-crime/victim-rights-support/help-justice-for-victims" element={<HelpAndJusticeforVictimsPage />} />
+<Route path="/report-crime/victim-rights-support/empowering-cybercrime-victims" element={<EmpoweringCybercrimeVictimsPage />} />
+<Route path="/report-crime/victim-rights-support/digital-victim-support-protection" element={<DigitalVictimSupportAndProtectionPage />} />
+<Route path="/report-crime/victim-rights-support/victim-protection-legal-aid" element={<VictimProtectionAndLegalAidPage />} />
+<Route path="/report-crime/victim-rights-support/online-harassment-help-rights" element={<OnlineHarassmentHelpAndRightsPage />} />
+<Route path="/report-crime/victim-rights-support/cyber-justice-for-victims" element={<CyberJusticeforVictimsPage />} />
+<Route path="/report-crime/victim-rights-support/cybercrime-victim-advocacy" element={<CybercrimeVictimAdvocacyPage />} />
+<Route path="/report-crime/victim-rights-support/online-safety-victim-help" element={<OnlineSafetyAndVictimHelpPage />} />
+<Route path="/report-crime/victim-rights-support/justice-healing-for-victims" element={<JusticeAndHealingforVictimsPage />} />
+<Route path="/report-crime/victim-rights-support/restoring-dignity-to-cyber-victims" element={<RestoringDignitytoCyberVictimsPage />} />
+<Route path="/report-crime/victim-rights-support/digital-justice-support-services" element={<DigitalJusticeSupportServicesPage />} />
+<Route path="/report-crime/victim-rights-support/victim-outreach-legal-support" element={<VictimOutreachAndLegalSupportPage />} />
+<Route path="/report-crime/victim-rights-support/psychological-counselling-for-cyber-victims" element={<PsychologicalCounsellingforCyberVictimsPage />} />
+<Route path="/report-crime/victim-rights-support/victim-helpline-chat-support" element={<VictimHelplineAndChatSupportPage />} />
+<Route path="/report-crime/victim-rights-support/women-child-cyber-safety-support" element={<WomenAndChildCyberSafetySupportPage />} />
+<Route path="/report-crime/victim-rights-support/legal-guidance-for-digital-crime-victims" element={<LegalGuidanceforDigitalCrimeVictimsPage />} />
+<Route path="/report-crime/victim-rights-support/data-privacy-protection-support" element={<DataPrivacyAndProtectionSupportPage />} />
+<Route path="/report-crime/victim-rights-support/social-media-misuse-victim-aid" element={<SocialMediaMisuseVictimAidPage />} />
+<Route path="/report-crime/victim-rights-support/phishing-online-scam-victim-support" element={<PhishingAndOnlineScamVictimSupportPage />} />
+<Route path="/report-crime/victim-rights-support/cyber-extortion-blackmail-response-team" element={<CyberExtortionAndBlackmailResponseTeamPage />} />
+<Route path="/report-crime/victim-rights-support/digital-forensics-assistance-for-victims" element={<DigitalForensicsAssistanceforVictimsPage />} />
+<Route path="/report-crime/victim-rights-support/educational-resources-for-victim-rights" element={<EducationalResourcesforVictimRightsPage />} />
+<Route path="/report-crime/victim-rights-support/cyber-victim-relief-emergency-response" element={<CyberVictimReliefEmergencyResponsePage />} />
 
-            <Route path="/report-crime/cyber-security-tips" element={<><SEO title="Cyber Security Tips" description="Cyber Security Tips and Guidelines from CR Cyber Crime Foundation." /><CyberSecurityTipsPage /></>} />
-            <Route path="/report-crime/awareness-prevention-tips" element={<><SEO title="Awareness & Prevention Tips" description="Learn important cyber security awareness and prevention tips from CR Cyber Crime Foundation." /><AwarenessAndPreventionTipsPage /></>} />
-            <Route path="/report-crime/cyber-safety-women" element={<><SEO title="Cyber Safety & Support for Girls and Women" description="Learn about cyber safety and support for girls and women." /><CyberSafetyAndSupportForGirlsAndWomenPage /></>} />
-            <Route path="/report-crime/legal-guidance-awareness" element={<><SEO title="Legal Guidance & Awareness" description="Legal Guidance and Awareness." /><LegalGuidanceAndAwarenessPage /></>} />
-            <Route path="/report-crime/cyber-laws-and-rights" element={<><SEO title="Cyber Laws & Rights" description="Learn about cyber laws and your digital rights." /><CyberLawsAndRightsPage /></>} />
+            <Route path="/report-crime/cyber-security-tips" element={<CyberSecurityTipsPage />} />
+            <Route path="/report-crime/awareness-prevention-tips" element={<AwarenessAndPreventionTipsPage />} />
+            <Route path="/report-crime/cyber-safety-women" element={<CyberSafetyAndSupportForGirlsAndWomenPage />} />
+            <Route path="/report-crime/legal-guidance-awareness" element={<LegalGuidanceAndAwarenessPage />} />
+            <Route path="/report-crime/cyber-laws-and-rights" element={<CyberLawsAndRightsPage />} />
 
             {/* Dynamic report coming soon pages */}
             {reportCards.map((card) => (
@@ -318,107 +317,108 @@ function AppRoutes() {
             ))}
 
             {/* Software Product Pages */}
-            <Route path="/software-products/developed-software-products" element={<><SEO title="Developed Software Products" description="Developed Software Products details." /><DevelopedSoftwareProductsPage /></>} />
-            <Route path="/software-products/products-under-development" element={<><SEO title="Products Under Development" description="Products Under Development details." /><DemoIconPage /></>} />
-            <Route path="/software-products/upcoming-software-innovations" element={<><SEO title="Upcoming Software Innovations" description="Upcoming Software Innovations details." /><DemoIconPage /></>} />
-            <Route path="/software-products/cyber-security-software-solutions" element={<><SEO title="Cyber Security Software Solutions" description="Cyber Security Software Solutions details." /><CyberSecuritySoftwareSolutionsPage /></>} />
-            <Route path="/software-products/ai-automation-products" element={<><SEO title="AI & Automation Products" description="AI & Automation Products details." /><DemoIconPage /></>} />
-            <Route path="/software-products/mobile-application-products" element={<><SEO title="Mobile Application Products" description="Mobile Application Products details." /><DemoIconPage /></>} />
-            <Route path="/software-products/web-based-digital-platforms" element={<><SEO title="Web-Based Digital Platforms" description="Web-Based Digital Platforms details." /><DemoIconPage /></>} />
-            <Route path="/software-products/enterprise-software-solutions" element={<><SEO title="Enterprise Software Solutions" description="Enterprise Software Solutions details." /><EnterpriseSoftwareSolutionsPage /></>} />
-            <Route path="/software-products/educational-technology-products" element={<><SEO title="Educational Technology Products" description="Educational Technology Products details." /><DemoIconPage /></>} />
-            <Route path="/software-products/data-analytics-reporting-tools" element={<><SEO title="Data Analytics & Reporting Tools" description="Data Analytics & Reporting Tools details." /><DemoIconPage /></>} />
-            <Route path="/software-products/cloud-based-software-solutions" element={<><SEO title="Cloud-Based Software Solutions" description="Cloud-Based Software Solutions details." /><CloudBasedSoftwareSolutionsPage /></>} />
-            <Route path="/software-products/research-development-products" element={<><SEO title="Research & Development Products" description="Research & Development Products details." /><DemoIconPage /></>} />
-            <Route path="/software-products/cyber-crime-investigation-software" element={<><SEO title="Cyber Crime Investigation Software" description="Cyber Crime Investigation Software details." /><DemoIconPage /></>} />
-            <Route path="/software-products/cyber-security-software" element={<><SEO title="Cyber Security Software" description="Cyber Security Software details." /><DemoIconPage /></>} />
-            <Route path="/software-products/cyber-crime-awareness-software" element={<><SEO title="Cyber Crime Awareness Software" description="Cyber Crime Awareness Software details." /><DemoIconPage /></>} />
-            <Route path="/software-products/cyber-crime-victim-support-software" element={<><SEO title="Cyber Crime Victim Support Software" description="Cyber Crime Victim Support Software details." /><DemoIconPage /></>} />
-            <Route path="/software-products/case-tracking-software" element={<><SEO title="Case Tracking Software" description="Case Tracking Software details." /><DemoIconPage /></>} />
-            <Route path="/software-products/cyber-intelligence-software" element={<><SEO title="Cyber Intelligence Software" description="Cyber Intelligence Software details." /><DemoIconPage /></>} />
-            <Route path="/software-products/digital-forensic-support-tools" element={<><SEO title="Digital Forensic Support Tools" description="Digital Forensic Support Tools details." /><DemoIconPage /></>} />
-            <Route path="/software-products/training-internship-management-software" element={<><SEO title="Training & Internship Management Software" description="Training & Internship Management Software details." /><DemoIconPage /></>} />
-            <Route path="/software-products/user-support-helpdesk-software" element={<><SEO title="User Support & Helpdesk Software" description="User Support & Helpdesk Software details." /><DemoIconPage /></>} />
-            <Route path="/software-products/hr-recruitment-management-software" element={<><SEO title="HR & Recruitment Management Software" description="HR & Recruitment Management Software details." /><DemoIconPage /></>} />
-            <Route path="/software-products/report-generation-software" element={<><SEO title="Police Investigation Tools & Software" description="Police Investigation Tools & Software details." /><DemoIconPage /></>} />
-            <Route path="/software-products/software-product-overview" element={<><SEO title="Software Product Overview" description="Software Product Overview details." /><SoftwareProductOverviewPage /></>} />
+            <Route path="/software-products/developed-software-products" element={<DevelopedSoftwareProductsPage />} />
+            <Route path="/software-products/products-under-development" element={<DemoIconPage />} />
+            <Route path="/software-products/upcoming-software-innovations" element={<DemoIconPage />} />
+            <Route path="/software-products/cyber-security-software-solutions" element={<CyberSecuritySoftwareSolutionsPage />} />
+            <Route path="/software-products/ai-automation-products" element={<DemoIconPage />} />
+            <Route path="/software-products/mobile-application-products" element={<DemoIconPage />} />
+            <Route path="/software-products/web-based-digital-platforms" element={<DemoIconPage />} />
+            <Route path="/software-products/enterprise-software-solutions" element={<EnterpriseSoftwareSolutionsPage />} />
+            <Route path="/software-products/educational-technology-products" element={<DemoIconPage />} />
+            <Route path="/software-products/data-analytics-reporting-tools" element={<DemoIconPage />} />
+            <Route path="/software-products/cloud-based-software-solutions" element={<CloudBasedSoftwareSolutionsPage />} />
+            <Route path="/software-products/research-development-products" element={<DemoIconPage />} />
+            <Route path="/software-products/cyber-crime-investigation-software" element={<CyberCrimeInvestigationSoftwarePage />} />
+            <Route path="/software-products/cyber-security-software" element={<CyberSecuritySoftwarePage />} />
+            <Route path="/software-products/cyber-crime-awareness-software" element={<CyberCrimeAwarenessSoftwarePage />} />
+            <Route path="/software-products/cyber-crime-victim-support-software" element={<CyberCrimeVictimSupportSoftwarePage />} />
+            <Route path="/software-products/case-tracking-software" element={<CaseTrackingSoftwarePage />} />
+            <Route path="/software-products/cyber-intelligence-software" element={<CyberIntelligenceSoftwarePage />} />
+            <Route path="/software-products/digital-forensic-support-tools" element={<DemoIconPage />} />
+            <Route path="/software-products/training-internship-management-software" element={<DemoIconPage />} />
+            <Route path="/software-products/user-support-helpdesk-software" element={<DemoIconPage />} />
+            <Route path="/software-products/hr-recruitment-management-software" element={<DemoIconPage />} />
+            <Route path="/software-products/report-generation-software" element={<DemoIconPage />} />
+            <Route path="/software-products/software-product-overview" element={<SoftwareProductOverviewPage />} />
 
             {/* Skill Development */}
-            <Route path="/skill-development" element={<><SEO title="Skill Development" description="Enhance your cyber security skills with our training programs, internships, courses, and workshops." /><SkillDevelopmentPage /></>} />
-            <Route path="/skill-development/internships" element={<><SEO title="Internship Programs" description="Join our cyber security internship programs to gain hands-on experience in digital investigation and IT security." /><InternshipPage /></>} />
-            <Route path="/skill-development/courses/*" element={<><SEO title="Cyber Security Courses" description="Enroll in our specialized courses to learn ethical hacking, cyber forensics, and IT development." /><CoursePage /></>} />
-            <Route path="/internship/:id" element={<><SEO title="Internship Details" description="Detailed information about our cyber security and IT internship opportunities." /><InternshipDetailPage /></>} />
-            <Route path="/skill-development/placement" element={<><SEO title="Talent Placement Program" description="Our talent placement program connects trained cyber security professionals with top industry organizations." /><TalentPlacementProgram /></>} />
-            <Route path="/skill-development/career" element={<><SEO title="Career Guidance" description="Get expert career guidance in cyber security, ethical hacking, and IT development." /><CareerGuidance /></>} />
-            <Route path="/skill-development/awareness" element={<><SEO title="Awareness Programs" description="Participate in our cyber awareness programs to learn how to stay safe in the digital world." /><AwarenessProgram /></>} />
-            <Route path="/skill-development/mentorship/*" element={<><SEO title="Mentorship Programs" description="Connect with industry experts through our cyber security mentorship programs." /><MentorshipProgramsPage /></>} />
-            <Route path="/skill-development/research/*" element={<><SEO title="Research & Development" description="Explore our research and development initiatives in cyber security and digital forensics." /><ResearchPage /></>} />
-            <Route path="/skill-development/corporate/*" element={<><SEO title="Corporate Training" description="Customized corporate training programs to build robust cyber security knowledge within your organization." /><CorporateTrainingPage /></>} />
-            <Route path="/skill-development/hackathons/*" element={<><SEO title="Hackathons" description="Participate in CRCCF hackathons to solve real-world cyber security challenges." /><HackathonPage /></>} />
-            <Route path="/skill-development/workshops/*" element={<><SEO title="Workshops" description="Join expert-led workshops on cybersecurity and IT." /><WorkshopPage darkMode={false} setDarkMode={() => {}} /></>} />
-            <Route path="/skill-development/training/*" element={<><SEO title="Training Programs" description="Comprehensive training programs covering various aspects of cyber security and digital investigation." /><TrainingProgramPage /></>} />
-            <Route path="/skill-development/:slug" element={<><SEO title="Skill Development Details" description="Explore specific skill development opportunities in cyber security and IT." /><SkillDevelopmentDetail /></>} />
+            <Route path="/skill-development" element={<SkillDevelopmentPage />} />
+            <Route path="/skill-development/internships" element={<InternshipPage />} />
+            <Route path="/skill-development/courses/*" element={<CoursePage />} />
+            <Route path="/internship/:id" element={<InternshipDetailPage />} />
+            <Route path="/skill-development/placement" element={<TalentPlacementProgram />} />
+            <Route path="/skill-development/career" element={<CareerGuidance />} />
+            <Route path="/skill-development/awareness" element={<AwarenessProgram />} />
+            <Route path="/skill-development/mentorship/*" element={<MentorshipProgramsPage />} />
+            <Route path="/skill-development/research/*" element={<ResearchPage />} />
+            <Route path="/skill-development/corporate/*" element={<CorporateTrainingPage />} />
+            <Route path="/skill-development/hackathons/*" element={<HackathonPage />} />
+            <Route path="/skill-development/workshops/*" element={<WorkshopPage darkMode={false} setDarkMode={() => {}} />} />
+            <Route path="/skill-development/training/*" element={<TrainingProgramPage />} />
+            <Route path="/skill-development/:slug" element={<SkillDevelopmentDetail />} />
 
             {/* Resources */}
-            <Route path="/resources/course-materials" element={<><SEO title="Course Materials" description="Access comprehensive course materials for our cyber security and IT training programs." /><CourseMaterials /></>} />
-            <Route path="/resources/practical-training" element={<><SEO title="Practical Training" description="Engage in hands-on practical training to build real-world cyber security skills." /><PracticalTraining /></>} />
-            <Route path="/resources/mentorship-evaluation" element={<><SEO title="Mentorship Evaluation" description="Evaluate and track your progress in our cyber security mentorship programs." /><MentorshipEvaluation /></>} />
-            <Route path="/resources/learning-environment" element={<><SEO title="Learning Environment" description="Discover our state-of-the-art learning environment designed for optimal cyber security education." /><LearningEnvironment /></>} />
+            <Route path="/resources/course-materials" element={<CourseMaterials />} />
+            <Route path="/resources/practical-training" element={<PracticalTraining />} />
+            <Route path="/resources/mentorship-evaluation" element={<MentorshipEvaluation />} />
+            <Route path="/resources/learning-environment" element={<LearningEnvironment />} />
 
             {/* Contact Hub */}
             <Route path="/contact/*" element={<ContactRouter />} />
 
             {/* About Section */}
-            <Route path="/about" element={<><SEO title="About Us" description="Learn about CR Cyber Crime Foundation, our mission, vision, and core activities in cyber security." /><AboutLayout /></>}>
-              <Route index element={<><SEO title="Dashboard" description="CR Cyber Crime Foundation Dashboard" /><AboutPage /></>} />
-              <Route path="identity" element={<><SEO title="Identity" description="CR Cyber Crime Foundation Identity page." /><OurIdentity /></>} />
-              <Route path="introduction" element={<><SEO title="Introduction" description="CR Cyber Crime Foundation Introduction page." /><IntroductionOfCRCCF /></>} />
-              <Route path="what-we-do" element={<><SEO title="What We Do" description="CR Cyber Crime Foundation What We Do page." /><WhatWeDoAbout /></>} />
-              <Route path="mission-vision" element={<><SEO title="Mission Vision" description="CR Cyber Crime Foundation Mission Vision page." /><MissionVision /></>} />
-              <Route path="activity" element={<><SEO title="Activity" description="CR Cyber Crime Foundation Activity page." /><OurActivity /></>} />
-              <Route path="purpose" element={<><SEO title="Purpose" description="CR Cyber Crime Foundation Purpose page." /><Purpose /></>} />
-              <Route path="objective" element={<><SEO title="Objective" description="CR Cyber Crime Foundation Objective page." /><Objective /></>} />
-              <Route path="achievement" element={<><SEO title="Achievement" description="CR Cyber Crime Foundation Achievement page." /><Achievement /></>} />
-              <Route path="legal-compliance/*" element={<><SEO title="*" description="CR Cyber Crime Foundation * page." /><LegalComplianceRouter /></>} />
-              <Route path="privacy-policy" element={<><SEO title="Privacy Policy" description="CR Cyber Crime Foundation Privacy Policy page." /><PrivacyPolicy /></>} />
-              <Route path="data-protection" element={<><SEO title="Meaning Behind Our Name" description="CR Cyber Crime Foundation Meaning Behind Our Name page." /><MeaningBehindOurNamePage /></>} />
-              <Route path="terms-conditions" element={<><SEO title="Terms Conditions" description="CR Cyber Crime Foundation Terms Conditions page." /><TermsConditions /></>} />
-              <Route path="rules-regulation" element={<><SEO title="Rules Regulation" description="CR Cyber Crime Foundation Rules Regulation page." /><RulesRegulation /></>} />
-              <Route path="instruction" element={<><SEO title="Instruction" description="CR Cyber Crime Foundation Instruction page." /><Instruction /></>} />
-              <Route path="legal-disclaimer" element={<><SEO title="Legal Disclaimer" description="CR Cyber Crime Foundation Legal Disclaimer page." /><LegalDisclaimer /></>} />
-              <Route path="copyright" element={<><SEO title="Copyright" description="CR Cyber Crime Foundation Copyright page." /><CopyrightRegistration /></>} />
-              <Route path="partnership" element={<><SEO title="Partnership" description="CR Cyber Crime Foundation Partnership page." /><PartnershipCollaboration /></>} />
-              <Route path="history" element={<><SEO title="History" description="CR Cyber Crime Foundation History page." /><History /></>} />
+            <Route path="/about" element={<AboutLayout />}>
+              <Route index element={<AboutPage />} />
+              <Route path="identity" element={<OurIdentity />} />
+              <Route path="introduction" element={<IntroductionOfCRCCF />} />
+              <Route path="what-we-do" element={<WhatWeDoAbout />} />
+              <Route path="mission-vision" element={<MissionVision />} />
+              <Route path="activity" element={<OurActivity />} />
+              <Route path="purpose" element={<Purpose />} />
+              <Route path="objective" element={<Objective />} />
+              <Route path="achievement" element={<Achievement />} />
+              <Route path="legal-compliance/*" element={<LegalComplianceRouter />} />
+              <Route path="privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="data-protection" element={<MeaningBehindOurNamePage />} />
+              <Route path="terms-conditions" element={<TermsConditions />} />
+              <Route path="rules-regulation" element={<RulesRegulation />} />
+              <Route path="instruction" element={<Instruction />} />
+              <Route path="legal-disclaimer" element={<LegalDisclaimer />} />
+              <Route path="copyright" element={<CopyrightRegistration />} />
+              <Route path="partnership" element={<PartnershipCollaboration />} />
+              <Route path="history" element={<History />} />
             </Route>
 
             {/* Recruitment / Careers */}
-            <Route path="/careers" element={<><SEO title="Careers" description="Explore career opportunities and job vacancies at CR Cyber Crime Foundation." /><RecruitmentPortal /></>} />
-            <Route path="/recruitment" element={<><SEO title="Recruitment Portal" description="Access our recruitment portal for job applications and career opportunities." /><RecruitmentPortal /></>} />
-            <Route path="/recruitment/job-vacancy" element={<><SEO title="Job Vacancies" description="View current job vacancies and openings at CRCCF." /><JobVacancy /></>} />
-            <Route path="/recruitment/job-vacancy-details" element={<><SEO title="Job Vacancy Details" description="Detailed information about specific job vacancies at CRCCF." /><JobVacancyPage /></>} />
-            <Route path="/recruitment/current-vacancy" element={<><SEO title="Current Vacancies" description="View current job vacancies." /><CurrentVacancyPage /></>} />
-            <Route path="/recruitment/current-vacancy/job-vacancy" element={<><SEO title="Job Vacancy" description="Job Vacancy details." /><JobVacancyNewPage /></>} />
-            <Route path="/recruitment/current-vacancy/job-vacancy/new-registration" element={<><SEO title="Candidate Master Profile - New Registration" description="Register candidate master profile for CRCCF job vacancies." /><CandidateMasterProfileFormPage /></>} />
-            <Route path="/recruitment/job-vacancy/new-registration" element={<><SEO title="Candidate Master Profile - New Registration" description="Register candidate master profile for CRCCF job vacancies." /><CandidateMasterProfileFormPage /></>} />
-            <Route path="/recruitment/current-vacancy/post-vacancy" element={<><SEO title="Post Vacancy" description="Post Vacancy details." /><PostVacancyPage /></>} />
-            <Route path="/recruitment/current-vacancy/internship-vacancy" element={<><SEO title="Internship Vacancy" description="Internship Vacancy details." /><InternshipVacancyPage /></>} />
-            <Route path="/recruitment/current-vacancy/vacancy-card-1" element={<><SEO title="Vacancy Card 1" description="Vacancy Card 1 details." /><VacancyCard1Page /></>} />
-            <Route path="/recruitment/current-vacancy/vacancy-card-2" element={<><SEO title="Vacancy Card 2" description="Vacancy Card 2 details." /><VacancyCard2Page /></>} />
-            <Route path="/recruitment/current-vacancy/vacancy-card-3" element={<><SEO title="Vacancy Card 3" description="Vacancy Card 3 details." /><VacancyCard3Page /></>} />
-            <Route path="/recruitment/current-vacancy/vacancy-card-4" element={<><SEO title="Vacancy Card 4" description="Vacancy Card 4 details." /><VacancyCard4Page /></>} />
-            <Route path="/recruitment/current-vacancy/vacancy-card-5" element={<><SEO title="Vacancy Card 5" description="Vacancy Card 5 details." /><VacancyCard5Page /></>} />
-            <Route path="/recruitment/document-verification-department" element={<><SEO title="Document Verification Department" description="Exclusive portal for members to post job vacancies." /><DocumentVerificationDepartment /></>} />
-            <Route path="/recruitment/online-application-portal" element={<><SEO title="Online Application Portal" description="Submit your job applications online through our dedicated portal." /><OnlineApplicationPortal /></>} />
-            <Route path="/recruitment/advertisements" element={<><SEO title="Recruitment Advertisements" description="View our latest recruitment advertisements and notices." /><RecruitmentAdvertisements /></>} />
-            <Route path="/recruitment/press-release-notices" element={<><SEO title="Press Releases & Notices" description="Read official press releases and notices related to recruitment." /><PressReleaseNotices /></>} />
-            <Route path="/recruitment/application-status" element={<><SEO title="Application Status" description="Check the status of your submitted job applications." /><ApplicationStatus /></>} />
-            <Route path="/recruitment/submit-resume" element={<><SEO title="Submit Resume" description="Submit your resume for future career opportunities with CRCCF." /><SubmitResume /></>} />
-            <Route path="/recruitment/certificate-verification" element={<><SEO title="Certificate Verification" description="Verify the authenticity of certificates issued by CR Cyber Crime Foundation." /><CertificateVerification /></>} />
-            <Route path="/recruitment/certificate-verification/:slug" element={<><SEO title="Certificate Verification Details" description="Detailed certificate verification portal." /><CertificateComingSoon /></>} />
-            <Route path="/recruitment/id-card-verification" element={<><SEO title="ID Card Verification" description="Verify the authenticity of ID cards." /><IdCardVerificationPage /></>} />
+            <Route path="/careers" element={<RecruitmentPortal />} />
+            <Route path="/recruitment" element={<RecruitmentPortal />} />
+            <Route path="/recruitment/job-vacancy" element={<JobVacancy />} />
+            <Route path="/recruitment/job-vacancy-details" element={<JobVacancyPage />} />
+            <Route path="/recruitment/current-vacancy" element={<CurrentVacancyPage />} />
+            <Route path="/recruitment/current-vacancy/job-vacancy" element={<JobVacancyNewPage />} />
+            <Route path="/recruitment/current-vacancy/job-vacancy/new-registration" element={<CandidateMasterProfileFormPage />} />
+            <Route path="/recruitment/job-vacancy/new-registration" element={<CandidateMasterProfileFormPage />} />
+            <Route path="/recruitment/current-vacancy/post-vacancy" element={<PostVacancyPage />} />
+            <Route path="/recruitment/current-vacancy/internship-vacancy" element={<InternshipVacancyPage />} />
+            <Route path="/recruitment/current-vacancy/vacancy-card-1" element={<VacancyCard1Page />} />
+            <Route path="/recruitment/current-vacancy/vacancy-card-2" element={<VacancyCard2Page />} />
+            <Route path="/recruitment/current-vacancy/vacancy-card-3" element={<VacancyCard3Page />} />
+            <Route path="/recruitment/current-vacancy/vacancy-card-4" element={<VacancyCard4Page />} />
+            <Route path="/recruitment/current-vacancy/vacancy-card-5" element={<VacancyCard5Page />} />
+            <Route path="/recruitment/document-verification-department" element={<DocumentVerificationDepartment />} />
+            <Route path="/recruitment/online-application-portal" element={<OnlineApplicationPortal />} />
+            <Route path="/recruitment/advertisements" element={<RecruitmentAdvertisements />} />
+            <Route path="/recruitment/press-release-notices" element={<PressReleaseNotices />} />
+            <Route path="/recruitment/application-status" element={<ApplicationStatus />} />
+            <Route path="/recruitment/submit-resume" element={<SubmitResume />} />
+            <Route path="/recruitment/certificate-verification" element={<CertificateVerification />} />
+            <Route path="/recruitment/certificate-verification/:slug" element={<CertificateComingSoon />} />
+            <Route path="/recruitment/id-card-verification" element={<IdCardVerificationPage />} />
 
-            <Route path="/recruitment/rules-policies" element={<><SEO title="Recruitment Rules & Policies" description="Read the comprehensive rules and policies governing our recruitment process." /><RecruitmentRulesPolicies /></>} />
-            <Route path="/coming-soon" element={<><SEO title="Coming Soon" description="This section is currently under development." /><ComingSoonPage /></>} />
+            <Route path="/recruitment/rules-policies" element={<RecruitmentRulesPolicies />} />
+            <Route path="/coming-soon" element={<ComingSoonPage />} />
+            <Route path="*" element={<Navigate to="/coming-soon" replace />} />
           </Route>
         </Routes>
       </Suspense>

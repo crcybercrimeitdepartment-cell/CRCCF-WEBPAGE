@@ -3,6 +3,7 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, Menu, X, Bell, Search } from 'lucide-react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { ROUTES } from '../constants/routes'
 import { 
   FiHome, 
   FiInfo, 
@@ -88,12 +89,12 @@ function MobileNavItem({ item, index, Icon, color, go, location, depth }) {
 
 const navLinks = [
   { label: 'Home', href: '/#home' },
-  { label: 'About Us', href: '/about' },
-  { label: 'Our Services', href: '/services' },
-  { label: 'Software Products', href: '/software-products' },
-  { label: 'Skill Development', href: '/skill-development' },
-  { label: 'Careers', href: '/careers' },
-  { label: 'Insights', href: '/insights' },
+  { label: 'About Us', href: ROUTES.ABOUT },
+  { label: 'Our Services', href: ROUTES.SERVICES.replace('/*', '') },
+  { label: 'Software Products', href: ROUTES.SOFTWARE_PRODUCTS },
+  { label: 'Skill Development', href: ROUTES.SKILL_DEVELOPMENT },
+  { label: 'Careers', href: ROUTES.CAREERS },
+  { label: 'Insights', href: ROUTES.INSIGHTS },
   { label: 'Contact', href: '/contact' },
 ]
 

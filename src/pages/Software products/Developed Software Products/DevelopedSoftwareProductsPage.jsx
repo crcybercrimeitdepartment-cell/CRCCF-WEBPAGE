@@ -143,7 +143,16 @@ export default function IconDashboard() {
         <div className="absolute bottom-[-15%] right-[-5%] w-[80vw] lg:w-[50vw] h-[80vw] lg:h-[50vw] rounded-full bg-rose-400/20 blur-[100px] lg:blur-[120px] -z-10 pointer-events-none animate-orb" style={{ animationDelay: '0.4s' }}></div>
         <div className="absolute top-[20%] right-[20%] w-[50vw] lg:w-[30vw] h-[50vw] lg:h-[30vw] rounded-full bg-teal-400/10 blur-[80px] lg:blur-[100px] -z-10 pointer-events-none animate-orb" style={{ animationDelay: '0.6s' }}></div>
 
-        <main className="w-full max-w-6xl mx-auto flex items-center justify-center my-auto pb-12">
+        <main className="w-full max-w-6xl mx-auto flex flex-col items-center justify-center my-auto pb-12">
+          {/* Main H1 Title - Visible and Semantic */}
+          <div className="w-full text-center mb-10 z-10">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-800 tracking-tight mb-4 animate-fade-up">
+              Developed Software Products
+            </h1>
+            <p className="text-slate-600 max-w-2xl mx-auto text-sm sm:text-base animate-fade-up" style={{ animationDelay: '0.1s' }}>
+              Explore our innovative cyber security, HR, and investigation software solutions designed for maximum efficiency and protection.
+            </p>
+          </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-3 gap-y-8 sm:gap-6 lg:gap-8 justify-items-center w-full z-10">
             {icons.map(({ id, name, Icon, color, animClass }, i) => (
               <div

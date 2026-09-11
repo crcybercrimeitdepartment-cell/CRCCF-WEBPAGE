@@ -17,6 +17,7 @@ export default function SEO({
       {/* Standard metadata tags */}
       <title>{pageTitle}</title>
       <meta name='description' content={pageDescription} />
+      <link rel="canonical" href={url} />
 
       {/* Open Graph tags for Facebook, LinkedIn, etc. */}
       <meta property="og:type" content={type} />

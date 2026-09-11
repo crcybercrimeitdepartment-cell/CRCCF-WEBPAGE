@@ -20,6 +20,8 @@ import {
   MdRateReview,
 } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { ChevronDown, Mail, MapPin, PhoneCall } from "lucide-react";
+import { ROUTES } from '../constants/routes';
 import { useEffect, useRef } from "react";
 
 export default function Footer() {
@@ -110,12 +112,12 @@ export default function Footer() {
             <div className="grid grid-cols-2 gap-y-4 gap-x-4 text-sm">
               {[
                 { name: "Home", path: "/#home" },
-                { name: "About Us", path: "/about" },
-                { name: "Our Services", path: "/services" },
-                { name: "Software Products", path: "/software-products" },
-                { name: "Skill Development", path: "/skill-development" },
-                { name: "Careers", path: "/careers" },
-                { name: "Insights", path: "/insights" },
+                { name: "About Us", path: ROUTES.ABOUT },
+                { name: "Our Services", path: ROUTES.SERVICES.replace('/*', '') },
+                { name: "Software Products", path: ROUTES.SOFTWARE_PRODUCTS },
+                { name: "Skill Development", path: ROUTES.SKILL_DEVELOPMENT },
+                { name: "Careers", path: ROUTES.CAREERS },
+                { name: "Insights", path: ROUTES.INSIGHTS },
                 { name: "Contact", path: "/contact" },
               ].map((item, i) => (
                 <Link

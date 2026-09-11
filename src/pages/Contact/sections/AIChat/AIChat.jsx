@@ -135,10 +135,12 @@ const AIChat = () => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder={aiChatData.inputPlaceholder}
+            aria-label="Chat message"
             className="flex-1 bg-slate-50 border border-slate-200 text-slate-700 text-sm sm:text-base rounded-xl px-5 py-3.5 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
           />
           <button
             type="submit"
+            aria-label="Send message"
             disabled={!inputValue.trim() || isTyping}
             className="px-5 py-3.5 bg-primary text-white rounded-xl shadow-md hover:bg-primary/90 hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
           >
