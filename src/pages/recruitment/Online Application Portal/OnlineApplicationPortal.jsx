@@ -1,74 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import {
   Briefcase, GraduationCap, Heart, User, Users, Mic, Presentation, FileSearch, Handshake,
   Landmark, Settings, Building2, Globe, Shield, BookOpen, ClipboardList, FileCheck, FileText,
   Newspaper, Code, Bug, UserPlus, MessageSquare, AlertTriangle, HelpCircle, ShoppingBag,
   DollarSign, Key, ChevronLeft, ChevronRight, Check
 } from 'lucide-react';
-
-const allFormNames = [
-  "Job Application Form",
-  "Internship Application Form",
-  "Volunteer Application Form",
-  "Freelance / Consultant Application Form",
-  "Campus Ambassador Application Form",
-  "Speaker / Subject Matter Expert Application Form",
-  "Trainer Application Form",
-  "Researcher Application Form",
-  "Partnership Application Form",
-  "Collaboration Application Form",
-  "Institutional Collaboration Application Form",
-  "Research & Project Collaboration Application Form",
-  "Technology Partnership Application Form",
-  "Corporate Partnership Application Form",
-  "NGO Partnership Application Form",
-  "Academic Institution Partnership Application Form",
-  "Cyber Awareness Program Request Form",
-  "Institutional Training Request Form",
-  "Training Program Application Form",
-  "Workshop Registration Form",
-  "Seminar Registration Form",
-  "Webinar Registration Form",
-  "Conference Registration Form",
-  "Event Participation Application Form",
-  "Duplicate ID Card Application Form",
-  "Duplicate Certificate Application Form",
-  "Certificate Verification Request Form",
-  "Document Correction / Update Application Form",
-  "Employee Personal Data & Document Update (KYC) Form",
-  "Student Personal Data & Document Update (KYC) Form",
-  "Member Personal Data & Document Update (KYC) Form",
-  "ID Card Correction / Update Application Form",
-  "Certificate Correction / Update Application Form",
-  "Content & Intellectual Property Usage Authorization Form",
-  "Media Coverage Request Form",
-  "Content Submission Form",
-  "Guest Article Submission Form",
-  "Research Paper Submission Form",
-  "Publication Permission Request Form",
-  "Media & Press Accreditation Application Form",
-  "Software Product Purchase Request Form",
-  "Software Product Demo Request Form",
-  "Software Product Trial Request Form",
-  "Technical Support Request Form",
-  "Software Bug Report Form",
-  "Feature Request Form",
-  "Software Integration Request Form",
-  "Membership Application Form",
-  "Membership Renewal Application Form",
-  "Membership Upgrade / Category Change Request Form",
-  "Member Profile Update Request Form",
-  "Feedback & Suggestion Form",
-  "Grievance Submission Form",
-  "Complaint Submission Form",
-  "Whistleblower Report Submission Form",
-  "General Inquiry / Information Request Form",
-  "Vendor / Service Provider Registration Form",
-  "Sponsorship Application Form",
-  "Sponsorship Request Form",
-  "Official Permission / Authorization Request Form"
-];
+import { portalForms } from './formsData';
 
 const getIconAndColor = (name, index) => {
   const n = name.toLowerCase();
@@ -115,9 +54,9 @@ const getIconAndColor = (name, index) => {
   return { icon, color: colorPalette[index % colorPalette.length] };
 };
 
-const forms = allFormNames.map((name, index) => {
-  const { icon, color } = getIconAndColor(name, index);
-  return { id: index, name, icon, color };
+const forms = portalForms.map((item, index) => {
+  const { icon, color } = getIconAndColor(item.name, index);
+  return { ...item, icon, color };
 });
 
 const variants = {
@@ -175,10 +114,8 @@ const itemVariants = {
 function ApplicationPortal() {
   const [page, setPage] = useState(0);
   const [direction, setDirection] = useState(0);
-  const itemsPerPage = 20;
-
-  const totalPages = Math.ceil(forms.length / itemsPerPage);
-  const currentForms = forms.slice(page * itemsPerPage, (page + 1) * itemsPerPage);
+  const totalPages = 2;
+  const currentForms = page === 0 ? forms.slice(0, 16) : forms.slice(16);
 
   const paginate = (newDirection) => {
     const newPage = page + newDirection;
@@ -310,7 +247,7 @@ function ApplicationPortal() {
                 {/* Header Section */}
                 <div className="text-center mb-6 relative z-10">
                   <h1 className="text-xl sm:text-3xl font-bold text-[#1e3a8a] mb-2 px-2">
-                    Application & <span className="text-blue-600">Request Forms</span>
+                    Online <span className="text-blue-600">Application Portal</span>
                   </h1>
                   <p className="text-xs sm:text-sm text-gray-500 mb-4 px-2 max-w-lg mx-auto leading-relaxed">
                     Select the forms you want to apply or make a request
@@ -337,35 +274,29 @@ function ApplicationPortal() {
                     const textColorClass = form.color.split(' ')[1];
 
                     return (
-                      <motion.label
-                        variants={itemVariants}
-                        key={form.id}
-                        className={`group flex items-center justify-between p-2 pl-3 pr-4 rounded-xl shadow-sm cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${bgColorClass} hover:opacity-95 min-h-[52px] py-2.5`}
-                      >
-                        <div className="flex items-center gap-3.5 flex-1 overflow-hidden">
-                          {/* Icon inside a soft translucent circle with bold outline */}
-                          <div className={`shrink-0 w-9 h-9 rounded-full flex items-center justify-center bg-white/60 shadow-[0_2px_4px_rgba(0,0,0,0.05)] ${textColorClass}`}>
-                            <form.icon className="w-5 h-5" strokeWidth={2.5} />
+                      <motion.div variants={itemVariants} key={form.id}>
+                        <Link
+                          to={form.path}
+                          className={`group flex items-center justify-between p-2 pl-3 pr-3.5 rounded-xl shadow-xs cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${bgColorClass} hover:opacity-95 min-h-[52px] py-2.5 w-full block`}
+                        >
+                          <div className="flex items-center gap-3.5 flex-1 overflow-hidden">
+                            {/* Icon inside a soft translucent circle with bold outline */}
+                            <div className={`shrink-0 w-9 h-9 rounded-full flex items-center justify-center bg-white/60 shadow-[0_2px_4px_rgba(0,0,0,0.05)] ${textColorClass}`}>
+                              <form.icon className="w-5 h-5" strokeWidth={2.5} />
+                            </div>
+                            <span className="text-[13px] font-bold text-slate-800 leading-snug pr-2">
+                              {form.name}
+                            </span>
                           </div>
-                          <span className="text-[13px] font-bold text-slate-800 leading-snug pr-2">
-                            {form.name}
-                          </span>
-                        </div>
-                        <div className="relative shrink-0 flex items-center justify-center ml-2 w-5 h-5">
-                          {/* Invisible native checkbox to handle state/clicks */}
-                          <input type="checkbox" className="peer absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20" />
-
-                          {/* Custom Box Background & Border */}
-                          <div className="absolute inset-0 w-full h-full rounded border-2 border-gray-300 bg-white peer-checked:bg-blue-600 peer-checked:border-blue-600 group-hover:border-blue-400 transition-colors duration-200 pointer-events-none" />
-
-                          {/* Custom Tick Icon */}
-                          <Check
-                            className="absolute inset-0 m-auto w-3.5 h-3.5 text-blue-500 opacity-0 scale-50 group-hover:opacity-60 group-hover:scale-100 peer-checked:!text-white peer-checked:!opacity-100 peer-checked:!scale-100 transition-all duration-200 pointer-events-none z-10"
-                            strokeWidth={4}
-                          />
-                        </div>
-                      </motion.label>
-                    )
+                          <div className="relative shrink-0 flex items-center justify-center ml-2 w-5 h-5 rounded border-2 border-gray-300/80 bg-white group-hover:border-blue-600 group-hover:bg-blue-600 transition-all duration-200">
+                            <ChevronRight
+                              className="w-3.5 h-3.5 text-gray-400 group-hover:text-white group-hover:translate-x-0.5 transition-all duration-200"
+                              strokeWidth={3}
+                            />
+                          </div>
+                        </Link>
+                      </motion.div>
+                    );
                   })}
                 </motion.div>
 

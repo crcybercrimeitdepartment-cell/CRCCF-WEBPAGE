@@ -221,23 +221,6 @@ const statusConfig = {
   'CLOSED':       { bg: 'bg-slate-50',   text: 'text-slate-500',   border: 'border-slate-200',   dot: 'bg-slate-400'  },
 };
 
-const MetaPill = ({ icon, label }) => (
-  <div className="flex items-center gap-1 text-[11px] text-slate-500 font-medium bg-slate-50 border border-slate-100 px-2 py-0.5 rounded-full whitespace-nowrap">
-    {icon}
-    <span>{label}</span>
-  </div>
-);
-
-const SmIcon = ({ d }) => (
-  <svg className="w-3 h-3 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={d} />
-  </svg>
-);
-
-const locationD   = "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z";
-const peopleD     = "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z";
-const calD        = "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z";
-const briefcaseD  = "M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z";
 const arrowD      = "M14 5l7 7m0 0l-7 7m7-7H3";
 
 // ─── APPLY DROPDOWN MENU ──────────────────────────────────────────────────────
@@ -525,48 +508,34 @@ function GridCard({ job, onViewDetails, saved, onSave, onApplyClick }) {
       {/* Top accent */}
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-indigo-400 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity" />
 
-      <div className="p-4 sm:p-5 flex flex-col gap-3 sm:gap-3.5 flex-1">
-        {/* TOP */}
-        <div className="flex items-start justify-between gap-2">
-          <div className="flex flex-wrap items-center gap-1.5">
-            <span className="text-[10px] font-bold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-full uppercase tracking-wider">
-              {job.department}
-            </span>
-            <span className="text-[10px] font-mono font-semibold text-slate-400 bg-slate-50 border border-slate-200 px-2 py-0.5 rounded-full">
-              {job.jobCode}
-            </span>
+      <div className="p-4 sm:p-5 flex flex-col gap-3 sm:gap-4 flex-1 justify-between">
+        <div className="space-y-2.5">
+          {/* TOP: Department, Job ID, Current Status */}
+          <div className="flex items-start justify-between gap-2">
+            <div className="flex flex-wrap items-center gap-1.5">
+              <span className="text-[10px] font-bold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                {job.department}
+              </span>
+              <span className="text-[10px] font-mono font-semibold text-slate-400 bg-slate-50 border border-slate-200 px-2 py-0.5 rounded-full">
+                {job.jobCode}
+              </span>
+            </div>
+            <div className={`shrink-0 flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full border ${status.bg} ${status.text} ${status.border}`}>
+              <span className={`w-1.5 h-1.5 rounded-full ${status.dot} ${job.status === 'OPEN' ? 'animate-pulse' : ''}`} />
+              {job.status}
+            </div>
           </div>
-          <div className={`shrink-0 flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full border ${status.bg} ${status.text} ${status.border}`}>
-            <span className={`w-1.5 h-1.5 rounded-full ${status.dot} ${job.status === 'OPEN' ? 'animate-pulse' : ''}`} />
-            {job.status}
+
+          {/* JOB TITLE */}
+          <div>
+            <h3 className="text-[15px] sm:text-[16px] font-extrabold text-slate-900 tracking-tight leading-snug group-hover:text-indigo-700 transition-colors line-clamp-2">
+              {job.jobTitle}
+            </h3>
           </div>
-        </div>
-
-        {/* CENTER */}
-        <div className="space-y-1">
-          <h3 className="text-[15px] sm:text-[16px] font-extrabold text-slate-900 tracking-tight leading-snug group-hover:text-indigo-700 transition-colors line-clamp-2">
-            {job.jobTitle}
-          </h3>
-          <p className="text-[12px] sm:text-[13px] text-slate-500 leading-relaxed line-clamp-2">{job.shortDescription}</p>
-          <div className="flex flex-wrap gap-1 pt-0.5">
-            {job.tags?.map((t) => (
-              <span key={t} className="text-[9px] font-semibold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">{t}</span>
-            ))}
-          </div>
-        </div>
-
-        <div className="border-t border-slate-100" />
-
-        {/* BOTTOM META */}
-        <div className="flex flex-wrap gap-1.5">
-          <MetaPill icon={<SmIcon d={locationD} />}  label={job.location} />
-          <MetaPill icon={<SmIcon d={peopleD} />}    label={`${job.openPositions} open`} />
-          <MetaPill icon={<SmIcon d={calD} />}       label={`Closes ${job.applicationLastDate}`} />
-          <MetaPill icon={<SmIcon d={briefcaseD} />} label={job.employmentType} />
         </div>
 
         {/* ACTIONS */}
-        <div className="flex items-center gap-2 mt-auto pt-1">
+        <div className="flex items-center gap-2 mt-auto pt-3 border-t border-slate-100">
           <button
             id={`view-${job.id}`}
             onClick={() => onViewDetails(job)}
@@ -626,8 +595,8 @@ function ListCard({ job, onViewDetails, saved, onSave, onApplyClick }) {
       {/* Left accent bar */}
       <div className={`w-1 shrink-0 ${job.status === 'OPEN' ? 'bg-emerald-400' : job.status === 'CLOSING SOON' ? 'bg-amber-400' : job.status === 'UPCOMING' ? 'bg-blue-400' : 'bg-slate-200'}`} />
 
-      <div className="flex-1 px-4 py-3.5 flex flex-col sm:flex-row sm:items-center gap-3">
-        {/* Main info */}
+      <div className="flex-1 px-4 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        {/* Main info: ONLY Department, Job ID, Current Status, Job Title */}
         <div className="flex-1 min-w-0 space-y-1">
           <div className="flex flex-wrap items-center gap-1.5">
             <span className="text-[10px] font-bold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-full uppercase tracking-wider">{job.department}</span>
@@ -637,13 +606,7 @@ function ListCard({ job, onViewDetails, saved, onSave, onApplyClick }) {
               {job.status}
             </div>
           </div>
-          <h3 className="text-[14px] font-extrabold text-slate-900 group-hover:text-indigo-700 transition-colors truncate">{job.jobTitle}</h3>
-          <div className="flex flex-wrap items-center gap-2 text-[11px] text-slate-500 font-medium">
-            <span className="flex items-center gap-1"><SmIcon d={locationD} />{job.location}</span>
-            <span className="flex items-center gap-1"><SmIcon d={peopleD} />{job.openPositions} open</span>
-            <span className="flex items-center gap-1"><SmIcon d={calD} />Closes {job.applicationLastDate}</span>
-            <span className="flex items-center gap-1"><SmIcon d={briefcaseD} />{job.employmentType}</span>
-          </div>
+          <h3 className="text-[14px] sm:text-[15px] font-extrabold text-slate-900 group-hover:text-indigo-700 transition-colors truncate">{job.jobTitle}</h3>
         </div>
 
         {/* Actions */}
@@ -651,7 +614,7 @@ function ListCard({ job, onViewDetails, saved, onSave, onApplyClick }) {
           <button
             id={`view-list-${job.id}`}
             onClick={() => onViewDetails(job)}
-            className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-[12px] font-bold rounded-xl transition-all active:scale-95 flex items-center gap-1.5 whitespace-nowrap"
+            className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-[12px] font-bold rounded-xl transition-all active:scale-95 flex items-center gap-1.5 whitespace-nowrap cursor-pointer"
           >
             View Details
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -662,7 +625,7 @@ function ListCard({ job, onViewDetails, saved, onSave, onApplyClick }) {
             id={`apply-list-${job.id}`}
             disabled={isApplyDisabled}
             onClick={(e) => onApplyClick(job, e)}
-            className={`px-3.5 py-2 text-[12px] font-bold rounded-xl border transition-all active:scale-95 whitespace-nowrap flex items-center gap-1 ${
+            className={`px-3.5 py-2 text-[12px] font-bold rounded-xl border transition-all active:scale-95 whitespace-nowrap flex items-center gap-1 cursor-pointer ${
               isApplyDisabled
                 ? 'bg-slate-50 text-slate-300 border-slate-100 cursor-not-allowed'
                 : 'bg-white text-indigo-600 border-indigo-200 hover:bg-indigo-50 hover:border-indigo-400'
@@ -676,7 +639,8 @@ function ListCard({ job, onViewDetails, saved, onSave, onApplyClick }) {
           <button
             id={`save-list-${job.id}`}
             onClick={onSave}
-            className={`p-2 rounded-xl border transition-all active:scale-90 ${
+            title={saved ? 'Saved' : 'Save'}
+            className={`p-2 rounded-xl border transition-all active:scale-90 cursor-pointer ${
               saved ? 'bg-indigo-50 border-indigo-200 text-indigo-600' : 'bg-white border-slate-200 text-slate-400 hover:border-indigo-200 hover:text-indigo-500'
             }`}
           >
@@ -1021,7 +985,13 @@ function JobPortal() {
   };
 
   const handleViewDetails = (job) => {
-    navigate('/recruitment/job-vacancy-details', { state: { jobId: job.id } });
+    navigate('/recruitment/job-vacancy-details', { 
+      state: { 
+        jobId: job.id,
+        job,
+        heroImage: job.heroImage || job.image 
+      } 
+    });
   };
 
   return (

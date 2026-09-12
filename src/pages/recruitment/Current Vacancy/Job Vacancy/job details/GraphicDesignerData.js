@@ -1,6 +1,8 @@
 // src/pages/recruitment/Current Vacancy/Job Vacancy/job details/GraphicDesignerData.js
 
 export const graphicDesignerData = {
+  // Custom hero section image (image link or imported image). Defaults to standard hero illustration if empty.
+  heroImage: "https://res.cloudinary.com/dlhmkbijh/image/upload/v1789206144/Graphic_Designer_ymcxqr.png",
   // 1. Position Information
   positionInformation: {
     jobTitle: "Graphic Designer",

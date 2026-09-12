@@ -1,6 +1,8 @@
 // src/pages/recruitment/Current Vacancy/Job Vacancy/job details/HRAssistantManagerData.js
 
 export const hrAssistantManagerData = {
+  // Custom hero section image (image link or imported image). Defaults to standard hero illustration if empty.
+  heroImage: "https://res.cloudinary.com/dlhmkbijh/image/upload/v1789206159/HR_Assistant_Manager_fwiona.png",
   // 1. Position Information
   positionInformation: {
     jobTitle: "HR Assistant Manager",

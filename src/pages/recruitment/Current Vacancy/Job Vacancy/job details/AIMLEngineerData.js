@@ -1,6 +1,8 @@
 // src/pages/recruitment/Current Vacancy/Job Vacancy/job details/AIMLEngineerData.js
 
 export const aimlEngineerData = {
+  // Custom hero section image (image link or imported image). Defaults to standard hero illustration if empty.
+  heroImage: "https://res.cloudinary.com/dlhmkbijh/image/upload/v1789206172/AIML_Engineer_mhukxk.png",
   "positionInformation": {
     "jobTitle": "AI/ML Engineer",
     "jobCode": "CRCCF-IT-AIML-2026-001",

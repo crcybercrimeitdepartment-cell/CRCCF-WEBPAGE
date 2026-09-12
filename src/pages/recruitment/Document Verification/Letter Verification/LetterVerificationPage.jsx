@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
+import {
     User, Phone, Mail, Briefcase, Hash, CheckCircle, ArrowLeft, Search, ShieldAlert, Building, FileText, AtSign, UserCheck
 } from 'lucide-react';
 import { letterDetails } from './letterData';
 
 const InfoField = ({ icon: Icon, label, value, themeColor }) => (
     <div className="flex items-start space-x-4 p-4 bg-white rounded-2xl border border-slate-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-transparent transition-all duration-300 group">
-        <div 
-            className="mt-0.5 p-2.5 rounded-xl transition-transform duration-300 group-hover:scale-110" 
+        <div
+            className="mt-0.5 p-2.5 rounded-xl transition-transform duration-300 group-hover:scale-110"
             style={{ color: themeColor, backgroundColor: `${themeColor}15` }}
         >
             <Icon size={18} strokeWidth={2.5} />
@@ -31,7 +31,7 @@ export default function LetterVerificationPage({ onBack, themeColor = '#10b981' 
     const handleVerify = (e) => {
         e.preventDefault();
         setError('');
-        
+
         if (input0.trim() !== '' && input1.trim() !== '') {
             setIsVerified(true);
         } else {
@@ -45,7 +45,7 @@ export default function LetterVerificationPage({ onBack, themeColor = '#10b981' 
             <div className="max-w-4xl w-full mx-auto mb-8 relative z-10 text-center">
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0C1A3A] tracking-tight">Letter Verification</h1>
                 {!isVerified && <p className="text-slate-500 text-sm font-medium mt-1">Enter details to verify</p>}
-                {isVerified && <p className="text-green-600 text-sm font-medium mt-1 flex items-center justify-center"><CheckCircle size={14} className="mr-1"/> Verification Successful</p>}
+                {isVerified && <p className="text-green-600 text-sm font-medium mt-1 flex items-center justify-center"><CheckCircle size={14} className="mr-1" /> Verification Successful</p>}
             </div>
 
             <AnimatePresence mode="wait">
@@ -65,7 +65,7 @@ export default function LetterVerificationPage({ onBack, themeColor = '#10b981' 
                                 <h2 className="text-xl font-bold text-slate-800">Lookup Details</h2>
                                 <p className="text-sm text-slate-500 mt-2">Enter the required fields to retrieve the verification details.</p>
                             </div>
-                            
+
                             <form onSubmit={handleVerify} className="space-y-5">
 
                                 <div>
@@ -74,8 +74,8 @@ export default function LetterVerificationPage({ onBack, themeColor = '#10b981' 
                                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                             <FileText size={18} className="text-slate-400" />
                                         </div>
-                                        <input 
-                                            type="text" 
+                                        <input
+                                            type="text"
                                             value={input0}
                                             onChange={(e) => setInput0(e.target.value)}
                                             onFocus={() => setFocusedInput('input0')}
@@ -94,8 +94,8 @@ export default function LetterVerificationPage({ onBack, themeColor = '#10b981' 
                                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                             <FileText size={18} className="text-slate-400" />
                                         </div>
-                                        <input 
-                                            type="text" 
+                                        <input
+                                            type="text"
                                             value={input1}
                                             onChange={(e) => setInput1(e.target.value)}
                                             onFocus={() => setFocusedInput('input1')}
@@ -115,7 +115,7 @@ export default function LetterVerificationPage({ onBack, themeColor = '#10b981' 
                                     </motion.div>
                                 )}
 
-                                <button 
+                                <button
                                     type="submit"
                                     className="w-full py-3.5 px-4 text-white rounded-xl font-bold shadow-lg transition-all flex items-center justify-center mt-6 hover:brightness-110"
                                     style={{ backgroundColor: themeColor, boxShadow: `0 10px 15px -3px ${themeColor}40` }}
@@ -140,11 +140,13 @@ export default function LetterVerificationPage({ onBack, themeColor = '#10b981' 
                         {/* Details Header */}
                         <div className="bg-white/60 backdrop-blur-xl border-b border-slate-100/80 p-8 sm:px-12 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 relative z-10">
                             <div className="flex items-center space-x-6">
-                                <img src={letterDetails.letterPreview} alt="Preview" className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover shadow-sm ring-2 ring-white" style={{ borderColor: themeColor }} />
+                                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center shadow-sm ring-2 ring-white" style={{ backgroundColor: `${themeColor}15`, borderColor: themeColor }}>
+                                    <Mail size={40} style={{ color: themeColor }} />
+                                </div>
                                 <div>
                                     <div className="flex flex-wrap items-center gap-4 mb-2">
                                         <h2 className="text-3xl sm:text-4xl font-black text-slate-800 tracking-tight">Letter Details</h2>
-                                        <span 
+                                        <span
                                             className="px-4 py-1.5 rounded-full text-xs font-bold flex items-center shadow-sm"
                                             style={{ backgroundColor: `${themeColor}15`, color: themeColor, border: `1px solid ${themeColor}30` }}
                                         >
@@ -158,7 +160,7 @@ export default function LetterVerificationPage({ onBack, themeColor = '#10b981' 
                                     </p>
                                 </div>
                             </div>
-                            <button 
+                            <button
                                 onClick={() => setIsVerified(false)}
                                 className="px-6 py-3 font-bold rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 border"
                                 style={{ backgroundColor: `${themeColor}10`, color: themeColor, borderColor: `${themeColor}20` }}
@@ -175,29 +177,42 @@ export default function LetterVerificationPage({ onBack, themeColor = '#10b981' 
                                 </h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                                     <InfoField icon={FileText} label="Sl No" value={letterDetails.slNo} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Letter Number" value={letterDetails.letterNumber} themeColor={themeColor} />
+                                    <InfoField icon={FileText} label="Letter Registration ID" value={letterDetails.letterRegistrationId} themeColor={themeColor} />
+                                    <InfoField icon={FileText} label="Letter Title" value={letterDetails.letterTitle} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Letter Type" value={letterDetails.letterType} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Letter Subject" value={letterDetails.letterSubject} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Letter Date" value={letterDetails.letterDate} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Sender Name" value={letterDetails.senderName} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Sender Designation" value={letterDetails.senderDesignation} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Sender Department" value={letterDetails.senderDepartment} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Sender Organization" value={letterDetails.senderOrganization} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Recipient Name" value={letterDetails.recipientName} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Recipient Designation" value={letterDetails.recipientDesignation} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Recipient Department" value={letterDetails.recipientDepartment} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Recipient Organization" value={letterDetails.recipientOrganization} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Letter Purpose" value={letterDetails.letterPurpose} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Reference Number" value={letterDetails.referenceNumber} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Issuing Authority" value={letterDetails.issuingAuthority} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Authorized Signatory Name" value={letterDetails.authorizedSignatoryName} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Contact Number" value={letterDetails.contactNumber} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Email ID" value={letterDetails.emailId} themeColor={themeColor} />
+                                    <InfoField icon={FileText} label="Letter Category" value={letterDetails.letterCategory} themeColor={themeColor} />
+
+                                    <InfoField icon={FileText} label="Purpose" value={letterDetails.purpose} themeColor={themeColor} />
+                                    <InfoField icon={FileText} label="Letter Issue Date" value={letterDetails.letterIssueDate} themeColor={themeColor} />
+                                    <InfoField icon={User} label="Issued By" value={letterDetails.issuedBy} themeColor={themeColor} />
+                                    <InfoField icon={User} label="Approved By" value={letterDetails.approvedBy} themeColor={themeColor} />
+
+                                    <InfoField icon={User} label="Name" value={letterDetails.name} themeColor={themeColor} />
+                                    <InfoField icon={Briefcase} label="Designation" value={letterDetails.designation} themeColor={themeColor} />
+                                    <InfoField icon={Building} label="Department" value={letterDetails.department} themeColor={themeColor} />
+
+                                    <InfoField icon={User} label="Sender Name" value={letterDetails.senderName} themeColor={themeColor} />
+                                    <InfoField icon={Briefcase} label="Sender Designation" value={letterDetails.senderDesignation} themeColor={themeColor} />
+                                    <InfoField icon={Building} label="Sender Department" value={letterDetails.senderDepartment} themeColor={themeColor} />
+                                    <InfoField icon={Building} label="Sender Organization" value={letterDetails.senderOrganization} themeColor={themeColor} />
+
+                                    <InfoField icon={User} label="Recipient Name" value={letterDetails.recipientName} themeColor={themeColor} />
+                                    <InfoField icon={Briefcase} label="Recipient Designation" value={letterDetails.recipientDesignation} themeColor={themeColor} />
+                                    <InfoField icon={Building} label="Recipient Department" value={letterDetails.recipientDepartment} themeColor={themeColor} />
+                                    <InfoField icon={Building} label="Recipient Organization" value={letterDetails.recipientOrganization} themeColor={themeColor} />
+
+                                    <InfoField icon={FileText} label="Authorized Signature Name" value={letterDetails.authorizedSignatureName} themeColor={themeColor} />
+
+                                    <InfoField icon={Hash} label="Reference Number" value={letterDetails.referenceNumber} themeColor={themeColor} />
+                                    <InfoField icon={UserCheck} label="Issuing Authority" value={letterDetails.issuingAuthority} themeColor={themeColor} />
+
+                                    <InfoField icon={Phone} label="Contact Number" value={letterDetails.contactNumber} themeColor={themeColor} />
+                                    <InfoField icon={Mail} label="Email ID" value={letterDetails.emailId} themeColor={themeColor} />
+
                                     <InfoField icon={FileText} label="Letter Status" value={letterDetails.letterStatus} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Verification Date" value={letterDetails.verificationDate} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Verified By" value={letterDetails.verifiedBy} themeColor={themeColor} />
+                                    <InfoField icon={UserCheck} label="Verified By" value={letterDetails.verifiedBy} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Remarks" value={letterDetails.remarks} themeColor={themeColor} />
-
                                 </div>
                             </div>
                         </div>

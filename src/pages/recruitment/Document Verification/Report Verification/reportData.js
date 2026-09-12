@@ -1,26 +1,35 @@
 export const reportDetails = {
     slNo: "Sample Sl No",
     reportPreview: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=800&q=80",
+
     reportTitle: "Sample Report Title",
     reportNumber: "Sample Report Number",
-    reportType: "Sample Report Type",
+    registrationId: "Sample Registration ID",
     reportCategory: "Sample Report Category",
-    reportSubject: "Sample Report Subject",
-    preparedBy: "Sample Prepared By",
-    designation: "Sample Designation",
-    department: "Sample Department",
-    organization: "Sample Organization",
-    reportingPeriod: "Sample Reporting Period",
-    reportDate: "Sample Report Date",
-    submissionDate: "Sample Submission Date",
-    referenceNumber: "Sample Reference Number",
-    purpose: "Sample Purpose",
+    reportPurpose: "Sample Report Purpose",
+    subject: "Sample Subject",
+
+    issueDate: "Sample Issue Date",
+    issuedBy: "Sample Issued By",
+
     approvedBy: "Sample Approved By",
     approvalDate: "Sample Approval Date",
-    authorizedSignatory: "Sample Authorized Signatory",
+    authoritiesSignature: "Sample Authorities Signature",
+
+    reportHolderName: "Sample Report Holder Name",
+    designation: "Sample Designation",
+    department: "Sample Department",
+
+    reportType: "Sample Report Type",
+    organization: "Sample Organization",
+    reportingPeriod: "Sample Reporting Period",
+    submissionDate: "Sample Submission Date",
+    referenceNumber: "Sample Reference Number",
+
     mobileNumber: "Sample Mobile Number",
     emailId: "Sample Email ID",
     address: "Sample Address",
+
     reportStatus: "Sample Report Status",
     verificationDate: "Sample Verification Date",
     verifiedBy: "Sample Verified By",

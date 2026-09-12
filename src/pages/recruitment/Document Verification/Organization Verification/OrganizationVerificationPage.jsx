@@ -140,7 +140,9 @@ export default function OrganizationVerificationPage({ onBack, themeColor = '#14
                         {/* Details Header */}
                         <div className="bg-white/60 backdrop-blur-xl border-b border-slate-100/80 p-8 sm:px-12 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 relative z-10">
                             <div className="flex items-center space-x-6">
-                                <img src={organizationDetails.organizationLogo} alt="Preview" className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover shadow-sm ring-2 ring-white" style={{ borderColor: themeColor }} />
+                                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center shadow-sm ring-2 ring-white" style={{ backgroundColor: `${themeColor}15`, borderColor: themeColor }}>
+                                    <Building size={40} style={{ color: themeColor }} />
+                                </div>
                                 <div>
                                     <div className="flex flex-wrap items-center gap-4 mb-2">
                                         <h2 className="text-3xl sm:text-4xl font-black text-slate-800 tracking-tight">Organization Details</h2>

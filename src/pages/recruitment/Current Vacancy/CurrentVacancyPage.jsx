@@ -1,14 +1,10 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Briefcase,
   Users,
-  GraduationCap,
   LayoutGrid,
-  Layout,
-  FileText,
-  CreditCard,
-  Image as ImageIcon
+  Layout
 } from 'lucide-react';
 
 const CurrentVacancyPage = () => {
@@ -18,12 +14,8 @@ const CurrentVacancyPage = () => {
   const items = [
     { label: 'Job Vacancy', path: '/recruitment/current-vacancy/job-vacancy', icon: Briefcase, color: '#3f3d99', desc: 'Browse job vacancies.' },
     { label: 'Post Vacancy', path: '/recruitment/current-vacancy/post-vacancy', icon: Users, color: '#1f6f88', desc: 'Post new job vacancies.' },
-    { label: 'Internship Vacancy', path: '/recruitment/current-vacancy/internship-vacancy', icon: GraduationCap, color: '#156a9a', desc: 'Browse internship opportunities.' },
     { label: 'Vacancy Card 1', path: '/recruitment/current-vacancy/vacancy-card-1', icon: LayoutGrid, color: '#13795b', desc: 'View vacancy details.' },
     { label: 'Vacancy Card 2', path: '/recruitment/current-vacancy/vacancy-card-2', icon: Layout, color: '#6b33c7', desc: 'View vacancy details.' },
-    { label: 'Vacancy Card 3', path: '/recruitment/current-vacancy/vacancy-card-3', icon: FileText, color: '#9a4f1d', desc: 'View vacancy details.' },
-    { label: 'Vacancy Card 4', path: '/recruitment/current-vacancy/vacancy-card-4', icon: CreditCard, color: '#b11d63', desc: 'View vacancy details.' },
-    { label: 'Vacancy Card 5', path: '/recruitment/current-vacancy/vacancy-card-5', icon: ImageIcon, color: '#1e766f', desc: 'View vacancy details.' },
   ];
 
   return (
@@ -39,7 +31,7 @@ const CurrentVacancyPage = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3.5 w-full">
             {items.map((item, index) => {
               const Icon = item.icon;
               const isHovered = hoveredCardId === index;
@@ -51,7 +43,7 @@ const CurrentVacancyPage = () => {
                   onClick={() => navigate(item.path)}
                   onMouseEnter={() => setHoveredCardId(index)}
                   onMouseLeave={() => setHoveredCardId(null)}
-                  className="group relative flex h-[82px] sm:h-[108px] w-full items-center overflow-hidden rounded-[14px] sm:rounded-[22px] border-r border-t border-r-slate-200/40 border-t-slate-200/40 bg-white/95 px-1.5 py-1.5 sm:px-3.5 sm:py-3 text-left shadow-[0_3px_12px_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] active:scale-[0.985] touch-manipulation cursor-pointer"
+                  className="group relative flex h-[82px] sm:h-[108px] w-full items-center overflow-hidden rounded-[14px] sm:rounded-[22px] border-r border-t border-r-slate-200/40 border-t-slate-200/40 bg-white/95 px-1.5 py-1.5 sm:px-3 sm:py-3 text-left shadow-[0_3px_12px_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] active:scale-[0.985] touch-manipulation cursor-pointer"
                   style={{
                     borderLeftColor: itemAccent,
                     borderBottomColor: itemAccent,
@@ -80,9 +72,9 @@ const CurrentVacancyPage = () => {
                     </svg>
                   </div>
 
-                  <div className="relative z-10 flex w-full items-center gap-1.5 pl-1 pt-1 sm:gap-3 sm:pl-2.5 sm:pt-1">
+                  <div className="relative z-10 flex w-full items-center gap-1.5 pl-1 pt-1 sm:gap-2.5 sm:pl-2 sm:pt-1">
                     <div
-                      className="relative z-10 flex h-7 w-7 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full border border-slate-100 transition-all duration-300 group-hover:scale-105"
+                      className="relative z-10 flex h-7 w-7 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-full border border-slate-100 transition-all duration-300 group-hover:scale-105"
                       style={{
                         background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
                         boxShadow: `0 4px 12px -2px rgba(0,0,0,0.05), inset 0 1px 3px rgba(255,255,255,0.9), 0 0 0 1px ${itemAccent}15`
@@ -93,23 +85,23 @@ const CurrentVacancyPage = () => {
                         style={{ backgroundColor: `${itemAccent}05` }}
                       />
                       <Icon
-                        className="relative z-10 h-3.5 w-3.5 sm:h-6 sm:w-6 transition-transform duration-300 group-hover:scale-110"
+                        className="relative z-10 h-3.5 w-3.5 sm:h-5 sm:w-5 transition-transform duration-300 group-hover:scale-110"
                         style={{ color: itemAccent }}
                       />
                     </div>
 
                     <div className="min-w-0 flex-1 pr-0.5">
                       <span
-                        className="block text-[9px] font-extrabold leading-[1.15] tracking-tight transition-colors duration-300 sm:text-[12.5px] line-clamp-2"
+                        className="block text-[9px] font-extrabold leading-[1.15] tracking-tight transition-colors duration-300 sm:text-[12px] line-clamp-2"
                         style={{ color: isHovered ? itemAccent : '#0f172a' }}
                       >
                         {item.label}
                       </span>
-                      <span className="block text-[7px] font-normal leading-tight text-slate-400 line-clamp-1 truncate sm:text-[9.5px]">
+                      <span className="block text-[7px] font-normal leading-tight text-slate-400 line-clamp-1 truncate sm:text-[9px]">
                         {item.desc}
                       </span>
                       <span
-                        className="mt-0.5 flex w-fit items-center gap-0.5 text-[7.5px] font-extrabold transition-transform duration-300 group-hover:translate-x-0.5 sm:text-[9.5px]"
+                        className="mt-0.5 flex w-fit items-center gap-0.5 text-[7.5px] font-extrabold transition-transform duration-300 group-hover:translate-x-0.5 sm:text-[9px]"
                         style={{ color: itemAccent }}
                       >
                         View More <span className="text-[8px] sm:text-[10px]">→</span>

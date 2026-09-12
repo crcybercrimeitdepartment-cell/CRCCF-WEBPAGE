@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
+import {
     User, Phone, Mail, Briefcase, Hash, CheckCircle, ArrowLeft, Search, ShieldAlert, Building, FileText, AtSign, UserCheck, ClipboardList
 } from 'lucide-react';
 import { reportDetails } from './reportData';
 
 const InfoField = ({ icon: Icon, label, value, themeColor }) => (
     <div className="flex items-start space-x-4 p-4 bg-white rounded-2xl border border-slate-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-transparent transition-all duration-300 group">
-        <div 
-            className="mt-0.5 p-2.5 rounded-xl transition-transform duration-300 group-hover:scale-110" 
+        <div
+            className="mt-0.5 p-2.5 rounded-xl transition-transform duration-300 group-hover:scale-110"
             style={{ color: themeColor, backgroundColor: `${themeColor}15` }}
         >
             <Icon size={18} strokeWidth={2.5} />
@@ -31,7 +31,7 @@ export default function ReportVerificationPage({ onBack, themeColor = '#f59e0b' 
     const handleVerify = (e) => {
         e.preventDefault();
         setError('');
-        
+
         if (input0.trim() !== '' && input1.trim() !== '') {
             setIsVerified(true);
         } else {
@@ -45,7 +45,7 @@ export default function ReportVerificationPage({ onBack, themeColor = '#f59e0b' 
             <div className="max-w-4xl w-full mx-auto mb-8 relative z-10 text-center">
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0C1A3A] tracking-tight">Report Verification</h1>
                 {!isVerified && <p className="text-slate-500 text-sm font-medium mt-1">Enter details to verify</p>}
-                {isVerified && <p className="text-green-600 text-sm font-medium mt-1 flex items-center justify-center"><CheckCircle size={14} className="mr-1"/> Verification Successful</p>}
+                {isVerified && <p className="text-green-600 text-sm font-medium mt-1 flex items-center justify-center"><CheckCircle size={14} className="mr-1" /> Verification Successful</p>}
             </div>
 
             <AnimatePresence mode="wait">
@@ -65,7 +65,7 @@ export default function ReportVerificationPage({ onBack, themeColor = '#f59e0b' 
                                 <h2 className="text-xl font-bold text-slate-800">Lookup Details</h2>
                                 <p className="text-sm text-slate-500 mt-2">Enter the required fields to retrieve the verification details.</p>
                             </div>
-                            
+
                             <form onSubmit={handleVerify} className="space-y-5">
 
                                 <div>
@@ -74,8 +74,8 @@ export default function ReportVerificationPage({ onBack, themeColor = '#f59e0b' 
                                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                             <FileText size={18} className="text-slate-400" />
                                         </div>
-                                        <input 
-                                            type="text" 
+                                        <input
+                                            type="text"
                                             value={input0}
                                             onChange={(e) => setInput0(e.target.value)}
                                             onFocus={() => setFocusedInput('input0')}
@@ -94,8 +94,8 @@ export default function ReportVerificationPage({ onBack, themeColor = '#f59e0b' 
                                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                             <FileText size={18} className="text-slate-400" />
                                         </div>
-                                        <input 
-                                            type="text" 
+                                        <input
+                                            type="text"
                                             value={input1}
                                             onChange={(e) => setInput1(e.target.value)}
                                             onFocus={() => setFocusedInput('input1')}
@@ -115,7 +115,7 @@ export default function ReportVerificationPage({ onBack, themeColor = '#f59e0b' 
                                     </motion.div>
                                 )}
 
-                                <button 
+                                <button
                                     type="submit"
                                     className="w-full py-3.5 px-4 text-white rounded-xl font-bold shadow-lg transition-all flex items-center justify-center mt-6 hover:brightness-110"
                                     style={{ backgroundColor: themeColor, boxShadow: `0 10px 15px -3px ${themeColor}40` }}
@@ -140,11 +140,13 @@ export default function ReportVerificationPage({ onBack, themeColor = '#f59e0b' 
                         {/* Details Header */}
                         <div className="bg-white/60 backdrop-blur-xl border-b border-slate-100/80 p-8 sm:px-12 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 relative z-10">
                             <div className="flex items-center space-x-6">
-                                <img src={reportDetails.reportPreview} alt="Preview" className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover shadow-sm ring-2 ring-white" style={{ borderColor: themeColor }} />
+                                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center shadow-sm ring-2 ring-white" style={{ backgroundColor: `${themeColor}15`, borderColor: themeColor }}>
+                                    <ClipboardList size={40} style={{ color: themeColor }} />
+                                </div>
                                 <div>
                                     <div className="flex flex-wrap items-center gap-4 mb-2">
                                         <h2 className="text-3xl sm:text-4xl font-black text-slate-800 tracking-tight">Report Details</h2>
-                                        <span 
+                                        <span
                                             className="px-4 py-1.5 rounded-full text-xs font-bold flex items-center shadow-sm"
                                             style={{ backgroundColor: `${themeColor}15`, color: themeColor, border: `1px solid ${themeColor}30` }}
                                         >
@@ -158,7 +160,7 @@ export default function ReportVerificationPage({ onBack, themeColor = '#f59e0b' 
                                     </p>
                                 </div>
                             </div>
-                            <button 
+                            <button
                                 onClick={() => setIsVerified(false)}
                                 className="px-6 py-3 font-bold rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 border"
                                 style={{ backgroundColor: `${themeColor}10`, color: themeColor, borderColor: `${themeColor}20` }}
@@ -177,29 +179,35 @@ export default function ReportVerificationPage({ onBack, themeColor = '#f59e0b' 
                                     <InfoField icon={FileText} label="Sl No" value={reportDetails.slNo} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Report Title" value={reportDetails.reportTitle} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Report Number" value={reportDetails.reportNumber} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Report Type" value={reportDetails.reportType} themeColor={themeColor} />
+                                    <InfoField icon={FileText} label="Registration ID" value={reportDetails.registrationId} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Report Category" value={reportDetails.reportCategory} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Report Subject" value={reportDetails.reportSubject} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Prepared By" value={reportDetails.preparedBy} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Designation" value={reportDetails.designation} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Department" value={reportDetails.department} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Organization" value={reportDetails.organization} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Reporting Period" value={reportDetails.reportingPeriod} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Report Date" value={reportDetails.reportDate} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Submission Date" value={reportDetails.submissionDate} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Reference Number" value={reportDetails.referenceNumber} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Purpose" value={reportDetails.purpose} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Approved By" value={reportDetails.approvedBy} themeColor={themeColor} />
+                                    <InfoField icon={FileText} label="Report Purpose" value={reportDetails.reportPurpose} themeColor={themeColor} />
+                                    <InfoField icon={FileText} label="Subject" value={reportDetails.subject} themeColor={themeColor} />
+
+                                    <InfoField icon={FileText} label="Issue Date" value={reportDetails.issueDate} themeColor={themeColor} />
+                                    <InfoField icon={User} label="Issued By" value={reportDetails.issuedBy} themeColor={themeColor} />
+                                    <InfoField icon={User} label="Approved By" value={reportDetails.approvedBy} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Approval Date" value={reportDetails.approvalDate} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Authorized Signatory" value={reportDetails.authorizedSignatory} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Mobile Number" value={reportDetails.mobileNumber} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Email ID" value={reportDetails.emailId} themeColor={themeColor} />
+                                    <InfoField icon={FileText} label="Authorities Signature" value={reportDetails.authoritiesSignature} themeColor={themeColor} />
+
+                                    <InfoField icon={User} label="Report Holder Name" value={reportDetails.reportHolderName} themeColor={themeColor} />
+                                    <InfoField icon={Briefcase} label="Designation" value={reportDetails.designation} themeColor={themeColor} />
+                                    <InfoField icon={Building} label="Department" value={reportDetails.department} themeColor={themeColor} />
+
+                                    <InfoField icon={FileText} label="Report Type" value={reportDetails.reportType} themeColor={themeColor} />
+                                    <InfoField icon={Building} label="Organization" value={reportDetails.organization} themeColor={themeColor} />
+                                    <InfoField icon={FileText} label="Reporting Period" value={reportDetails.reportingPeriod} themeColor={themeColor} />
+                                    <InfoField icon={FileText} label="Submission Date" value={reportDetails.submissionDate} themeColor={themeColor} />
+                                    <InfoField icon={Hash} label="Reference Number" value={reportDetails.referenceNumber} themeColor={themeColor} />
+
+                                    <InfoField icon={Phone} label="Mobile Number" value={reportDetails.mobileNumber} themeColor={themeColor} />
+                                    <InfoField icon={Mail} label="Email ID" value={reportDetails.emailId} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Address" value={reportDetails.address} themeColor={themeColor} />
+
                                     <InfoField icon={FileText} label="Report Status" value={reportDetails.reportStatus} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Verification Date" value={reportDetails.verificationDate} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Verified By" value={reportDetails.verifiedBy} themeColor={themeColor} />
+                                    <InfoField icon={UserCheck} label="Verified By" value={reportDetails.verifiedBy} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Remarks" value={reportDetails.remarks} themeColor={themeColor} />
-
                                 </div>
                             </div>
                         </div>

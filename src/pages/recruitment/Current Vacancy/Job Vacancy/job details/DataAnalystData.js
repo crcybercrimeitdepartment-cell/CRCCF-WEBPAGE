@@ -1,6 +1,8 @@
 // src/pages/recruitment/Current Vacancy/Job Vacancy/job details/DataAnalystData.js
 
 export const dataAnalystData = {
+  // Custom hero section image (image link or imported image). Defaults to standard hero illustration if empty.
+  heroImage: "https://res.cloudinary.com/dlhmkbijh/image/upload/v1789206147/Data_Analyst_ldkzr4.png",
   "positionInformation": {
     "jobTitle": "Data Analyst",
     "jobCode": "CRCCF-IT-DANALYST-2026-001",

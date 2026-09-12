@@ -221,7 +221,14 @@ function HeroBackground() {
 
 
 
-function HeroIllustration({ department, vacancies, status, level, employmentType, workMode }) {
+function HeroIllustration({ department, vacancies, status, level, employmentType, workMode, heroImage }) {
+  const defaultHero = heroImg;
+  const [imgSrc, setImgSrc] = useState(heroImage || defaultHero);
+
+  useEffect(() => {
+    setImgSrc(heroImage || defaultHero);
+  }, [heroImage, defaultHero]);
+
   return (
     <div className="relative w-full max-w-[400px] sm:max-w-[500px] lg:max-w-[650px] xl:max-w-[750px] mx-auto lg:mr-0 aspect-[4/3] lg:aspect-square flex justify-center items-center">
       {/* The main static 3D illustration */}
@@ -232,8 +239,9 @@ function HeroIllustration({ department, vacancies, status, level, employmentType
         className="w-full h-full relative z-10"
       >
         <img loading="lazy" decoding="async" 
-          src={heroImg}
-          alt="3D Hero Illustration" 
+          src={imgSrc || defaultHero}
+          onError={() => setImgSrc(defaultHero)}
+          alt="Job Hero Illustration" 
           className="w-full h-full object-contain -translate-x-4 lg:-translate-x-10"
         />
       </motion.div>
@@ -266,6 +274,7 @@ function HeroSection({
   applicationStatus = "Active / Accepting Applications",
   employmentType = "Full-time",
   workMode = "Hybrid",
+  heroImage,
   onApplyClick
 }) {
   const handleScrollToApply = () => {
@@ -369,6 +378,7 @@ function HeroSection({
             level={positionLevel}
             employmentType={employmentType}
             workMode={workMode}
+            heroImage={heroImage}
           />
         </div>
         
@@ -1047,6 +1057,22 @@ const [viewMode,setViewMode]=useState("list");
     }
   };
 
+  const selectedJobListing = useMemo(() => {
+    return jobListings.find((j) => j.id === jobId || j.jobCode === jobId);
+  }, [jobId]);
+
+  const activeHeroImage =
+    data?.heroImage ||
+    data?.image ||
+    data?.heroImg ||
+    positionInformation?.heroImage ||
+    positionInformation?.image ||
+    selectedJobListing?.heroImage ||
+    selectedJobListing?.image ||
+    location.state?.heroImage ||
+    location.state?.job?.heroImage ||
+    heroImg;
+
   return (
     <div className="min-h-screen bg-white py-10 px-4 sm:px-6 lg:px-8 font-sans antialiased text-slate-800 selection:bg-blue-100 relative">
       <PageAmbientBackground />
@@ -1064,6 +1090,7 @@ const [viewMode,setViewMode]=useState("list");
           applicationStatus={positionInformation.applicationStatus}
           employmentType={jobOverview.employmentType}
           workMode={jobOverview.workMode}
+          heroImage={activeHeroImage}
           onApplyClick={handleApplyClick}
         />
       </div>

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
+import {
     User, Phone, Mail, Briefcase, Hash, CheckCircle, ArrowLeft, Search, ShieldAlert, Building, FileText, AtSign, UserCheck, HeartHandshake
 } from 'lucide-react';
 import { volunteerDetails } from './volunteerData';
 
 const InfoField = ({ icon: Icon, label, value, themeColor }) => (
     <div className="flex items-start space-x-4 p-4 bg-white rounded-2xl border border-slate-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-transparent transition-all duration-300 group">
-        <div 
-            className="mt-0.5 p-2.5 rounded-xl transition-transform duration-300 group-hover:scale-110" 
+        <div
+            className="mt-0.5 p-2.5 rounded-xl transition-transform duration-300 group-hover:scale-110"
             style={{ color: themeColor, backgroundColor: `${themeColor}15` }}
         >
             <Icon size={18} strokeWidth={2.5} />
@@ -31,7 +31,7 @@ export default function VolunteerVerificationPage({ onBack, themeColor = '#0ea5e
     const handleVerify = (e) => {
         e.preventDefault();
         setError('');
-        
+
         if (input0.trim() !== '' && input1.trim() !== '') {
             setIsVerified(true);
         } else {
@@ -45,7 +45,7 @@ export default function VolunteerVerificationPage({ onBack, themeColor = '#0ea5e
             <div className="max-w-4xl w-full mx-auto mb-8 relative z-10 text-center">
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0C1A3A] tracking-tight">Volunteer Verification</h1>
                 {!isVerified && <p className="text-slate-500 text-sm font-medium mt-1">Enter details to verify</p>}
-                {isVerified && <p className="text-green-600 text-sm font-medium mt-1 flex items-center justify-center"><CheckCircle size={14} className="mr-1"/> Verification Successful</p>}
+                {isVerified && <p className="text-green-600 text-sm font-medium mt-1 flex items-center justify-center"><CheckCircle size={14} className="mr-1" /> Verification Successful</p>}
             </div>
 
             <AnimatePresence mode="wait">
@@ -65,7 +65,7 @@ export default function VolunteerVerificationPage({ onBack, themeColor = '#0ea5e
                                 <h2 className="text-xl font-bold text-slate-800">Lookup Details</h2>
                                 <p className="text-sm text-slate-500 mt-2">Enter the required fields to retrieve the verification details.</p>
                             </div>
-                            
+
                             <form onSubmit={handleVerify} className="space-y-5">
 
                                 <div>
@@ -74,8 +74,8 @@ export default function VolunteerVerificationPage({ onBack, themeColor = '#0ea5e
                                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                             <FileText size={18} className="text-slate-400" />
                                         </div>
-                                        <input 
-                                            type="text" 
+                                        <input
+                                            type="text"
                                             value={input0}
                                             onChange={(e) => setInput0(e.target.value)}
                                             onFocus={() => setFocusedInput('input0')}
@@ -94,8 +94,8 @@ export default function VolunteerVerificationPage({ onBack, themeColor = '#0ea5e
                                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                             <FileText size={18} className="text-slate-400" />
                                         </div>
-                                        <input 
-                                            type="text" 
+                                        <input
+                                            type="text"
                                             value={input1}
                                             onChange={(e) => setInput1(e.target.value)}
                                             onFocus={() => setFocusedInput('input1')}
@@ -115,7 +115,7 @@ export default function VolunteerVerificationPage({ onBack, themeColor = '#0ea5e
                                     </motion.div>
                                 )}
 
-                                <button 
+                                <button
                                     type="submit"
                                     className="w-full py-3.5 px-4 text-white rounded-xl font-bold shadow-lg transition-all flex items-center justify-center mt-6 hover:brightness-110"
                                     style={{ backgroundColor: themeColor, boxShadow: `0 10px 15px -3px ${themeColor}40` }}
@@ -140,11 +140,13 @@ export default function VolunteerVerificationPage({ onBack, themeColor = '#0ea5e
                         {/* Details Header */}
                         <div className="bg-white/60 backdrop-blur-xl border-b border-slate-100/80 p-8 sm:px-12 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 relative z-10">
                             <div className="flex items-center space-x-6">
-                                <img src={volunteerDetails.volunteerPhoto} alt="Preview" className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover shadow-sm ring-2 ring-white" style={{ borderColor: themeColor }} />
+                                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center shadow-sm ring-2 ring-white" style={{ backgroundColor: `${themeColor}15`, borderColor: themeColor }}>
+                                    <HeartHandshake size={40} style={{ color: themeColor }} />
+                                </div>
                                 <div>
                                     <div className="flex flex-wrap items-center gap-4 mb-2">
                                         <h2 className="text-3xl sm:text-4xl font-black text-slate-800 tracking-tight">Volunteer Details</h2>
-                                        <span 
+                                        <span
                                             className="px-4 py-1.5 rounded-full text-xs font-bold flex items-center shadow-sm"
                                             style={{ backgroundColor: `${themeColor}15`, color: themeColor, border: `1px solid ${themeColor}30` }}
                                         >
@@ -158,7 +160,7 @@ export default function VolunteerVerificationPage({ onBack, themeColor = '#0ea5e
                                     </p>
                                 </div>
                             </div>
-                            <button 
+                            <button
                                 onClick={() => setIsVerified(false)}
                                 className="px-6 py-3 font-bold rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 border"
                                 style={{ backgroundColor: `${themeColor}10`, color: themeColor, borderColor: `${themeColor}20` }}
@@ -180,24 +182,30 @@ export default function VolunteerVerificationPage({ onBack, themeColor = '#0ea5e
                                     <InfoField icon={FileText} label="Date of Birth" value={volunteerDetails.dateOfBirth} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Gender" value={volunteerDetails.gender} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Occupation" value={volunteerDetails.occupation} themeColor={themeColor} />
+
                                     <InfoField icon={FileText} label="Volunteer ID" value={volunteerDetails.volunteerId} themeColor={themeColor} />
+                                    <InfoField icon={FileText} label="Volunteer Registration ID" value={volunteerDetails.volunteerRegistrationId} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Volunteer Category" value={volunteerDetails.volunteerCategory} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Volunteer Type" value={volunteerDetails.volunteerType} themeColor={themeColor} />
+
                                     <InfoField icon={FileText} label="Department" value={volunteerDetails.department} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Organization" value={volunteerDetails.organization} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Area of Service" value={volunteerDetails.areaOfService} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Volunteer Role" value={volunteerDetails.volunteerRole} themeColor={themeColor} />
+
                                     <InfoField icon={FileText} label="Joining Date" value={volunteerDetails.joiningDate} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Service Start Date" value={volunteerDetails.serviceStartDate} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Service End Date" value={volunteerDetails.serviceEndDate} themeColor={themeColor} />
+                                    <InfoField icon={FileText} label="Validity" value={volunteerDetails.validity} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Volunteer Hours" value={volunteerDetails.volunteerHours} themeColor={themeColor} />
+
                                     <InfoField icon={FileText} label="Mobile Number" value={volunteerDetails.mobileNumber} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Email ID" value={volunteerDetails.emailId} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Address" value={volunteerDetails.address} themeColor={themeColor} />
+
                                     <InfoField icon={FileText} label="Volunteer Status" value={volunteerDetails.volunteerStatus} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Verification Date" value={volunteerDetails.verificationDate} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Verified By" value={volunteerDetails.verifiedBy} themeColor={themeColor} />
-
                                 </div>
                             </div>
                         </div>

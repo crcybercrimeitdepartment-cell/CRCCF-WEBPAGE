@@ -1,6 +1,8 @@
 // src/pages/recruitment/Current Vacancy/Job Vacancy/job details/JuniorDevOpsEngineerData.js
 
 export const juniorDevOpsEngineerData = {
+  // Custom hero section image (image link or imported image). Defaults to standard hero illustration if empty.
+  heroImage: "https://res.cloudinary.com/dlhmkbijh/image/upload/v1789206128/Junior_DevOps_Engineer_kajhf0.png",
   "positionInformation": {
     "jobTitle": "Junior DevOps Engineer",
     "jobCode": "CRCCF-IT-JDEVOPS-2026-001",

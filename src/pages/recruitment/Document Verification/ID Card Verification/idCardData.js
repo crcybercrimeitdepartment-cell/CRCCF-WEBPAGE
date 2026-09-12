@@ -9,7 +9,7 @@ export const idCardDetails = {
     department: "Sample Department",
     organizationName: "Sample Organization Name",
     idCardType: "Sample ID Card Type",
-    employeeStudentMemberId: "Sample Employee / Student / Member ID",
+    employeeStudentMemberId: "Sample Employee ID",
     idCardNumber: "Sample ID Card Number",
     issueDate: "Sample Issue Date",
     validFrom: "Sample Valid From",

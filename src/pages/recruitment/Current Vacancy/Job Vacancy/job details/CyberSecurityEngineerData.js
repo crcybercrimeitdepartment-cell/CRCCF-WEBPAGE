@@ -1,6 +1,8 @@
 // src/pages/recruitment/Current Vacancy/Job Vacancy/job details/CyberSecurityEngineerData.js
 
 export const cyberSecurityEngineerData = {
+  // Custom hero section image (image link or imported image). Defaults to standard hero illustration if empty.
+  heroImage: "https://res.cloudinary.com/dlhmkbijh/image/upload/v1789206169/Cyber_Security_Engineer_jq4qkq.png",
   "positionInformation": {
     "jobTitle": "Cyber Security Engineer",
     "jobCode": "CRCCF-IT-JSECURITY-2026-001",

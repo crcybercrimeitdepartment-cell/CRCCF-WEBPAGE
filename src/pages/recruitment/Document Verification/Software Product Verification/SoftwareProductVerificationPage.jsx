@@ -140,7 +140,9 @@ export default function SoftwareProductVerificationPage({ onBack, themeColor = '
                         {/* Details Header */}
                         <div className="bg-white/60 backdrop-blur-xl border-b border-slate-100/80 p-8 sm:px-12 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 relative z-10">
                             <div className="flex items-center space-x-6">
-                                <img src={softwareProductDetails.productLogoPreview} alt="Preview" className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover shadow-sm ring-2 ring-white" style={{ borderColor: themeColor }} />
+                                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center shadow-sm ring-2 ring-white" style={{ backgroundColor: `${themeColor}15`, borderColor: themeColor }}>
+                                    <Code size={40} style={{ color: themeColor }} />
+                                </div>
                                 <div>
                                     <div className="flex flex-wrap items-center gap-4 mb-2">
                                         <h2 className="text-3xl sm:text-4xl font-black text-slate-800 tracking-tight">Software Product Details</h2>
@@ -176,6 +178,11 @@ export default function SoftwareProductVerificationPage({ onBack, themeColor = '
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                                     <InfoField icon={FileText} label="Sl No" value={softwareProductDetails.slNo} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Software Product Name" value={softwareProductDetails.softwareProductName} themeColor={themeColor} />
+<InfoField icon={User} label="Project Manager Name" value={softwareProductDetails.projectManagerName} themeColor={themeColor} />
+<InfoField icon={Briefcase} label="Project Manager Designation" value={softwareProductDetails.projectManagerDesignation} themeColor={themeColor} />
+<InfoField icon={User} label="Architecture Engineer Name" value={softwareProductDetails.architecturalEngineerName} themeColor={themeColor} />
+<InfoField icon={Briefcase} label="Architecture Engineer Designation" value={softwareProductDetails.architecturalEngineerDesignation} themeColor={themeColor} />
+                                    <InfoField icon={FileText} label="Software Product Name" value={softwareProductDetails.softwareProductName} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Product ID" value={softwareProductDetails.productId} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Product Type" value={softwareProductDetails.productType} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Product Category" value={softwareProductDetails.productCategory} themeColor={themeColor} />
@@ -183,6 +190,9 @@ export default function SoftwareProductVerificationPage({ onBack, themeColor = '
                                     <InfoField icon={FileText} label="Developer Name" value={softwareProductDetails.developerName} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Developer Organization" value={softwareProductDetails.developerOrganization} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Product Owner" value={softwareProductDetails.productOwner} themeColor={themeColor} />
+                                    <InfoField icon={FileText} label="License Number" value={softwareProductDetails.licenseNumber} themeColor={themeColor} />
+<InfoField icon={FileText} label="Pricing Model" value={softwareProductDetails.pricingModel} themeColor={themeColor} />
+<InfoField icon={FileText} label="Pricing" value={softwareProductDetails.pricing} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Software Purpose" value={softwareProductDetails.softwarePurpose} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Key Features" value={softwareProductDetails.keyFeatures} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Platform" value={softwareProductDetails.platform} themeColor={themeColor} />

@@ -1,6 +1,8 @@
 // src/pages/recruitment/Current Vacancy/Job Vacancy/job details/CyberCrimeInvestigationOfficerData.js
 
 export const cyberCrimeInvestigationOfficerData = {
+  // Custom hero section image (image link or imported image). Defaults to standard hero illustration if empty.
+  heroImage: "https://res.cloudinary.com/dlhmkbijh/image/upload/v1789206125/Cyber_Crime_Investigation_Officer_ufd4y3.png",
   "positionInformation": {
     "jobTitle": "Cyber Crime Investigation Officer",
     "jobCode": "CRCCF-IT-JCCIO-2026-001",

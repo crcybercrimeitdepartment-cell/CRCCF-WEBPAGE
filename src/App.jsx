@@ -168,7 +168,38 @@ const JobVacancy                = lazy(() => import('./pages/recruitment/JobVaca
 const JobVacancyPage            = lazy(() => import('./pages/recruitment/Current Vacancy/Job Vacancy/JobDetailPage'))
 const CandidateMasterProfileFormPage = lazy(() => import('./pages/recruitment/Current Vacancy/Job Vacancy/New Registration Form/CandidateMasterProfileFormPage'))
 const DocumentVerificationDepartment = lazy(() => import('./pages/recruitment/Document Verification/DocumentVerificationDepartment'))
-const OnlineApplicationPortal   = lazy(() => import('./pages/recruitment/OnlineApplicationPortal'))
+const OnlineApplicationPortal   = lazy(() => import('./pages/recruitment/Online Application Portal/OnlineApplicationPortal'))
+// ─── LAZY: Online Application Portal Forms ────────────────────────────────────
+const Form10thCertificateApplicationFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/10th Certificate Application Form/10thCertificateApplicationFormPage'))
+const Form12thCertificateApplicationFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/12th Certificate Application Form/12thCertificateApplicationFormPage'))
+const ITICertificateApplicationFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/ITI Certificate Application Form/ITICertificateApplicationFormPage'))
+const DiplomaCertificateApplicationFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Diploma Certificate Application Form/DiplomaCertificateApplicationFormPage'))
+const DegreeCertificateApplicationFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Degree Certificate Application Form/DegreeCertificateApplicationFormPage'))
+const MasterDegreeCertificateApplicationFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Master Degree Certificate Application Form/MasterDegreeCertificateApplicationFormPage'))
+const SeminarRegistrationFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Seminar Registration Form/SeminarRegistrationFormPage'))
+const WebinarRegistrationFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Webinar Registration Form/WebinarRegistrationFormPage'))
+const WorkshopRegistrationFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Workshop Registration Form/WorkshopRegistrationFormPage'))
+const InstitutionalTrainingRequestFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Institutional Training Request Form/InstitutionalTrainingRequestFormPage'))
+const CyberAwarenessProgramRequestFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Cyber Awareness Program Request Form/CyberAwarenessProgramRequestFormPage'))
+const CollaborationApplicationFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Collaboration Application Form/CollaborationApplicationFormPage'))
+const PartnershipApplicationFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Partnership Application Form/PartnershipApplicationFormPage'))
+const ResearcherApplicationFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Researcher Application Form/ResearcherApplicationFormPage'))
+const FreelanceConsultantApplicationFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Freelance - Consultant Application Form/FreelanceConsultantApplicationFormPage'))
+const VolunteerApplicationFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Volunteer Application Form/VolunteerApplicationFormPage'))
+const JobApplicationFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Job Application Form/JobApplicationFormPage'))
+const EventParticipationApplicationFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Event Participation Application Form/EventParticipationApplicationFormPage'))
+const DuplicateIDCardApplicationFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Duplicate ID Card Application Form/DuplicateIDCardApplicationFormPage'))
+const DuplicateCertificateApplicationFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Duplicate Certificate Application Form/DuplicateCertificateApplicationFormPage'))
+const SoftwareProductPurchaseRequestFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Software Product Purchase Request Form/SoftwareProductPurchaseRequestFormPage'))
+const SoftwareProductDemoRequestFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Software Product Demo Request Form/SoftwareProductDemoRequestFormPage'))
+const TechnicalSupportRequestFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Technical Support Request Form/TechnicalSupportRequestFormPage'))
+const MembershipApplicationFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Membership Application Form/MembershipApplicationFormPage'))
+const MembershipRenewalApplicationFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Membership Renewal Application Form/MembershipRenewalApplicationFormPage'))
+const FeedbackAndSuggestionFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Feedback & Suggestion Form/FeedbackAndSuggestionFormPage'))
+const GrievanceSubmissionFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Grievance Submission Form/GrievanceSubmissionFormPage'))
+const ComplaintSubmissionFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Complaint Submission Form/ComplaintSubmissionFormPage'))
+const SponsorshipApplicationFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/Sponsorship Application Form/SponsorshipApplicationFormPage'))
+const GeneralInquiryInformationRequestFormPage = lazy(() => import('./pages/recruitment/Online Application Portal/General Inquiry - Information Request Form/GeneralInquiryInformationRequestFormPage'))
 const RecruitmentAdvertisements = lazy(() => import('./pages/recruitment/RecruitmentAdvertisements'))
 const PressReleaseNotices       = lazy(() => import('./pages/recruitment/PressReleaseNotices'))
 const ApplicationStatus         = lazy(() => import('./pages/recruitment/ApplicationStatus'))
@@ -407,7 +438,98 @@ function AppRoutes() {
             <Route path="/recruitment/current-vacancy/vacancy-card-4" element={<VacancyCard4Page />} />
             <Route path="/recruitment/current-vacancy/vacancy-card-5" element={<VacancyCard5Page />} />
             <Route path="/recruitment/document-verification-department" element={<DocumentVerificationDepartment />} />
-            <Route path="/recruitment/online-application-portal" element={<OnlineApplicationPortal />} />
+                        <Route path="/recruitment/online-application-portal" element={<OnlineApplicationPortal />} />
+            {/* Online Application Portal Forms */}
+            <Route path="/recruitment/online-application-portal/10th-certificate-application-form" element={<Form10thCertificateApplicationFormPage />} />
+            <Route path="/recruitment/10th-certificate-application-form" element={<Form10thCertificateApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/10thCertificateApplicationFormPage" element={<Form10thCertificateApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/12th-certificate-application-form" element={<Form12thCertificateApplicationFormPage />} />
+            <Route path="/recruitment/12th-certificate-application-form" element={<Form12thCertificateApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/12thCertificateApplicationFormPage" element={<Form12thCertificateApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/iti-certificate-application-form" element={<ITICertificateApplicationFormPage />} />
+            <Route path="/recruitment/iti-certificate-application-form" element={<ITICertificateApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/ITICertificateApplicationFormPage" element={<ITICertificateApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/diploma-certificate-application-form" element={<DiplomaCertificateApplicationFormPage />} />
+            <Route path="/recruitment/diploma-certificate-application-form" element={<DiplomaCertificateApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/DiplomaCertificateApplicationFormPage" element={<DiplomaCertificateApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/degree-certificate-application-form" element={<DegreeCertificateApplicationFormPage />} />
+            <Route path="/recruitment/degree-certificate-application-form" element={<DegreeCertificateApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/DegreeCertificateApplicationFormPage" element={<DegreeCertificateApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/master-degree-certificate-application-form" element={<MasterDegreeCertificateApplicationFormPage />} />
+            <Route path="/recruitment/master-degree-certificate-application-form" element={<MasterDegreeCertificateApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/MasterDegreeCertificateApplicationFormPage" element={<MasterDegreeCertificateApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/seminar-registration-form" element={<SeminarRegistrationFormPage />} />
+            <Route path="/recruitment/seminar-registration-form" element={<SeminarRegistrationFormPage />} />
+            <Route path="/recruitment/online-application-portal/SeminarRegistrationFormPage" element={<SeminarRegistrationFormPage />} />
+            <Route path="/recruitment/online-application-portal/webinar-registration-form" element={<WebinarRegistrationFormPage />} />
+            <Route path="/recruitment/webinar-registration-form" element={<WebinarRegistrationFormPage />} />
+            <Route path="/recruitment/online-application-portal/WebinarRegistrationFormPage" element={<WebinarRegistrationFormPage />} />
+            <Route path="/recruitment/online-application-portal/workshop-registration-form" element={<WorkshopRegistrationFormPage />} />
+            <Route path="/recruitment/workshop-registration-form" element={<WorkshopRegistrationFormPage />} />
+            <Route path="/recruitment/online-application-portal/WorkshopRegistrationFormPage" element={<WorkshopRegistrationFormPage />} />
+            <Route path="/recruitment/online-application-portal/institutional-training-request-form" element={<InstitutionalTrainingRequestFormPage />} />
+            <Route path="/recruitment/institutional-training-request-form" element={<InstitutionalTrainingRequestFormPage />} />
+            <Route path="/recruitment/online-application-portal/InstitutionalTrainingRequestFormPage" element={<InstitutionalTrainingRequestFormPage />} />
+            <Route path="/recruitment/online-application-portal/cyber-awareness-program-request-form" element={<CyberAwarenessProgramRequestFormPage />} />
+            <Route path="/recruitment/cyber-awareness-program-request-form" element={<CyberAwarenessProgramRequestFormPage />} />
+            <Route path="/recruitment/online-application-portal/CyberAwarenessProgramRequestFormPage" element={<CyberAwarenessProgramRequestFormPage />} />
+            <Route path="/recruitment/online-application-portal/collaboration-application-form" element={<CollaborationApplicationFormPage />} />
+            <Route path="/recruitment/collaboration-application-form" element={<CollaborationApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/CollaborationApplicationFormPage" element={<CollaborationApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/partnership-application-form" element={<PartnershipApplicationFormPage />} />
+            <Route path="/recruitment/partnership-application-form" element={<PartnershipApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/PartnershipApplicationFormPage" element={<PartnershipApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/researcher-application-form" element={<ResearcherApplicationFormPage />} />
+            <Route path="/recruitment/researcher-application-form" element={<ResearcherApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/ResearcherApplicationFormPage" element={<ResearcherApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/freelance-consultant-application-form" element={<FreelanceConsultantApplicationFormPage />} />
+            <Route path="/recruitment/freelance-consultant-application-form" element={<FreelanceConsultantApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/FreelanceConsultantApplicationFormPage" element={<FreelanceConsultantApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/volunteer-application-form" element={<VolunteerApplicationFormPage />} />
+            <Route path="/recruitment/volunteer-application-form" element={<VolunteerApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/VolunteerApplicationFormPage" element={<VolunteerApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/job-application-form" element={<JobApplicationFormPage />} />
+            <Route path="/recruitment/job-application-form" element={<JobApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/JobApplicationFormPage" element={<JobApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/event-participation-application-form" element={<EventParticipationApplicationFormPage />} />
+            <Route path="/recruitment/event-participation-application-form" element={<EventParticipationApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/EventParticipationApplicationFormPage" element={<EventParticipationApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/duplicate-id-card-application-form" element={<DuplicateIDCardApplicationFormPage />} />
+            <Route path="/recruitment/duplicate-id-card-application-form" element={<DuplicateIDCardApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/DuplicateIDCardApplicationFormPage" element={<DuplicateIDCardApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/duplicate-certificate-application-form" element={<DuplicateCertificateApplicationFormPage />} />
+            <Route path="/recruitment/duplicate-certificate-application-form" element={<DuplicateCertificateApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/DuplicateCertificateApplicationFormPage" element={<DuplicateCertificateApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/software-product-purchase-request-form" element={<SoftwareProductPurchaseRequestFormPage />} />
+            <Route path="/recruitment/software-product-purchase-request-form" element={<SoftwareProductPurchaseRequestFormPage />} />
+            <Route path="/recruitment/online-application-portal/SoftwareProductPurchaseRequestFormPage" element={<SoftwareProductPurchaseRequestFormPage />} />
+            <Route path="/recruitment/online-application-portal/software-product-demo-request-form" element={<SoftwareProductDemoRequestFormPage />} />
+            <Route path="/recruitment/software-product-demo-request-form" element={<SoftwareProductDemoRequestFormPage />} />
+            <Route path="/recruitment/online-application-portal/SoftwareProductDemoRequestFormPage" element={<SoftwareProductDemoRequestFormPage />} />
+            <Route path="/recruitment/online-application-portal/technical-support-request-form" element={<TechnicalSupportRequestFormPage />} />
+            <Route path="/recruitment/technical-support-request-form" element={<TechnicalSupportRequestFormPage />} />
+            <Route path="/recruitment/online-application-portal/TechnicalSupportRequestFormPage" element={<TechnicalSupportRequestFormPage />} />
+            <Route path="/recruitment/online-application-portal/membership-application-form" element={<MembershipApplicationFormPage />} />
+            <Route path="/recruitment/membership-application-form" element={<MembershipApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/MembershipApplicationFormPage" element={<MembershipApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/membership-renewal-application-form" element={<MembershipRenewalApplicationFormPage />} />
+            <Route path="/recruitment/membership-renewal-application-form" element={<MembershipRenewalApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/MembershipRenewalApplicationFormPage" element={<MembershipRenewalApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/feedback-suggestion-form" element={<FeedbackAndSuggestionFormPage />} />
+            <Route path="/recruitment/feedback-suggestion-form" element={<FeedbackAndSuggestionFormPage />} />
+            <Route path="/recruitment/online-application-portal/FeedbackAndSuggestionFormPage" element={<FeedbackAndSuggestionFormPage />} />
+            <Route path="/recruitment/online-application-portal/grievance-submission-form" element={<GrievanceSubmissionFormPage />} />
+            <Route path="/recruitment/grievance-submission-form" element={<GrievanceSubmissionFormPage />} />
+            <Route path="/recruitment/online-application-portal/GrievanceSubmissionFormPage" element={<GrievanceSubmissionFormPage />} />
+            <Route path="/recruitment/online-application-portal/complaint-submission-form" element={<ComplaintSubmissionFormPage />} />
+            <Route path="/recruitment/complaint-submission-form" element={<ComplaintSubmissionFormPage />} />
+            <Route path="/recruitment/online-application-portal/ComplaintSubmissionFormPage" element={<ComplaintSubmissionFormPage />} />
+            <Route path="/recruitment/online-application-portal/sponsorship-application-form" element={<SponsorshipApplicationFormPage />} />
+            <Route path="/recruitment/sponsorship-application-form" element={<SponsorshipApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/SponsorshipApplicationFormPage" element={<SponsorshipApplicationFormPage />} />
+            <Route path="/recruitment/online-application-portal/general-inquiry-information-request-form" element={<GeneralInquiryInformationRequestFormPage />} />
+            <Route path="/recruitment/general-inquiry-information-request-form" element={<GeneralInquiryInformationRequestFormPage />} />
+            <Route path="/recruitment/online-application-portal/GeneralInquiryInformationRequestFormPage" element={<GeneralInquiryInformationRequestFormPage />} />
             <Route path="/recruitment/advertisements" element={<RecruitmentAdvertisements />} />
             <Route path="/recruitment/press-release-notices" element={<PressReleaseNotices />} />
             <Route path="/recruitment/application-status" element={<ApplicationStatus />} />

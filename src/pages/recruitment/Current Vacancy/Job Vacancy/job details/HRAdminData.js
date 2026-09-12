@@ -1,6 +1,8 @@
 // src/pages/recruitment/Current Vacancy/Job Vacancy/job details/HRAdminData.js
 
 export const hrAdminData = {
+  // Custom hero section image (image link or imported image). Defaults to standard hero illustration if empty.
+  heroImage: "https://res.cloudinary.com/dlhmkbijh/image/upload/v1789206140/hr_admin_p9y1yx.png",
   // 1. Position Information
   positionInformation: {
     jobTitle: "HR Admin",

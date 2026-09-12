@@ -2,6 +2,8 @@ export const digitalSignatureDetails = {
     slNo: "Sample Sl No",
     signaturePreview: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=800&q=80",
     signatoryName: "Sample Signatory Name",
+    signatureId: "Sample Signature ID",
+    signatureRegistrationId: "Sample Signature Registration ID",
     fatherSName: "Sample Father's Name",
     dateOfBirth: "Sample Date of Birth",
     gender: "Sample Gender",

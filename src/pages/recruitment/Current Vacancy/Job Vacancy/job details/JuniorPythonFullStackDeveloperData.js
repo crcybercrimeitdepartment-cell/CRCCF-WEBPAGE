@@ -1,6 +1,8 @@
 // src/pages/recruitment/Current Vacancy/Job Vacancy/job details/JuniorPythonFullStackDeveloperData.js
 
 export const juniorPythonFullStackDeveloperData = {
+  // Custom hero section image (image link or imported image). Defaults to standard hero illustration if empty.
+  heroImage: "https://res.cloudinary.com/dlhmkbijh/image/upload/v1789206131/Junior_Python_Full_Stack_Developer_mnjkxd.png",
   // 1. Position Information
   positionInformation: {
     jobTitle: "Junior Python Full Stack Developer",

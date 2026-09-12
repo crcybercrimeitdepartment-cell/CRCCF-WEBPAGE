@@ -189,7 +189,7 @@ const verificationServices = [
     { title: 'Agreement Verification', icon: FileSignature, desc: 'Validate contracts and business agreements.', inputs: ['Enter Name', 'Agreement Registration Number'] },
     { title: 'Web Domain Verification', icon: Globe, desc: 'Check ownership and legitimacy of web domains.', inputs: ['Enter Domain Name'] },
     { title: 'Membership Verification', icon: CreditCard, desc: 'Validate professional or club memberships.', inputs: ['Enter Name', 'Member ID / Membership Number'] },
-    { title: 'Notice Verification', icon: AlertCircle, desc: 'Check the validity of public and private notices.', inputs: ['Enter Name', 'Notice Registration Number'] },
+    { title: 'Notice Verification', icon: AlertCircle, desc: 'Check the validity of public and private notices.', inputs: ['Enter Name', 'Notice Registration ID'] },
     { title: 'Invitation Verification', icon: Calendar, desc: 'Verify event and official invitations.', inputs: ['Enter Name', 'Invitation Registration Number'] },
     { title: 'Certificate Verification', icon: Award, desc: 'Validate professional achievement certificates.', inputs: ['Enter Name', 'Certificate Registration ID'] },
     { title: 'ID Card Verification', icon: IdCard, desc: 'Verify official identification cards.', inputs: ['Enter Name', 'ID Card Number'] },

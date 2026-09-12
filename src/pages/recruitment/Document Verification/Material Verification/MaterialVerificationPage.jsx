@@ -140,7 +140,9 @@ export default function MaterialVerificationPage({ onBack, themeColor = '#f59e0b
                         {/* Details Header */}
                         <div className="bg-white/60 backdrop-blur-xl border-b border-slate-100/80 p-8 sm:px-12 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 relative z-10">
                             <div className="flex items-center space-x-6">
-                                <img src={materialDetails.materialPhotoPreview} alt="Preview" className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover shadow-sm ring-2 ring-white" style={{ borderColor: themeColor }} />
+                                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center shadow-sm ring-2 ring-white" style={{ backgroundColor: `${themeColor}15`, borderColor: themeColor }}>
+                                    <Package size={40} style={{ color: themeColor }} />
+                                </div>
                                 <div>
                                     <div className="flex flex-wrap items-center gap-4 mb-2">
                                         <h2 className="text-3xl sm:text-4xl font-black text-slate-800 tracking-tight">Material Details</h2>
@@ -174,32 +176,37 @@ export default function MaterialVerificationPage({ onBack, themeColor = '#f59e0b
                                     <FileText size={18} className="mr-2.5" /> All Verified Fields
                                 </h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                    <InfoField icon={FileText} label="Sl No" value={materialDetails.slNo} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Material Name" value={materialDetails.materialName} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Material ID" value={materialDetails.materialId} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Material Type" value={materialDetails.materialType} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Material Category" value={materialDetails.materialCategory} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Material Description" value={materialDetails.materialDescription} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Manufacturer Name" value={materialDetails.manufacturerName} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Manufacturer Organization" value={materialDetails.manufacturerOrganization} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Supplier Name" value={materialDetails.supplierName} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Supplier Organization" value={materialDetails.supplierOrganization} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Batch Number" value={materialDetails.batchNumber} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Serial Number" value={materialDetails.serialNumber} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Manufacturing Date" value={materialDetails.manufacturingDate} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Expiry Date" value={materialDetails.expiryDate} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Quantity" value={materialDetails.quantity} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Unit" value={materialDetails.unit} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Quality / Grade" value={materialDetails.qualityGrade} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Certification Number" value={materialDetails.certificationNumber} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Registration Number" value={materialDetails.registrationNumber} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Contact Number" value={materialDetails.contactNumber} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Email ID" value={materialDetails.emailId} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Material Status" value={materialDetails.materialStatus} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Verification Date" value={materialDetails.verificationDate} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Verified By" value={materialDetails.verifiedBy} themeColor={themeColor} />
+    <InfoField icon={FileText} label="Sl No" value={materialDetails.slNo} themeColor={themeColor} />
+    <InfoField icon={FileText} label="Material Name" value={materialDetails.materialName} themeColor={themeColor} />
+    <InfoField icon={FileText} label="Material ID" value={materialDetails.materialId} themeColor={themeColor} />
+    <InfoField icon={FileText} label="Material Type" value={materialDetails.materialType} themeColor={themeColor} />
 
-                                </div>
+    <InfoField icon={FileText} label="Material Title" value={materialDetails.materialTitle} themeColor={themeColor} />
+    <InfoField icon={FileText} label="Material Registration ID" value={materialDetails.materialRegistrationId} themeColor={themeColor} />
+    <InfoField icon={User} label="Material Publisher" value={materialDetails.materialPublisher} themeColor={themeColor} />
+    <InfoField icon={User} label="Author" value={materialDetails.author} themeColor={themeColor} />
+    <InfoField icon={FileText} label="Material Published Date" value={materialDetails.materialPublishedDate} themeColor={themeColor} />
+    <InfoField icon={FileText} label="No Of Pages" value={materialDetails.noOfPages} themeColor={themeColor} />
+    <InfoField icon={FileText} label="Modules" value={materialDetails.modules} themeColor={themeColor} />
+    <InfoField icon={FileText} label="No Of Chapters" value={materialDetails.noOfChapters} themeColor={themeColor} />
+    <InfoField icon={FileText} label="Paragraph" value={materialDetails.paragraph} themeColor={themeColor} />
+    <InfoField icon={FileText} label="No Of Characters" value={materialDetails.noOfCharacters} themeColor={themeColor} />
+
+    <InfoField icon={FileText} label="Material Category" value={materialDetails.materialCategory} themeColor={themeColor} />
+    <InfoField icon={FileText} label="Material Description" value={materialDetails.materialDescription} themeColor={themeColor} />
+    <InfoField icon={User} label="Manufacturer Name" value={materialDetails.manufacturerName} themeColor={themeColor} />
+    <InfoField icon={Building} label="Manufacturer Organization" value={materialDetails.manufacturerOrganization} themeColor={themeColor} />
+    <InfoField icon={User} label="Supplier Name" value={materialDetails.supplierName} themeColor={themeColor} />
+    <InfoField icon={Building} label="Supplier Organization" value={materialDetails.supplierOrganization} themeColor={themeColor} />
+    <InfoField icon={Hash} label="Batch Number" value={materialDetails.batchNumber} themeColor={themeColor} />
+    <InfoField icon={Hash} label="Serial Number" value={materialDetails.serialNumber} themeColor={themeColor} />
+    <InfoField icon={FileText} label="Manufacturing Date" value={materialDetails.manufacturingDate} themeColor={themeColor} />
+    <InfoField icon={Phone} label="Contact Number" value={materialDetails.contactNumber} themeColor={themeColor} />
+    <InfoField icon={Mail} label="Email ID" value={materialDetails.emailId} themeColor={themeColor} />
+    <InfoField icon={FileText} label="Material Status" value={materialDetails.materialStatus} themeColor={themeColor} />
+    <InfoField icon={FileText} label="Verification Date" value={materialDetails.verificationDate} themeColor={themeColor} />
+    <InfoField icon={UserCheck} label="Verified By" value={materialDetails.verifiedBy} themeColor={themeColor} />
+</div>
                             </div>
                         </div>
                     </motion.div>

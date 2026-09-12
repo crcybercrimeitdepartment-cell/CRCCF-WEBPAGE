@@ -67,7 +67,6 @@ export default function NoticeVerificationPage({ onBack, themeColor = '#f59e0b' 
                             </div>
                             
                             <form onSubmit={handleVerify} className="space-y-5">
-
                                 <div>
                                     <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Name</label>
                                     <div className="relative">
@@ -89,7 +88,7 @@ export default function NoticeVerificationPage({ onBack, themeColor = '#f59e0b' 
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Notice Registration Number</label>
+                                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Notice Registration ID</label>
                                     <div className="relative">
                                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                             <FileText size={18} className="text-slate-400" />
@@ -140,7 +139,9 @@ export default function NoticeVerificationPage({ onBack, themeColor = '#f59e0b' 
                         {/* Details Header */}
                         <div className="bg-white/60 backdrop-blur-xl border-b border-slate-100/80 p-8 sm:px-12 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 relative z-10">
                             <div className="flex items-center space-x-6">
-                                <img src={noticeDetails.noticePreview} alt="Preview" className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover shadow-sm ring-2 ring-white" style={{ borderColor: themeColor }} />
+                                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center shadow-sm ring-2 ring-white" style={{ backgroundColor: `${themeColor}15`, borderColor: themeColor }}>
+                                    <AlertCircle size={40} style={{ color: themeColor }} />
+                                </div>
                                 <div>
                                     <div className="flex flex-wrap items-center gap-4 mb-2">
                                         <h2 className="text-3xl sm:text-4xl font-black text-slate-800 tracking-tight">Notice Details</h2>
@@ -176,6 +177,7 @@ export default function NoticeVerificationPage({ onBack, themeColor = '#f59e0b' 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                                     <InfoField icon={FileText} label="Sl No" value={noticeDetails.slNo} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Notice Number" value={noticeDetails.noticeNumber} themeColor={themeColor} />
+                                    <InfoField icon={FileText} label="Notice Registration ID" value={noticeDetails.noticeRegistrationId || noticeDetails.referenceNumber} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Notice Title" value={noticeDetails.noticeTitle} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Notice Type" value={noticeDetails.noticeType} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Notice Subject" value={noticeDetails.noticeSubject} themeColor={themeColor} />
@@ -187,7 +189,6 @@ export default function NoticeVerificationPage({ onBack, themeColor = '#f59e0b' 
                                     <InfoField icon={FileText} label="Issuing Authority" value={noticeDetails.issuingAuthority} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Notice Purpose" value={noticeDetails.noticePurpose} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Applicable To" value={noticeDetails.applicableTo} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Reference Number" value={noticeDetails.referenceNumber} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Authorized Signatory" value={noticeDetails.authorizedSignatory} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Contact Number" value={noticeDetails.contactNumber} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Email ID" value={noticeDetails.emailId} themeColor={themeColor} />
@@ -196,7 +197,6 @@ export default function NoticeVerificationPage({ onBack, themeColor = '#f59e0b' 
                                     <InfoField icon={FileText} label="Verification Date" value={noticeDetails.verificationDate} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Verified By" value={noticeDetails.verifiedBy} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Remarks" value={noticeDetails.remarks} themeColor={themeColor} />
-
                                 </div>
                             </div>
                         </div>

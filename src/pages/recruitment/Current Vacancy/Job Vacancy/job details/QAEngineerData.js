@@ -1,6 +1,8 @@
 // src/pages/recruitment/Current Vacancy/Job Vacancy/job details/QAEngineerData.js
 
 export const qaEngineerData = {
+  // Custom hero section image (image link or imported image). Defaults to standard hero illustration if empty.
+  heroImage: "https://res.cloudinary.com/dlhmkbijh/image/upload/v1789206135/QA_Engineer_ndxc8w.png",
   // 1. Position Information
   positionInformation: {
     jobTitle: "QA Engineer",

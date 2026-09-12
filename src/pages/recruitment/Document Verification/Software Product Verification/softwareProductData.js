@@ -1,7 +1,13 @@
 export const softwareProductDetails = {
     slNo: "Sample Sl No",
-    productLogoPreview: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=800&q=80",
+    productLogoPreview: "[https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=800&q=80](https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop\&w=800\&q=80)",
     softwareProductName: "Sample Software Product Name",
+
+    projectManagerName: "Sample Project Manager Name",
+    projectManagerDesignation: "Sample Project Manager Designation",
+    architecturalEngineerName: "Sample Architecture Engineer Name",
+    architecturalEngineerDesignation: "Sample Architecture Engineer Designation",
+
     productId: "Sample Product ID",
     productType: "Sample Product Type",
     productCategory: "Sample Product Category",
@@ -15,6 +21,10 @@ export const softwareProductDetails = {
     technology: "Sample Technology",
     licenseType: "Sample License Type",
     licenseNumber: "Sample License Number",
+
+    pricingModel: "Sample Pricing Model",
+    pricing: "Sample Pricing",
+
     releaseDate: "Sample Release Date",
     currentVersion: "Sample Current Version",
     website: "Sample Website",
