@@ -7,21 +7,7 @@ import {
     Building, Ticket, Map, Key, CalendarClock, Target
 } from 'lucide-react';
 import { gatePassDetails } from './gatePassData';
-
-const InfoField = ({ icon: Icon, label, value, themeColor }) => (
-    <div className="flex items-start space-x-4 p-4 bg-white rounded-2xl border border-slate-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-transparent transition-all duration-300 group">
-        <div 
-            className="mt-0.5 p-2.5 rounded-xl transition-transform duration-300 group-hover:scale-110" 
-            style={{ color: themeColor, backgroundColor: `${themeColor}15` }}
-        >
-            <Icon size={18} strokeWidth={2.5} />
-        </div>
-        <div>
-            <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mb-1">{label}</p>
-            <p className="text-[15px] text-slate-800 font-semibold">{value}</p>
-        </div>
-    </div>
-);
+import { InfoField, PersonNameFields } from '../utils/nameHelper';
 
 export default function GatePassVerificationPage({ onBack, themeColor = '#f59e0b' }) {
     const [isVerified, setIsVerified] = useState(false);
@@ -34,15 +20,15 @@ export default function GatePassVerificationPage({ onBack, themeColor = '#f59e0b
         e.preventDefault();
         setError('');
         
-        if (nameInput.trim().toLowerCase() === 'subrajit' && idInput.trim() === '009') {
+        if (nameInput.trim() !== '' && idInput.trim() !== '') {
             setIsVerified(true);
         } else {
-            setError('Invalid Name or ID. Please try again.');
+            setError('Please enter both Visitor Name and Gate Pass ID.');
         }
     };
 
     return (
-        <div className="min-h-screen bg-[#f8fafc] py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
+        <div className="min-h-screen bg-[#f8fafc] py-8 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
             {/* Header */}
             <div className="max-w-4xl w-full mx-auto mb-8 relative z-10 text-center">
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0C1A3A] tracking-tight">Gate Pass Verification</h1>
@@ -59,13 +45,13 @@ export default function GatePassVerificationPage({ onBack, themeColor = '#f59e0b
                         exit={{ opacity: 0, scale: 0.95 }}
                         className="flex-1 flex items-center justify-center relative z-10 w-full"
                     >
-                        <div className="bg-white p-8 sm:p-10 rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] w-full max-w-md border border-slate-100">
+                        <div className="bg-white p-8 sm:p-10 rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] w-full max-w-lg border border-slate-100">
                             <div className="text-center mb-8">
                                 <div className="mx-auto w-16 h-16 rounded-2xl flex items-center justify-center mb-4 shadow-inner" style={{ color: themeColor, backgroundColor: `${themeColor}15` }}>
                                     <Search size={28} strokeWidth={2} />
                                 </div>
                                 <h2 className="text-xl font-bold text-slate-800">Lookup Gate Pass</h2>
-                                <p className="text-sm text-slate-500 mt-2">Enter the exact name and ID to retrieve the gate pass details.</p>
+                                <p className="text-sm text-slate-500 mt-2">Enter the person's name and registration number to retrieve the pass details.</p>
                             </div>
                             
                             <form onSubmit={handleVerify} className="space-y-5">
@@ -162,7 +148,7 @@ export default function GatePassVerificationPage({ onBack, themeColor = '#f59e0b
                                 </div>
                             </div>
                             <button 
-                                onClick={() => { setIsVerified(false); setNameInput(''); setIdInput(''); }}
+                                onClick={() => setIsVerified(false)}
                                 className="px-6 py-3 font-bold rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 border"
                                 style={{ backgroundColor: `${themeColor}10`, color: themeColor, borderColor: `${themeColor}20` }}
                             >
@@ -178,17 +164,23 @@ export default function GatePassVerificationPage({ onBack, themeColor = '#f59e0b
                                     <User size={18} className="mr-2.5" /> Person Information
                                 </h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <InfoField icon={User} label="Father's Name" value={gatePassDetails.fatherName} themeColor={themeColor} />
+                                    <PersonNameFields 
+                                        icon={User} 
+                                        baseLabel="Father's Name" 
+                                        fullName={gatePassDetails.fatherName}
+                                        firstName={gatePassDetails.fatherFirstName}
+                                        middleName={gatePassDetails.fatherMiddleName}
+                                        lastName={gatePassDetails.fatherLastName}
+                                        themeColor={themeColor} 
+                                    />
                                     <InfoField icon={Calendar} label="Date of Birth" value={gatePassDetails.dob} themeColor={themeColor} />
                                     <InfoField icon={User} label="Gender" value={gatePassDetails.gender} themeColor={themeColor} />
                                     <InfoField icon={Briefcase} label="Occupation" value={gatePassDetails.occupation} themeColor={themeColor} />
                                     <InfoField icon={Building} label="Organization" value={gatePassDetails.organization} themeColor={themeColor} />
                                     <InfoField icon={Phone} label="Mobile Number" value={gatePassDetails.mobileNumber} themeColor={themeColor} />
-                                </div>
-                                <div className="grid grid-cols-1 gap-4 mt-4">
                                     <InfoField icon={Mail} label="Email ID" value={gatePassDetails.mailId} themeColor={themeColor} />
-                                    <InfoField icon={MapPin} label="Address" value={gatePassDetails.address} themeColor={themeColor} />
                                 </div>
+                                <InfoField icon={MapPin} label="Address" value={gatePassDetails.address} themeColor={themeColor} />
                             </div>
 
                             {/* Pass Details */}
@@ -205,9 +197,15 @@ export default function GatePassVerificationPage({ onBack, themeColor = '#f59e0b
                                     <InfoField icon={Clock} label="Exit Time" value={gatePassDetails.exitTime} themeColor={themeColor} />
                                     <InfoField icon={Clock} label="Total Duration" value={gatePassDetails.totalDuration} themeColor={themeColor} />
                                     <InfoField icon={Key} label="Issued By" value={gatePassDetails.issuedBy} themeColor={themeColor} />
-                                </div>
-                                <div className="grid grid-cols-1 gap-4 mt-4">
-                                    <InfoField icon={Key} label="Approved By" value={gatePassDetails.approvedBy} themeColor={themeColor} />
+                                    <PersonNameFields 
+                                        icon={Key} 
+                                        baseLabel="Approved By" 
+                                        fullName={gatePassDetails.approvedBy}
+                                        firstName={gatePassDetails.approvedByFirstName}
+                                        middleName={gatePassDetails.approvedByMiddleName}
+                                        lastName={gatePassDetails.approvedByLastName}
+                                        themeColor={themeColor} 
+                                    />
                                 </div>
                             </div>
                         </div>

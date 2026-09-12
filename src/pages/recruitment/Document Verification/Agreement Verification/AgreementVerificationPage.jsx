@@ -6,21 +6,7 @@ import {
     Building, FileText, Users, PenTool, Link
 } from 'lucide-react';
 import { agreementDetails } from './agreementData';
-
-const InfoField = ({ icon: Icon, label, value, themeColor }) => (
-    <div className="flex items-start space-x-4 p-4 bg-white rounded-2xl border border-slate-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-transparent transition-all duration-300 group">
-        <div 
-            className="mt-0.5 p-2.5 rounded-xl transition-transform duration-300 group-hover:scale-110" 
-            style={{ color: themeColor, backgroundColor: `${themeColor}15` }}
-        >
-            <Icon size={18} strokeWidth={2.5} />
-        </div>
-        <div>
-            <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mb-1">{label}</p>
-            <p className="text-[15px] text-slate-800 font-semibold">{value}</p>
-        </div>
-    </div>
-);
+import { InfoField, PersonNameFields } from '../utils/nameHelper';
 
 export default function AgreementVerificationPage({ onBack, themeColor = '#14b8a6' }) {
     const [isVerified, setIsVerified] = useState(false);
@@ -33,15 +19,15 @@ export default function AgreementVerificationPage({ onBack, themeColor = '#14b8a
         e.preventDefault();
         setError('');
         
-        if (nameInput.trim().toLowerCase() === 'subrajit' && idInput.trim() === '009') {
+        if (nameInput.trim() !== '' && idInput.trim() !== '') {
             setIsVerified(true);
         } else {
-            setError('Invalid Name or Registration Number. Please try again.');
+            setError('Please enter both 1st Party Name and Registration Number.');
         }
     };
 
     return (
-        <div className="min-h-screen bg-[#f8fafc] py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
+        <div className="min-h-screen bg-[#f8fafc] py-8 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
             {/* Header */}
             <div className="max-w-4xl w-full mx-auto mb-8 relative z-10 text-center">
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0C1A3A] tracking-tight">Agreement Verification</h1>
@@ -58,13 +44,13 @@ export default function AgreementVerificationPage({ onBack, themeColor = '#14b8a
                         exit={{ opacity: 0, scale: 0.95 }}
                         className="flex-1 flex items-center justify-center relative z-10 w-full"
                     >
-                        <div className="bg-white p-8 sm:p-10 rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] w-full max-w-md border border-slate-100">
+                        <div className="bg-white p-8 sm:p-10 rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] w-full max-w-lg border border-slate-100">
                             <div className="text-center mb-8">
                                 <div className="mx-auto w-16 h-16 rounded-2xl flex items-center justify-center mb-4 shadow-inner" style={{ color: themeColor, backgroundColor: `${themeColor}15` }}>
                                     <Search size={28} strokeWidth={2} />
                                 </div>
                                 <h2 className="text-xl font-bold text-slate-800">Lookup Agreement</h2>
-                                <p className="text-sm text-slate-500 mt-2">Enter the party name and registration number to retrieve the agreement details.</p>
+                                <p className="text-sm text-slate-500 mt-2">Enter party name and registration number to retrieve the agreement details.</p>
                             </div>
                             
                             <form onSubmit={handleVerify} className="space-y-5">
@@ -161,7 +147,7 @@ export default function AgreementVerificationPage({ onBack, themeColor = '#14b8a
                                 </div>
                             </div>
                             <button 
-                                onClick={() => { setIsVerified(false); setNameInput(''); setIdInput(''); }}
+                                onClick={() => setIsVerified(false)}
                                 className="px-6 py-3 font-bold rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 border"
                                 style={{ backgroundColor: `${themeColor}10`, color: themeColor, borderColor: `${themeColor}20` }}
                             >
@@ -177,9 +163,25 @@ export default function AgreementVerificationPage({ onBack, themeColor = '#14b8a
                                     <Users size={18} className="mr-2.5" /> Parties Involved
                                 </h3>
                                 <div className="grid grid-cols-1 gap-4">
-                                    <InfoField icon={User} label="1st Party Name" value={agreementDetails.firstPartyName} themeColor={themeColor} />
+                                    <PersonNameFields 
+                                        icon={User} 
+                                        baseLabel="1st Party Name" 
+                                        fullName={agreementDetails.firstPartyName}
+                                        firstName={agreementDetails.firstPartyFirstName}
+                                        middleName={agreementDetails.firstPartyMiddleName}
+                                        lastName={agreementDetails.firstPartyLastName}
+                                        themeColor={themeColor} 
+                                    />
                                     <InfoField icon={Building} label="2nd Party Name" value={agreementDetails.secondPartyName} themeColor={themeColor} />
-                                    <InfoField icon={PenTool} label="Authorized Signatory" value={agreementDetails.authorizeSignaturePersonName} themeColor={themeColor} />
+                                    <PersonNameFields 
+                                        icon={PenTool} 
+                                        baseLabel="Authorized Signatory" 
+                                        fullName={agreementDetails.authorizeSignaturePersonName}
+                                        firstName={agreementDetails.authorizeSignatoryFirstName}
+                                        middleName={agreementDetails.authorizeSignatoryMiddleName}
+                                        lastName={agreementDetails.authorizeSignatoryLastName}
+                                        themeColor={themeColor} 
+                                    />
                                     <InfoField icon={CheckCircle} label="Type of Sign" value={agreementDetails.typeOfSign} themeColor={themeColor} />
                                 </div>
                             </div>

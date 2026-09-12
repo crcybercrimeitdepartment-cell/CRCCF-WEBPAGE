@@ -6,21 +6,7 @@ import {
     Globe, Server, ShieldCheck, UserCheck
 } from 'lucide-react';
 import { webDomainDetails } from './webDomainData';
-
-const InfoField = ({ icon: Icon, label, value, themeColor }) => (
-    <div className="flex items-start space-x-4 p-4 bg-white rounded-2xl border border-slate-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-transparent transition-all duration-300 group">
-        <div 
-            className="mt-0.5 p-2.5 rounded-xl transition-transform duration-300 group-hover:scale-110" 
-            style={{ color: themeColor, backgroundColor: `${themeColor}15` }}
-        >
-            <Icon size={18} strokeWidth={2.5} />
-        </div>
-        <div>
-            <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mb-1">{label}</p>
-            <p className="text-[15px] text-slate-800 font-semibold">{value}</p>
-        </div>
-    </div>
-);
+import { InfoField } from '../utils/nameHelper';
 
 export default function WebDomainVerificationPage({ onBack, themeColor = '#0ea5e9' }) {
     const [isVerified, setIsVerified] = useState(false);
@@ -39,8 +25,14 @@ export default function WebDomainVerificationPage({ onBack, themeColor = '#0ea5e
         }
     };
 
+    const handleReset = () => {
+        setIsVerified(false);
+        setDomainInput('');
+        setError('');
+    };
+
     return (
-        <div className="min-h-screen bg-[#f8fafc] py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
+        <div className="min-h-screen bg-[#f8fafc] py-8 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
             {/* Header */}
             <div className="max-w-4xl w-full mx-auto mb-8 relative z-10 text-center">
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0C1A3A] tracking-tight">Web Domain Verification</h1>
@@ -57,7 +49,7 @@ export default function WebDomainVerificationPage({ onBack, themeColor = '#0ea5e
                         exit={{ opacity: 0, scale: 0.95 }}
                         className="flex-1 flex items-center justify-center relative z-10 w-full"
                     >
-                        <div className="bg-white p-8 sm:p-10 rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] w-full max-w-md border border-slate-100">
+                        <div className="bg-white p-8 sm:p-10 rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] w-full max-w-lg border border-slate-100">
                             <div className="text-center mb-8">
                                 <div className="mx-auto w-16 h-16 rounded-2xl flex items-center justify-center mb-4 shadow-inner" style={{ color: themeColor, backgroundColor: `${themeColor}15` }}>
                                     <Search size={28} strokeWidth={2} />
@@ -140,7 +132,7 @@ export default function WebDomainVerificationPage({ onBack, themeColor = '#0ea5e
                                 </div>
                             </div>
                             <button 
-                                onClick={() => { setIsVerified(false); setDomainInput(''); }}
+                                onClick={() => setIsVerified(false)}
                                 className="px-6 py-3 font-bold rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 border"
                                 style={{ backgroundColor: `${themeColor}10`, color: themeColor, borderColor: `${themeColor}20` }}
                             >

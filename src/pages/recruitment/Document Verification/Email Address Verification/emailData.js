@@ -1,8 +1,11 @@
 export const emailDetails = {
-    name: "Subrajit",
+    name: "Subrajit Sharma",
+    firstName: "Subrajit",
+    middleName: "-",
+    lastName: "Sharma",
     designation: "Senior Software Engineer",
     department: "IT Services",
-    mobileNo: "8249585134",
+    mobileNo: "+91 9876543210",
     mailId: "subra@gmail.com",
     employeeSlNo: "EMP-009",
     remark: "Corporate mail access granted with 2FA enabled.",

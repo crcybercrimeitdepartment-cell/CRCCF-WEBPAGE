@@ -4,21 +4,7 @@ import {
     User, Phone, Mail, Briefcase, Hash, CheckCircle, ArrowLeft, Search, ShieldAlert, Building, FileText, AtSign, UserCheck, ClipboardList
 } from 'lucide-react';
 import { reportDetails } from './reportData';
-
-const InfoField = ({ icon: Icon, label, value, themeColor }) => (
-    <div className="flex items-start space-x-4 p-4 bg-white rounded-2xl border border-slate-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-transparent transition-all duration-300 group">
-        <div
-            className="mt-0.5 p-2.5 rounded-xl transition-transform duration-300 group-hover:scale-110"
-            style={{ color: themeColor, backgroundColor: `${themeColor}15` }}
-        >
-            <Icon size={18} strokeWidth={2.5} />
-        </div>
-        <div>
-            <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mb-1">{label}</p>
-            <p className="text-[15px] text-slate-800 font-semibold break-words">{value}</p>
-        </div>
-    </div>
-);
+import { InfoField, PersonNameFields } from '../utils/nameHelper';
 
 export default function ReportVerificationPage({ onBack, themeColor = '#f59e0b' }) {
     const [isVerified, setIsVerified] = useState(false);
@@ -40,7 +26,7 @@ export default function ReportVerificationPage({ onBack, themeColor = '#f59e0b' 
     };
 
     return (
-        <div className="min-h-screen bg-[#f8fafc] py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
+        <div className="min-h-screen bg-[#f8fafc] py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col pb-24">
             {/* Header */}
             <div className="max-w-4xl w-full mx-auto mb-8 relative z-10 text-center">
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0C1A3A] tracking-tight">Report Verification</h1>
@@ -185,12 +171,12 @@ export default function ReportVerificationPage({ onBack, themeColor = '#f59e0b' 
                                     <InfoField icon={FileText} label="Subject" value={reportDetails.subject} themeColor={themeColor} />
 
                                     <InfoField icon={FileText} label="Issue Date" value={reportDetails.issueDate} themeColor={themeColor} />
-                                    <InfoField icon={User} label="Issued By" value={reportDetails.issuedBy} themeColor={themeColor} />
-                                    <InfoField icon={User} label="Approved By" value={reportDetails.approvedBy} themeColor={themeColor} />
+                                    <PersonNameFields icon={User} prefix="Issued By" name={reportDetails.issuedBy} themeColor={themeColor} />
+                                    <PersonNameFields icon={User} prefix="Approved By" name={reportDetails.approvedBy} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Approval Date" value={reportDetails.approvalDate} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Authorities Signature" value={reportDetails.authoritiesSignature} themeColor={themeColor} />
 
-                                    <InfoField icon={User} label="Report Holder Name" value={reportDetails.reportHolderName} themeColor={themeColor} />
+                                    <PersonNameFields icon={User} prefix="Report Holder" name={reportDetails.reportHolderName} themeColor={themeColor} />
                                     <InfoField icon={Briefcase} label="Designation" value={reportDetails.designation} themeColor={themeColor} />
                                     <InfoField icon={Building} label="Department" value={reportDetails.department} themeColor={themeColor} />
 

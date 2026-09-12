@@ -7,21 +7,7 @@ import {
     Building, Award, CreditCard, Clock, Star
 } from 'lucide-react';
 import { memberDetails } from './memberData';
-
-const InfoField = ({ icon: Icon, label, value, themeColor }) => (
-    <div className="flex items-start space-x-4 p-4 bg-white rounded-2xl border border-slate-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-transparent transition-all duration-300 group">
-        <div 
-            className="mt-0.5 p-2.5 rounded-xl transition-transform duration-300 group-hover:scale-110" 
-            style={{ color: themeColor, backgroundColor: `${themeColor}15` }}
-        >
-            <Icon size={18} strokeWidth={2.5} />
-        </div>
-        <div>
-            <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mb-1">{label}</p>
-            <p className="text-[15px] text-slate-800 font-semibold">{value}</p>
-        </div>
-    </div>
-);
+import { InfoField, PersonNameFields } from '../utils/nameHelper';
 
 export default function MembershipVerificationPage({ onBack, themeColor = '#10b981' }) {
     const [isVerified, setIsVerified] = useState(false);
@@ -41,8 +27,15 @@ export default function MembershipVerificationPage({ onBack, themeColor = '#10b9
         }
     };
 
+    const handleReset = () => {
+        setIsVerified(false);
+        setEmailInput('');
+        setIdInput('');
+        setError('');
+    };
+
     return (
-        <div className="min-h-screen bg-[#f8fafc] py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
+        <div className="min-h-screen bg-[#f8fafc] py-8 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
             {/* Header */}
             <div className="max-w-4xl w-full mx-auto mb-8 relative z-10 text-center">
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0C1A3A] tracking-tight">Membership Verification</h1>
@@ -65,7 +58,7 @@ export default function MembershipVerificationPage({ onBack, themeColor = '#10b9
                                     <Search size={28} strokeWidth={2} />
                                 </div>
                                 <h2 className="text-xl font-bold text-slate-800">Lookup Member</h2>
-                                <p className="text-sm text-slate-500 mt-2">Enter the registered email and member ID to retrieve the membership details.</p>
+                                <p className="text-sm text-slate-500 mt-2">Enter registered email and member ID to retrieve membership details.</p>
                             </div>
                             
                             <form onSubmit={handleVerify} className="space-y-5">
@@ -162,7 +155,7 @@ export default function MembershipVerificationPage({ onBack, themeColor = '#10b9
                                 </div>
                             </div>
                             <button 
-                                onClick={() => { setIsVerified(false); setEmailInput(''); setIdInput(''); }}
+                                onClick={() => setIsVerified(false)}
                                 className="px-6 py-3 font-bold rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 border"
                                 style={{ backgroundColor: `${themeColor}10`, color: themeColor, borderColor: `${themeColor}20` }}
                             >
@@ -178,14 +171,22 @@ export default function MembershipVerificationPage({ onBack, themeColor = '#10b9
                                     <User size={18} className="mr-2.5" /> Personal Information
                                 </h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <PersonNameFields 
+                                        icon={User} 
+                                        baseLabel="Father's Name" 
+                                        fullName={memberDetails.fatherName}
+                                        firstName={memberDetails.fatherFirstName}
+                                        middleName={memberDetails.fatherMiddleName}
+                                        lastName={memberDetails.fatherLastName}
+                                        themeColor={themeColor} 
+                                    />
                                     <InfoField icon={Hash} label="Sl No" value={memberDetails.slNo} themeColor={themeColor} />
-                                    <InfoField icon={User} label="Father's Name" value={memberDetails.fatherName} themeColor={themeColor} />
                                     <InfoField icon={Calendar} label="Date of Birth" value={memberDetails.dob} themeColor={themeColor} />
                                     <InfoField icon={User} label="Gender" value={memberDetails.gender} themeColor={themeColor} />
                                     <InfoField icon={Phone} label="Mobile Number" value={memberDetails.mobileNumber} themeColor={themeColor} />
                                     <InfoField icon={Mail} label="Email ID" value={memberDetails.mailId} themeColor={themeColor} />
+                                    <InfoField icon={MapPin} label="Address" value={memberDetails.address} themeColor={themeColor} />
                                 </div>
-                                <InfoField icon={MapPin} label="Address" value={memberDetails.address} themeColor={themeColor} />
                             </div>
 
                             {/* Membership Details */}
@@ -200,8 +201,6 @@ export default function MembershipVerificationPage({ onBack, themeColor = '#10b9
                                     <InfoField icon={Building} label="Department" value={memberDetails.department} themeColor={themeColor} />
                                     <InfoField icon={MapPin} label="Work Location" value={memberDetails.workLocation} themeColor={themeColor} />
                                     <InfoField icon={Award} label="Member Type" value={memberDetails.typeOfMember} themeColor={themeColor} />
-                                </div>
-                                <div className="grid grid-cols-1 gap-4 mt-4">
                                     <InfoField icon={Clock} label="Validity" value={memberDetails.membershipValidity} themeColor={themeColor} />
                                 </div>
                             </div>

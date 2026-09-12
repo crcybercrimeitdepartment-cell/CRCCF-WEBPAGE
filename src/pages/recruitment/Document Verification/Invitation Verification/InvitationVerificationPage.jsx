@@ -1,24 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-    User, Phone, Mail, Briefcase, Hash, CheckCircle, ArrowLeft, Search, ShieldAlert, Building, FileText, AtSign, UserCheck, Calendar
+    User, Phone, Mail, Briefcase, Hash, CheckCircle, ArrowLeft, Search, ShieldAlert, Building, FileText, AtSign, UserCheck, Calendar, MapPin, Users, Award
 } from 'lucide-react';
 import { invitationDetails } from './invitationData';
-
-const InfoField = ({ icon: Icon, label, value, themeColor }) => (
-    <div className="flex items-start space-x-4 p-4 bg-white rounded-2xl border border-slate-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-transparent transition-all duration-300 group">
-        <div 
-            className="mt-0.5 p-2.5 rounded-xl transition-transform duration-300 group-hover:scale-110" 
-            style={{ color: themeColor, backgroundColor: `${themeColor}15` }}
-        >
-            <Icon size={18} strokeWidth={2.5} />
-        </div>
-        <div>
-            <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mb-1">{label}</p>
-            <p className="text-[15px] text-slate-800 font-semibold break-words">{value}</p>
-        </div>
-    </div>
-);
+import { InfoField, PersonNameFields } from '../utils/nameHelper';
 
 export default function InvitationVerificationPage({ onBack, themeColor = '#ec4899' }) {
     const [isVerified, setIsVerified] = useState(false);
@@ -40,7 +26,7 @@ export default function InvitationVerificationPage({ onBack, themeColor = '#ec48
     };
 
     return (
-        <div className="min-h-screen bg-[#f8fafc] py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
+        <div className="min-h-screen bg-[#f8fafc] py-8 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
             {/* Header */}
             <div className="max-w-4xl w-full mx-auto mb-8 relative z-10 text-center">
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0C1A3A] tracking-tight">Invitation Verification</h1>
@@ -57,13 +43,13 @@ export default function InvitationVerificationPage({ onBack, themeColor = '#ec48
                         exit={{ opacity: 0, scale: 0.95 }}
                         className="flex-1 flex items-center justify-center relative z-10 w-full"
                     >
-                        <div className="bg-white p-8 sm:p-10 rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] w-full max-w-md border border-slate-100">
+                        <div className="bg-white p-8 sm:p-10 rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] w-full max-w-lg border border-slate-100">
                             <div className="text-center mb-8">
                                 <div className="mx-auto w-16 h-16 rounded-2xl flex items-center justify-center mb-4 shadow-inner" style={{ color: themeColor, backgroundColor: `${themeColor}15` }}>
                                     <Calendar size={28} strokeWidth={2} />
                                 </div>
-                                <h2 className="text-xl font-bold text-slate-800">Lookup Details</h2>
-                                <p className="text-sm text-slate-500 mt-2">Enter the required fields to retrieve the verification details.</p>
+                                <h2 className="text-xl font-bold text-slate-800">Lookup Invitation</h2>
+                                <p className="text-sm text-slate-500 mt-2">Enter invitee name and invitation registration number to retrieve the details.</p>
                             </div>
                             
                             <form onSubmit={handleVerify} className="space-y-5">
@@ -145,18 +131,18 @@ export default function InvitationVerificationPage({ onBack, themeColor = '#ec48
                                 </div>
                                 <div>
                                     <div className="flex flex-wrap items-center gap-4 mb-2">
-                                        <h2 className="text-3xl sm:text-4xl font-black text-slate-800 tracking-tight">Invitation Details</h2>
+                                        <h2 className="text-3xl sm:text-4xl font-black text-slate-800 tracking-tight">{invitationDetails.invitationTitle}</h2>
                                         <span 
                                             className="px-4 py-1.5 rounded-full text-xs font-bold flex items-center shadow-sm"
                                             style={{ backgroundColor: `${themeColor}15`, color: themeColor, border: `1px solid ${themeColor}30` }}
                                         >
                                             <CheckCircle size={14} className="mr-1.5" />
-                                            Verified
+                                            {invitationDetails.invitationStatus}
                                         </span>
                                     </div>
                                     <p className="text-slate-500 font-bold text-sm sm:text-base flex items-center">
-                                        <CheckCircle size={18} className="mr-2" style={{ color: themeColor }} />
-                                        Authentic Record
+                                        <Award size={18} className="mr-2" style={{ color: themeColor }} />
+                                        {invitationDetails.invitationType} • ID: {invitationDetails.registrationNumber}
                                     </p>
                                 </div>
                             </div>
@@ -173,33 +159,56 @@ export default function InvitationVerificationPage({ onBack, themeColor = '#ec48
                         <div className="p-8 sm:p-12 bg-slate-50/30 relative z-10">
                             <div className="space-y-6">
                                 <h3 className="text-sm font-extrabold uppercase tracking-widest flex items-center" style={{ color: themeColor }}>
-                                    <FileText size={18} className="mr-2.5" /> All Verified Fields
+                                    <FileText size={18} className="mr-2.5" /> Invitation & Participant Details
                                 </h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                    <InfoField icon={FileText} label="Sl No" value={invitationDetails.slNo} themeColor={themeColor} />
+                                    <InfoField icon={Hash} label="Sl No" value={invitationDetails.slNo} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Invitation Number" value={invitationDetails.invitationNumber} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Invitation Title" value={invitationDetails.invitationTitle} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Invitation Type" value={invitationDetails.invitationType} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Host Name" value={invitationDetails.hostName} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Host Organization" value={invitationDetails.hostOrganization} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Host Department" value={invitationDetails.hostDepartment} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Invitee Name" value={invitationDetails.inviteeName} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Invitee Organization" value={invitationDetails.inviteeOrganization} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Event Name" value={invitationDetails.eventName} themeColor={themeColor} />
+                                    <PersonNameFields 
+                                        icon={User} 
+                                        baseLabel="Host Name" 
+                                        fullName={invitationDetails.hostName}
+                                        firstName={invitationDetails.hostFirstName}
+                                        middleName={invitationDetails.hostMiddleName}
+                                        lastName={invitationDetails.hostLastName}
+                                        themeColor={themeColor} 
+                                    />
+                                    <InfoField icon={Building} label="Host Organization" value={invitationDetails.hostOrganization} themeColor={themeColor} />
+                                    <InfoField icon={Building} label="Host Department" value={invitationDetails.hostDepartment} themeColor={themeColor} />
+                                    <PersonNameFields 
+                                        icon={User} 
+                                        baseLabel="Invitee Name" 
+                                        fullName={invitationDetails.inviteeName}
+                                        firstName={invitationDetails.inviteeFirstName}
+                                        middleName={invitationDetails.inviteeMiddleName}
+                                        lastName={invitationDetails.inviteeLastName}
+                                        themeColor={themeColor} 
+                                    />
+                                    <InfoField icon={Building} label="Invitee Organization" value={invitationDetails.inviteeOrganization} themeColor={themeColor} />
+                                    <InfoField icon={Award} label="Event Name" value={invitationDetails.eventName} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Event Type" value={invitationDetails.eventType} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Event Date" value={invitationDetails.eventDate} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Event Time" value={invitationDetails.eventTime} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Venue" value={invitationDetails.venue} themeColor={themeColor} />
+                                    <InfoField icon={Calendar} label="Event Date" value={invitationDetails.eventDate} themeColor={themeColor} />
+                                    <InfoField icon={Calendar} label="Event Time" value={invitationDetails.eventTime} themeColor={themeColor} />
+                                    <InfoField icon={MapPin} label="Venue" value={invitationDetails.venue} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Event Purpose" value={invitationDetails.eventPurpose} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Number of Persons" value={invitationDetails.numberOfPersons} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Authorized Person Name" value={invitationDetails.authorizedPersonName} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Mobile Number" value={invitationDetails.mobileNumber} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Email ID" value={invitationDetails.emailId} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Registration Number" value={invitationDetails.registrationNumber} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Invitation Status" value={invitationDetails.invitationStatus} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Verification Date" value={invitationDetails.verificationDate} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Verified By" value={invitationDetails.verifiedBy} themeColor={themeColor} />
-
+                                    <InfoField icon={Users} label="Number of Persons" value={invitationDetails.numberOfPersons} themeColor={themeColor} />
+                                    <PersonNameFields 
+                                        icon={User} 
+                                        baseLabel="Authorized Person Name" 
+                                        fullName={invitationDetails.authorizedPersonName}
+                                        firstName={invitationDetails.authorizedPersonFirstName}
+                                        middleName={invitationDetails.authorizedPersonMiddleName}
+                                        lastName={invitationDetails.authorizedPersonLastName}
+                                        themeColor={themeColor} 
+                                    />
+                                    <InfoField icon={Phone} label="Mobile Number" value={invitationDetails.mobileNumber} themeColor={themeColor} />
+                                    <InfoField icon={Mail} label="Email ID" value={invitationDetails.emailId} themeColor={themeColor} />
+                                    <InfoField icon={Hash} label="Registration Number" value={invitationDetails.registrationNumber} themeColor={themeColor} />
+                                    <InfoField icon={CheckCircle} label="Invitation Status" value={invitationDetails.invitationStatus} themeColor={themeColor} />
+                                    <InfoField icon={Calendar} label="Verification Date" value={invitationDetails.verificationDate} themeColor={themeColor} />
+                                    <InfoField icon={Award} label="Verified By" value={invitationDetails.verifiedBy} themeColor={themeColor} />
                                 </div>
                             </div>
                         </div>

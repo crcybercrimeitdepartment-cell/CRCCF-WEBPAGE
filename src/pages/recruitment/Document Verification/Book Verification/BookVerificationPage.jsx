@@ -4,21 +4,7 @@ import {
     User, Phone, Mail, Briefcase, Hash, CheckCircle, ArrowLeft, Search, ShieldAlert, Building, FileText, AtSign, UserCheck, Book
 } from 'lucide-react';
 import { bookDetails } from './bookData';
-
-const InfoField = ({ icon: Icon, label, value, themeColor }) => (
-    <div className="flex items-start space-x-4 p-4 bg-white rounded-2xl border border-slate-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-transparent transition-all duration-300 group">
-        <div
-            className="mt-0.5 p-2.5 rounded-xl transition-transform duration-300 group-hover:scale-110"
-            style={{ color: themeColor, backgroundColor: `${themeColor}15` }}
-        >
-            <Icon size={18} strokeWidth={2.5} />
-        </div>
-        <div>
-            <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mb-1">{label}</p>
-            <p className="text-[15px] text-slate-800 font-semibold break-words">{value}</p>
-        </div>
-    </div>
-);
+import { InfoField, PersonNameFields } from '../utils/nameHelper';
 
 export default function BookVerificationPage({ onBack, themeColor = '#10b981' }) {
     const [isVerified, setIsVerified] = useState(false);
@@ -40,7 +26,7 @@ export default function BookVerificationPage({ onBack, themeColor = '#10b981' })
     };
 
     return (
-        <div className="min-h-screen bg-[#f8fafc] py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
+        <div className="min-h-screen bg-[#f8fafc] py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col pb-24">
             {/* Header */}
             <div className="max-w-4xl w-full mx-auto mb-8 relative z-10 text-center">
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0C1A3A] tracking-tight">Book Verification</h1>
@@ -180,10 +166,9 @@ export default function BookVerificationPage({ onBack, themeColor = '#10b981' })
                                     <InfoField icon={FileText} label="Book Title" value={bookDetails.bookTitle} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Book Registration ID" value={bookDetails.bookRegistrationId} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Book Type" value={bookDetails.bookType} themeColor={themeColor} />
-
-                                    <InfoField icon={User} label="Material Publisher" value={bookDetails.materialPublisher} themeColor={themeColor} />
-                                    <InfoField icon={User} label="Author" value={bookDetails.author} themeColor={themeColor} />
-                                    <InfoField icon={User} label="Co-Author" value={bookDetails.coAuthor} themeColor={themeColor} />
+                                    <InfoField icon={Building} label="Material Publisher" value={bookDetails.materialPublisher} themeColor={themeColor} />
+                                    <PersonNameFields icon={User} prefix="Author" name={bookDetails.author} themeColor={themeColor} />
+                                    <PersonNameFields icon={User} prefix="Co-Author" name={bookDetails.coAuthor} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Material Published Date" value={bookDetails.materialPublishedDate} themeColor={themeColor} />
 
                                     <InfoField icon={FileText} label="Subtitle" value={bookDetails.subtitle} themeColor={themeColor} />

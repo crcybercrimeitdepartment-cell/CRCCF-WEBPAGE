@@ -4,21 +4,7 @@ import {
     User, Phone, Mail, Briefcase, Hash, CheckCircle, ArrowLeft, Search, ShieldAlert, Building, FileText, AtSign, UserCheck
 } from 'lucide-react';
 import { letterDetails } from './letterData';
-
-const InfoField = ({ icon: Icon, label, value, themeColor }) => (
-    <div className="flex items-start space-x-4 p-4 bg-white rounded-2xl border border-slate-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-transparent transition-all duration-300 group">
-        <div
-            className="mt-0.5 p-2.5 rounded-xl transition-transform duration-300 group-hover:scale-110"
-            style={{ color: themeColor, backgroundColor: `${themeColor}15` }}
-        >
-            <Icon size={18} strokeWidth={2.5} />
-        </div>
-        <div>
-            <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mb-1">{label}</p>
-            <p className="text-[15px] text-slate-800 font-semibold break-words">{value}</p>
-        </div>
-    </div>
-);
+import { InfoField, PersonNameFields } from '../utils/nameHelper';
 
 export default function LetterVerificationPage({ onBack, themeColor = '#10b981' }) {
     const [isVerified, setIsVerified] = useState(false);
@@ -40,7 +26,7 @@ export default function LetterVerificationPage({ onBack, themeColor = '#10b981' 
     };
 
     return (
-        <div className="min-h-screen bg-[#f8fafc] py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
+        <div className="min-h-screen bg-[#f8fafc] py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col pb-24">
             {/* Header */}
             <div className="max-w-4xl w-full mx-auto mb-8 relative z-10 text-center">
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0C1A3A] tracking-tight">Letter Verification</h1>
@@ -65,7 +51,7 @@ export default function LetterVerificationPage({ onBack, themeColor = '#10b981' 
                                 <h2 className="text-xl font-bold text-slate-800">Lookup Details</h2>
                                 <p className="text-sm text-slate-500 mt-2">Enter the required fields to retrieve the verification details.</p>
                             </div>
-
+                            
                             <form onSubmit={handleVerify} className="space-y-5">
 
                                 <div>
@@ -184,24 +170,24 @@ export default function LetterVerificationPage({ onBack, themeColor = '#10b981' 
 
                                     <InfoField icon={FileText} label="Purpose" value={letterDetails.purpose} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Letter Issue Date" value={letterDetails.letterIssueDate} themeColor={themeColor} />
-                                    <InfoField icon={User} label="Issued By" value={letterDetails.issuedBy} themeColor={themeColor} />
-                                    <InfoField icon={User} label="Approved By" value={letterDetails.approvedBy} themeColor={themeColor} />
+                                    <PersonNameFields icon={User} prefix="Issued By" name={letterDetails.issuedBy} themeColor={themeColor} />
+                                    <PersonNameFields icon={User} prefix="Approved By" name={letterDetails.approvedBy} themeColor={themeColor} />
 
-                                    <InfoField icon={User} label="Name" value={letterDetails.name} themeColor={themeColor} />
+                                    <PersonNameFields icon={User} prefix="" name={letterDetails.name} themeColor={themeColor} />
                                     <InfoField icon={Briefcase} label="Designation" value={letterDetails.designation} themeColor={themeColor} />
                                     <InfoField icon={Building} label="Department" value={letterDetails.department} themeColor={themeColor} />
 
-                                    <InfoField icon={User} label="Sender Name" value={letterDetails.senderName} themeColor={themeColor} />
+                                    <PersonNameFields icon={User} prefix="Sender" name={letterDetails.senderName} themeColor={themeColor} />
                                     <InfoField icon={Briefcase} label="Sender Designation" value={letterDetails.senderDesignation} themeColor={themeColor} />
                                     <InfoField icon={Building} label="Sender Department" value={letterDetails.senderDepartment} themeColor={themeColor} />
                                     <InfoField icon={Building} label="Sender Organization" value={letterDetails.senderOrganization} themeColor={themeColor} />
 
-                                    <InfoField icon={User} label="Recipient Name" value={letterDetails.recipientName} themeColor={themeColor} />
+                                    <PersonNameFields icon={User} prefix="Recipient" name={letterDetails.recipientName} themeColor={themeColor} />
                                     <InfoField icon={Briefcase} label="Recipient Designation" value={letterDetails.recipientDesignation} themeColor={themeColor} />
                                     <InfoField icon={Building} label="Recipient Department" value={letterDetails.recipientDepartment} themeColor={themeColor} />
                                     <InfoField icon={Building} label="Recipient Organization" value={letterDetails.recipientOrganization} themeColor={themeColor} />
 
-                                    <InfoField icon={FileText} label="Authorized Signature Name" value={letterDetails.authorizedSignatureName} themeColor={themeColor} />
+                                    <PersonNameFields icon={UserCheck} prefix="Authorized Signature" name={letterDetails.authorizedSignatureName} themeColor={themeColor} />
 
                                     <InfoField icon={Hash} label="Reference Number" value={letterDetails.referenceNumber} themeColor={themeColor} />
                                     <InfoField icon={UserCheck} label="Issuing Authority" value={letterDetails.issuingAuthority} themeColor={themeColor} />

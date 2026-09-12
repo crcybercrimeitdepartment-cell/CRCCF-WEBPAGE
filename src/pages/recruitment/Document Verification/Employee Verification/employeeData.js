@@ -1,8 +1,14 @@
 export const employeeDetails = {
     slNo: "101",
-    photo: "https://randomuser.me/api/portraits/men/32.jpg", // Kept as placeholder if needed, though user might want it removed, I will omit it from the UI if requested, but let's keep it in data
+    photo: "https://randomuser.me/api/portraits/men/32.jpg",
     name: "Subrajit",
+    firstName: "Subrajit",
+    middleName: "-",
+    lastName: "-",
     fName: "Sanjay Kumar",
+    fatherFirstName: "Sanjay",
+    fatherMiddleName: "-",
+    fatherLastName: "Kumar",
     dob: "15-Aug-1995",
     gender: "Male",
     designation: "Software Engineer",

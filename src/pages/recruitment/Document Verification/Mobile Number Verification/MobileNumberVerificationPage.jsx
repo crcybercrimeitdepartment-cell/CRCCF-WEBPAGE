@@ -7,21 +7,7 @@ import {
     Building, FileText, Smartphone, UserCheck
 } from 'lucide-react';
 import { mobileDetails } from './mobileData';
-
-const InfoField = ({ icon: Icon, label, value, themeColor }) => (
-    <div className="flex items-start space-x-4 p-4 bg-white rounded-2xl border border-slate-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-transparent transition-all duration-300 group">
-        <div 
-            className="mt-0.5 p-2.5 rounded-xl transition-transform duration-300 group-hover:scale-110" 
-            style={{ color: themeColor, backgroundColor: `${themeColor}15` }}
-        >
-            <Icon size={18} strokeWidth={2.5} />
-        </div>
-        <div>
-            <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mb-1">{label}</p>
-            <p className="text-[15px] text-slate-800 font-semibold">{value}</p>
-        </div>
-    </div>
-);
+import { InfoField, PersonNameFields } from '../utils/nameHelper';
 
 export default function MobileNumberVerificationPage({ onBack, themeColor = '#f97316' }) {
     const [isVerified, setIsVerified] = useState(false);
@@ -42,8 +28,14 @@ export default function MobileNumberVerificationPage({ onBack, themeColor = '#f9
         }
     };
 
+    const handleReset = () => {
+        setIsVerified(false);
+        setMobileInput('');
+        setError('');
+    };
+
     return (
-        <div className="min-h-screen bg-[#f8fafc] py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
+        <div className="min-h-screen bg-[#f8fafc] py-8 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
             {/* Header */}
             <div className="max-w-4xl w-full mx-auto mb-8 relative z-10 text-center">
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0C1A3A] tracking-tight">Mobile Number Verification</h1>
@@ -143,7 +135,7 @@ export default function MobileNumberVerificationPage({ onBack, themeColor = '#f9
                                 </div>
                             </div>
                             <button 
-                                onClick={() => { setIsVerified(false); setMobileInput(''); }}
+                                onClick={() => setIsVerified(false)}
                                 className="px-6 py-3 font-bold rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 border"
                                 style={{ backgroundColor: `${themeColor}10`, color: themeColor, borderColor: `${themeColor}20` }}
                             >
@@ -158,22 +150,33 @@ export default function MobileNumberVerificationPage({ onBack, themeColor = '#f9
                                 <h3 className="text-sm font-extrabold uppercase tracking-widest flex items-center" style={{ color: themeColor }}>
                                     <UserCheck size={18} className="mr-2.5" /> Assignee Details
                                 </h3>
-                                <div className="grid grid-cols-1 gap-4">
-                                    <InfoField icon={User} label="Employee Name" value={mobileDetails.name} themeColor={themeColor} />
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <PersonNameFields 
+                                        icon={User} 
+                                        baseLabel="Employee Name" 
+                                        fullName={mobileDetails.name}
+                                        firstName={mobileDetails.firstName}
+                                        middleName={mobileDetails.middleName}
+                                        lastName={mobileDetails.lastName}
+                                        themeColor={themeColor} 
+                                    />
                                     <InfoField icon={Hash} label="Employee Sl No." value={mobileDetails.employeeSlNo} themeColor={themeColor} />
                                     <InfoField icon={Briefcase} label="Designation" value={mobileDetails.designation} themeColor={themeColor} />
                                     <InfoField icon={Building} label="Department" value={mobileDetails.department} themeColor={themeColor} />
                                 </div>
                             </div>
 
-                            {/* Contact & Status Details */}
+                            {/* Contact Details */}
                             <div className="space-y-6">
                                 <h3 className="text-sm font-extrabold uppercase tracking-widest flex items-center" style={{ color: themeColor }}>
-                                    <FileText size={18} className="mr-2.5" /> Assignment Details
+                                    <Phone size={18} className="mr-2.5" /> Mobile Specifications
                                 </h3>
-                                <div className="grid grid-cols-1 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <InfoField icon={Phone} label="Registered Mobile No." value={mobileDetails.mobileNo} themeColor={themeColor} />
                                     <InfoField icon={Mail} label="Registered Mail ID" value={mobileDetails.mailId} themeColor={themeColor} />
+                                    <InfoField icon={CheckCircle} label="Mobile Status" value={mobileDetails.mobileStatus} themeColor={themeColor} />
+                                </div>
+                                <div className="mt-4">
                                     <InfoField icon={FileText} label="Remark" value={mobileDetails.remark} themeColor={themeColor} />
                                 </div>
                             </div>

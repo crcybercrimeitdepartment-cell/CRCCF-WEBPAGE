@@ -4,21 +4,7 @@ import {
     User, Phone, Mail, Briefcase, Hash, CheckCircle, ArrowLeft, Search, ShieldAlert, Building, FileText, AtSign, UserCheck, IdCard, Package
 } from 'lucide-react';
 import { materialDetails } from './materialData';
-
-const InfoField = ({ icon: Icon, label, value, themeColor }) => (
-    <div className="flex items-start space-x-4 p-4 bg-white rounded-2xl border border-slate-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-transparent transition-all duration-300 group">
-        <div 
-            className="mt-0.5 p-2.5 rounded-xl transition-transform duration-300 group-hover:scale-110" 
-            style={{ color: themeColor, backgroundColor: `${themeColor}15` }}
-        >
-            <Icon size={18} strokeWidth={2.5} />
-        </div>
-        <div>
-            <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mb-1">{label}</p>
-            <p className="text-[15px] text-slate-800 font-semibold break-words">{value}</p>
-        </div>
-    </div>
-);
+import { InfoField, PersonNameFields } from '../utils/nameHelper';
 
 export default function MaterialVerificationPage({ onBack, themeColor = '#f59e0b' }) {
     const [isVerified, setIsVerified] = useState(false);
@@ -40,7 +26,7 @@ export default function MaterialVerificationPage({ onBack, themeColor = '#f59e0b
     };
 
     return (
-        <div className="min-h-screen bg-[#f8fafc] py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
+        <div className="min-h-screen bg-[#f8fafc] py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col pb-24">
             {/* Header */}
             <div className="max-w-4xl w-full mx-auto mb-8 relative z-10 text-center">
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0C1A3A] tracking-tight">Material Verification</h1>
@@ -183,8 +169,8 @@ export default function MaterialVerificationPage({ onBack, themeColor = '#f59e0b
 
     <InfoField icon={FileText} label="Material Title" value={materialDetails.materialTitle} themeColor={themeColor} />
     <InfoField icon={FileText} label="Material Registration ID" value={materialDetails.materialRegistrationId} themeColor={themeColor} />
-    <InfoField icon={User} label="Material Publisher" value={materialDetails.materialPublisher} themeColor={themeColor} />
-    <InfoField icon={User} label="Author" value={materialDetails.author} themeColor={themeColor} />
+    <InfoField icon={Building} label="Material Publisher" value={materialDetails.materialPublisher} themeColor={themeColor} />
+    <PersonNameFields icon={User} prefix="Author" name={materialDetails.author} themeColor={themeColor} />
     <InfoField icon={FileText} label="Material Published Date" value={materialDetails.materialPublishedDate} themeColor={themeColor} />
     <InfoField icon={FileText} label="No Of Pages" value={materialDetails.noOfPages} themeColor={themeColor} />
     <InfoField icon={FileText} label="Modules" value={materialDetails.modules} themeColor={themeColor} />
@@ -194,9 +180,9 @@ export default function MaterialVerificationPage({ onBack, themeColor = '#f59e0b
 
     <InfoField icon={FileText} label="Material Category" value={materialDetails.materialCategory} themeColor={themeColor} />
     <InfoField icon={FileText} label="Material Description" value={materialDetails.materialDescription} themeColor={themeColor} />
-    <InfoField icon={User} label="Manufacturer Name" value={materialDetails.manufacturerName} themeColor={themeColor} />
+    <PersonNameFields icon={User} prefix="Manufacturer" name={materialDetails.manufacturerName} themeColor={themeColor} />
     <InfoField icon={Building} label="Manufacturer Organization" value={materialDetails.manufacturerOrganization} themeColor={themeColor} />
-    <InfoField icon={User} label="Supplier Name" value={materialDetails.supplierName} themeColor={themeColor} />
+    <PersonNameFields icon={User} prefix="Supplier" name={materialDetails.supplierName} themeColor={themeColor} />
     <InfoField icon={Building} label="Supplier Organization" value={materialDetails.supplierOrganization} themeColor={themeColor} />
     <InfoField icon={Hash} label="Batch Number" value={materialDetails.batchNumber} themeColor={themeColor} />
     <InfoField icon={Hash} label="Serial Number" value={materialDetails.serialNumber} themeColor={themeColor} />

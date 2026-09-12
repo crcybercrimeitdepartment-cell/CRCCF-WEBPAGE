@@ -7,8 +7,14 @@ export const bookDetails = {
     bookType: "Sample Book Type",
 
     materialPublisher: "Sample Material Publisher",
-    author: "Sample Author",
-    coAuthor: "Sample Co-Author",
+    authorFirstName: "Vikram",
+    authorMiddleName: "Kumar",
+    authorLastName: "Singhania",
+    author: "Vikram Kumar Singhania",
+    coAuthorFirstName: "Pooja",
+    coAuthorMiddleName: "Rani",
+    coAuthorLastName: "Sharma",
+    coAuthor: "Pooja Rani Sharma",
     materialPublishedDate: "Sample Material Published Date",
 
     subtitle: "Sample Subtitle",

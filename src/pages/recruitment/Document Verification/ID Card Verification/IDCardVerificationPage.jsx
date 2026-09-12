@@ -1,24 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-    User, Phone, Mail, Briefcase, Hash, CheckCircle, ArrowLeft, Search, ShieldAlert, Building, FileText, AtSign, UserCheck, IdCard
+import { 
+    User, Phone, Mail, Briefcase, Hash, CheckCircle, ArrowLeft, Search, ShieldAlert, Building, FileText, AtSign, UserCheck, IdCard, Calendar, MapPin, Award
 } from 'lucide-react';
 import { idCardDetails } from './idCardData';
-
-const InfoField = ({ icon: Icon, label, value, themeColor }) => (
-    <div className="flex items-start space-x-4 p-4 bg-white rounded-2xl border border-slate-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-transparent transition-all duration-300 group">
-        <div
-            className="mt-0.5 p-2.5 rounded-xl transition-transform duration-300 group-hover:scale-110"
-            style={{ color: themeColor, backgroundColor: `${themeColor}15` }}
-        >
-            <Icon size={18} strokeWidth={2.5} />
-        </div>
-        <div>
-            <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mb-1">{label}</p>
-            <p className="text-[15px] text-slate-800 font-semibold break-words">{value}</p>
-        </div>
-    </div>
-);
+import { InfoField, PersonNameFields } from '../utils/nameHelper';
 
 export default function IDCardVerificationPage({ onBack, themeColor = '#14b8a6' }) {
     const [isVerified, setIsVerified] = useState(false);
@@ -40,7 +26,7 @@ export default function IDCardVerificationPage({ onBack, themeColor = '#14b8a6' 
     };
 
     return (
-        <div className="min-h-screen bg-[#f8fafc] py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
+        <div className="min-h-screen bg-[#f8fafc] py-8 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
             {/* Header */}
             <div className="max-w-4xl w-full mx-auto mb-8 relative z-10 text-center">
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0C1A3A] tracking-tight">ID Card Verification</h1>
@@ -57,13 +43,13 @@ export default function IDCardVerificationPage({ onBack, themeColor = '#14b8a6' 
                         exit={{ opacity: 0, scale: 0.95 }}
                         className="flex-1 flex items-center justify-center relative z-10 w-full"
                     >
-                        <div className="bg-white p-8 sm:p-10 rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] w-full max-w-md border border-slate-100">
+                        <div className="bg-white p-8 sm:p-10 rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] w-full max-w-lg border border-slate-100">
                             <div className="text-center mb-8">
                                 <div className="mx-auto w-16 h-16 rounded-2xl flex items-center justify-center mb-4 shadow-inner" style={{ color: themeColor, backgroundColor: `${themeColor}15` }}>
                                     <IdCard size={28} strokeWidth={2} />
                                 </div>
-                                <h2 className="text-xl font-bold text-slate-800">Lookup Details</h2>
-                                <p className="text-sm text-slate-500 mt-2">Enter the required fields to retrieve the verification details.</p>
+                                <h2 className="text-xl font-bold text-slate-800">Lookup ID Card</h2>
+                                <p className="text-sm text-slate-500 mt-2">Enter cardholder name and ID card number to retrieve card details.</p>
                             </div>
 
                             <form onSubmit={handleVerify} className="space-y-5">
@@ -145,22 +131,22 @@ export default function IDCardVerificationPage({ onBack, themeColor = '#14b8a6' 
                                 </div>
                                 <div>
                                     <div className="flex flex-wrap items-center gap-4 mb-2">
-                                        <h2 className="text-3xl sm:text-4xl font-black text-slate-800 tracking-tight">ID Card Details</h2>
-                                        <span
+                                        <h2 className="text-3xl sm:text-4xl font-black text-slate-800 tracking-tight">{idCardDetails.name}</h2>
+                                        <span 
                                             className="px-4 py-1.5 rounded-full text-xs font-bold flex items-center shadow-sm"
                                             style={{ backgroundColor: `${themeColor}15`, color: themeColor, border: `1px solid ${themeColor}30` }}
                                         >
                                             <CheckCircle size={14} className="mr-1.5" />
-                                            Verified
+                                            {idCardDetails.idCardStatus}
                                         </span>
                                     </div>
                                     <p className="text-slate-500 font-bold text-sm sm:text-base flex items-center">
-                                        <CheckCircle size={18} className="mr-2" style={{ color: themeColor }} />
-                                        Authentic Record
+                                        <Award size={18} className="mr-2" style={{ color: themeColor }} />
+                                        {idCardDetails.designation} • {idCardDetails.idCardType}
                                     </p>
                                 </div>
                             </div>
-                            <button
+                            <button 
                                 onClick={() => setIsVerified(false)}
                                 className="px-6 py-3 font-bold rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 border"
                                 style={{ backgroundColor: `${themeColor}10`, color: themeColor, borderColor: `${themeColor}20` }}
@@ -173,33 +159,56 @@ export default function IDCardVerificationPage({ onBack, themeColor = '#14b8a6' 
                         <div className="p-8 sm:p-12 bg-slate-50/30 relative z-10">
                             <div className="space-y-6">
                                 <h3 className="text-sm font-extrabold uppercase tracking-widest flex items-center" style={{ color: themeColor }}>
-                                    <FileText size={18} className="mr-2.5" /> All Verified Fields
+                                    <FileText size={18} className="mr-2.5" /> ID Card Verified Fields
                                 </h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                    <InfoField icon={FileText} label="Sl No" value={idCardDetails.slNo} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Name" value={idCardDetails.name} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Father's Name" value={idCardDetails.fatherSName} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Date of Birth" value={idCardDetails.dateOfBirth} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Gender" value={idCardDetails.gender} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Designation" value={idCardDetails.designation} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Department" value={idCardDetails.department} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Organization Name" value={idCardDetails.organizationName} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="ID Card Type" value={idCardDetails.idCardType} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Employee ID" value={idCardDetails.employeeStudentMemberId} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="ID Card Number" value={idCardDetails.idCardNumber} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Issue Date" value={idCardDetails.issueDate} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Valid From" value={idCardDetails.validFrom} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Expiry Date" value={idCardDetails.expiryDate} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Mobile Number" value={idCardDetails.mobileNumber} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Email ID" value={idCardDetails.emailId} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Address" value={idCardDetails.address} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Issued By" value={idCardDetails.issuedBy} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Approved By" value={idCardDetails.approvedBy} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="ID Card Status" value={idCardDetails.idCardStatus} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Verification Date" value={idCardDetails.verificationDate} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Verified By" value={idCardDetails.verifiedBy} themeColor={themeColor} />
+                                    <PersonNameFields 
+                                        icon={User} 
+                                        baseLabel="Name" 
+                                        fullName={idCardDetails.name}
+                                        firstName={idCardDetails.firstName}
+                                        middleName={idCardDetails.middleName}
+                                        lastName={idCardDetails.lastName}
+                                        themeColor={themeColor} 
+                                    />
+                                    <PersonNameFields 
+                                        icon={User} 
+                                        baseLabel="Father's Name" 
+                                        fullName={idCardDetails.fatherSName}
+                                        firstName={idCardDetails.fatherFirstName}
+                                        middleName={idCardDetails.fatherMiddleName}
+                                        lastName={idCardDetails.fatherLastName}
+                                        themeColor={themeColor} 
+                                    />
+                                    <InfoField icon={Hash} label="Sl No" value={idCardDetails.slNo} themeColor={themeColor} />
+                                    <InfoField icon={Calendar} label="Date of Birth" value={idCardDetails.dateOfBirth} themeColor={themeColor} />
+                                    <InfoField icon={User} label="Gender" value={idCardDetails.gender} themeColor={themeColor} />
+                                    <InfoField icon={Briefcase} label="Designation" value={idCardDetails.designation} themeColor={themeColor} />
+                                    <InfoField icon={Building} label="Department" value={idCardDetails.department} themeColor={themeColor} />
+                                    <InfoField icon={Building} label="Organization Name" value={idCardDetails.organizationName} themeColor={themeColor} />
+                                    <InfoField icon={IdCard} label="ID Card Type" value={idCardDetails.idCardType} themeColor={themeColor} />
+                                    <InfoField icon={Hash} label="Employee ID" value={idCardDetails.employeeStudentMemberId} themeColor={themeColor} />
+                                    <InfoField icon={Hash} label="ID Card Number" value={idCardDetails.idCardNumber} themeColor={themeColor} />
+                                    <InfoField icon={Calendar} label="Issue Date" value={idCardDetails.issueDate} themeColor={themeColor} />
+                                    <InfoField icon={Calendar} label="Valid From" value={idCardDetails.validFrom} themeColor={themeColor} />
+                                    <InfoField icon={Calendar} label="Expiry Date" value={idCardDetails.expiryDate} themeColor={themeColor} />
+                                    <InfoField icon={Phone} label="Mobile Number" value={idCardDetails.mobileNumber} themeColor={themeColor} />
+                                    <InfoField icon={Mail} label="Email ID" value={idCardDetails.emailId} themeColor={themeColor} />
+                                    <InfoField icon={MapPin} label="Address" value={idCardDetails.address} themeColor={themeColor} />
+                                    <InfoField icon={Award} label="Issued By" value={idCardDetails.issuedBy} themeColor={themeColor} />
+                                    <PersonNameFields 
+                                        icon={UserCheck} 
+                                        baseLabel="Approved By" 
+                                        fullName={idCardDetails.approvedBy}
+                                        firstName={idCardDetails.approvedByFirstName}
+                                        middleName={idCardDetails.approvedByMiddleName}
+                                        lastName={idCardDetails.approvedByLastName}
+                                        themeColor={themeColor} 
+                                    />
+                                    <InfoField icon={CheckCircle} label="ID Card Status" value={idCardDetails.idCardStatus} themeColor={themeColor} />
+                                    <InfoField icon={Calendar} label="Verification Date" value={idCardDetails.verificationDate} themeColor={themeColor} />
+                                    <InfoField icon={Award} label="Verified By" value={idCardDetails.verifiedBy} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Remarks" value={idCardDetails.remarks} themeColor={themeColor} />
-
                                 </div>
                             </div>
                         </div>

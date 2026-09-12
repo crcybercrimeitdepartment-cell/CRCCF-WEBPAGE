@@ -1,24 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-    User, Phone, Mail, Briefcase, Hash, CheckCircle, ArrowLeft, Search, ShieldAlert, Building, FileText, AtSign, UserCheck, Fingerprint
+    User, Phone, Mail, Briefcase, Hash, CheckCircle, ArrowLeft, Search, ShieldAlert, Building, FileText, AtSign, UserCheck, Fingerprint, Calendar, MapPin, Award
 } from 'lucide-react';
 import { digitalSignatureDetails } from './digitalSignatureData';
-
-const InfoField = ({ icon: Icon, label, value, themeColor }) => (
-    <div className="flex items-start space-x-4 p-4 bg-white rounded-2xl border border-slate-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-transparent transition-all duration-300 group">
-        <div 
-            className="mt-0.5 p-2.5 rounded-xl transition-transform duration-300 group-hover:scale-110" 
-            style={{ color: themeColor, backgroundColor: `${themeColor}15` }}
-        >
-            <Icon size={18} strokeWidth={2.5} />
-        </div>
-        <div>
-            <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mb-1">{label}</p>
-            <p className="text-[15px] text-slate-800 font-semibold break-words">{value}</p>
-        </div>
-    </div>
-);
+import { InfoField, PersonNameFields } from '../utils/nameHelper';
 
 export default function DigitalSignatureVerificationPage({ onBack, themeColor = '#6366f1' }) {
     const [isVerified, setIsVerified] = useState(false);
@@ -40,7 +26,7 @@ export default function DigitalSignatureVerificationPage({ onBack, themeColor = 
     };
 
     return (
-        <div className="min-h-screen bg-[#f8fafc] py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
+        <div className="min-h-screen bg-[#f8fafc] py-8 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
             {/* Header */}
             <div className="max-w-4xl w-full mx-auto mb-8 relative z-10 text-center">
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0C1A3A] tracking-tight">Digital Signature Verification</h1>
@@ -57,13 +43,13 @@ export default function DigitalSignatureVerificationPage({ onBack, themeColor = 
                         exit={{ opacity: 0, scale: 0.95 }}
                         className="flex-1 flex items-center justify-center relative z-10 w-full"
                     >
-                        <div className="bg-white p-8 sm:p-10 rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] w-full max-w-md border border-slate-100">
+                        <div className="bg-white p-8 sm:p-10 rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] w-full max-w-lg border border-slate-100">
                             <div className="text-center mb-8">
                                 <div className="mx-auto w-16 h-16 rounded-2xl flex items-center justify-center mb-4 shadow-inner" style={{ color: themeColor, backgroundColor: `${themeColor}15` }}>
                                     <Fingerprint size={28} strokeWidth={2} />
                                 </div>
-                                <h2 className="text-xl font-bold text-slate-800">Lookup Details</h2>
-                                <p className="text-sm text-slate-500 mt-2">Enter the required fields to retrieve the verification details.</p>
+                                <h2 className="text-xl font-bold text-slate-800">Lookup Signature</h2>
+                                <p className="text-sm text-slate-500 mt-2">Enter signatory name and digital signature ID to retrieve certificate record.</p>
                             </div>
                             
                             <form onSubmit={handleVerify} className="space-y-5">
@@ -145,18 +131,18 @@ export default function DigitalSignatureVerificationPage({ onBack, themeColor = 
                                 </div>
                                 <div>
                                     <div className="flex flex-wrap items-center gap-4 mb-2">
-                                        <h2 className="text-3xl sm:text-4xl font-black text-slate-800 tracking-tight">Digital Signature Details</h2>
+                                        <h2 className="text-3xl sm:text-4xl font-black text-slate-800 tracking-tight">{digitalSignatureDetails.signatoryName}</h2>
                                         <span 
                                             className="px-4 py-1.5 rounded-full text-xs font-bold flex items-center shadow-sm"
                                             style={{ backgroundColor: `${themeColor}15`, color: themeColor, border: `1px solid ${themeColor}30` }}
                                         >
                                             <CheckCircle size={14} className="mr-1.5" />
-                                            Verified
+                                            {digitalSignatureDetails.signatureStatus}
                                         </span>
                                     </div>
                                     <p className="text-slate-500 font-bold text-sm sm:text-base flex items-center">
-                                        <CheckCircle size={18} className="mr-2" style={{ color: themeColor }} />
-                                        Authentic Record
+                                        <Award size={18} className="mr-2" style={{ color: themeColor }} />
+                                        {digitalSignatureDetails.designation} • ID: {digitalSignatureDetails.signatureId}
                                     </p>
                                 </div>
                             </div>
@@ -173,35 +159,50 @@ export default function DigitalSignatureVerificationPage({ onBack, themeColor = 
                         <div className="p-8 sm:p-12 bg-slate-50/30 relative z-10">
                             <div className="space-y-6">
                                 <h3 className="text-sm font-extrabold uppercase tracking-widest flex items-center" style={{ color: themeColor }}>
-                                    <FileText size={18} className="mr-2.5" /> All Verified Fields
+                                    <FileText size={18} className="mr-2.5" /> Cryptographic Signatory & Key Details
                                 </h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                    <InfoField icon={FileText} label="Sl No" value={digitalSignatureDetails.slNo} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Signatory Name" value={digitalSignatureDetails.signatoryName} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Signature ID" value={digitalSignatureDetails.signatureId} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Signature Registration ID" value={digitalSignatureDetails.signatureRegistrationId} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Father's Name" value={digitalSignatureDetails.fatherSName} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Date of Birth" value={digitalSignatureDetails.dateOfBirth} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Gender" value={digitalSignatureDetails.gender} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Designation" value={digitalSignatureDetails.designation} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Department" value={digitalSignatureDetails.department} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Organization" value={digitalSignatureDetails.organization} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Digital Signature ID" value={digitalSignatureDetails.digitalSignatureId} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Certificate Serial Number" value={digitalSignatureDetails.certificateSerialNumber} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Certificate Type" value={digitalSignatureDetails.certificateType} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Certificate Issuing Authority" value={digitalSignatureDetails.certificateIssuingAuthority} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Certificate Issued Date" value={digitalSignatureDetails.certificateIssuedDate} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Certificate Valid From" value={digitalSignatureDetails.certificateValidFrom} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Certificate Expiry Date" value={digitalSignatureDetails.certificateExpiryDate} themeColor={themeColor} />
+                                    <PersonNameFields 
+                                        icon={User} 
+                                        baseLabel="Signatory Name" 
+                                        fullName={digitalSignatureDetails.signatoryName}
+                                        firstName={digitalSignatureDetails.signatoryFirstName}
+                                        middleName={digitalSignatureDetails.signatoryMiddleName}
+                                        lastName={digitalSignatureDetails.signatoryLastName}
+                                        themeColor={themeColor} 
+                                    />
+                                    <PersonNameFields 
+                                        icon={User} 
+                                        baseLabel="Father's Name" 
+                                        fullName={digitalSignatureDetails.fatherSName}
+                                        firstName={digitalSignatureDetails.fatherFirstName}
+                                        middleName={digitalSignatureDetails.fatherMiddleName}
+                                        lastName={digitalSignatureDetails.fatherLastName}
+                                        themeColor={themeColor} 
+                                    />
+                                    <InfoField icon={Hash} label="Sl No" value={digitalSignatureDetails.slNo} themeColor={themeColor} />
+                                    <InfoField icon={Hash} label="Signature ID" value={digitalSignatureDetails.signatureId} themeColor={themeColor} />
+                                    <InfoField icon={Hash} label="Signature Registration ID" value={digitalSignatureDetails.signatureRegistrationId} themeColor={themeColor} />
+                                    <InfoField icon={Calendar} label="Date of Birth" value={digitalSignatureDetails.dateOfBirth} themeColor={themeColor} />
+                                    <InfoField icon={User} label="Gender" value={digitalSignatureDetails.gender} themeColor={themeColor} />
+                                    <InfoField icon={Briefcase} label="Designation" value={digitalSignatureDetails.designation} themeColor={themeColor} />
+                                    <InfoField icon={Building} label="Department" value={digitalSignatureDetails.department} themeColor={themeColor} />
+                                    <InfoField icon={Building} label="Organization" value={digitalSignatureDetails.organization} themeColor={themeColor} />
+                                    <InfoField icon={Fingerprint} label="Digital Signature ID" value={digitalSignatureDetails.digitalSignatureId} themeColor={themeColor} />
+                                    <InfoField icon={Hash} label="Certificate Serial Number" value={digitalSignatureDetails.certificateSerialNumber} themeColor={themeColor} />
+                                    <InfoField icon={Award} label="Certificate Type" value={digitalSignatureDetails.certificateType} themeColor={themeColor} />
+                                    <InfoField icon={Award} label="Certificate Issuing Authority" value={digitalSignatureDetails.certificateIssuingAuthority} themeColor={themeColor} />
+                                    <InfoField icon={Calendar} label="Certificate Issued Date" value={digitalSignatureDetails.certificateIssuedDate} themeColor={themeColor} />
+                                    <InfoField icon={Calendar} label="Certificate Valid From" value={digitalSignatureDetails.certificateValidFrom} themeColor={themeColor} />
+                                    <InfoField icon={Calendar} label="Certificate Expiry Date" value={digitalSignatureDetails.certificateExpiryDate} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Signature Algorithm" value={digitalSignatureDetails.signatureAlgorithm} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Signature Purpose" value={digitalSignatureDetails.signaturePurpose} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Registered Email ID" value={digitalSignatureDetails.registeredEmailId} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Mobile Number" value={digitalSignatureDetails.mobileNumber} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Address" value={digitalSignatureDetails.address} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Signature Status" value={digitalSignatureDetails.signatureStatus} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Verification Date" value={digitalSignatureDetails.verificationDate} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Verified By" value={digitalSignatureDetails.verifiedBy} themeColor={themeColor} />
-
+                                    <InfoField icon={Mail} label="Registered Email ID" value={digitalSignatureDetails.registeredEmailId} themeColor={themeColor} />
+                                    <InfoField icon={Phone} label="Mobile Number" value={digitalSignatureDetails.mobileNumber} themeColor={themeColor} />
+                                    <InfoField icon={MapPin} label="Address" value={digitalSignatureDetails.address} themeColor={themeColor} />
+                                    <InfoField icon={CheckCircle} label="Signature Status" value={digitalSignatureDetails.signatureStatus} themeColor={themeColor} />
+                                    <InfoField icon={Calendar} label="Verification Date" value={digitalSignatureDetails.verificationDate} themeColor={themeColor} />
+                                    <InfoField icon={Award} label="Verified By" value={digitalSignatureDetails.verifiedBy} themeColor={themeColor} />
                                 </div>
                             </div>
                         </div>

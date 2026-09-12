@@ -1,24 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-    User, Phone, Mail, Briefcase, Hash, CheckCircle, ArrowLeft, Search, ShieldAlert, Building, FileText, AtSign, UserCheck, IdCard
+    User, Phone, Mail, Briefcase, Hash, CheckCircle, ArrowLeft, Search, ShieldAlert, Building, FileText, AtSign, UserCheck, IdCard, Calendar, Globe, MapPin, Award
 } from 'lucide-react';
 import { organizationDetails } from './organizationData';
-
-const InfoField = ({ icon: Icon, label, value, themeColor }) => (
-    <div className="flex items-start space-x-4 p-4 bg-white rounded-2xl border border-slate-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-transparent transition-all duration-300 group">
-        <div 
-            className="mt-0.5 p-2.5 rounded-xl transition-transform duration-300 group-hover:scale-110" 
-            style={{ color: themeColor, backgroundColor: `${themeColor}15` }}
-        >
-            <Icon size={18} strokeWidth={2.5} />
-        </div>
-        <div>
-            <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mb-1">{label}</p>
-            <p className="text-[15px] text-slate-800 font-semibold break-words">{value}</p>
-        </div>
-    </div>
-);
+import { InfoField, PersonNameFields } from '../utils/nameHelper';
 
 export default function OrganizationVerificationPage({ onBack, themeColor = '#14b8a6' }) {
     const [isVerified, setIsVerified] = useState(false);
@@ -39,8 +25,15 @@ export default function OrganizationVerificationPage({ onBack, themeColor = '#14
         }
     };
 
+    const handleReset = () => {
+        setIsVerified(false);
+        setInput0('');
+        setInput1('');
+        setError('');
+    };
+
     return (
-        <div className="min-h-screen bg-[#f8fafc] py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
+        <div className="min-h-screen bg-[#f8fafc] py-8 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
             {/* Header */}
             <div className="max-w-4xl w-full mx-auto mb-8 relative z-10 text-center">
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0C1A3A] tracking-tight">Organization Verification</h1>
@@ -57,22 +50,21 @@ export default function OrganizationVerificationPage({ onBack, themeColor = '#14
                         exit={{ opacity: 0, scale: 0.95 }}
                         className="flex-1 flex items-center justify-center relative z-10 w-full"
                     >
-                        <div className="bg-white p-8 sm:p-10 rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] w-full max-w-md border border-slate-100">
+                        <div className="bg-white p-8 sm:p-10 rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] w-full max-w-lg border border-slate-100">
                             <div className="text-center mb-8">
                                 <div className="mx-auto w-16 h-16 rounded-2xl flex items-center justify-center mb-4 shadow-inner" style={{ color: themeColor, backgroundColor: `${themeColor}15` }}>
                                     <Building size={28} strokeWidth={2} />
                                 </div>
-                                <h2 className="text-xl font-bold text-slate-800">Lookup Details</h2>
-                                <p className="text-sm text-slate-500 mt-2">Enter the required fields to retrieve the verification details.</p>
+                                <h2 className="text-xl font-bold text-slate-800">Lookup Organization</h2>
+                                <p className="text-sm text-slate-500 mt-2">Enter organization name and registration number to retrieve the verified record.</p>
                             </div>
                             
                             <form onSubmit={handleVerify} className="space-y-5">
-
                                 <div>
                                     <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Organization Name</label>
                                     <div className="relative">
                                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                            <FileText size={18} className="text-slate-400" />
+                                            <Building size={18} className="text-slate-400" />
                                         </div>
                                         <input 
                                             type="text" 
@@ -82,7 +74,7 @@ export default function OrganizationVerificationPage({ onBack, themeColor = '#14
                                             onBlur={() => setFocusedInput(null)}
                                             className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none transition-all text-slate-700 font-medium"
                                             style={focusedInput === 'input0' ? { borderColor: themeColor, boxShadow: `0 0 0 2px ${themeColor}33`, backgroundColor: 'white' } : {}}
-                                            placeholder="e.g. Test"
+                                            placeholder="e.g. CR Cyber Crime Foundation"
                                             required
                                         />
                                     </div>
@@ -92,7 +84,7 @@ export default function OrganizationVerificationPage({ onBack, themeColor = '#14
                                     <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Organization Registration Number</label>
                                     <div className="relative">
                                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                            <FileText size={18} className="text-slate-400" />
+                                            <Hash size={18} className="text-slate-400" />
                                         </div>
                                         <input 
                                             type="text" 
@@ -102,7 +94,7 @@ export default function OrganizationVerificationPage({ onBack, themeColor = '#14
                                             onBlur={() => setFocusedInput(null)}
                                             className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none transition-all text-slate-700 font-medium"
                                             style={focusedInput === 'input1' ? { borderColor: themeColor, boxShadow: `0 0 0 2px ${themeColor}33`, backgroundColor: 'white' } : {}}
-                                            placeholder="e.g. Test"
+                                            placeholder="e.g. ORG-2021-9920"
                                             required
                                         />
                                     </div>
@@ -145,18 +137,18 @@ export default function OrganizationVerificationPage({ onBack, themeColor = '#14
                                 </div>
                                 <div>
                                     <div className="flex flex-wrap items-center gap-4 mb-2">
-                                        <h2 className="text-3xl sm:text-4xl font-black text-slate-800 tracking-tight">Organization Details</h2>
+                                        <h2 className="text-3xl sm:text-4xl font-black text-slate-800 tracking-tight">{organizationDetails.organizationName}</h2>
                                         <span 
                                             className="px-4 py-1.5 rounded-full text-xs font-bold flex items-center shadow-sm"
                                             style={{ backgroundColor: `${themeColor}15`, color: themeColor, border: `1px solid ${themeColor}30` }}
                                         >
                                             <CheckCircle size={14} className="mr-1.5" />
-                                            Verified
+                                            {organizationDetails.organizationStatus}
                                         </span>
                                     </div>
                                     <p className="text-slate-500 font-bold text-sm sm:text-base flex items-center">
-                                        <CheckCircle size={18} className="mr-2" style={{ color: themeColor }} />
-                                        Authentic Record
+                                        <Award size={18} className="mr-2" style={{ color: themeColor }} />
+                                        {organizationDetails.organizationType}
                                     </p>
                                 </div>
                             </div>
@@ -173,37 +165,44 @@ export default function OrganizationVerificationPage({ onBack, themeColor = '#14
                         <div className="p-8 sm:p-12 bg-slate-50/30 relative z-10">
                             <div className="space-y-6">
                                 <h3 className="text-sm font-extrabold uppercase tracking-widest flex items-center" style={{ color: themeColor }}>
-                                    <FileText size={18} className="mr-2.5" /> All Verified Fields
+                                    <Building size={18} className="mr-2.5" /> Organization & Registration Details
                                 </h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                    <InfoField icon={FileText} label="Sl No" value={organizationDetails.slNo} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Organization Name" value={organizationDetails.organizationName} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Organization Registration Number" value={organizationDetails.organizationRegistrationNumber} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Organization Type" value={organizationDetails.organizationType} themeColor={themeColor} />
+                                    <InfoField icon={Hash} label="Sl No" value={organizationDetails.slNo} themeColor={themeColor} />
+                                    <InfoField icon={Building} label="Organization Name" value={organizationDetails.organizationName} themeColor={themeColor} />
+                                    <InfoField icon={Hash} label="Organization Registration Number" value={organizationDetails.organizationRegistrationNumber} themeColor={themeColor} />
+                                    <InfoField icon={Building} label="Organization Type" value={organizationDetails.organizationType} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Organization Category" value={organizationDetails.organizationCategory} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Organization Activity" value={organizationDetails.organizationActivity} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Organization Status" value={organizationDetails.organizationStatus} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Registration Date" value={organizationDetails.registrationDate} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Incorporation Date" value={organizationDetails.incorporationDate} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="CIN / Registration ID" value={organizationDetails.cinRegistrationId} themeColor={themeColor} />
+                                    <InfoField icon={CheckCircle} label="Organization Status" value={organizationDetails.organizationStatus} themeColor={themeColor} />
+                                    <InfoField icon={Calendar} label="Registration Date" value={organizationDetails.registrationDate} themeColor={themeColor} />
+                                    <InfoField icon={Calendar} label="Incorporation Date" value={organizationDetails.incorporationDate} themeColor={themeColor} />
+                                    <InfoField icon={Hash} label="CIN / Registration ID" value={organizationDetails.cinRegistrationId} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="PAN Number" value={organizationDetails.panNumber} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="GST Number" value={organizationDetails.gstNumber} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Issuing / Registration Authority" value={organizationDetails.issuingRegistrationAuthority} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Authorized Person Name" value={organizationDetails.authorizedPersonName} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Authorized Person Designation" value={organizationDetails.authorizedPersonDesignation} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Organization Address" value={organizationDetails.organizationAddress} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="City" value={organizationDetails.city} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="State" value={organizationDetails.state} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Country" value={organizationDetails.country} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="PIN Code" value={organizationDetails.pinCode} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Mobile Number" value={organizationDetails.mobileNumber} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Email ID" value={organizationDetails.emailId} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Website" value={organizationDetails.website} themeColor={themeColor} />
+                                    <InfoField icon={Award} label="Issuing / Registration Authority" value={organizationDetails.issuingRegistrationAuthority} themeColor={themeColor} />
+                                    <PersonNameFields 
+                                        icon={User} 
+                                        baseLabel="Authorized Person Name" 
+                                        fullName={organizationDetails.authorizedPersonName}
+                                        firstName={organizationDetails.authorizedPersonFirstName}
+                                        middleName={organizationDetails.authorizedPersonMiddleName}
+                                        lastName={organizationDetails.authorizedPersonLastName}
+                                        themeColor={themeColor} 
+                                    />
+                                    <InfoField icon={Briefcase} label="Authorized Person Designation" value={organizationDetails.authorizedPersonDesignation} themeColor={themeColor} />
+                                    <InfoField icon={MapPin} label="Organization Address" value={organizationDetails.organizationAddress} themeColor={themeColor} />
+                                    <InfoField icon={MapPin} label="City" value={organizationDetails.city} themeColor={themeColor} />
+                                    <InfoField icon={MapPin} label="State" value={organizationDetails.state} themeColor={themeColor} />
+                                    <InfoField icon={MapPin} label="Country" value={organizationDetails.country} themeColor={themeColor} />
+                                    <InfoField icon={Hash} label="PIN Code" value={organizationDetails.pinCode} themeColor={themeColor} />
+                                    <InfoField icon={Phone} label="Mobile Number" value={organizationDetails.mobileNumber} themeColor={themeColor} />
+                                    <InfoField icon={Mail} label="Email ID" value={organizationDetails.emailId} themeColor={themeColor} />
+                                    <InfoField icon={Globe} label="Website" value={organizationDetails.website} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Organization Services" value={organizationDetails.organizationServices} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Verification Date" value={organizationDetails.verificationDate} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Verified By" value={organizationDetails.verifiedBy} themeColor={themeColor} />
+                                    <InfoField icon={Calendar} label="Verification Date" value={organizationDetails.verificationDate} themeColor={themeColor} />
+                                    <InfoField icon={CheckCircle} label="Verified By" value={organizationDetails.verifiedBy} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Remarks" value={organizationDetails.remarks} themeColor={themeColor} />
-
                                 </div>
                             </div>
                         </div>

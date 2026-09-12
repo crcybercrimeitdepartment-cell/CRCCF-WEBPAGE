@@ -10,13 +10,22 @@ export const reportDetails = {
     subject: "Sample Subject",
 
     issueDate: "Sample Issue Date",
-    issuedBy: "Sample Issued By",
+    issuedByFirstName: "Rajesh",
+    issuedByMiddleName: "Kumar",
+    issuedByLastName: "Nath",
+    issuedBy: "Rajesh Kumar Nath",
 
-    approvedBy: "Sample Approved By",
+    approvedByFirstName: "Alok",
+    approvedByMiddleName: "Kumar",
+    approvedByLastName: "Mishra",
+    approvedBy: "Alok Kumar Mishra",
     approvalDate: "Sample Approval Date",
     authoritiesSignature: "Sample Authorities Signature",
 
-    reportHolderName: "Sample Report Holder Name",
+    reportHolderFirstName: "Subrajit",
+    reportHolderMiddleName: "Kumar",
+    reportHolderLastName: "Pradhan",
+    reportHolderName: "Subrajit Kumar Pradhan",
     designation: "Sample Designation",
     department: "Sample Department",
 

@@ -4,21 +4,7 @@ import {
     User, Phone, Mail, Briefcase, Hash, CheckCircle, ArrowLeft, Search, ShieldAlert, Building, FileText, AtSign, UserCheck, HeartHandshake
 } from 'lucide-react';
 import { volunteerDetails } from './volunteerData';
-
-const InfoField = ({ icon: Icon, label, value, themeColor }) => (
-    <div className="flex items-start space-x-4 p-4 bg-white rounded-2xl border border-slate-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-transparent transition-all duration-300 group">
-        <div
-            className="mt-0.5 p-2.5 rounded-xl transition-transform duration-300 group-hover:scale-110"
-            style={{ color: themeColor, backgroundColor: `${themeColor}15` }}
-        >
-            <Icon size={18} strokeWidth={2.5} />
-        </div>
-        <div>
-            <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mb-1">{label}</p>
-            <p className="text-[15px] text-slate-800 font-semibold break-words">{value}</p>
-        </div>
-    </div>
-);
+import { InfoField, PersonNameFields } from '../utils/nameHelper';
 
 export default function VolunteerVerificationPage({ onBack, themeColor = '#0ea5e9' }) {
     const [isVerified, setIsVerified] = useState(false);
@@ -176,9 +162,9 @@ export default function VolunteerVerificationPage({ onBack, themeColor = '#0ea5e
                                     <FileText size={18} className="mr-2.5" /> All Verified Fields
                                 </h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    <PersonNameFields icon={User} prefix="Volunteer" name={volunteerDetails.volunteerName} themeColor={themeColor} />
+                                    <PersonNameFields icon={User} prefix="Father's" name={volunteerDetails.fatherSName} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Sl No" value={volunteerDetails.slNo} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Volunteer Name" value={volunteerDetails.volunteerName} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Father's Name" value={volunteerDetails.fatherSName} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Date of Birth" value={volunteerDetails.dateOfBirth} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Gender" value={volunteerDetails.gender} themeColor={themeColor} />
                                     <InfoField icon={FileText} label="Occupation" value={volunteerDetails.occupation} themeColor={themeColor} />

@@ -1,5 +1,8 @@
 export const mobileDetails = {
-    name: "Subrajit",
+    name: "Subrajit Sharma",
+    firstName: "Subrajit",
+    middleName: "-",
+    lastName: "Sharma",
     designation: "Senior Software Engineer",
     department: "IT Services",
     mobileNo: "8249585134",
