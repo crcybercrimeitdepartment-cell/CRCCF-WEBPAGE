@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-    User, Phone, Mail, Briefcase, Hash, CheckCircle, ArrowLeft, Search, ShieldAlert, Building, FileText, AtSign, UserCheck, Award, Calendar, MapPin
+    User, Phone, Mail, Hash, CheckCircle, ArrowLeft, ShieldAlert, Building, FileText, Award, Calendar, MapPin
 } from 'lucide-react';
 import { certificateDetails } from './certificateData';
 import { InfoField, PersonNameFields } from '../utils/nameHelper';

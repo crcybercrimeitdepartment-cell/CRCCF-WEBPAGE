@@ -1,220 +1,159 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-    User, Phone, Mail, Briefcase, Hash, CheckCircle, ArrowLeft, Search, ShieldAlert, Building, FileText, AtSign, UserCheck, IdCard, Calendar, MapPin, Award
-} from 'lucide-react';
-import { idCardDetails } from './idCardData';
-import { InfoField, PersonNameFields } from '../utils/nameHelper';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function IDCardVerificationPage({ onBack, themeColor = '#14b8a6' }) {
-    const [isVerified, setIsVerified] = useState(false);
-    const [input0, setInput0] = useState('');
-    const [input1, setInput1] = useState('');
+// Embedded CSS for the custom swing animation so this file is 100% self-contained
+const styles = `
+  @keyframes swing {
+    0% { rotate: 0deg; }
+    25% { rotate: 5deg; }
+    75% { rotate: -5deg; }
+    100% { rotate: 0deg; }
+  }
+  .swing-on-hover {
+    transition: rotate 0.3s ease-in-out;
+  }
+  .group:hover .swing-on-hover {
+    animation: swing 1.5s ease-in-out infinite;
+  }
+`;
 
-    const [error, setError] = useState('');
-    const [focusedInput, setFocusedInput] = useState(null);
+const titles = [
+  "Employee ID Card", "Officer ID Card", "Executive ID Card", "Management ID Card", "Director ID Card",
+  "Contract Employee ID Card", "Part-Time Employee ID Card", "Project Employee ID Card", "Probationary Employee ID Card",
+  "Temporary Staff ID Card", "Consultant ID Card", "Technical Expert ID Card", "Advisory Board ID Card",
+  "Governing Body ID Card", "Authorized Representative ID Card", "Partner ID Card", "Member ID Card", "Life Member ID Card",
+  "Associate Member ID Card", "Honorary Member ID Card", "Alumni ID Card", "Intern ID Card", "Student ID Card",
+  "Trainee ID Card", "Researcher ID Card", "Research Associate ID Card", "Trainer ID Card", "Faculty ID Card",
+  "Fellow ID Card", "Mentor ID Card", "Volunteer ID Card", "Field Officer ID Card", "Project Associate ID Card",
+  "Event Staff ID Card", "Campus Ambassador ID Card", "Community Representative ID Card", "Vendor ID Card",
+  "Media & Press ID Card", "Visitor ID Card", "Guest ID Card"
+];
 
-    const handleVerify = (e) => {
-        e.preventDefault();
-        setError('');
+const colors = ['#092133', '#f39c12', '#2b7a8c', '#e74c3c', '#8e44ad', '#27ae60', '#c0392b', '#2980b9', '#d35400', '#16a085'];
+const rotations = ['rotate-3', '-rotate-2', '-rotate-1', 'rotate-2', '-rotate-3', 'rotate-1'];
+const clipRotations = ['rotate-[15deg]', '-rotate-[15deg]', 'rotate-[10deg]', '-rotate-[10deg]', 'rotate-[5deg]', '-rotate-[5deg]'];
+const clipLefts = ['left-[55%]', 'left-[45%]', 'left-[50%]', 'left-[60%]', 'left-[40%]'];
 
-        if (input0.trim() !== '' && input1.trim() !== '') {
-            setIsVerified(true);
-        } else {
-            setError('Please fill all required fields.');
-        }
-    };
+const cardsData = titles.map((title, index) => {
+  return {
+    id: (index + 1).toString().padStart(2, '0'),
+    title: title,
+    color: colors[index % colors.length],
+    rotation: rotations[index % rotations.length],
+    clipRotate: clipRotations[index % clipRotations.length],
+    clipLeft: clipLefts[index % clipLefts.length]
+  };
+});
 
-    return (
-        <div className="min-h-screen bg-[#f8fafc] py-8 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col">
-            {/* Header */}
-            <div className="max-w-4xl w-full mx-auto mb-8 relative z-10 text-center">
-                <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0C1A3A] tracking-tight">ID Card Verification</h1>
-                {!isVerified && <p className="text-slate-500 text-sm font-medium mt-1">Enter details to verify</p>}
-                {isVerified && <p className="text-green-600 text-sm font-medium mt-1 flex items-center justify-center"><CheckCircle size={14} className="mr-1" /> Verification Successful</p>}
-            </div>
+export default function IdCardVerificationPage() {
+  const navigate = useNavigate();
 
-            <AnimatePresence mode="wait">
-                {!isVerified ? (
-                    <motion.div
-                        key="form"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.95 }}
-                        className="flex-1 flex items-center justify-center relative z-10 w-full"
-                    >
-                        <div className="bg-white p-8 sm:p-10 rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] w-full max-w-lg border border-slate-100">
-                            <div className="text-center mb-8">
-                                <div className="mx-auto w-16 h-16 rounded-2xl flex items-center justify-center mb-4 shadow-inner" style={{ color: themeColor, backgroundColor: `${themeColor}15` }}>
-                                    <IdCard size={28} strokeWidth={2} />
-                                </div>
-                                <h2 className="text-xl font-bold text-slate-800">Lookup ID Card</h2>
-                                <p className="text-sm text-slate-500 mt-2">Enter cardholder name and ID card number to retrieve card details.</p>
-                            </div>
-
-                            <form onSubmit={handleVerify} className="space-y-5">
-
-                                <div>
-                                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Enter Name</label>
-                                    <div className="relative">
-                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                            <FileText size={18} className="text-slate-400" />
-                                        </div>
-                                        <input
-                                            type="text"
-                                            value={input0}
-                                            onChange={(e) => setInput0(e.target.value)}
-                                            onFocus={() => setFocusedInput('input0')}
-                                            onBlur={() => setFocusedInput(null)}
-                                            className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none transition-all text-slate-700 font-medium"
-                                            style={focusedInput === 'input0' ? { borderColor: themeColor, boxShadow: `0 0 0 2px ${themeColor}33`, backgroundColor: 'white' } : {}}
-                                            placeholder="e.g. Test"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">ID Card Number</label>
-                                    <div className="relative">
-                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                            <FileText size={18} className="text-slate-400" />
-                                        </div>
-                                        <input
-                                            type="text"
-                                            value={input1}
-                                            onChange={(e) => setInput1(e.target.value)}
-                                            onFocus={() => setFocusedInput('input1')}
-                                            onBlur={() => setFocusedInput(null)}
-                                            className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none transition-all text-slate-700 font-medium"
-                                            style={focusedInput === 'input1' ? { borderColor: themeColor, boxShadow: `0 0 0 2px ${themeColor}33`, backgroundColor: 'white' } : {}}
-                                            placeholder="e.g. Test"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-
-                                {error && (
-                                    <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="flex items-center text-rose-500 bg-rose-50 p-3 rounded-lg text-sm font-medium">
-                                        <ShieldAlert size={16} className="mr-2 flex-shrink-0" />
-                                        {error}
-                                    </motion.div>
-                                )}
-
-                                <button
-                                    type="submit"
-                                    className="w-full py-3.5 px-4 text-white rounded-xl font-bold shadow-lg transition-all flex items-center justify-center mt-6 hover:brightness-110"
-                                    style={{ backgroundColor: themeColor, boxShadow: `0 10px 15px -3px ${themeColor}40` }}
-                                >
-                                    Verify Details <ArrowLeft className="ml-2 rotate-180" size={18} />
-                                </button>
-                            </form>
-                        </div>
-                    </motion.div>
-                ) : (
-                    <motion.div
-                        key="details"
-                        initial={{ opacity: 0, y: 30, scale: 0.98 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{ duration: 0.5, type: 'spring', bounce: 0.2 }}
-                        className="w-full max-w-5xl mx-auto bg-white rounded-[2.5rem] shadow-[0_20px_80px_-15px_rgba(0,0,0,0.1)] border border-slate-100 overflow-hidden relative z-10"
-                    >
-                        {/* Decorative background blurs inside card */}
-                        <div className="absolute top-0 right-0 w-72 h-72 opacity-[0.08] rounded-full blur-[80px] pointer-events-none" style={{ backgroundColor: themeColor }} />
-                        <div className="absolute bottom-0 left-0 w-72 h-72 opacity-[0.08] rounded-full blur-[80px] pointer-events-none" style={{ backgroundColor: themeColor }} />
-
-                        {/* Details Header */}
-                        <div className="bg-white/60 backdrop-blur-xl border-b border-slate-100/80 p-8 sm:px-12 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 relative z-10">
-                            <div className="flex items-center space-x-6">
-                                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center shadow-sm ring-2 ring-white" style={{ backgroundColor: `${themeColor}15`, borderColor: themeColor }}>
-                                    <IdCard size={40} style={{ color: themeColor }} />
-                                </div>
-                                <div>
-                                    <div className="flex flex-wrap items-center gap-4 mb-2">
-                                        <h2 className="text-3xl sm:text-4xl font-black text-slate-800 tracking-tight">{idCardDetails.name}</h2>
-                                        <span 
-                                            className="px-4 py-1.5 rounded-full text-xs font-bold flex items-center shadow-sm"
-                                            style={{ backgroundColor: `${themeColor}15`, color: themeColor, border: `1px solid ${themeColor}30` }}
-                                        >
-                                            <CheckCircle size={14} className="mr-1.5" />
-                                            {idCardDetails.idCardStatus}
-                                        </span>
-                                    </div>
-                                    <p className="text-slate-500 font-bold text-sm sm:text-base flex items-center">
-                                        <Award size={18} className="mr-2" style={{ color: themeColor }} />
-                                        {idCardDetails.designation} • {idCardDetails.idCardType}
-                                    </p>
-                                </div>
-                            </div>
-                            <button 
-                                onClick={() => setIsVerified(false)}
-                                className="px-6 py-3 font-bold rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 border"
-                                style={{ backgroundColor: `${themeColor}10`, color: themeColor, borderColor: `${themeColor}20` }}
-                            >
-                                Verify Another
-                            </button>
-                        </div>
-
-                        {/* Details Body */}
-                        <div className="p-8 sm:p-12 bg-slate-50/30 relative z-10">
-                            <div className="space-y-6">
-                                <h3 className="text-sm font-extrabold uppercase tracking-widest flex items-center" style={{ color: themeColor }}>
-                                    <FileText size={18} className="mr-2.5" /> ID Card Verified Fields
-                                </h3>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                    <PersonNameFields 
-                                        icon={User} 
-                                        baseLabel="Name" 
-                                        fullName={idCardDetails.name}
-                                        firstName={idCardDetails.firstName}
-                                        middleName={idCardDetails.middleName}
-                                        lastName={idCardDetails.lastName}
-                                        themeColor={themeColor} 
-                                    />
-                                    <PersonNameFields 
-                                        icon={User} 
-                                        baseLabel="Father's Name" 
-                                        fullName={idCardDetails.fatherSName}
-                                        firstName={idCardDetails.fatherFirstName}
-                                        middleName={idCardDetails.fatherMiddleName}
-                                        lastName={idCardDetails.fatherLastName}
-                                        themeColor={themeColor} 
-                                    />
-                                    <InfoField icon={Hash} label="Sl No" value={idCardDetails.slNo} themeColor={themeColor} />
-                                    <InfoField icon={Calendar} label="Date of Birth" value={idCardDetails.dateOfBirth} themeColor={themeColor} />
-                                    <InfoField icon={User} label="Gender" value={idCardDetails.gender} themeColor={themeColor} />
-                                    <InfoField icon={Briefcase} label="Designation" value={idCardDetails.designation} themeColor={themeColor} />
-                                    <InfoField icon={Building} label="Department" value={idCardDetails.department} themeColor={themeColor} />
-                                    <InfoField icon={Building} label="Organization Name" value={idCardDetails.organizationName} themeColor={themeColor} />
-                                    <InfoField icon={IdCard} label="ID Card Type" value={idCardDetails.idCardType} themeColor={themeColor} />
-                                    <InfoField icon={Hash} label="Employee ID" value={idCardDetails.employeeStudentMemberId} themeColor={themeColor} />
-                                    <InfoField icon={Hash} label="ID Card Number" value={idCardDetails.idCardNumber} themeColor={themeColor} />
-                                    <InfoField icon={Calendar} label="Issue Date" value={idCardDetails.issueDate} themeColor={themeColor} />
-                                    <InfoField icon={Calendar} label="Valid From" value={idCardDetails.validFrom} themeColor={themeColor} />
-                                    <InfoField icon={Calendar} label="Expiry Date" value={idCardDetails.expiryDate} themeColor={themeColor} />
-                                    <InfoField icon={Phone} label="Mobile Number" value={idCardDetails.mobileNumber} themeColor={themeColor} />
-                                    <InfoField icon={Mail} label="Email ID" value={idCardDetails.emailId} themeColor={themeColor} />
-                                    <InfoField icon={MapPin} label="Address" value={idCardDetails.address} themeColor={themeColor} />
-                                    <InfoField icon={Award} label="Issued By" value={idCardDetails.issuedBy} themeColor={themeColor} />
-                                    <PersonNameFields 
-                                        icon={UserCheck} 
-                                        baseLabel="Approved By" 
-                                        fullName={idCardDetails.approvedBy}
-                                        firstName={idCardDetails.approvedByFirstName}
-                                        middleName={idCardDetails.approvedByMiddleName}
-                                        lastName={idCardDetails.approvedByLastName}
-                                        themeColor={themeColor} 
-                                    />
-                                    <InfoField icon={CheckCircle} label="ID Card Status" value={idCardDetails.idCardStatus} themeColor={themeColor} />
-                                    <InfoField icon={Calendar} label="Verification Date" value={idCardDetails.verificationDate} themeColor={themeColor} />
-                                    <InfoField icon={Award} label="Verified By" value={idCardDetails.verifiedBy} themeColor={themeColor} />
-                                    <InfoField icon={FileText} label="Remarks" value={idCardDetails.remarks} themeColor={themeColor} />
-                                </div>
-                            </div>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+  return (
+    <>
+      <style>{styles}</style>
+      <div className="min-h-screen bg-[#f4f4f4] py-8 sm:py-12 md:py-20 px-4 sm:px-8">
+        <div className="text-center mb-12 sm:mb-16 mt-4 sm:mt-0">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#0C1A3A] tracking-tight mb-3 sm:mb-4 font-serif">
+            ID Card Verification
+          </h1>
+          <p className="text-[#64748B] text-sm sm:text-base md:text-lg font-medium max-w-3xl mx-auto px-4">
+            Verify the authenticity of official ID cards issued by CR Cyber Crime Foundation. Select the respective category below to proceed with the verification process.
+          </p>
         </div>
-    );
+        <div className="max-w-[1400px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-16 gap-x-8 justify-items-center">
+          {cardsData.map((card, index) => {
+            const slug = card.title.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, '-');
+            return (
+              <div 
+                key={card.id} 
+                onClick={() => navigate(`/recruitment/id-card-verification/${slug}`)}
+                className="relative group w-[280px] h-[360px] bg-white rounded-3xl flex flex-col items-center pt-[140px] px-8 shadow-[-20px_20px_40px_rgba(0,0,0,0.1)] mt-8 cursor-pointer transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl"
+              >
+                
+                {/* Expanding Background Fill on Hover */}
+                <div className="absolute inset-0 overflow-hidden rounded-3xl z-0 pointer-events-none">
+                  <div 
+                    className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-10 h-10 rounded-full transition-transform duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] scale-0 group-hover:scale-[80]"
+                    style={{ backgroundColor: card.color }}
+                  ></div>
+                </div>
+
+                {/* Sticky Note Stack (Swings on card hover) */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[110px] h-[110px] z-20 swing-on-hover origin-top">
+                  
+                  {/* Background White Paper (creates the stack effect) */}
+                  <div 
+                    className="absolute inset-0 bg-white rounded-sm shadow-[2px_4px_8px_rgba(0,0,0,0.15)]"
+                    style={{ 
+                      transform: card.rotation.startsWith('-') ? 'rotate(3deg)' : 'rotate(-3deg)' 
+                    }}
+                  ></div>
+
+                  {/* Foreground Colored Paper */}
+                  <div 
+                    className={`absolute inset-0 rounded-sm flex items-center justify-center ${card.rotation} shadow-[1px_2px_4px_rgba(0,0,0,0.1)]`} 
+                    style={{ backgroundColor: card.color }}
+                  >
+                    <span className="text-white text-[48px] font-semibold tracking-tight">
+                      {card.id}
+                    </span>
+                  </div>
+
+                  {/* Paperclip */}
+                  <div 
+                    className={`absolute -top-7 ${card.clipLeft} ${card.clipRotate} text-[#6c757d] z-10`}
+                    style={{ filter: 'drop-shadow(2px 3px 2px rgba(0,0,0,0.25))' }}
+                  >
+                    <svg width="34" height="52" viewBox="0 0 24 48" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M 19 26 V 8 A 5.5 5.5 0 0 0 8 8 V 36 A 3.5 3.5 0 0 0 15 36 V 12 A 1.5 1.5 0 0 0 12 12 V 28" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <h2 
+                  className="text-[13px] font-bold tracking-[0.05em] mt-2 uppercase relative z-10 transition-colors duration-1000 group-hover:!text-white text-center leading-snug" 
+                  style={{ color: card.color }}
+                >
+                  {card.title}
+                </h2>
+                <p className="text-[11px] text-gray-500 text-center mt-3 leading-[1.6] relative z-10 transition-colors duration-1000 group-hover:text-gray-100">
+                  Verify credential authorization, registration status, and official records for <span className="font-bold text-gray-700 transition-colors duration-1000 group-hover:text-white">{card.title}</span>.
+                </p>
+
+                {/* Click CTA Pill */}
+                <div className="mt-3 relative z-10 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0">
+                  <span className="text-[11px] font-bold text-white bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full border border-white/40 shadow-sm">
+                    Verify Details →
+                  </span>
+                </div>
+
+                {/* Bottom Pill */}
+                <div 
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-20 h-[8px] rounded-full z-10 transition-transform duration-1000 group-hover:scale-125" 
+                  style={{ backgroundColor: card.color }}
+                ></div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </>
+  );
 }
+
+
+// ============================================================================
+// MOUNTING LOGIC (Optional)
+// If you want to use this single file as your main entry point (main.jsx), 
+// you can uncomment the lines below to have it render directly into the DOM!
+// ============================================================================
+/*
+import { createRoot } from 'react-dom/client';
+if (typeof document !== 'undefined') {
+  const root = document.getElementById('root');
+  if (root) {
+    createRoot(root).render(<IdCardGallery />);
+  }
+}
+*/

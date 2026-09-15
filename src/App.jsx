@@ -207,6 +207,7 @@ const SubmitResume              = lazy(() => import('./pages/recruitment/SubmitR
 const CertificateVerification   = lazy(() => import('./pages/recruitment/CertificateVerification'))
 const CertificateComingSoon     = lazy(() => import('./pages/recruitment/CertificateComingSoon'))
 const IdCardVerificationPage     = lazy(() => import('./pages/recruitment/ID Card Verification/IdCardVerificationPage'))
+const IdCardSlugDispatcher       = lazy(() => import('./pages/recruitment/ID Card Verification/IdCardSlugDispatcher'))
 
 // ─── LAZY: Recruitment Rules & Policies ──────────────────────────────────────
 const RecruitmentRulesPolicies             = lazy(() => import('./pages/recruitment/rules/RecruitmentRulesPolicies'))
@@ -438,6 +439,7 @@ function AppRoutes() {
             <Route path="/recruitment/current-vacancy/vacancy-card-4" element={<VacancyCard4Page />} />
             <Route path="/recruitment/current-vacancy/vacancy-card-5" element={<VacancyCard5Page />} />
             <Route path="/recruitment/document-verification-department" element={<DocumentVerificationDepartment />} />
+            <Route path="/recruitment/document verification department" element={<DocumentVerificationDepartment />} />
                         <Route path="/recruitment/online-application-portal" element={<OnlineApplicationPortal />} />
             {/* Online Application Portal Forms */}
             <Route path="/recruitment/online-application-portal/10th-certificate-application-form" element={<Form10thCertificateApplicationFormPage />} />
@@ -537,6 +539,7 @@ function AppRoutes() {
             <Route path="/recruitment/certificate-verification" element={<CertificateVerification />} />
             <Route path="/recruitment/certificate-verification/:slug" element={<CertificateComingSoon />} />
             <Route path="/recruitment/id-card-verification" element={<IdCardVerificationPage />} />
+            <Route path="/recruitment/id-card-verification/:slug" element={<IdCardSlugDispatcher />} />
 
             <Route path="/recruitment/rules-policies" element={<RecruitmentRulesPolicies />} />
             <Route path="/coming-soon" element={<ComingSoonPage />} />

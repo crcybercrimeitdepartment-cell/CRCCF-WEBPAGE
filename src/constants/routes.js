@@ -127,6 +127,7 @@ export const ROUTES = {
   RECRUITMENT_CERTIFICATE_VERIFICATION: '/recruitment/certificate-verification',
   RECRUITMENT_CERTIFICATE_VERIFICATION_SLUG: '/recruitment/certificate-verification/:slug',
   RECRUITMENT_ID_CARD_VERIFICATION: '/recruitment/id-card-verification',
+  RECRUITMENT_ID_CARD_VERIFICATION_SLUG: '/recruitment/id-card-verification/:slug',
   RECRUITMENT_RULES_POLICIES: '/recruitment/rules-policies',
   COMING_SOON: '/coming-soon',
   ABOUT_INDEX: '/about',

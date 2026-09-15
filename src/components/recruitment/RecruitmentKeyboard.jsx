@@ -8,9 +8,7 @@ import {
   Megaphone,
   Newspaper,
   SearchCheck,
-  Upload,
-  BadgeCheck,
-  IdCard
+  Upload
 } from 'lucide-react'
 
 const RecruitmentKeyboard = () => {
@@ -25,9 +23,7 @@ const RecruitmentKeyboard = () => {
     { label: 'Recruitment Advertisements', path: '/recruitment/advertisements', icon: Megaphone, color: '#6b33c7', desc: 'View official recruitment announcements and ads.' },
     { label: 'Press Release and Notices', path: '/recruitment/press-release-notices', icon: Newspaper, color: '#9a4f1d', desc: 'Stay updated with official press and notices.' },
     { label: 'Check Application Status', path: '/recruitment/application-status', icon: SearchCheck, color: '#b11d63', desc: 'Track the progress of your submitted applications.' },
-    { label: 'Submit Resume', path: '/recruitment/submit-resume', icon: Upload, color: '#1e766f', desc: 'Upload your CV for future career opportunities.' },
-    { label: 'Certificate Verification', path: '/recruitment/certificate-verification', icon: BadgeCheck, color: '#2f56b8', desc: 'Verify the authenticity of issued certificates.' },
-    { label: 'ID Card Verification', path: '/recruitment/id-card-verification', icon: IdCard, color: '#1f7a45', desc: 'Check and validate official ID cards securely.' },
+    { label: 'Submit Resume', path: '/recruitment/submit-resume', icon: Upload, color: '#1e766f', desc: 'Upload your CV for future career opportunities.' }
   ]
 
   return (
@@ -41,7 +37,7 @@ const RecruitmentKeyboard = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-3.5 lg:gap-4">
         {items.map((item, index) => {
           const Icon = item.icon
           const isHovered = hoveredCardId === index

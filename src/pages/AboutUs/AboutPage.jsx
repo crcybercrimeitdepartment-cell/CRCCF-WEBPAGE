@@ -1,7 +1,4 @@
-// src/pages/AboutPage.jsx
-
 import VirtualKeyboard from '../../components/AboutUs/dashboard/VirtualKeyboard'
-// import PartnersSection from '../../components/AboutUs/partners/PartnersSection'
 import PageHeader from '../../components/AboutUs/common/PageHeader'
 import CompanyMarquee from '../../components/AboutUs/common/CompanyMarquee'
 

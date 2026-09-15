@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // Embedded CSS for the custom swing animation so this file is 100% self-contained
 const styles = `
@@ -45,6 +46,8 @@ const cardsData = titles.map((title, index) => {
 });
 
 export default function IdCardVerificationPage() {
+  const navigate = useNavigate();
+
   return (
     <>
       <style>{styles}</style>
@@ -58,75 +61,87 @@ export default function IdCardVerificationPage() {
           </p>
         </div>
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-16 gap-x-8 justify-items-center">
-          {cardsData.map((card, index) => (
-            <div 
-              key={card.id} 
-              className="relative group w-[280px] h-[360px] bg-white rounded-3xl flex flex-col items-center pt-[140px] px-8 shadow-[-20px_20px_40px_rgba(0,0,0,0.1)] mt-8"
-            >
-              
-              {/* Expanding Background Fill on Hover */}
-              <div className="absolute inset-0 overflow-hidden rounded-3xl z-0 pointer-events-none">
-                <div 
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-10 h-10 rounded-full transition-transform duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] scale-0 group-hover:scale-[80]"
-                  style={{ backgroundColor: card.color }}
-                ></div>
-              </div>
-
-              {/* Sticky Note Stack (Swings on card hover) */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[110px] h-[110px] z-20 swing-on-hover origin-top">
+          {cardsData.map((card, index) => {
+            const slug = card.title.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, '-');
+            return (
+              <div 
+                key={card.id} 
+                onClick={() => navigate(`/recruitment/id-card-verification/${slug}`)}
+                className="relative group w-[280px] h-[360px] bg-white rounded-3xl flex flex-col items-center pt-[140px] px-8 shadow-[-20px_20px_40px_rgba(0,0,0,0.1)] mt-8 cursor-pointer transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl"
+              >
                 
-                {/* Background White Paper (creates the stack effect) */}
-                <div 
-                  className="absolute inset-0 bg-white rounded-sm shadow-[2px_4px_8px_rgba(0,0,0,0.15)]"
-                  style={{ 
-                    transform: card.rotation.startsWith('-') ? 'rotate(3deg)' : 'rotate(-3deg)' 
-                  }}
-                ></div>
+                {/* Expanding Background Fill on Hover */}
+                <div className="absolute inset-0 overflow-hidden rounded-3xl z-0 pointer-events-none">
+                  <div 
+                    className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-10 h-10 rounded-full transition-transform duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] scale-0 group-hover:scale-[80]"
+                    style={{ backgroundColor: card.color }}
+                  ></div>
+                </div>
 
-                {/* Foreground Colored Paper */}
-                <div 
-                  className={`absolute inset-0 rounded-sm flex items-center justify-center ${card.rotation} shadow-[1px_2px_4px_rgba(0,0,0,0.1)]`} 
-                  style={{ backgroundColor: card.color }}
+                {/* Sticky Note Stack (Swings on card hover) */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[110px] h-[110px] z-20 swing-on-hover origin-top">
+                  
+                  {/* Background White Paper (creates the stack effect) */}
+                  <div 
+                    className="absolute inset-0 bg-white rounded-sm shadow-[2px_4px_8px_rgba(0,0,0,0.15)]"
+                    style={{ 
+                      transform: card.rotation.startsWith('-') ? 'rotate(3deg)' : 'rotate(-3deg)' 
+                    }}
+                  ></div>
+
+                  {/* Foreground Colored Paper */}
+                  <div 
+                    className={`absolute inset-0 rounded-sm flex items-center justify-center ${card.rotation} shadow-[1px_2px_4px_rgba(0,0,0,0.1)]`} 
+                    style={{ backgroundColor: card.color }}
+                  >
+                    <span className="text-white text-[48px] font-semibold tracking-tight">
+                      {card.id}
+                    </span>
+                  </div>
+
+                  {/* Paperclip */}
+                  <div 
+                    className={`absolute -top-7 ${card.clipLeft} ${card.clipRotate} text-[#6c757d] z-10`}
+                    style={{ filter: 'drop-shadow(2px 3px 2px rgba(0,0,0,0.25))' }}
+                  >
+                    <svg width="34" height="52" viewBox="0 0 24 48" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M 19 26 V 8 A 5.5 5.5 0 0 0 8 8 V 36 A 3.5 3.5 0 0 0 15 36 V 12 A 1.5 1.5 0 0 0 12 12 V 28" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <h2 
+                  className="text-[13px] font-bold tracking-[0.05em] mt-2 uppercase relative z-10 transition-colors duration-1000 group-hover:!text-white text-center leading-snug" 
+                  style={{ color: card.color }}
                 >
-                  <span className="text-white text-[48px] font-semibold tracking-tight">
-                    {card.id}
+                  {card.title}
+                </h2>
+                <p className="text-[11px] text-gray-500 text-center mt-3 leading-[1.6] relative z-10 transition-colors duration-1000 group-hover:text-gray-100">
+                  Verify credential authorization, registration status, and official records for <span className="font-bold text-gray-700 transition-colors duration-1000 group-hover:text-white">{card.title}</span>.
+                </p>
+
+                {/* Click CTA Pill */}
+                <div className="mt-3 relative z-10 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0">
+                  <span className="text-[11px] font-bold text-white bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full border border-white/40 shadow-sm">
+                    Verify Details →
                   </span>
                 </div>
 
-                {/* Paperclip */}
+                {/* Bottom Pill */}
                 <div 
-                  className={`absolute -top-7 ${card.clipLeft} ${card.clipRotate} text-[#6c757d] z-10`}
-                  style={{ filter: 'drop-shadow(2px 3px 2px rgba(0,0,0,0.25))' }}
-                >
-                  <svg width="34" height="52" viewBox="0 0 24 48" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M 19 26 V 8 A 5.5 5.5 0 0 0 8 8 V 36 A 3.5 3.5 0 0 0 15 36 V 12 A 1.5 1.5 0 0 0 12 12 V 28" />
-                  </svg>
-                </div>
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-20 h-[8px] rounded-full z-10 transition-transform duration-1000 group-hover:scale-125" 
+                  style={{ backgroundColor: card.color }}
+                ></div>
               </div>
-
-              {/* Content */}
-              <h2 
-                className="text-[12px] font-bold tracking-[0.05em] mt-2 uppercase relative z-10 transition-colors duration-1000 group-hover:!text-white text-center leading-snug" 
-                style={{ color: card.color }}
-              >
-                {card.title}
-              </h2>
-              <p className="text-[10px] text-gray-400 text-center mt-3 leading-[1.6] relative z-10 transition-colors duration-1000 group-hover:text-gray-200">
-                <span className="font-bold text-gray-700 transition-colors duration-1000 group-hover:text-white">Lorem ipsum</span> dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim.
-              </p>
-
-              {/* Bottom Pill */}
-              <div 
-                className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-20 h-[8px] rounded-full z-10 transition-transform duration-1000 group-hover:scale-125" 
-                style={{ backgroundColor: card.color }}
-              ></div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </>
   );
 }
+
 
 // ============================================================================
 // MOUNTING LOGIC (Optional)

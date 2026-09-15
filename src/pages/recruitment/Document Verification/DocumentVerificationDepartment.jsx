@@ -35,7 +35,7 @@ import SoftwareProductVerificationPage from './Software Product Verification/Sof
 import MaterialVerificationPage from './Material Verification/MaterialVerificationPage';
 import BookVerificationPage from './Book Verification/BookVerificationPage';
 import ReportVerificationPage from './Report Verification/ReportVerificationPage';
-import IDCardVerificationPage from './ID Card Verification/IDCardVerificationPage';
+import IDCardVerificationPage from './ID Card Verification/IdCardVerificationPage';
 import OrganizationVerificationPage from './Organization Verification/OrganizationVerificationPage';
 
 const StepCard = ({ icon: Icon, title, desc, color, delay, onClick, inputs }) => {
