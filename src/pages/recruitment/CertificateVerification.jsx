@@ -1,1 +1,1 @@
-export { default } from './Certificate Verification/CertificateVerification.jsx';
+export { default } from './Document Verification/Certificate Verification/CertificateVerification.jsx';

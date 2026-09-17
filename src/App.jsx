@@ -206,8 +206,8 @@ const ApplicationStatus         = lazy(() => import('./pages/recruitment/Applica
 const SubmitResume              = lazy(() => import('./pages/recruitment/SubmitResume'))
 const CertificateVerification   = lazy(() => import('./pages/recruitment/CertificateVerification'))
 const CertificateComingSoon     = lazy(() => import('./pages/recruitment/CertificateComingSoon'))
-const IdCardVerificationPage     = lazy(() => import('./pages/recruitment/ID Card Verification/IdCardVerificationPage'))
-const IdCardSlugDispatcher       = lazy(() => import('./pages/recruitment/ID Card Verification/IdCardSlugDispatcher'))
+const IdCardVerificationPage     = lazy(() => import('./pages/recruitment/Document Verification/ID Card Verification/IdCardVerificationPage'))
+const IdCardSlugDispatcher       = lazy(() => import('./pages/recruitment/Document Verification/ID Card Verification/IdCardSlugDispatcher'))
 
 // ─── LAZY: Recruitment Rules & Policies ──────────────────────────────────────
 const RecruitmentRulesPolicies             = lazy(() => import('./pages/recruitment/rules/RecruitmentRulesPolicies'))

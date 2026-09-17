@@ -1,5 +1,5 @@
 import React from 'react';
-import CertificateSlugDispatcher from './Certificate Verification/CertificateSlugDispatcher';
+import CertificateSlugDispatcher from './Document Verification/Certificate Verification/CertificateSlugDispatcher';
 
 const CertificateComingSoon = () => {
   return <CertificateSlugDispatcher />;

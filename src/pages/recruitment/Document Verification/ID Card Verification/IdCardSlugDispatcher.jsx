@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import ComingSoonPage from '../../common/ComingSoonPage';
+import ComingSoonPage from '../../../common/ComingSoonPage';
 
 const EmployeeIDCardPage = lazy(() => import('./Employee ID Card/EmployeeIDCardPage'));
 const OfficerIDCardPage = lazy(() => import('./Officer ID Card/OfficerIDCardPage'));

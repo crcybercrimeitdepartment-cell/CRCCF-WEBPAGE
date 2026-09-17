@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import ComingSoonPage from '../../common/ComingSoonPage';
+import ComingSoonPage from '../../../common/ComingSoonPage';
 
 const InternshipCertificatePage = lazy(() => import('./Internship Certificate/InternshipCertificatePage'));
 const TrainingCertificatePage = lazy(() => import('./Training Certificate/TrainingCertificatePage'));

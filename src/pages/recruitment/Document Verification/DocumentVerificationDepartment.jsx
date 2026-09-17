@@ -22,7 +22,7 @@ import EmailAddressVerificationPage from './Email Address Verification/EmailAddr
 
 // Newly Generated Modules
 import DocumentVerificationPage from './Document Verification/DocumentVerificationPage';
-import CertificateVerificationPage from './Certificate Verification/CertificateVerificationPage';
+import CertificateVerificationPage from './Certificate Verification/CertificateVerification';
 import LetterVerificationPage from './Letter Verification/LetterVerificationPage';
 import NoticeVerificationPage from './Notice Verification/NoticeVerificationPage';
 import InvitationVerificationPage from './Invitation Verification/InvitationVerificationPage';
